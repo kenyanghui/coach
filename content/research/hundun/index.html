@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>二代教育传承 — AI时代的家族企业接班人计划 | 混沌领教课题</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #e94560;
+    --gold: #d4a853;
+    --gold-light: #f5d88a;
+    --cyan: #64e0ff;
+    --bg-dark: #0a0a12;
+    --text: rgba(255,255,255,0.92);
+    --text-dim: rgba(255,255,255,0.75);
+    --border: rgba(255,255,255,0.06);
+    --card-bg: rgba(255,255,255,0.03);
+    --card-hover: rgba(255,255,255,0.07);
+    --radius: 16px;
+    --shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
+  body{font-family:'Noto Sans SC',sans-serif;background:var(--bg-dark);color:var(--text);line-height:1.8;font-size:16px;overflow-x:hidden}
+
+  /* ===== Preloader ===== */
+  .preloader{position:fixed;inset:0;z-index:99999;background:var(--bg-dark);display:flex;align-items:center;justify-content:center;transition:opacity 0.8s,visibility 0.8s}
+  .preloader.hidden{opacity:0;visibility:hidden}
+  .loader-ring{width:56px;height:56px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--gold);border-radius:50%;animation:spin 1s cubic-bezier(0.68,-0.55,0.27,1.55) infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ===== Nav ===== */
+  nav{position:fixed;top:0;left:0;right:0;z-index:9999;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+  nav.scrolled{background:rgba(10,10,18,0.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,0.05);height:64px}
+  .nav-logo{display:flex;align-items:center;gap:10px;color:#fff;font-size:17px;font-weight:700;letter-spacing:1px;text-decoration:none}
+  .nav-logo .mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--accent));display:flex;align-items:center;justify-content:center;font-size:17px}
+  .nav-links{display:flex;gap:2px}
+  .nav-links a{color:var(--text-dim);text-decoration:none;font-size:13px;padding:8px 14px;border-radius:8px;transition:all 0.3s;white-space:nowrap}
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.06)}
+  .nav-badge{background:var(--accent);color:#fff;font-size:10px;padding:3px 12px;border-radius:20px;font-weight:600;letter-spacing:0.5px;margin-left:6px}
+  .nav-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;height:100vh;min-height:680px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .hero-bg{position:absolute;inset:0}
+  .hero-bg img{width:100%;height:100%;object-fit:cover}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,18,0.92) 0%,rgba(10,10,18,0.6) 40%,rgba(10,10,18,0.7) 70%,rgba(10,10,18,0.92) 100%)}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:48px 48px;z-index:1}
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:920px;padding:0 24px}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 20px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:3px;background:rgba(212,168,83,0.12);color:var(--gold);border:1px solid rgba(212,168,83,0.2);margin-bottom:20px;backdrop-filter:blur(8px)}
+  .hero h1{font-size:clamp(32px,5vw,68px);font-weight:900;line-height:1.12;margin-bottom:18px;background:linear-gradient(135deg,#fff 30%,var(--gold) 65%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{font-size:clamp(15px,1.4vw,20px);color:var(--text-dim);max-width:680px;margin:0 auto 28px;line-height:1.8}
+  .hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:36px;padding-top:36px;border-top:1px solid rgba(255,255,255,0.06)}
+  .hero-stat .num{font-size:clamp(26px,2.8vw,44px);font-weight:900;background:linear-gradient(135deg,var(--gold),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+  .hero-stat .label{font-size:13px;color:var(--text-dim);margin-top:4px}
+  .scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-dim);font-size:11px;letter-spacing:2px;animation:bounce 2.4s infinite}
+  .scroll-hint .mouse{width:18px;height:28px;border:1.5px solid rgba(255,255,255,0.2);border-radius:9px;position:relative}
+  .scroll-hint .mouse::after{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:2px;height:6px;background:var(--gold);border-radius:2px;animation:scrollDot 2s infinite}
+  @keyframes scrollDot{0%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(10px)}}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+
+  /* ===== Sections ===== */
+  section{position:relative;padding:100px 48px;max-width:1200px;margin:0 auto}
+  .sec-header{text-align:center;margin-bottom:56px}
+  .sec-num{font-size:12px;font-weight:700;letter-spacing:4px;color:var(--gold);margin-bottom:6px}
+  .sec-header h2{font-size:clamp(26px,2.8vw,38px);font-weight:900;line-height:1.2;margin-bottom:12px}
+  .sec-header h2 .hl{background:linear-gradient(135deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .sec-desc{font-size:16px;color:var(--text-dim);max-width:600px;margin:0 auto;line-height:1.8}
+  .sec-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);max-width:1200px;margin:0 auto}
+
+  /* ===== Image Banner ===== */
+  .img-banner{position:relative;width:100%;border-radius:var(--radius);overflow:hidden;margin:40px 0;height:400px}
+  .img-banner img{width:100%;height:100%;object-fit:cover}
+  .img-banner .shade{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,18,0.92) 0%,rgba(10,10,18,0.5) 45%,rgba(10,10,18,0.75) 100%)}
+  .img-banner .txt{position:absolute;inset:0;display:flex;align-items:center;padding:48px;max-width:600px}
+  .img-banner .txt h3{font-size:26px;font-weight:700;margin-bottom:10px}
+  .img-banner .txt p{font-size:15px;color:var(--text-dim);line-height:1.8}
+
+  /* ===== Data Grid ===== */
+  .d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:32px 0}
+  .d-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px 18px;text-align:center;transition:all 0.4s;position:relative;overflow:hidden}
+  .d-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.4s}
+  .d-card:hover{transform:translateY(-3px);background:var(--card-hover);border-color:rgba(255,255,255,0.1)}
+  .d-card:hover::before{opacity:1}
+  .d-card .num{font-size:clamp(24px,2.2vw,36px);font-weight:900;background:linear-gradient(135deg,var(--gold),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+  .d-card .num .u{font-size:14px;font-weight:600}
+  .d-card .lb{font-size:13px;color:var(--text-dim);margin-top:6px;line-height:1.5}
+  .d-card .src{font-size:10px;color:rgba(255,255,255,0.2);margin-top:4px}
+
+  /* ===== Big Num Row ===== */
+  .bn-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:32px 0}
+  .bn-item{text-align:center;padding:20px 10px;background:var(--card-bg);border-radius:12px;border:1px solid var(--border)}
+  .bn-item .num{font-size:clamp(28px,3.5vw,48px);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+  .bn-item .lb{font-size:12px;color:var(--text-dim);margin-top:4px}
+
+  /* ===== Content Cards ===== */
+  .c-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin:32px 0}
+  .c-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;transition:all 0.4s;backdrop-filter:blur(10px)}
+  .c-card:hover{transform:translateY(-2px);background:var(--card-hover);border-color:rgba(255,255,255,0.1)}
+  .c-card .ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+  .c-card h4{font-size:17px;font-weight:700;margin-bottom:8px}
+  .c-card p{font-size:14px;color:var(--text-dim);line-height:1.7}
+
+  /* ===== Tables ===== */
+  .tw{overflow-x:auto;margin:28px 0;border-radius:var(--radius);border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead{background:rgba(255,255,255,0.04)}
+  th{padding:12px 18px;text-align:left;font-weight:600;color:var(--gold);font-size:12px;letter-spacing:0.5px;white-space:nowrap}
+  td{padding:11px 18px;border-top:1px solid var(--border);vertical-align:top}
+  tbody tr{transition:background 0.2s}
+  tbody tr:hover{background:rgba(255,255,255,0.02)}
+
+  /* ===== Formula Box ===== */
+  .f-box{background:linear-gradient(135deg,rgba(212,168,83,0.08),rgba(233,69,96,0.04));border:1px solid rgba(212,168,83,0.15);border-radius:var(--radius);padding:28px 36px;margin:32px 0;text-align:center}
+  .f-box .f{font-size:clamp(15px,1.6vw,20px);font-weight:700;line-height:1.8}
+  .f-box .f .o{color:var(--gold);margin:0 6px}
+  .f-box .n{font-size:14px;color:var(--text-dim);margin-top:10px;font-weight:400}
+
+  /* ===== Architecture ===== */
+  .arch{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:32px 0;font-family:'Courier New',monospace;font-size:13px;line-height:1.8;overflow-x:auto;white-space:pre;color:var(--text-dim)}
+  .arch .g{color:var(--gold)}
+  .arch .r{color:var(--accent)}
+  .arch .c{color:var(--cyan)}
+
+  /* ===== Tags ===== */
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+  .tag{padding:3px 12px;border-radius:14px;font-size:11px;font-weight:600;border:1px solid}
+  .tag-r{background:rgba(233,69,96,0.1);color:var(--accent);border-color:rgba(233,69,96,0.2)}
+  .tag-g{background:rgba(212,168,83,0.1);color:var(--gold);border-color:rgba(212,168,83,0.2)}
+  .tag-c{background:rgba(100,224,255,0.1);color:var(--cyan);border-color:rgba(100,224,255,0.2)}
+
+  /* ===== KPI ===== */
+  .kpi-g{margin:20px 0}
+  .kpi-g h4{font-size:14px;font-weight:700;color:var(--gold);padding:10px 18px;border-bottom:1px solid var(--border);margin:0}
+  .kpi-r{display:flex;align-items:center;gap:14px;padding:10px 18px;border-bottom:1px solid var(--border)}
+  .kpi-r:last-child{border-bottom:none}
+  .kpi-n{flex:1;font-size:13px}
+  .kpi-v{font-weight:700;font-size:14px;color:var(--gold);white-space:nowrap}
+  .kpi-bw{width:140px}
+  .kpi-b{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+  .kpi-f{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--accent))}
+
+  /* ===== Timeline ===== */
+  .tl{position:relative;margin:36px 0;padding-left:28px}
+  .tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),var(--accent),transparent)}
+  .tl-item{position:relative;padding:0 0 28px 28px}
+  .tl-item::before{content:'';position:absolute;left:-4px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--gold);border:2px solid var(--bg-dark)}
+  .tl-item .dt{font-size:11px;color:var(--text-dim);letter-spacing:1px}
+  .tl-item h4{font-size:15px;font-weight:700;margin:3px 0}
+  .tl-item p{font-size:13px;color:var(--text-dim)}
+  .tl-item .st{display:inline-block;padding:1px 8px;border-radius:8px;font-size:10px;font-weight:600;margin-top:3px}
+  .sd{background:rgba(0,200,150,0.12);color:#00c896}
+  .so{background:rgba(212,168,83,0.12);color:var(--gold)}
+  .stb{background:rgba(255,255,255,0.06);color:var(--text-dim)}
+
+  /* ===== Pricing ===== */
+  .p-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:32px 0}
+  .p-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;transition:all 0.4s;position:relative;overflow:hidden}
+  .p-card.fd{border-color:rgba(212,168,83,0.3);background:linear-gradient(135deg,rgba(212,168,83,0.06),rgba(233,69,96,0.03))}
+  .p-card.fd::after{content:'推荐';position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;color:var(--bg-dark);background:var(--gold);padding:2px 8px;border-radius:6px}
+  .p-card:hover{transform:translateY(-3px)}
+  .p-card .pr{font-size:24px;font-weight:900;color:#fff;margin:6px 0}
+  .p-card .pr small{font-size:13px;font-weight:400;color:var(--text-dim)}
+  .p-card .nm{font-size:14px;font-weight:700}
+  .p-card .dc{font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.5}
+
+  /* ===== Quote ===== */
+  .q-block{margin:36px 0;padding:28px 36px;background:linear-gradient(135deg,rgba(212,168,83,0.05),transparent);border-left:2px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0}
+  .q-block p{font-size:15px;color:var(--text-dim);line-height:1.9}
+
+  /* ===== Footer ===== */
+  footer{position:relative;margin-top:60px;padding:56px 48px 36px;border-top:1px solid var(--border);text-align:center}
+  footer .core{padding:20px;border-radius:12px;background:rgba(212,168,83,0.05);font-size:14px;margin:20px auto;max-width:800px;line-height:1.8}
+  footer .core .go{color:var(--gold);font-weight:700}
+
+  /* ===== Mobile ===== */
+  @media(max-width:900px){
+    nav{padding:0 20px}
+    .nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:rgba(10,10,18,0.98);flex-direction:column;padding:16px;border-bottom:1px solid var(--border);gap:4px}
+    .nav-links.open{display:flex}
+    .nav-toggle{display:block}
+    section{padding:60px 20px}
+    .img-banner{height:260px}
+    .img-banner .txt{padding:24px}
+    .img-banner .txt h3{font-size:20px}
+    .c-grid{grid-template-columns:1fr}
+    .p-grid{grid-template-columns:1fr 1fr}
+    .kpi-bw{width:90px}
+    .f-box{padding:20px}
+    footer{padding:36px 20px 24px}
+    .tl{padding-left:20px}
+  }
+  @media(max-width:480px){
+    .p-grid{grid-template-columns:1fr}
+    .d-grid{grid-template-columns:repeat(2,1fr)}
+    .bn-row{grid-template-columns:repeat(2,1fr)}
+    section{padding:40px 16px}
+    .hero h1{font-size:26px}
+  }
+
+  /* ===== Animations ===== */
+  .rv{opacity:0;transform:translateY(24px);transition:all 0.7s ease-out}
+  .rv.sh{opacity:1;transform:translateY(0)}
+
+  /* ===== Scrollbar ===== */
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:var(--bg-dark)}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
+
+  /* ===== Glow Effects ===== */
+  .glow-a{position:absolute;pointer-events:none;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(233,69,96,0.06),transparent 70%);top:-200px;right:-150px}
+  .glow-g{position:absolute;pointer-events:none;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,83,0.05),transparent 70%);bottom:-150px;left:-100px}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="pl"><div class="loader-ring"></div></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a class="nav-logo" href="#"><span class="mark">承</span>二代传承 <span class="nav-badge">V3.0</span></a>
+  <div class="nav-links" id="nl">
+    <a href="#p1">真问题</a>
+    <a href="#p2">AI新范式</a>
+    <a href="#p3">方案</a>
+    <a href="#p4">KPI</a>
+    <a href="#p5">产品</a>
+    <a href="#p6">理论</a>
+    <a href="#p7">计划</a>
+  </div>
+  <button class="nav-toggle" onclick="document.getElementById('nl').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top" style="max-width:none;padding:0">
+  <div class="hero-bg"><img src="images/hero-banner.png" alt="二代传承"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">混沌领教课题 · 杨辉</div>
+    <h1>从"被动接班"<br>到"主动创造"</h1>
+    <p>AI时代二代教育传承新范式 — 融合AI智能体编排、心智陪跑与社会创新，<br>将传承成功率从 <strong style="color:var(--gold)">30%</strong> 提升至 <strong style="color:var(--gold)">60%+</strong></p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">5700<span style="font-size:18px">万+</span></div><div class="label">中国民营企业</div></div>
+      <div class="hero-stat"><div class="num">30<span style="font-size:18px">%</span></div><div class="label">传承成功率</div></div>
+      <div class="hero-stat"><div class="num">80<span style="font-size:18px">%</span></div><div class="label">AI Agent采用率</div></div>
+      <div class="hero-stat"><div class="num">60<span style="font-size:18px">%+</span></div><div class="label">目标成功率</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>SCROLL</span><div class="mouse"></div></div>
+</section>
+
+<!-- ===== 一、真问题 ===== -->
+<div class="sec-divider"></div>
+<section id="p1">
+  <div class="glow-a"></div>
+  <div class="sec-header">
+    <div class="sec-num">01</div>
+    <h2>5700万企业背后的 <span class="hl">传承危机</span></h2>
+    <p class="sec-desc">中国民营企业正经历人类历史上最大规模的交接班浪潮——84万亿财富转移，仅30%成功率</p>
+  </div>
+
+  <div class="bn-row rv">
+    <div class="bn-item"><div class="num">300<span style="font-size:18px">万+</span></div><div class="lb">未来5-10年面临传承</div></div>
+    <div class="bn-item"><div class="num">84<span style="font-size:18px">万亿</span></div><div class="lb">未来30年移交财富</div></div>
+    <div class="bn-item"><div class="num">13<span style="font-size:18px">%</span></div><div class="lb">二代→三代成功率</div></div>
+    <div class="bn-item"><div class="num">80<span style="font-size:18px">%</span></div><div class="lb">传承后三年业绩滑坡</div></div>
+    <div class="bn-item"><div class="num">66<span style="font-size:18px">岁</span></div><div class="lb">创始人平均年龄</div></div>
+  </div>
+
+  <div class="img-banner rv">
+    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1600&q=85" alt="家族企业">
+    <div class="shade"></div>
+    <div class="txt">
+      <div>
+        <h3>三个断裂 + 两个缺失</h3>
+        <p><strong>场景断裂</strong> — 一代不敢交付主业 &nbsp;·&nbsp; <strong>意义断裂</strong> — 缺乏使命被动接班<br>
+        <strong>能力断裂</strong> — AI时代工具鸿沟 &nbsp;·&nbsp; <strong>心智承载力缺失</strong> — "文件包"限制信念<br>
+        <strong>代际认知鸿沟</strong> — 工业时代思维 vs 数字时代思维</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;margin-top:40px;color:var(--gold)">标杆案例：方太与新希望的传承密码</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>维度</th><th>方太（茅理翔→茅忠群）</th><th>新希望（刘永好→刘畅）</th><th>启示</th></tr></thead>
+    <tbody>
+      <tr><td><strong>传承模式</strong></td><td>"三三制"——带三年→帮三年→看三年</td><td>联席CEO双轨制</td><td>接力需要结构化设计</td></tr>
+      <tr><td><strong>培养周期</strong></td><td>9年渐进式</td><td>5年+渐进式</td><td>传承是系统工程</td></tr>
+      <tr><td><strong>二代动力</strong></td><td>茅忠群换赛道：点火枪→厨电</td><td>刘畅推动数字化+年轻化转型</td><td>二代需要自己的"战场"</td></tr>
+      <tr><td><strong>成果</strong></td><td>营收0→176亿，写入哈佛MBA</td><td>市值千亿级，数字化行业领先</td><td>成功的传承创造新价值</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="f-box">
+    <div class="f">成功传承 = 十年培养周期 <span class="o">×</span> 清晰产权 <span class="o">×</span> 二代自主赛道 <span class="o">×</span> 家庭心智支持 <span class="o">×</span> 渐进过渡</div>
+    <div class="n">本课题在此加杠杆：AI Agent加速试错，心智陪跑加速疗愈</div>
+  </div>
+</section>
+
+<!-- ===== 二、AI新范式 ===== -->
+<div class="sec-divider"></div>
+<section id="p2">
+  <div class="glow-g"></div>
+  <div class="sec-header">
+    <div class="sec-num">02</div>
+    <h2>AI智能体 — 正在发生的 <span class="hl">产业革命</span></h2>
+    <p class="sec-desc">80% Fortune 500已部署AI Agent，多智能体系统4个月增长327%。这不是未来——这就是现在。</p>
+  </div>
+
+  <div class="d-grid rv">
+    <div class="d-card"><div class="num">80<span class="u">%</span></div><div class="lb">Fortune 500已部署AI Agent</div><div class="src">微软Cyber Pulse 2025.11</div></div>
+    <div class="d-card"><div class="num">327<span class="u">%</span></div><div class="lb">多智能体系统4个月增长</div><div class="src">Databricks 2026</div></div>
+    <div class="d-card"><div class="num">171<span class="u">%</span></div><div class="lb">企业AI Agent平均ROI</div><div class="src">多源调研均值</div></div>
+    <div class="d-card"><div class="num">19<span class="u">%</span></div><div class="lb">亚洲企业采用率（最低区域）</div><div class="src">Databricks</div></div>
+    <div class="d-card"><div class="num">66<span class="u">%</span></div><div class="lb">报告生产力提升的企业</div><div class="src">AI Agent用户调研</div></div>
+    <div class="d-card"><div class="num">3-15<span class="u">×</span></div><div class="lb">混沌AI院实证提效幅度</div><div class="src">60+企业实战数据</div></div>
+  </div>
+
+  <div class="img-banner rv">
+    <img src="images/ai-tech.png" alt="AI技术">
+    <div class="shade" style="background:linear-gradient(135deg,rgba(10,10,18,0.92) 0%,rgba(10,10,18,0.45) 40%,rgba(10,10,18,0.7) 100%)"></div>
+    <div class="txt">
+      <div>
+        <h3>无AI就不存在的解决方案</h3>
+        <p>传统创业MVP成本10-50万 → AI Agent降至 <strong style="color:var(--gold)">1-5万</strong><br>
+        AI让一个人的公司成为可能 — Paperclip OS 零人工公司已验证<br>
+        AI教练Agent实现24/7规模化辅导 · 降低95%技术门槛</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="f-box">
+    <div class="f">从：二代如何接手父辈的现有业务？<br>
+    <span class="o">→</span> 到：二代如何利用父辈资源，创办社会创新项目，<br>用AI Agent实现低成本试错，找到自己的使命和家族企业第二曲线？</div>
+  </div>
+</section>
+
+<!-- ===== 三、解题方案 ===== -->
+<div class="sec-divider"></div>
+<section id="p3">
+  <div class="glow-a"></div>
+  <div class="sec-header">
+    <div class="sec-num">03</div>
+    <h2>社会创新 <span class="hl">×</span> AI Agent <span class="hl">×</span> 心智陪跑</h2>
+    <p class="sec-desc">五位一体融合模型：创新项目孵化、AI智能体编排、包丰源"文件包"清理、教练铁三角与Paperclip OS</p>
+  </div>
+
+  <div class="c-grid">
+    <div class="c-card">
+      <div class="ico" style="background:rgba(233,69,96,0.12)">🔥</div>
+      <h4>模块一：创新</h4>
+      <p><strong>第1-4周</strong> — 认知启动 · 资源盘点 · 社会问题发现 · 机会匹配<br><span class="tags" style="margin-top:8px"><span class="tag tag-r">文件包基线排查</span></span></p>
+    </div>
+    <div class="c-card">
+      <div class="ico" style="background:rgba(100,224,255,0.12)">⚡</div>
+      <h4>模块二：战略</h4>
+      <p><strong>第5-8周</strong> — 方案设计 · AI原型开发 · 沙盒验证 · 一代汇报<br><span class="tags" style="margin-top:8px"><span class="tag tag-c">创造性自信重建</span></span></p>
+    </div>
+    <div class="c-card">
+      <div class="ico" style="background:rgba(212,168,83,0.12)">🚀</div>
+      <h4>模块三：破界</h4>
+      <p><strong>第9-12周</strong> — 资源整合 · 正式路演 · 落地启动 · 案例沉淀<br><span class="tags" style="margin-top:8px"><span class="tag tag-g">身份认同整合</span></span></p>
+    </div>
+  </div>
+
+  <div class="img-banner rv">
+    <img src="images/growth-mindset.png" alt="心智成长">
+    <div class="shade" style="background:linear-gradient(135deg,rgba(10,10,18,0.92) 0%,rgba(10,10,18,0.5) 45%,rgba(10,10,18,0.75) 100%)"></div>
+    <div class="txt">
+      <div>
+        <h3>创造者成长飞轮</h3>
+        <p><strong style="color:var(--gold)">认知</strong> → 理解AI原理 · 觉察"文件包"限制性信念<br>
+        <strong style="color:var(--accent)">创造</strong> → 用AI完成真实社会创新项目 · 从消费到创造<br>
+        <strong style="color:var(--gold)">表达</strong> → 向父辈投资人展示成果 · 建立"我是创一代"身份<br>
+        <strong style="color:var(--accent)">进化</strong> → 反思升级 · 文件包持续清理 · 螺旋上升</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;margin-top:40px;color:var(--gold)">AI研发效率（混沌AI院二期实战数据）</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>企业</th><th>场景</th><th>效果</th></tr></thead>
+    <tbody>
+      <tr><td>梦境引擎</td><td>AIGC内容生产</td><td>效率<strong style="color:var(--gold)">提升15倍</strong>，月省成本&gt;10万</td></tr>
+      <tr><td>零一数科</td><td>AICRM</td><td>效率<strong style="color:var(--gold)">提升70%</strong>，客户流失率<strong style="color:var(--gold)">降低20%</strong></td></tr>
+      <tr><td>阳光天宇</td><td>制造AI</td><td>首单成交<strong style="color:var(--gold)">60万+</strong>，整合<strong style="color:var(--gold)">100+</strong>经销商</td></tr>
+      <tr><td>小牛看房</td><td>AI员工</td><td>人力成本<strong style="color:var(--gold)">降低40%</strong>，单人效能<strong style="color:var(--gold)">提升3倍</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ===== 四、KPI ===== -->
+<div class="sec-divider"></div>
+<section id="p4">
+  <div class="sec-header">
+    <div class="sec-num">04</div>
+    <h2><span class="hl">13项核心KPI</span> 指标体系</h2>
+    <p class="sec-desc">从"我觉得有效"到"数据证明有效"——心智、AI能力、系统稳定、商业成果四维评估</p>
+  </div>
+
+  <div class="kpi-g">
+    <h4>🧠 心智成长维度（5项）</h4>
+    <div style="border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius)">
+      <div class="kpi-r"><span class="kpi-n">心智成熟度综合提升</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:60%"></div></div></div><span class="kpi-v">+20% → +35%</span></div>
+      <div class="kpi-r"><span class="kpi-n">情绪承载力指数</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:75%"></div></div></div><span class="kpi-v">+30% → +50%</span></div>
+      <div class="kpi-r"><span class="kpi-n">"文件包"清理完成率</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:50%"></div></div></div><span class="kpi-v">≥1个 → ≥3个</span></div>
+      <div class="kpi-r"><span class="kpi-n">主动创造行为占比</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:80%"></div></div></div><span class="kpi-v">&gt;60% → &gt;80%</span></div>
+      <div class="kpi-r"><span class="kpi-n">自我效能感（GSES）</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:55%"></div></div></div><span class="kpi-v">+25% → +40%</span></div>
+    </div>
+  </div>
+
+  <div class="kpi-g">
+    <h4>🤖 AI能力 + 系统稳定（5项）</h4>
+    <div style="border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius)">
+      <div class="kpi-r"><span class="kpi-n">AI教练Agent回答准确率</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:90%;background:linear-gradient(90deg,var(--gold),var(--cyan))"></div></div></div><span class="kpi-v">&gt;90%</span></div>
+      <div class="kpi-r"><span class="kpi-n">AI研发Agent代码可用率</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:70%;background:linear-gradient(90deg,var(--gold),var(--cyan))"></div></div></div><span class="kpi-v">&gt;70%</span></div>
+      <div class="kpi-r"><span class="kpi-n">AI系统减少开发时间</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:85%;background:linear-gradient(90deg,var(--gold),var(--cyan))"></div></div></div><span class="kpi-v">减少60%</span></div>
+      <div class="kpi-r"><span class="kpi-n">Paperclip系统正常运行时间</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:95%;background:linear-gradient(90deg,var(--gold),var(--cyan))"></div></div></div><span class="kpi-v">&gt;99.5%</span></div>
+      <div class="kpi-r"><span class="kpi-n">多Agent任务完成率</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:85%;background:linear-gradient(90deg,var(--gold),var(--cyan))"></div></div></div><span class="kpi-v">&gt;85%</span></div>
+    </div>
+  </div>
+
+  <div class="kpi-g">
+    <h4>📊 商业成果维度（3项）</h4>
+    <div style="border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius)">
+      <div class="kpi-r"><span class="kpi-n">学员对AI陪跑满意度NPS</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:80%;background:linear-gradient(90deg,var(--cyan),var(--gold))"></div></div></div><span class="kpi-v">&gt;50</span></div>
+      <div class="kpi-r"><span class="kpi-n">项目获得父辈资源承诺率</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:50%;background:linear-gradient(90deg,var(--cyan),var(--gold))"></div></div></div><span class="kpi-v">&gt;30%</span></div>
+      <div class="kpi-r"><span class="kpi-n">传承准备度指数提升</span><div class="kpi-bw"><div class="kpi-b"><div class="kpi-f" style="width:70%;background:linear-gradient(90deg,var(--cyan),var(--gold))"></div></div></div><span class="kpi-v">提升40%</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 五、产品 ===== -->
+<div class="sec-divider"></div>
+<section id="p5">
+  <div class="glow-g"></div>
+  <div class="sec-header">
+    <div class="sec-num">05</div>
+    <h2>从课程到平台的 <span class="hl">产品演进</span></h2>
+    <p class="sec-desc">2026 MVP验证 → 2027 增长优化 → 2028 规模化平台</p>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-card fd">
+      <div class="nm">创益院二代定制班</div>
+      <div class="pr">4.5<small>万/人</small></div>
+      <div class="dc">3个月课程 + AI陪跑 + 心智陪跑 + 文件包清理</div>
+    </div>
+    <div class="p-card">
+      <div class="nm">AI陪跑服务</div>
+      <div class="pr">1.5<small>万/人/期</small></div>
+      <div class="dc">课程结束后持续AI陪跑 + 心智月检</div>
+    </div>
+    <div class="p-card">
+      <div class="nm">企二代特训营</div>
+      <div class="pr">1.98-2.98<small>万/人</small></div>
+      <div class="dc">3天2夜 + 1个月线上 · XIN-13联名</div>
+    </div>
+    <div class="p-card">
+      <div class="nm">AI工具授权</div>
+      <div class="pr">3-8<small>万/年</small></div>
+      <div class="dc">Paperclip沙盒 + AI Agent集群使用权</div>
+    </div>
+  </div>
+
+  <div class="arch">
+    2026年H2                   2027年                      2028年
+    ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+    │ <span class="g">MVP验证阶段</span>      │ →  │ <span class="r">增长优化阶段</span>      │ →  │ <span class="c">规模化平台阶段</span>    │
+    │ · 创益院二代班     │    │ · 线上+线下融合    │    │ · AI原生教育平台   │
+    │ · XIN-13特训营    │    │ · AI辅助+心智混合   │    │ · AI Agent为主     │
+    │ · 目标：8-10人     │    │ · 目标：50-80人/期  │    │ · 目标：200+人/期   │
+    │ 验证13项KPI        │    │ 建立行业常模        │    │ 输出方法论白皮书    │
+    └──────────────────┘    └──────────────────┘    └──────────────────┘
+  </div>
+</section>
+
+<!-- ===== 六、理论 ===== -->
+<div class="sec-divider"></div>
+<section id="p6">
+  <div class="glow-a"></div>
+  <div class="sec-header">
+    <div class="sec-num">06</div>
+    <h2>五大学科 <span class="hl">交叉融合</span></h2>
+    <p class="sec-desc">混沌一思维 × CSV × 包丰源心智 × PBL × 情绪承载力科学</p>
+  </div>
+
+  <div class="q-block">
+    <p><strong>混沌基因：</strong>一个单点（二代传承30%成功率）<strong style="color:var(--gold)">×</strong> 一个AI变量（80%企业采用率+327%增长）<strong style="color:var(--gold)">=</strong> AI社会创新项目（全新解法）</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>理论</th><th>来源</th><th>对应课题</th><th>实证支撑</th></tr></thead>
+    <tbody>
+      <tr><td><strong>混沌"一思维"</strong></td><td>李善友</td><td>创新五步法为课程骨架</td><td>混沌AI院60+企业验证</td></tr>
+      <tr><td><strong>CSV共享价值</strong></td><td>迈克尔·波特</td><td>社会问题=商业机会</td><td>236家创业公司实证</td></tr>
+      <tr><td><strong>包丰源心智教育</strong></td><td>包丰源</td><td>"文件包"=心智陪跑核心技术</td><td>18本著作+39人实证</td></tr>
+      <tr><td><strong>情绪承载力科学</strong></td><td>多学科学术</td><td>L1-L4训练阶梯</td><td>EI训练ROI 1500%</td></tr>
+      <tr><td><strong>PBL项目制学习</strong></td><td>教育科学</td><td>六步法教育学基础</td><td>解释61.6%创业能力方差</td></tr>
+      <tr><td><strong>Paperclip OS</strong></td><td>开源社区</td><td>多Agent编排技术底座</td><td>35,000+ Stars</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="f-box">
+    <div class="f">二代传承的本质不是"交接管理权" <span class="o">→</span> 而是"创造新价值"</div>
+    <div class="n">表面障碍：缺实战场景(80%不敢交) · 缺使命感(70%不愿接) · 缺AI工具(仅25%受训)<br>
+    深层障碍：心智承载力不足("文件包"限制) · 代际认知鸿沟(两套操作系统不兼容)</div>
+  </div>
+</section>
+
+<!-- ===== 七、计划 ===== -->
+<div class="sec-divider"></div>
+<section id="p7">
+  <div class="sec-header">
+    <div class="sec-num">07</div>
+    <h2>2026年 <span class="hl">关键里程碑</span></h2>
+  </div>
+
+  <div class="tl">
+    <div class="tl-item"><div class="dt">4月</div><h4>课题提报</h4><p>选题确认：二代教育传承</p><span class="st sd">✅ 已完成</span></div>
+    <div class="tl-item"><div class="dt">5月9日</div><h4>V3.0终极迭代</h4><p>融入行业数据、包丰源心智体系、方太/新希望案例、13项KPI</p><span class="st sd">✅ 已完成</span></div>
+    <div class="tl-item"><div class="dt">5月中旬</div><h4>课题小组组建 + XIN-13推进</h4><p>与混沌总部/香港中心沟通合作</p><span class="st so">🔄 进行中</span></div>
+    <div class="tl-item"><div class="dt">5月下旬</div><h4>1v1课题沟通 + 项目发布会</h4><p>20分钟浓缩版路演准备</p><span class="st stb">⏳ 待执行</span></div>
+    <div class="tl-item"><div class="dt">6月</div><h4>在线学习日 + AI Agent原型</h4><p>AI陪跑Agent原型搭建</p><span class="st stb">⏳ 待执行</span></div>
+    <div class="tl-item"><div class="dt">7月17-18日</div><h4>线下学习日 / 课研展演</h4><p>课题研究报告 + Demo展示</p><span class="st stb">⏳ 待执行</span></div>
+  </div>
+</section>
+
+<!-- ===== 附录 ===== -->
+<div class="sec-divider"></div>
+<section>
+  <div class="sec-header">
+    <div class="sec-num">附录</div>
+    <h2>核心数据 &amp; <span class="hl">参考文献</span></h2>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>类别</th><th>指标</th><th>数值</th><th>来源</th></tr></thead>
+    <tbody>
+      <tr><td>传承规模</td><td>中国民营企业总数</td><td><strong>5700万+</strong></td><td>国家市场监管总局</td></tr>
+      <tr><td>传承规模</td><td>未来5-10年面临传承</td><td><strong>~300万家</strong></td><td>北大光华</td></tr>
+      <tr><td>传承规模</td><td>未来30年移交财富</td><td><strong>84万亿元</strong></td><td>建信信托</td></tr>
+      <tr><td>成功率</td><td>一代→二代</td><td><strong>~30%</strong></td><td>麦肯锡/长江商学院</td></tr>
+      <tr><td>AI趋势</td><td>Fortune 500部署AI Agent</td><td><strong>80%</strong></td><td>微软Cyber Pulse</td></tr>
+      <tr><td>AI趋势</td><td>多智能体系统增长</td><td><strong>327%/4月</strong></td><td>Databricks</td></tr>
+      <tr><td>AI趋势</td><td>企业AI Agent ROI</td><td><strong>171%</strong></td><td>多源调研均值</td></tr>
+      <tr><td>心智</td><td>EI训练ROI</td><td><strong>1500%</strong></td><td>TalentSmart</td></tr>
+      <tr><td>教育</td><td>PBL解释创业能力方差</td><td><strong>61.6%</strong></td><td>2026 Peru研究</td></tr>
+      <tr><td>标杆</td><td>方太营收(茅忠群接班至2023)</td><td><strong>0→176亿</strong></td><td>公开财报</td></tr>
+      <tr><td>混沌AI院</td><td>企业AI提效</td><td><strong>3-15倍</strong></td><td>混沌AI院二期</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:17px;font-weight:700;margin:36px 0 14px;color:var(--gold)">技术栈</h3>
+  <div class="tags">
+    <span class="tag tag-c">Paperclip OS</span>
+    <span class="tag tag-g">Dify工作流</span>
+    <span class="tag tag-r">Cursor代码生成</span>
+    <span class="tag tag-c">RAG知识库</span>
+    <span class="tag tag-g">GPT-4o</span>
+    <span class="tag tag-r">Claude Sonnet</span>
+    <span class="tag tag-c">向量数据库</span>
+    <span class="tag tag-g">Coze Bot</span>
+    <span class="tag tag-r">即梦5.0 Pro</span>
+  </div>
+
+  <div style="margin:36px 0 14px;font-size:17px;font-weight:700;color:var(--gold)">参考文献（23项）</div>
+  <div style="font-size:12px;color:var(--text-dim);line-height:2.2;columns:2;column-gap:28px">
+    <ol style="margin-left:18px">
+      <li>李善友.《第二曲线创新》《第一性原理》</li>
+      <li>波特.CSV共享价值理论</li>
+      <li>包丰源.《情志疗法》等18部著作</li>
+      <li>包丰源. 情志疗法调理抑郁.2024</li>
+      <li>包丰源. 早期生活事件与情绪记忆.2019</li>
+      <li>包丰源. 情绪作用于心智机制.2017</li>
+      <li>杨辉.《AI二代传承v3》等.2025</li>
+      <li>混沌学园.课题研究公开版.2026</li>
+      <li>悦洋教育.教练手册&交付SOP.2026</li>
+      <li>杨辉.XIN-13混沌合作方案.2026</li>
+      <li>麦肯锡.2025 AI现状调研</li>
+      <li>Databricks.2026 AI Agent报告</li>
+      <li>G2.2025 Enterprise AI Agents</li>
+      <li>Futurum Group.Agentic AI.2026</li>
+      <li>TalentSmart.EI ROI Study</li>
+      <li>DDI.Global Leadership Forecast 2025</li>
+      <li>Google Project Aristotle</li>
+      <li>长江商学院.1200例家族企业研究</li>
+      <li>福布斯.中国家族企业女性影响力</li>
+      <li>Cuevas-Lizama.CSV in Startups.2025</li>
+      <li>PBL研究.Peru n=234.2026</li>
+      <li>Punjab EMC.100,000+学生.2025</li>
+      <li>《经济学人》.传承浪潮.2026.4</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <h3 style="font-size:18px;font-weight:700;margin-bottom:6px">二代教育传承 · 课题研究报告 V3.0</h3>
+  <p>课题负责人：杨辉 | 混沌领教课题 | 编制日期：2026年5月9日</p>
+  <div class="core">
+    <strong>核心主张：</strong>社会创新项目（低风险实战） <span class="go">×</span> CSV（使命驱动） <span class="go">×</span> AI Agent（能力杠杆） <span class="go">×</span> 心智陪跑（动力底座） <span class="go">×</span> 代际对话（认知对齐）<br>
+    <span class="go">= 传承成功率 30% → 60%+</span>
+  </div>
+  <p style="margin-top:20px;font-size:11px;opacity:0.35">
+    AI生成图像：即梦5.0 Pro · 基于混沌领教课研框架 · AI创造者成长飞轮 · 包丰源心智教育 · Paperclip OS
+  </p>
+</footer>
+
+<script>
+// Preloader
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('pl').classList.add('hidden'),400));
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>80));
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('sh')});
+},{threshold:0.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// Close mobile nav on link click
+document.querySelectorAll('#nl a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('nl').classList.remove('open'));
+});
+</script>
+</body>
+</html>

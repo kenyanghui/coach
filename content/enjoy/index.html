@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>悦洋教育 · AI商科项目成果 | 杨辉 Ken Yang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7c5cfc; --primary-light: #9b7fff; --gold: #f6c842; --accent-pink: #ff6b9d;
+  --text-primary: #1a1a2e; --text-secondary: #555; --card-bg: #fff; --section-bg: #f5f7fa;
+  --radius: 16px; --shadow: 0 1px 8px rgba(0,0,0,0.04); --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:var(--section-bg); color:var(--text-primary); line-height:1.8; }
+header {
+  background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+header::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.04) 0%,transparent 50%);
+  pointer-events:none;
+}
+header .badge {
+  display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20);
+  color:var(--gold); padding:5px 20px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+header h1 { font-size:2em; font-weight:900; letter-spacing:2px; }
+header h1 span { background:linear-gradient(135deg,var(--primary-light),var(--accent-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+header .sub { font-size:0.95em; font-weight:300; color:rgba(255,255,255,0.6); margin-top:8px; }
+.container { max-width:1000px; margin:0 auto; padding:28px 20px; }
+.section { background:var(--card-bg); border-radius:var(--radius); padding:32px 36px; margin-bottom:22px; box-shadow:var(--shadow); }
+.section h2 { font-size:1.25em; font-weight:800; padding-bottom:10px; border-bottom:3px solid var(--primary); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.section h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:20px 0 12px; padding-bottom:6px; border-bottom:2px solid #e8ecf0; display:flex; align-items:center; gap:8px; }
+.section p { font-size:14px; color:var(--text-secondary); margin-bottom:10px; line-height:1.9; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2,.grid-4 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-3 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+.card {
+  background:#f8f9fa; border-radius:12px; padding:16px 18px;
+  border:1px solid #eef0f2; transition:all .2s;
+}
+.card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.06); transform:translateY(-1px); }
+.card .tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; margin-bottom:6px; }
+.card .tag-project { background:#fef9e7; color:#d4a017; }
+.card .tag-research { background:#eaf2f8; color:#2e86c1; }
+.card .tag-tool { background:#f0e6f6; color:var(--primary); }
+.card .title { font-weight:700; font-size:14px; margin-bottom:4px; color:var(--text-primary); }
+.card .desc { font-size:12px; color:#666; line-height:1.6; }
+.card .links { margin-top:8px; font-size:13px; }
+.card .links a { color:var(--primary); text-decoration:none; font-weight:500; }
+.card .links a:hover { text-decoration:underline; }
+.card .links a+a { margin-left:10px; }
+.card.border-gold { border-left:4px solid var(--gold); }
+.card.border-blue { border-left:4px solid #2e86c1; }
+.card.border-red { border-left:4px solid #e74c3c; }
+.card.border-purple { border-left:4px solid var(--primary); }
+.card.border-green { border-left:4px solid #27ae60; }
+.back { text-align:center; padding:20px 0; }
+.back a { color:var(--primary); text-decoration:none; font-weight:500; font-size:14px; }
+.back a:hover { text-decoration:underline; }
+footer { text-align:center; color:#aaa; font-size:13px; padding:20px; }
+.callout { border-radius:10px; padding:14px 20px; margin:14px 0; font-size:14px; }
+.callout.gold { background:#fef9e7; border-left:4px solid var(--gold); }
+.callout.purple { background:#f0e6f6; border-left:4px solid var(--primary); }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.emoji-icon { font-size:24px; margin-right:4px; }
+.sub-hdr { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#888; margin:16px 0 8px; letter-spacing:0.5px; }
+.sub-hdr::after { content:''; flex:1; height:1px; background:#e8ecf0; margin-left:8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ 悦洋教育</div>
+  <h1>AI商科教育 · <span>项目成果总览</span></h1>
+  <div class="sub">悦洋教育规划 · ICC全球发明大会 · AI商科启蒙一日营 · 家长宣讲会 · 实战营</div>
+</header>
+
+<div class="container">
+
+  <!-- 项目总览 -->
+  <div class="section">
+    <h2>📋 项目总览</h2>
+    <p>以下为悦洋教育AI商科品类的完整项目成果，基于悦洋海外客户群与渠道资源，服务于海外华人学生与国际学校学生的AI商科教育。</p>
+    <div class="callout gold"><strong>价值主张：</strong>创造自己的AI价值世界 —— 每个孩子都是创造者，用AI构建属于自己的价值世界。</div>
+  </div>
+
+  <!-- 悦洋教育规划 -->
+  <div class="section">
+    <h2>📐 悦洋教育规划</h2>
+
+    <div class="grid-4">
+      <div class="card" style="text-align:center;padding:20px 14px;">
+        <div style="font-size:28px;margin-bottom:6px;">🌅</div>
+        <div class="title">品牌与哲学</div>
+        <div class="desc">悦洋教育品牌哲学、产品全景、核心叙事框架与定位</div>
+        <div class="links" style="margin-top:10px;"><a href="../../in/index.html" target="_blank">查看内部站 →</a></div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px 14px;">
+        <div style="font-size:28px;margin-bottom:6px;">📦</div>
+        <div class="title">悦洋教育服务</div>
+        <div class="desc">AI+飞书高效办公课程、商科启蒙方案、ICC辅导服务全览</div>
+        <div class="links" style="margin-top:10px;"><a href="../../in/悦洋教育_AI+飞书高效办公_课程模块.html" target="_blank">AI+飞书课程 →</a> <a href="../../in/悦洋海外集团_ICC项目内部宣讲.html" target="_blank">ICC项目宣讲 →</a></div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px 14px;">
+        <div style="font-size:28px;margin-bottom:6px;">📊</div>
+        <div class="title">AI商业赛事分析</div>
+        <div class="desc">竞赛产品矩阵、五大成果出口、22项澳洲赛事库、市场对比分析</div>
+        <div class="links" style="margin-top:10px;"><a href="../../in/悦洋教育_竞赛产品矩阵分析_v4_国际化.html" target="_blank">竞赛矩阵 →</a> <a href="../../in/悦洋·五大成果国际化竞赛与展示机会分析.html" target="_blank">五大成果 →</a></div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px 14px;">
+        <div style="font-size:28px;margin-bottom:6px;">📋</div>
+        <div class="title">决策待办</div>
+        <div class="desc">定价策略、执行计划、课程大纲、招生文案等运营决策文档</div>
+        <div class="links" style="margin-top:10px;"><a href="../../in/悦洋教育_ICC备赛训练营_课程大纲与一日创造营招生文案.html" target="_blank">课程大纲 →</a> <a href="../../in/悦洋教育_ICC广东省赛_备赛执行计划.html" target="_blank">执行计划 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 当前重点项目 -->
+  <div class="section">
+    <h2>🔥 当前重点项目</h2>
+
+    <h3 id="ICC">🏅 ICC 全球发明大会</h3>
+    <p>教育部白名单赛事，ICC全球发明大会辅导全套方案与物料。</p>
+    <div class="grid-2">
+      <div class="card border-gold"><span class="tag tag-project" style="float:right">核心方案</span><div class="title">省赛参赛方案</div><div class="desc">完整 ICC 省赛方案：赛事简介、分组、时间线、材料清单、评审标准</div><div class="links"><a href="../../in/悦洋教育_ICC省赛参赛方案.html" target="_blank">HTML</a> <a href="../../in/悦洋教育_ICC省赛参赛方案.md" target="_blank">Markdown</a></div></div>
+      <div class="card border-gold"><span class="tag tag-project" style="float:right">执行计划</span><div class="title">ICC广东省赛 · 备赛执行计划</div><div class="desc">广东省赛完整执行计划，时间线、任务分配、关键节点</div><div class="links"><a href="../../in/悦洋教育_ICC广东省赛_备赛执行计划.html" target="_blank">查看 →</a></div></div>
+      <div class="card border-blue"><div class="title">市场竞争分析报告</div><div class="desc">ICC 辅导市场竞争格局与悦洋差异化定位</div><div class="links"><a href="../../in/悦洋教育_ICC市场竞争分析报告_v1.html" target="_blank">查看 →</a></div></div>
+      <div class="card border-blue"><div class="title">辅导系统 · AI商科升级版</div><div class="desc">完整的 ICC 辅导体系设计，AI商科融合</div><div class="links"><a href="../../in/悦洋教育_ICC辅导系统_AI商科升级版_v1.html" target="_blank">查看 →</a></div></div>
+      <div class="card border-purple"><div class="title">ICC参赛材料模板</div><div class="desc">学员版参赛材料模板，涵盖发明日志、展板、路演等</div><div class="links"><a href="../../in/悦洋教育_ICC参赛材料模板_学员版.html" target="_blank">查看 →</a></div></div>
+      <div class="card border-purple"><div class="title">ICC完整资料合集</div><div class="desc">所有ICC相关资料的完整汇总页</div><div class="links"><a href="../../in/悦洋教育_ICC完整资料合集.html" target="_blank">查看合集 →</a></div></div>
+    </div>
+    <div class="sub-hdr">ICC 招生与文案</div>
+    <div class="grid-2">
+      <div class="card"><div class="title">ICC备赛训练营 · 招生海报文案</div><div class="links"><a href="../../in/悦洋教育_ICC备赛训练营_招生海报文案.html" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">ICC辅导需求测试 · 朋友圈文案</div><div class="links"><a href="../../in/悦洋教育_ICC辅导需求测试_朋友圈文案.html" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">全球发明大会ICC结合方案</div><div class="links"><a href="../../in/悦洋教育_全球发明大会ICC结合方案_v1.html" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">ICC参赛手册 · 官方版</div><div class="links"><a href="../../in/悦洋教育_ICC参赛手册_官方版.html" target="_blank">查看 →</a></div></div>
+    </div>
+    <div class="sub-hdr">ICC 海报物料</div>
+    <div class="grid-4">
+      <div class="card"><div class="title">ICC全球发明大会</div><div class="links"><a href="../../in/悦洋教育_海报_ICC全球发明大会_v1.html" target="_blank">查看</a></div></div>
+      <div class="card"><div class="title">国际商赛</div><div class="links"><a href="../../in/悦洋教育_海报_国际商赛_v1.html" target="_blank">查看</a></div></div>
+      <div class="card"><div class="title">康莱德挑战赛</div><div class="links"><a href="../../in/悦洋教育_海报_康莱德创新挑战赛_v1.html" target="_blank">查看</a></div></div>
+      <div class="card"><div class="title">全链路闭环</div><div class="links"><a href="../../in/悦洋教育_海报_全链路闭环_v1.html" target="_blank">查看</a></div></div>
+    </div>
+
+    <h3 id="daycamp">🚀 AI商科启蒙一日营</h3>
+    <p>面向青少年的AI商科启蒙体验课，6小时从0到1做出AI作品。</p>
+    <div class="grid-2">
+      <div class="card border-green"><span class="tag tag-tool" style="float:right">体验课</span><div class="title">AI青少年一日创造营 · 6小时体验课</div><div class="desc">完整课程方案：流程设计、教学内容、工具准备、交付标准</div><div class="links"><a href="../../in/AI青少年一日创造营-6小时体验课.html" target="_blank">查看方案 →</a></div></div>
+      <div class="card border-green"><span class="tag tag-tool" style="float:right">招生文案</span><div class="title">一日启蒙营 · 招生海报文案</div><div class="desc">AI商科启蒙一日营的宣传文案与招生海报内容</div><div class="links"><a href="../../in/悦洋教育_AI商科一日启蒙营_招生海报文案.html" target="_blank">查看文案 →</a></div></div>
+      <div class="card border-green"><span class="tag tag-tool" style="float:right">大纲</span><div class="title">ICC备赛训练营 · 课程大纲</div><div class="desc">含一日创造营招生文案，ICC备赛与AI启蒙融合</div><div class="links"><a href="../../in/悦洋教育_ICC备赛训练营_课程大纲与一日创造营招生文案.html" target="_blank">查看大纲 →</a></div></div>
+    </div>
+
+    <h3 id="parent">🗣 家长宣讲会 &amp; 反馈</h3>
+    <p>面向家长的科技特长生升学规划宣讲与项目内部宣讲材料。</p>
+    <div class="grid-2">
+      <div class="card border-red"><span class="tag tag-project" style="float:right">家长讲座</span><div class="title">科技特长生升学规划 · 家长讲座</div><div class="desc">科技特长生政策解读、升学路径规划、AI竞赛出口介绍</div><div class="links"><a href="../../in/科技特长生升学规划_家长讲座.html" target="_blank">查看讲座 →</a></div></div>
+      <div class="card border-purple"><span class="tag tag-project" style="float:right">内部宣讲</span><div class="title">悦洋海外集团 · ICC项目内部宣讲</div><div class="desc">面向集团内部的ICC项目宣讲材料，含项目价值、执行方案、预期成果</div><div class="links"><a href="../../in/悦洋海外集团_ICC项目内部宣讲.html" target="_blank">查看宣讲 →</a></div></div>
+    </div>
+
+    <h3 id="bootcamp">✈️ AI商科实战营</h3>
+    <p>面向有基础学员的进阶实战训练，从项目孵化到赛事出口的全链路交付。</p>
+    <div class="grid-2">
+      <div class="card" style="border-left:4px solid #e67e22;"><span class="tag tag-tool" style="float:right">方案</span><div class="title">AI商科一日启蒙营 · 招生海报文案</div><div class="desc">AI商科启蒙实战营的完整方案设计</div><div class="links"><a href="../../in/悦洋教育_AI商科一日启蒙营_招生海报文案.html" target="_blank">查看 →</a></div></div>
+      <div class="card" style="border-left:4px solid #e67e22;"><span class="tag tag-tool" style="float:right">研学</span><div class="title">研学营市场对比分析</div><div class="desc">AI商科研学营的市场定位、竞品分析与差异化策略</div><div class="links"><a href="../../in/研学营市场对比分析.html" target="_blank">查看 →</a></div></div>
+    </div>
+
+    <!-- 交叉汇总 -->
+    <div class="callout purple" style="margin-top:20px;">
+      <strong>📌 其他备查文档：</strong>
+      <a href="../../in/悦洋教育_全球发明大会ICC结合方案_v1.html" style="margin-right:12px;">ICC结合方案</a>
+      <a href="../../in/悦洋教育_ICC参赛手册_官方版.html" style="margin-right:12px;">参赛手册</a>
+      <a href="../../in/悦洋教育_ICC参赛材料模板_学员版.html" style="margin-right:12px;">参赛模板</a>
+      <a href="../../in/悦洋教育_ICC广东省赛_备赛执行计划.html" style="margin-right:12px;">执行计划</a>
+      <a href="../../in/研学营市场对比分析.html">研学对比</a>
+    </div>
+  </div>
+
+  <!-- 竞赛产品矩阵 & 赛事分析 -->
+  <div class="section">
+    <h2>📊 竞赛产品矩阵 &amp; 分析</h2>
+    <div class="grid-3">
+      <div class="card"><div class="title">竞赛产品矩阵</div><div class="desc">国内+国际赛事完整分析、匹配度评估、产品覆盖</div><div class="links"><a href="../../in/悦洋教育_竞赛产品矩阵分析_v4_国际化.html" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">五大成果出口</div><div class="desc">赛事→展览→会议→论文→专利</div><div class="links"><a href="../../in/悦洋·五大成果国际化竞赛与展示机会分析.html" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">澳洲赛事库</div><div class="desc">22项澳洲赛事完整分析</div><div class="links"><a href="../../in/悦洋澳洲赛事库/" target="_blank">查看赛事库 →</a></div></div>
+    </div>
+
+    <div class="sub-hdr">赛事分析文档</div>
+    <div class="grid-3">
+      <div class="card"><div class="title">NOC大赛</div><div class="desc">全国中小学信息技术创新与实践大赛</div><div class="links"><a href="../../Enjoy/analysis/赛事分析_NOC全国中小学信息技术创新与实践大赛.md" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">萌芽赛道</div><div class="desc">中国国际大学生创新大赛萌芽赛道</div><div class="links"><a href="../../Enjoy/analysis/赛事分析_中国国际大学生创新大赛萌芽赛道.md" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">AI挑战赛</div><div class="desc">全国青少年人工智能创新挑战赛</div><div class="links"><a href="../../Enjoy/analysis/赛事分析_全国青少年人工智能创新挑战赛.md" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">宋庆龄发明奖</div><div class="desc">宋庆龄少年儿童发明奖</div><div class="links"><a href="../../Enjoy/analysis/赛事分析_宋庆龄少年儿童发明奖.md" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">康莱德挑战赛</div><div class="desc">康莱德创新挑战赛分析</div><div class="links"><a href="../../Enjoy/analysis/赛事分析_康莱德创新挑战赛.md" target="_blank">查看 →</a></div></div>
+      <div class="card"><div class="title">国际商赛</div><div class="desc">国际青少年商业竞赛分析</div><div class="links"><a href="../../Enjoy/analysis/赛事分析_国际青少年商业竞赛.md" target="_blank">查看 →</a></div></div>
+    </div>
+  </div>
+
+  <div class="back">
+    <a href="../index.html#projects">← 返回项目实践</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>悦洋教育 · AI商科品类 | 杨辉 Ken Yang · AI摆渡人</p>
+  <p style="font-size:12px;color:#ccc;">广州天河·中泰国际广场A座29楼 · © 2026</p>
+</footer>
+
+</body>
+</html>
