@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件04 · AI商科全链路闭环 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header {
+  background:linear-gradient(135deg,#1a1a2e 0%,#2d2d4e 40%,#e8a838 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+.cw-header::before {
+  content:''; position:absolute; top:-50%; left:-30%; width:160%; height:200%;
+  background:radial-gradient(ellipse at 50% 80%,rgba(232,168,56,0.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge {
+  display:inline-block; background:rgba(232,168,56,0.12); border:1px solid rgba(232,168,56,0.25);
+  color:#f6c842; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#f6c842,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav {
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap;
+}
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#f6c842; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #f6c842; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#f6c842; color:#1a1a2e; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective { background:#fef9e7; border-left:4px solid #f6c842; border-radius:10px; padding:16px 20px; margin:14px 0; }
+.objective strong { color:#b8860b; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#fef9e7; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.flow-item { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #f6c842; }
+.flow-item .label { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:2px; }
+.flow-item .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.flow-item .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-gold { background:#fef9e7; color:#d4a017; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.tag-red { background:#fdecea; color:#e74c3c; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.footer a { color:#f6c842; text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+.tier-card { background:#f8f9fa; border-radius:12px; padding:18px; border:1px solid #eef0f2; text-align:center; }
+.tier-card .price { font-size:22px; font-weight:900; margin:4px 0; }
+.tier-card .title { font-weight:700; font-size:15px; }
+.tier-card .desc { font-size:12px; color:#888; line-height:1.5; margin-top:4px; }
+.exercise { background:#fef9e7; border:2px dashed #f6c842; border-radius:12px; padding:18px 22px; margin:14px 0; }
+.exercise h4 { color:#d4a017; margin-top:0; }
+.flow { font-size:13px; line-height:1.8; padding:14px; text-align:center; }
+.flow .arrow { color:#aaa; margin:0 6px; }
+.pricing { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; }
+@media(max-width:860px){ .pricing { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .pricing { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课程 · 课件 04</div>
+  <h1>AI商科全链路 · <span>从体验到成果</span></h1>
+  <div class="sub">一日营体验→暑假营做项目→参赛拿奖项 —— 完整路径，每一步都有成果</div>
+  <div class="meta">悦洋教育 · AI商科核心叙事框架 v2.0 · 2026年5月</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#L1">品牌哲学</a>
+  <a href="#L2">全链路闭环</a>
+  <a href="#L3">引流产品</a>
+  <a href="#L4">核心产品</a>
+  <a href="#L5">赛事出口</a>
+  <a href="#L6">定价策略</a>
+  <a href="#L7">暑假战役</a>
+  <a href="../../index.html#courses">← 返回首页</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== L1 品牌哲学 ===== -->
+<div class="slide" id="L1">
+  <h2><span class="num">1</span> 品牌哲学 · 为什么是"AI商科"？</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解"AI商科"的核心价值主张和品牌定位，掌握向家长/学生传递价值的一句话说辞。
+  </div>
+
+  <div class="callout gold">
+    <strong>核心主张：</strong>AI时代最好的学习，不是刷题考高分，而是用AI创造商业价值。<br>
+    <strong>品牌定位：</strong>AI商科新世代领航者<br>
+    <strong>价值主张：</strong>用AI创造商业价值 | Create business value with AI
+  </div>
+
+  <h3>三大核心理念</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left-color:#f6c842;">
+      <div class="title">商业是最大的公益</div>
+      <div class="desc">创造价值本身就是让世界更好。不是"赚钱"vs"公益"的二选一，而是用商业手段解决社会问题。</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#2e86c1;">
+      <div class="title">AI时代的教育核心</div>
+      <div class="desc">不是"学AI技术"，而是"用AI做商业创新"。AI是工具，商业思维才是核心竞争力。</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#7c5cfc;">
+      <div class="title">二代教育的终极目标</div>
+      <div class="desc">让二代从"继承财富"到"创造价值"，才是真正的传承。AI+商科 = 传承的加速器。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L2 全链路闭环 ===== -->
+<div class="slide" id="L2">
+  <h2><span class="num">2</span> 全链路闭环模型</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解从"引流→转化→成果出口"的完整商业闭环，掌握每个环节的核心逻辑和转化要点。
+  </div>
+
+  <h3>闭环总览</h3>
+  <div class="diagram">
+<pre>                        悦洋教育 · 全链路闭环
+ ┌─────────────────────────────────────────────────────────────────────┐
+ │                                                                     │
+ │  引流                     转化                      成果出口        │
+ │  ┌──────┐    ┌────────────────┐    ┌──────────────────────┐        │
+ │  │一日营 │ →  │  暑假核心营     │ →  │  赛事/背景提升       │        │
+ │  │¥680  │    │  ┌──────────┐  │    │  ┌────────────────┐  │        │
+ │  │      │    │  │商科四营   │  │    │  │ICC全球发明大会  │  │        │
+ │  │体验  │    │  │(爱创营⭐) │  │    │  │商业计划大赛     │  │        │
+ │  │筛选  │    │  │¥12,800   │  │    │  │社会创新挑战赛   │  │        │
+ │  │      │    │  ├──────────┤  │    │  │青创赛           │  │        │
+ │  │      │    │  │企业研学   │  │    │  └────────────────┘  │        │
+ │  │      │    │  │¥16,800   │  │    │         ↓             │        │
+ │  │      │    │  ├──────────┤  │    │   升学背景提升        │        │
+ │  │      │    │  │竞赛营    │  │    │   作品集/推荐信/奖项   │        │
+ │  │      │    │  │¥19,800   │  │    └──────────────────────┘        │
+ │  │      │    │  └──────────┘  │                                     │
+ │  │      │    │  5天沉浸式     │                                     │
+ │  └──────┘    └────────────────┘                                     │
+ └─────────────────────────────────────────────────────────────────────┘</pre>
+  </div>
+
+  <h3>三步转化逻辑</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left-color:#27ae60;">
+      <div class="label">STEP 1 · 引流</div>
+      <div class="title">一日营 ¥680/980</div>
+      <div class="desc">低门槛体验AI商科 → 验证兴趣 → 筛选意向客户<br>关键指标：转化到暑假营的比例</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#2e86c1;">
+      <div class="label">STEP 2 · 核心</div>
+      <div class="title">暑假营 ¥12,800-19,800</div>
+      <div class="desc">5天沉浸式产出商业项目 → BP+AI原型+路演<br>关键指标：项目完成率+路演质量</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#7c5cfc;">
+      <div class="label">STEP 3 · 出口</div>
+      <div class="title">赛事/背景提升</div>
+      <div class="desc">把项目推入真实竞赛 → 验证+获奖+充实履历<br>关键指标：获奖率+家长满意度</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>对家长的一句话：</strong>"一日营体验→暑假营做项目→参赛拿奖项——完整路径，每一步都有成果。"
+  </div>
+</div>
+
+<!-- ===== L3 引流产品 ===== -->
+<div class="slide" id="L3">
+  <h2><span class="num">3</span> 引流产品 · AI商科启蒙一日营</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握一日营的产品设计逻辑——如何在6小时内完成"商业认知唤醒→AI工具体验→商业创意产出"的完整闭环。
+  </div>
+
+  <h3>产品概况</h3>
+  <table>
+    <tr><th>维度</th><th>说明</th></tr>
+    <tr><td>产品定位</td><td>入门级获客产品 —— 低门槛体验AI商科，建立信任，为商科四营引流</td></tr>
+    <tr><td>价值主张</td><td>一天时间，让孩子看见商业世界的AI力量</td></tr>
+    <tr><td>定价</td><td>¥980/人（早鸟/拼团价¥680）</td></tr>
+    <tr><td>时长</td><td>6课时（1天）</td></tr>
+    <tr><td>适合年龄</td><td>10-18岁</td></tr>
+  </table>
+
+  <h3>v1 → v2 升级</h3>
+  <table>
+    <tr><th>维度</th><th>v1（AI创客启蒙）</th><th>v2（AI商科启蒙）</th></tr>
+    <tr><td>开场问题</td><td>"AI能做什么？"</td><td>"商业是什么？AI怎么帮人赚钱？"</td></tr>
+    <tr><td>核心活动</td><td>AI绘画/音乐创作</td><td>AI商业创意工作坊+商业模型初体验</td></tr>
+    <tr><td>项目产出</td><td>绘画/音乐作品</td><td>商业创意方案+AI工具应用</td></tr>
+    <tr><td>结束引导</td><td>"用AI让世界更好"</td><td>"用AI创造商业价值"</td></tr>
+  </table>
+
+  <h3>课程大纲（6课时/1天）</h3>
+  <div class="grid-2">
+    <div class="callout blue">
+      <strong>上午：商业认知唤醒（3课时）</strong><br><br>
+      <strong>第1课：商业是什么</strong><br>
+      展示有趣商业案例 → 讨论"生活中哪些商业你每天在用" → 用AI分析品牌商业模式<br><br>
+      <strong>第2课：AI商业工具初体验</strong><br>
+      AI如何帮企业赚钱 → 用AI开"虚拟小店" → 设计产品+定价+营销文案<br><br>
+      <strong>第3课：商业创意工坊</strong><br>
+      好商业创意的三个标准 → 小组协作完成商业创意方案
+    </div>
+    <div class="callout green">
+      <strong>下午：项目体验（3课时）</strong><br><br>
+      <strong>第4课：用AI做市场调研</strong><br>
+      用AI分析目标客户 → 了解竞争对手 → 找到差异化定位<br><br>
+      <strong>第5课：商业路演实战</strong><br>
+      用AI准备路演材料 → 练习演讲 → 导师点评<br><br>
+      <strong>第6课：成果展示 & 成长路径</strong><br>
+      每组5分钟路演 → 互相投票 → 介绍进阶课程
+    </div>
+  </div>
+</div>
+
+<!-- ===== L4 核心产品 ===== -->
+<div class="slide" id="L4">
+  <h2><span class="num">4</span> 核心产品 · 商科四营与暑假营</h2>
+
+  <h3>产品梯队</h3>
+  <table>
+    <tr><th>梯队</th><th>产品</th><th>定价</th><th>定位</th><th>预期营收占比</th></tr>
+    <tr><td>T1 引流</td><td>AI商科启蒙一日营</td><td>¥680-980</td><td>体验筛选，转化到四营</td><td>5%</td></tr>
+    <tr><td><strong>T2 核心</strong></td><td><strong>爱创营（商业创新实战）</strong></td><td><strong>¥12,800</strong></td><td><strong>核心爆品，直接产出商业项目</strong></td><td><strong>40%</strong></td></tr>
+    <tr><td>T2 核心</td><td>AI商科研学营（海外）</td><td>¥22,800</td><td>差异化高端产品</td><td>20%</td></tr>
+    <tr><td>T3 利润</td><td>AI商业创业竞赛营</td><td>¥19,800</td><td>竞赛产出，高客单</td><td>20%</td></tr>
+    <tr><td>T4 长期</td><td>商科背景提升陪跑</td><td>¥48,000+</td><td>高客单长周期</td><td>15%</td></tr>
+  </table>
+
+  <h3>爱创营 · 核心爆品 ⭐</h3>
+  <div class="grid-2">
+    <div class="flow-item" style="border-left-color:#d4745f;">
+      <div class="label">核心理念</div>
+      <div class="title">用AI创造，让世界更好</div>
+      <div class="desc">不是学AI，而是用AI解决真实问题。5天4夜/12周项目制，产出BP+AI原型+路演。</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#d4745f;">
+      <div class="label">成果承诺</div>
+      <div class="title">每个学员带走一个商业项目</div>
+      <div class="desc">商业计划书（BP）+ AI产品原型 + 路演展示PPT + 参赛材料基础版</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L5 赛事出口 ===== -->
+<div class="slide" id="L5">
+  <h2><span class="num">5</span> 赛事出口 · 成果变现</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>了解赛事体系作为成果出口的战略价值，掌握如何将课程项目转化为竞赛材料。
+  </div>
+
+  <h3>三大赛事出口</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left-color:#7c5cfc;">
+      <div class="tag tag-purple" style="float:right">白名单</div>
+      <div class="title">ICC全球发明大会</div>
+      <div class="desc">教育部白名单赛事，AI+社会创新方向。省赛→国赛→国际交流。与"爱创营"项目产出高度匹配。</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#2e86c1;">
+      <div class="tag tag-blue" style="float:right">商科</div>
+      <div class="title">商业计划大赛</div>
+      <div class="desc">各类青少年商业计划竞赛，直接使用爱创营的BP产出参赛。适合展示商业思维和创新能力。</div>
+    </div>
+    <div class="flow-item" style="border-left-color:#27ae60;">
+      <div class="tag tag-green" style="float:right">综合</div>
+      <div class="title">社会创新挑战赛/青创赛</div>
+      <div class="desc">看重社会影响力的赛事，爱创营的公益属性天然契合。项目可持续迭代参赛。</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>关键洞察：</strong>竞赛不是目标，而是"副产品"。以社会创新为初心做项目，获奖是水到渠成。好的项目可以参加多个赛事，一鱼多吃。
+  </div>
+
+  <h3>五大成果出口</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left-color:#7c5cfc;"><div class="title">🏆 赛事</div><div class="desc">ICC/青创赛/商赛等，直接参赛获奖</div></div>
+    <div class="flow-item" style="border-left-color:#2e86c1;"><div class="title">📋 展览</div><div class="desc">青少年科创展、商业创新展等展示平台</div></div>
+    <div class="flow-item" style="border-left-color:#27ae60;"><div class="title">📝 论文</div><div class="desc">项目成果撰写成论文，投稿青少年期刊</div></div>
+    <div class="flow-item" style="border-left-color:#f6c842;"><div class="title">💡 专利</div><div class="desc">有技术含量的发明可申请实用新型/发明专利</div></div>
+    <div class="flow-item" style="border-left-color:#e74c3c;"><div class="title">🎓 升学</div><div class="desc">作品集+推荐信+奖项，综合素质评价核心材料</div></div>
+  </div>
+</div>
+
+<!-- ===== L6 定价策略 ===== -->
+<div class="slide" id="L6">
+  <h2><span class="num">6</span> 定价策略与套餐组合</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解产品定价的逻辑基础，掌握套餐组合设计的方法。
+  </div>
+
+  <h3>定价模型</h3>
+  <div class="pricing">
+    <div class="tier-card" style="border:2px solid #27ae60;">
+      <div class="tag tag-green">引流</div>
+      <div class="title">一日营</div>
+      <div class="price" style="color:#27ae60;">¥680</div>
+      <div class="desc">早鸟/拼团价<br>体验筛选入口</div>
+    </div>
+    <div class="tier-card" style="border:2px solid #2e86c1;">
+      <div class="tag tag-blue">核心</div>
+      <div class="title">爱创营 ⭐</div>
+      <div class="price" style="color:#2e86c1;">¥12,800</div>
+      <div class="desc">5天4夜<br>产出商业项目</div>
+    </div>
+    <div class="tier-card" style="border:2px solid #7c5cfc;">
+      <div class="tag tag-purple">高端</div>
+      <div class="title">竞赛营</div>
+      <div class="price" style="color:#7c5cfc;">¥19,800</div>
+      <div class="desc">竞赛辅导<br>冲刺奖项</div>
+    </div>
+    <div class="tier-card" style="border:2px solid #1a1a2e;">
+      <div class="tag">陪跑</div>
+      <div class="title">背景提升</div>
+      <div class="price" style="color:#1a1a2e;">¥48,000+</div>
+      <div class="desc">1对1长周期<br>深度成果交付</div>
+    </div>
+  </div>
+
+  <h3>套餐组合策略</h3>
+  <div class="flow" style="text-align:left;background:#f8f9fa;border-radius:12px;padding:20px;">
+    <p><strong>基础组合：</strong>一日营 + 爱创营 = <span style="color:#27ae60;">¥13,480</span>（省¥300）</p>
+    <p><strong>竞赛组合：</strong>一日营 + 爱创营 + 竞赛营 = <span style="color:#2e86c1;">¥32,280</span>（省¥1,000）</p>
+    <p><strong>全年陪跑：</strong>一日营 + 爱创营 + 竞赛营 + ICC参赛 + 背景提升 = <span style="color:#7c5cfc;">¥78,000</span>（省¥3,000+）</p>
+  </div>
+</div>
+
+<!-- ===== L7 暑假战役 ===== -->
+<div class="slide" id="L7">
+  <h2><span class="num">7</span> 暑假战役 · 核心运营策略</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解暑假作为核心战役的战略意义，掌握排期、获客和转介绍的运营方法。
+  </div>
+
+  <h3>为什么暑假是核心战役？</h3>
+  <table>
+    <tr><th>维度</th><th>说明</th></tr>
+    <tr><td>时间窗口</td><td>7-8月连续60天，可排3-4期</td></tr>
+    <tr><td>决策周期</td><td>家长5-6月做暑假规划，6月中是决策截止期</td></tr>
+    <tr><td>产品适合度</td><td>5天沉浸式营会最适合暑假——学校不上课</td></tr>
+    <tr><td>赛事节奏</td><td>9-10月密集开赛，暑假做的项目正好参赛</td></tr>
+  </table>
+
+  <h3>暑假排期建议</h3>
+  <div class="diagram">
+<pre>5月                    6月                    7月                  8月
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│ 预热期        │  │ 招募期        │  │ 执行期        │  │ 收尾期        │
+│              │  │              │  │              │  │              │
+│ 内容种草      │  │ 🏆 一日营×N  │  │ 🏕️ 爱创营 1期  │  │ 🏕️ 爱创营 3期  │
+│ 渠道铺排     │  │ 早鸟报名      │  │ 🏕️ 爱创营 2期  │  │ 🎯 ICC备赛     │
+│ 种子客户     │  │ 拼团裂变      │  │ 🎯 ICC选题     │  │ 成果交付       │
+└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘</pre>
+  </div>
+
+  <div class="callout gold">
+    <strong>获客核心手段：</strong>一日营裂变 + 家长转介绍 + 渠道合作（学校/家委/素质教育机构）+ 线上内容获客（公众号/视频号/小红书）
+  </div>
+
+  <div class="exercise">
+    <h4>课后思考</h4>
+    <ol>
+      <li>全链路闭环中，哪个环节的转化率最需要关注？如何提升？</li>
+      <li>一日营如何设计"钩子"，让家长从¥680的体验到¥12,800的暑假营转化？</li>
+      <li>暑期战役中，如何利用"9月赛事"作为紧迫感驱动家长决策？</li>
+    </ol>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>悦洋教育 · AI商科全链路闭环 | 杨辉 Ken Yang · AI商科新世代领航者</p>
+  <p><a href="../../index.html">← 返回教练首页</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件02 · ICC全球发明大会辅导体系 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header {
+  background:linear-gradient(135deg,#1a0a2e 0%,#2a1a4e 40%,#1a2a3e 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+.cw-header::before {
+  content:''; position:absolute; top:-50%; right:-20%; width:400px; height:400px;
+  background:radial-gradient(circle,rgba(124,92,252,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge {
+  display:inline-block; background:rgba(124,92,252,0.20); border:1px solid rgba(124,92,252,0.30);
+  color:#a88cff; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#a88cff,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-header .stats { display:flex; justify-content:center; gap:30px; margin-top:16px; flex-wrap:wrap; position:relative; }
+.cw-header .stats div { font-size:12px; color:rgba(255,255,255,0.5); text-align:center; }
+.cw-header .stats strong { color:#fff; font-size:16px; display:block; }
+.cw-nav {
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap;
+}
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#7c5cfc; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #7c5cfc; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#7c5cfc; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective {
+  background:#eaf2f8; border-left:4px solid #2e86c1; border-radius:10px; padding:16px 20px; margin:14px 0;
+}
+.objective strong { color:#1a5276; }
+.key-concept {
+  display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0;
+}
+@media(max-width:680px){ .key-concept { grid-template-columns:1fr; } }
+.key-item { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #7c5cfc; }
+.key-item .label { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:2px; }
+.key-item .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.key-item .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.phil-card { background:#f8f9fa; border-radius:12px; padding:18px; border:1px solid #eef0f2; text-align:center; }
+.phil-card .icon { font-size:28px; margin-bottom:4px; }
+.phil-card .title { font-weight:700; font-size:15px; }
+.phil-card .desc { font-size:12px; color:#888; line-height:1.5; margin-top:4px; }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.tag-gold { background:#fef9e7; color:#d4a017; }
+.tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.tag-red { background:#fdecea; color:#e74c3c; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.footer a { color:#7c5cfc; text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+.timeline-item { position:relative; padding-left:20px; margin-bottom:12px; border-left:2px solid #e0d8f0; }
+.timeline-item .title { font-weight:700; font-size:14px; }
+.timeline-item .desc { font-size:13px; color:#666; }
+.exercise {
+  background:#fef9e7; border:2px dashed #f6c842; border-radius:12px; padding:18px 22px; margin:14px 0;
+}
+.exercise h4 { color:#d4a017; margin-top:0; }
+.flow { font-size:13px; line-height:1.8; padding:14px; text-align:center; }
+.flow .arrow { color:#aaa; margin:0 6px; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课程 · 课件 02</div>
+  <h1>ICC全球发明大会 · <span>辅导体系</span></h1>
+  <div class="sub">教育部白名单竞赛 · "科创启智未来" —— 用AI做社会创新，冲击省赛国赛奖项</div>
+  <div class="stats">
+    <div><strong>教育部白名单</strong>2025-2028学年</div>
+    <div><strong>9大主题</strong>AI与生活 ⭐</div>
+    <div><strong>4个组别</strong>G/P/J/S</div>
+    <div><strong>满分100</strong>过程+原型+路演</div>
+  </div>
+  <div class="meta">悦洋教育 · ICC竞赛辅导体系 · AI商科升级版 v1.0</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#L1">赛事概览</a>
+  <a href="#L2">参赛流程</a>
+  <a href="#L3">材料体系</a>
+  <a href="#L4">辅导方法</a>
+  <a href="#L5">AI赋能</a>
+  <a href="#L6">时间线</a>
+  <a href="#L7">商业策略</a>
+  <a href="../../index.html#courses">← 返回首页</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== L1 赛事概览 ===== -->
+<div class="slide" id="L1">
+  <h2><span class="num">1</span> ICC 赛事概览</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>了解ICC全球发明大会的赛事定位、参赛组别和评审标准，理解赛事如何作为AI商科教育的成果出口。
+  </div>
+
+  <h3>赛事简介</h3>
+  <table>
+    <tr><th>项目</th><th>内容</th></tr>
+    <tr><td>赛事全称</td><td>全球发明大会中国区（Invention Convention China，ICC）</td></tr>
+    <tr><td>主办单位</td><td>中国友好和平发展基金会</td></tr>
+    <tr><td>赛事性质</td><td>教育部2025-2028学年白名单竞赛</td></tr>
+    <tr><td>活动主题</td><td>科创启智未来</td></tr>
+    <tr><td>官方网站</td><td>icc.cffpd.org.cn</td></tr>
+  </table>
+
+  <h3>参赛组别</h3>
+  <div class="grid-4">
+    <div class="phil-card"><div class="title">G组</div><div class="desc">小学一至二年级</div></div>
+    <div class="phil-card"><div class="title">P组</div><div class="desc">小学三至五年级/六年级</div></div>
+    <div class="phil-card"><div class="title">J组</div><div class="desc">初中七至九年级</div></div>
+    <div class="phil-card"><div class="title">S组</div><div class="desc">高中十至十二年级</div></div>
+  </div>
+
+  <h3>9大赛项主题方向</h3>
+  <div class="grid-3">
+    <div class="phil-card" style="border-left:4px solid #27ae60;text-align:left;">
+      <span class="tag tag-green">①</span>
+      <div class="title" style="font-size:13px;">低碳未来</div>
+      <div class="desc">能源采集、工业减排、碳管理</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #2e86c1;text-align:left;">
+      <span class="tag tag-blue">②</span>
+      <div class="title" style="font-size:13px;">可持续社区</div>
+      <div class="desc">城市资源循环、社区生活</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #27ae60;text-align:left;">
+      <span class="tag tag-green">③</span>
+      <div class="title" style="font-size:13px;">生物多样性保护</div>
+      <div class="desc">生态保护、生物监测</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #7c5cfc;text-align:left;">
+      <span class="tag tag-purple">④</span>
+      <div class="title" style="font-size:13px;">无障碍世界</div>
+      <div class="desc">残障辅助技术与产品</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #e74c3c;text-align:left;">
+      <span class="tag tag-red">⑤</span>
+      <div class="title" style="font-size:13px;">健康老龄化</div>
+      <div class="desc">老年健康、远程医疗</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #f6c842;text-align:left;">
+      <span class="tag tag-gold">⑥ ⭐</span>
+      <div class="title" style="font-size:13px;">AI与生活</div>
+      <div class="desc">AI在家庭/公共安全的应用</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #2e86c1;text-align:left;">
+      <span class="tag tag-blue">⑦</span>
+      <div class="title" style="font-size:13px;">未来交通</div>
+      <div class="desc">低空物流、共享出行</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #e74c3c;text-align:left;">
+      <span class="tag tag-red">⑧</span>
+      <div class="title" style="font-size:13px;">气候变化应对</div>
+      <div class="desc">灾害预警、应急救援</div>
+    </div>
+    <div class="phil-card" style="border-left:4px solid #27ae60;text-align:left;">
+      <span class="tag tag-green">⑨</span>
+      <div class="title" style="font-size:13px;">粮食安全</div>
+      <div class="desc">农业生产、资源节约</div>
+    </div>
+  </div>
+
+  <div class="callout purple">
+    <strong>核心策略：</strong>"AI与生活"主题和"AI商科"最契合。建议学员优先选择AI+社会创新方向，同时具备技术深度和社会价值，在评审中更容易脱颖而出。
+  </div>
+</div>
+
+<!-- ===== L2 参赛流程 ===== -->
+<div class="slide" id="L2">
+  <h2><span class="num">2</span> 参赛流程与时间线</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握ICC赛事全流程——从报名到国际交流的完整路径，规划好每个阶段的准备重点。
+  </div>
+
+  <h3>2026年赛事时间线</h3>
+  <div class="diagram">
+<pre>4月      5月       6月       7月       8月       9-12月
+┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌─────────┐
+│报名│→│材料│→│省赛│→│国赛│→│决选│→│国际交流│
+│合规│  │准备│  │评审│  │评审│  │颁奖│  │ 展     │
+└────┘  └────┘  └────┘  └────┘  └────┘  └─────────┘
+ 4/4     5月-    5月-   7月-    8月     8月-12月
+ 开始    6月     7月    8月</pre>
+  </div>
+
+  <h3>参赛流程六步走</h3>
+  <div class="key-concept">
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="label">STEP 1</div>
+      <div class="title">报名与作品合规检查</div>
+      <div class="desc">4月4日-6月15日。网上报名，提交作品基础信息，通过合规审核。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="label">STEP 2</div>
+      <div class="title">材料准备</div>
+      <div class="desc">准备发明日志、查新报告、展板照片、原型照片、路演视频五大核心材料。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="label">STEP 3</div>
+      <div class="title">省级赛/主题赛评审</div>
+      <div class="desc">5月-7月。省赛评审，评选省一二三等奖，晋级国赛。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#7c5cfc;">
+      <div class="label">STEP 4</div>
+      <div class="title">全国总决赛评审</div>
+      <div class="desc">7月-8月。全国评审，评选国赛金、银、铜奖。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="label">STEP 5</div>
+      <div class="title">决选与颁奖</div>
+      <div class="desc">8月。国赛决选，颁奖典礼。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#1a1a2e;">
+      <div class="label">STEP 6</div>
+      <div class="title">国际交流赛（展）</div>
+      <div class="desc">8月-12月。优秀项目可参加国际交流展示。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L3 材料体系 ===== -->
+<div class="slide" id="L3">
+  <h2><span class="num">3</span> 参赛材料体系</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握ICC五大参赛材料的准备要点，以及AI如何辅助材料准备的高效方法。
+  </div>
+
+  <h3>五大核心材料</h3>
+  <table>
+    <tr><th>材料</th><th>格式</th><th>说明</th><th>AI辅助</th></tr>
+    <tr><td>发明日志</td><td>PDF+MP4+JPG</td><td>核心评审材料，记录完整发明过程</td><td>AI辅助结构优化、语言润色</td></tr>
+    <tr><td>查新报告</td><td>PDF</td><td>官网提供模板下载</td><td>AI辅助专利检索、新颖性分析</td></tr>
+    <tr><td>发明展板照片</td><td>JPG</td><td>展示作品整体与细节</td><td>AI辅助排版设计</td></tr>
+    <tr><td>发明原型照片</td><td>JPG</td><td>展示作品实物/数字原型</td><td>AI辅助原型设计生成</td></tr>
+    <tr><td>路演视频</td><td>MP4 (≤5min)</td><td>展示发明过程与成果演示</td><td>AI辅助脚本撰写、剪辑</td></tr>
+  </table>
+
+  <div class="callout gold">
+    <strong>材料准备黄金法则：</strong>省赛看完成度，国赛看故事 + 技术深度。日志比原型更重要——详细真实的发明过程记录胜过炫酷但空洞的展示。
+  </div>
+
+  <h3>发明日志核心结构</h3>
+  <div class="diagram">
+<pre>├── 发现问题（背景研究 + 用户访谈 + 数据支撑）
+├── 定义目标（问题陈述 + 成功标准）
+├── 设计迭代（草图 → 原型 → 测试 → 改进 至少3轮）
+├── 最终方案（完整描述 + 技术原理）
+├── 社会价值（谁受益？多少人？影响多大？）
+└── 未来计划（产品化路径 + 持续迭代方向）</pre>
+  </div>
+</div>
+
+<!-- ===== L4 辅导方法 ===== -->
+<div class="slide" id="L4">
+  <h2><span class="num">4</span> 辅导方法 · 从竞赛营到社会创新</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解"社会创新项目"辅导理念和"微笑模型"在ICC辅导中的具体应用，掌握辅导节奏设计。
+  </div>
+
+  <h3>为什么社会创新是更好的竞赛策略？</h3>
+  <table>
+    <tr><th>竞赛维度</th><th>社会创新项目的优势</th></tr>
+    <tr><td>真实性</td><td>解决真实问题，评委一眼看出是否"做过"</td></tr>
+    <tr><td>故事性</td><td>有真实受益者，有情感共鸣</td></tr>
+    <tr><td>技术深度</td><td>AI解决复杂社会问题，技术含量自然高</td></tr>
+    <tr><td>社会价值</td><td>符合所有顶级赛事的"社会影响力"评分项</td></tr>
+    <tr><td>持续性</td><td>项目可以持续迭代，不是"做完就丢"</td></tr>
+  </table>
+
+  <h3>微笑模型 × ICC辅导</h3>
+  <div class="key-concept">
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="label">第〇步 · 感</div>
+      <div class="title">发现真问题</div>
+      <div class="desc">不是"做什么项目能获奖"，而是"身边有什么真实问题需要解决"。引导学员观察生活、访谈用户、发现痛点。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="label">第一步 · 问</div>
+      <div class="title">定义项目方向</div>
+      <div class="desc">"如何用AI帮助独居老人不孤单？"——好问题决定好项目。用How Might We提问法，AI辅助生成多个角度。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="label">第二步 · 挖</div>
+      <div class="title">探究问题本质</div>
+      <div class="desc">用5Whys追问根因：老人真正的需求是什么？陪伴 vs 安全感 vs 健康监测？挖得越深，方案越有竞争力。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="label">第三步 · 建</div>
+      <div class="title">AI原型与材料</div>
+      <div class="desc">用Coze/豆包搭建AI原型，完成发明日志、路演视频等参赛材料，迭代至少3轮。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h4>课堂练习：ICC选题工作坊</h4>
+    <p><strong>任务：</strong>用微笑模型为一个学生设计ICC参赛项目选题</p>
+    <ol>
+      <li><strong>感：</strong>列出学生生活中观察到的3个真实问题</li>
+      <li><strong>问：</strong>针对每个问题，提出"How Might We用AI..."问题</li>
+      <li><strong>挖：</strong>选一个问题，用5Whys挖根因</li>
+      <li><strong>匹配：</strong>对照9大主题，确定最适配的主题方向</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===== L5 AI赋能 ===== -->
+<div class="slide" id="L5">
+  <h2><span class="num">5</span> AI赋能 · 从选题到路演</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握AI工具在ICC备赛全流程中的应用——从选题分析到原型搭建、从日志撰写到路演准备。
+  </div>
+
+  <h3>AI赋能ICC全流程</h3>
+  <div class="diagram">
+<pre>阶段      传统方法                    AI赋能方法
+─────  ───────────────────────  ────────────────────────────────
+选题     头脑风暴、教师经验        AI分析社会热点+未被满足需求
+研究     文献检索、手动查重        AI辅助专利检索、新颖性分析
+设计     PPT画草图、手工原型        AI生成设计图+3D概念原型
+开发     编码困难、成本高          无代码AI智能体搭建（Coze/豆包）
+测试     问卷难设计、反馈收集慢      AI自动生成问卷+分析反馈数据
+日志     手写、改版难              AI辅助结构优化+多版本迭代
+路演     写稿子、做PPT             AI生成脚本+演讲训练+PPT生成</pre>
+  </div>
+
+  <h3>推荐AI工具</h3>
+  <div class="grid-3">
+    <div class="phil-card">
+      <div class="icon">🧩</div>
+      <div class="title">Coze / 豆包</div>
+      <div class="desc">AI智能体搭建平台，零代码构建AI解决方案原型</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">🤖</div>
+      <div class="title">Claude / ChatGPT</div>
+      <div class="desc">辅助发明日志撰写、文献分析、路演脚本生成</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">🎨</div>
+      <div class="title">AI设计工具</div>
+      <div class="desc">展板设计、原型渲染图、数据可视化</div>
+    </div>
+  </div>
+
+  <div class="callout purple">
+    <strong>核心原则：</strong>AI是加速器，不是替代品。发明日志的核心是"真实的发明过程记录"——AI帮助提升效率和质量，但问题发现、用户访谈、迭代思考必须由学生亲历。
+  </div>
+</div>
+
+<!-- ===== L6 评审标准 ===== -->
+<div class="slide" id="L6">
+  <h2><span class="num">6</span> 评审标准与备战策略</h2>
+
+  <h3>评审要点（满分100分）</h3>
+  <table>
+    <tr><th>评审维度</th><th>分值</th><th>核心要点</th></tr>
+    <tr><td>发明过程</td><td>30分</td><td>发现问题→定义问题→迭代方案→测试改进的完整记录</td></tr>
+    <tr><td>发明原型</td><td>25分</td><td>原型完成度、技术实现、功能演示效果</td></tr>
+    <tr><td>社会价值</td><td>20分</td><td>问题的重要性、受益人群规模、实际影响</td></tr>
+    <tr><td>路演展示</td><td>15分</td><td>表达清晰度、逻辑性、感染力、团队协作</td></tr>
+    <tr><td>查新与创新</td><td>10分</td><td>新颖性、与现有方案的差异性</td></tr>
+  </table>
+
+  <h3>备赛关键策略</h3>
+  <div class="grid-2">
+    <div class="callout blue">
+      <strong>选题策略</strong><br>
+      ✓ 选择学生真正关心的领域<br>
+      ✓ 真实问题 > 宏大叙事<br>
+      ✓ 小而美 > 大而全<br>
+      ✓ 优先"AI与生活"主题
+    </div>
+    <div class="callout green">
+      <strong>材料策略</strong><br>
+      ✓ 日志是核心——详细记录每轮迭代<br>
+      ✓ 原型要可演示——不要求完美但必须能动<br>
+      ✓ 路演有故事——用真实用户反馈打动评委<br>
+      ✓ 查新要到位——体现创新性
+    </div>
+  </div>
+</div>
+
+<!-- ===== L7 商业策略 ===== -->
+<div class="slide" id="L7">
+  <h2><span class="num">7</span> 商业策略 · ICC作为成果出口</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解ICC赛事如何作为AI商科教育的成果出口，以及如何在辅导体系中嵌入商业思维。
+  </div>
+
+  <h3>ICC在悦洋教育产品体系中的定位</h3>
+  <div class="diagram">
+<pre>  引流                   转化                    成果出口
+  ┌──────┐    ┌─────────────────┐    ┌──────────────────────┐
+  │一日营 │ →  │ 暑假核心营        │ →  │ ICC全球发明大会       │
+  │¥680  │    │ (爱创营) ¥12,800 │    │ 商业计划大赛         │
+  │体验    │    │ 5天产出项目      │    │ 社会创新挑战赛       │
+  │筛选    │    │ BP+AI原型+路演   │    ↓                      │
+  └──────┘    └─────────────────┘    │ 升学背景提升          │
+                                      │ 作品集/推荐信/奖项    │
+                                      └──────────────────────┘</pre>
+  </div>
+
+  <h3>AI商科+ICC=独特竞争优势</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#7c5cfc;">
+      <div class="title">商业思维植入</div>
+      <div class="desc">不只是"做发明"，而是"做有商业价值的发明"。引导学员思考：谁会为这个付钱？怎么规模化？</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="title">AI Agent作为核心竞争力</div>
+      <div class="desc">用AI智能体（而非简单调用API）作为发明核心，技术深度和独创性远超同类项目。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">社会创新叙事</div>
+      <div class="desc">"用商业手段解决社会问题"——在CSV（共享价值）框架下，商业和公益不是二选一。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">完整成果链</div>
+      <div class="desc">一日营→暑假营→ICC省赛→ICC国赛→国际交流→升学背景。每一步都有明确成果。</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>对家长的一句话：</strong>"一日营体验→暑假营做项目→参赛拿奖项——完整路径，每一步都有成果。"
+  </div>
+
+  <div class="exercise">
+    <h4>课后思考</h4>
+    <ol>
+      <li>ICC的评审标准中，哪一项是AI商科教育最擅长的？如何突出这项优势？</li>
+      <li>微笑模型如何嵌入ICC辅导的每个阶段？哪个阶段是最容易被忽视的？</li>
+      <li>如何向家长说明"以赛促学"的价值——不只是获奖，而是过程中培养的能力？</li>
+    </ol>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>心光AI科创 · ICC竞赛辅导体系 | 杨辉 Ken Yang · AI摆渡人 / ICC全球发明大会辅导教练</p>
+  <p><a href="../../index.html">← 返回教练首页</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件05 · AI青少年创造营实操课 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header {
+  background:linear-gradient(135deg,#2d1b69 0%,#6a3093 40%,#a044ff 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+.cw-header::before {
+  content:''; position:absolute; top:-50%; left:-20%; width:140%; height:200%;
+  background:radial-gradient(ellipse at 60% 40%,rgba(160,68,255,0.10) 0%,transparent 50%);
+  pointer-events:none;
+}
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge {
+  display:inline-block; background:rgba(160,68,255,0.15); border:1px solid rgba(160,68,255,0.25);
+  color:#c8a0ff; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#c8a0ff,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav {
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap;
+}
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#a044ff; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #a044ff; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#a044ff; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective { background:#f0e6f6; border-left:4px solid #a044ff; border-radius:10px; padding:16px 20px; margin:14px 0; }
+.objective strong { color:#5a1a8a; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #a044ff; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f0e6f6; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.lesson-card { background:#f8f9fa; border-radius:12px; padding:18px; border:1px solid #eef0f2; border-left:4px solid #a044ff; }
+.lesson-card .time { font-size:12px; color:#999; }
+.lesson-card .title { font-weight:700; font-size:15px; margin:2px 0; }
+.lesson-card .desc { font-size:13px; color:#666; line-height:1.6; }
+.lesson-card .output { font-size:12px; color:#a044ff; margin-top:6px; font-weight:600; }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.tag-gold { background:#fef9e7; color:#d4a017; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.footer a { color:#a044ff; text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+.flow { font-size:13px; line-height:1.8; padding:14px; }
+.schedule { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:680px){ .schedule { grid-template-columns:1fr; } }
+.slot { background:#f8f9fa; border-radius:10px; padding:14px 16px; border:1px solid #eef0f2; }
+.slot .time { font-weight:700; font-size:13px; color:#a044ff; }
+.slot .title { font-weight:600; font-size:14px; }
+.slot .desc { font-size:12px; color:#888; }
+.exercise { background:#fef9e7; border:2px dashed #f6c842; border-radius:12px; padding:18px 22px; margin:14px 0; }
+.exercise h4 { color:#d4a017; margin-top:0; }
+.step-box { display:flex; gap:10px; margin:10px 0; flex-wrap:wrap; }
+.step { flex:1; min-width:140px; background:#f8f9fa; padding:14px; border-radius:10px; text-align:center; border:1px solid #eef0f2; }
+.step .num { font-size:20px; font-weight:900; color:#a044ff; }
+.step .title { font-size:13px; font-weight:600; }
+.step .desc { font-size:11px; color:#888; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课程 · 课件 05</div>
+  <h1>AI青少年创造营 · <span>实操课</span></h1>
+  <div class="sub">6小时从0到1做出AI作品 —— 低门槛体验，验证兴趣，筛选意向</div>
+  <div class="meta">AI青少年一日创造营 · AI商科启蒙一日营 · 执行手册精华</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#L1">课程设计</a>
+  <a href="#L2">一日营流程</a>
+  <a href="#L3">教学方法</a>
+  <a href="#L4">AI工具包</a>
+  <a href="#L5">助教执行</a>
+  <a href="#L6">转化设计</a>
+  <a href="#L7">FAQ</a>
+  <a href="../../index.html#courses">← 返回首页</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== L1 课程设计理念 ===== -->
+<div class="slide" id="L1">
+  <h2><span class="num">1</span> 课程设计理念</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解青少年创造营的设计原则——如何在有限时间内最大化体验感和成就感，实现"从0到1做出作品"的认知闭环。
+  </div>
+
+  <h3>设计三原则</h3>
+  <div class="grid-3">
+    <div class="lesson-card" style="border-left-color:#a044ff;">
+      <div class="title">门槛要低</div>
+      <div class="desc">不需要编程基础，不需要AI经验，不需要自带设备。一切从零开始，确保每个孩子跟上。</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#ff6b9d;">
+      <div class="title">成就感要强</div>
+      <div class="desc">6小时必须做出"可展示的作品"。结束后孩子能兴奋地说"今天我做了个AI项目！"</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#f6c842;">
+      <div class="title">转化要自然</div>
+      <div class="desc">不硬推课程，而让家长看到孩子的变化和潜力。"你的孩子适合继续深造"——由成果说话。</div>
+    </div>
+  </div>
+
+  <h3>核心变化（v1→v2）</h3>
+  <table>
+    <tr><th>维度</th><th>v1（AI创客启蒙）</th><th>v2（AI商科启蒙）</th></tr>
+    <tr><td>开场问题</td><td>"AI能做什么？"</td><td>"商业是什么？AI怎么帮人赚钱？"</td></tr>
+    <tr><td>核心活动</td><td>AI绘画/音乐创作</td><td>AI商业创意工作坊+商业模型初体验</td></tr>
+    <tr><td>项目产出</td><td>绘画/音乐作品</td><td>商业创意方案+AI工具应用</td></tr>
+    <tr><td>结束引导</td><td>"用AI让世界更好"</td><td>"用AI创造商业价值"</td></tr>
+    <tr><td>课后跟进</td><td>发送作品图片</td><td>发送成果手册+成长建议+暑假营邀请</td></tr>
+  </table>
+
+  <div class="callout purple">
+    <strong>一句话定位：</strong>一天时间，让孩子看见商业世界的AI力量。<br>
+    <strong>定价：</strong>¥980/人（早鸟/拼团¥680）
+  </div>
+</div>
+
+<!-- ===== L2 一日营完整流程 ===== -->
+<div class="slide" id="L2">
+  <h2><span class="num">2</span> 一日营完整流程（6课时）</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握一日营从开场到结营的完整流程设计，能够独立带完一天的课程。
+  </div>
+
+  <h3>上午 · 商业认知唤醒（8:30-12:00）</h3>
+  <div class="schedule">
+    <div class="slot">
+      <div class="time">08:30-09:00</div>
+      <div class="title">开场破冰</div>
+      <div class="desc">自我介绍 + "商业猜猜猜"互动游戏 + 分组</div>
+    </div>
+    <div class="slot">
+      <div class="time">09:00-10:00</div>
+      <div class="title">第1课：商业是什么？</div>
+      <div class="desc">展示有趣商业案例（耐克、特斯拉、喜茶...）→ 讨论"生活中哪些商业你每天在用？" → 用AI分析一个品牌 → 产出：品牌分析卡片</div>
+    </div>
+    <div class="slot">
+      <div class="time">10:10-11:10</div>
+      <div class="title">第2课：AI商业工具初体验</div>
+      <div class="desc">AI如何帮企业赚钱？→ 头脑风暴"这个生意能用AI做得更好吗？" → 用AI开"虚拟小店" → 产出：AI辅助的商业创意方案</div>
+    </div>
+    <div class="slot">
+      <div class="time">11:20-12:00</div>
+      <div class="title">第3课：商业创意工坊</div>
+      <div class="desc">好商业创意的三个标准 → 小组协作完成商业创意方案 → 产出：小组商业创意海报</div>
+    </div>
+  </div>
+
+  <h3>下午 · 项目体验（13:30-17:00）</h3>
+  <div class="schedule">
+    <div class="slot">
+      <div class="time">13:30-14:30</div>
+      <div class="title">第4课：用AI做市场调研</div>
+      <div class="desc">用AI分析目标客户 → 了解竞争对手 → 找到差异化定位 → 用AI生成Logo+品牌视觉</div>
+    </div>
+    <div class="slot">
+      <div class="time">14:40-15:40</div>
+      <div class="title">第5课：商业路演实战</div>
+      <div class="desc">用AI准备路演材料（Gamma一键生成PPT） → 练习演讲 → 导师1对1辅导</div>
+    </div>
+    <div class="slot">
+      <div class="time">15:50-16:30</div>
+      <div class="title">第6课：成果展示</div>
+      <div class="desc">每组5分钟路演 → 互相投票 → 导师点评 → 颁发证书 + 合影</div>
+    </div>
+    <div class="slot">
+      <div class="time">16:30-17:00</div>
+      <div class="title">家长沟通 & 转化</div>
+      <div class="desc">展示孩子成果 → 介绍进阶课程体系 → 暑假营早鸟报名 → 1对1咨询</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>时间控制要点：</strong>课前30分钟到教室准备设备 + AI工具账号。每节课中间10分钟休息/加餐。路演环节一定要控制每组5分钟，超时提醒。
+  </div>
+</div>
+
+<!-- ===== L3 教学方法 ===== -->
+<div class="slide" id="L3">
+  <h2><span class="num">3</span> 教学方法 · 闻思修教学法</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握"闻思修"三环教学法在AI商科课程中的具体应用。
+  </div>
+
+  <h3>闻·思·修架构</h3>
+  <div class="grid-3">
+    <div class="lesson-card" style="border-left-color:#2e86c1;">
+      <div class="label">闻</div>
+      <div class="title">输入 · 激发兴趣</div>
+      <div class="desc">用有趣案例/故事/演示引入概念，抓住注意力。每节课<=15分钟，简洁有力。</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#f6c842;">
+      <div class="label">思</div>
+      <div class="title">讨论 · 内化认知</div>
+      <div class="desc">引导讨论+头脑风暴，让学生在对话中理解概念。控制在15分钟内。</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#a044ff;">
+      <div class="label">修</div>
+      <div class="title">实践 · 产出成果</div>
+      <div class="desc">动手操作，用AI工具完成具体任务。核心环节，占每节课50%以上时间。</div>
+    </div>
+  </div>
+
+  <div class="diagram">
+<pre>典型的"闻→思→修"一节课结构（60分钟）：
+┌─────────────────────────────────────────────────────┐
+│ 闻 (15min)    思 (15min)        修 (30min)           │
+│ ┌─────────┐  ┌─────────┐  ┌──────────────────────┐  │
+│ │ 精彩案例 │→│ 头脑风暴 │→│ 动手实践+AI工具      │  │
+│ │ 核心概念 │  │ 小组讨论  │  │ 产出作品             │  │
+│ │ 问题提出 │  │ 分享观点  │  │ 导师巡场辅导         │  │
+│ └─────────┘  └─────────┘  └──────────────────────┘  │
+│                                                      │
+│ 讲师为主         学生为主           学生为主+讲师辅导    │
+└──────────────────────────────────────────────────────┘</pre>
+  </div>
+
+  <div class="callout purple">
+    <strong>讲师纪律：</strong>"修"环节讲师不要讲太多！学生动手时，讲师只做巡场辅导。孩子的成就感来自"我自己做出来的"，而不是"老师教得好"。
+  </div>
+</div>
+
+<!-- ===== L4 AI工具包 ===== -->
+<div class="slide" id="L4">
+  <h2><span class="num">4</span> AI工具包 · 一日营必备</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握一日营所需的AI工具清单和使用场景，确保课前准备充分。
+  </div>
+
+  <h3>一日营AI工具包</h3>
+  <table>
+    <tr><th>用途</th><th>推荐工具</th><th>课前准备</th></tr>
+    <tr><td>AI对话助手</td><td>豆包/ ChatGPT/ Claude</td><td>确保每名学生有可用账号</td></tr>
+    <tr><td>AI绘画</td><td>豆包生图 / DALL·E</td><td>提前测试网络可用性</td></tr>
+    <tr><td>AI PPT</td><td>Gamma / 讯飞智文</td><td>准备模板，减少操作复杂度</td></tr>
+    <tr><td>AI搜索</td><td>Perplexity / 纳米搜索</td><td>准备示范用的搜索问题</td></tr>
+    <tr><td>AI音乐</td><td>Suno / 豆包音乐（可选）</td><td>备选活动，时间有余时使用</td></tr>
+  </table>
+
+  <div class="callout blue">
+    <strong>设备准备清单：</strong><br>
+    ✓ 每名学生一台电脑/平板（鼓励自带）<br>
+    ✓ 备用设备3-5台（部分学生可能没带）<br>
+    ✓ 稳定WiFi（建议企业级，支持30+设备同时在线）<br>
+    ✓ 投影/大屏（讲师演示用）<br>
+    ✓ 翻页笔 + 音箱（播放视频/音乐）<br>
+    ✓ 提前安装好所有AI工具的浏览器书签
+  </div>
+
+  <h3>提示词模板</h3>
+  <div class="lesson-card">
+    <div class="title">品牌分析模板</div>
+    <div class="desc">"请分析[品牌名]的商业模式：1）它卖什么？2）谁在买？3）怎么赚钱？4）为什么成功？用简单易懂的语言给10-15岁学生解释。"</div>
+  </div>
+  <div class="lesson-card" style="margin-top:8px;">
+    <div class="title">商业创意模板</div>
+    <div class="desc">"我是一名[年龄]岁的学生，我想开一家[业务类型]店。请帮我：1）想一个有趣的店名 2）定义目标客户 3）设计3个核心产品 4）定价策略 5）一句话广告语。"</div>
+  </div>
+</div>
+
+<!-- ===== L5 助教执行手册 ===== -->
+<div class="slide" id="L5">
+  <h2><span class="num">5</span> 助教执行手册精华</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握助教在创造营中的角色定位和关键执行要点，确保团队配合无缝。
+  </div>
+
+  <h3>角色分工</h3>
+  <table>
+    <tr><th>角色</th><th>人数</th><th>职责</th></tr>
+    <tr><td>主讲讲师</td><td>1人</td><td>授课、节奏把控、核心环节引导</td></tr>
+    <tr><td>助教</td><td>2-3人（1:6配比）</td><td>巡场辅导、技术支援、纪律维持、个别关注</td></tr>
+    <tr><td>运营</td><td>1人</td><td>家长沟通、拍照/录像、后勤、转化咨询</td></tr>
+  </table>
+
+  <h3>助教四要四不要</h3>
+  <div class="grid-2">
+    <div class="callout green">
+      <strong>要做 ✓</strong><br>
+      ✓ 学生卡住时，用提问引导而不是直接给答案<br>
+      ✓ 发现优秀作品，立即拍照记录<br>
+      ✓ 关注沉默/不自信的学生，多鼓励<br>
+      ✓ 及时反馈设备/网络问题给运营
+    </div>
+    <div class="callout blue">
+      <strong>不要做 ✗</strong><br>
+      ✗ 不要替学生操作（会破坏成就感）<br>
+      ✗ 不要长时间和单一学生交流（会忽视其他人）<br>
+      ✗ 不要批评学生作品（即使很粗糙）<br>
+      ✗ 不要在课堂上玩手机
+    </div>
+  </div>
+
+  <h3>关键场景应对</h3>
+  <div class="grid-2">
+    <div class="lesson-card" style="border-left-color:#f6c842;">
+      <div class="title">设备/网络故障</div>
+      <div class="desc">运营立即提供备用设备。如果持续故障，让学生2人一组共用一台。不要在课堂上花超过5分钟修设备。</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#e74c3c;">
+      <div class="title">学生不配合/走神</div>
+      <div class="desc">助教走到旁边轻声问"需要帮忙吗？"——90%的情况是卡住了但不敢说。如果持续走神，安排做"课堂记录员"。</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#27ae60;">
+      <div class="title">特别优秀的学生</div>
+      <div class="desc">提供进阶任务（"你能试试用AI做一个更复杂的功能吗？"）。别让等待同伴的时间变成无聊时间。</div>
+    </div>
+    <div class="lesson-card" style="border-left-color:#7c5cfc;">
+      <div class="title">家长提前来接</div>
+      <div class="desc">运营主动上前，展示孩子作品，简述今天的成果。这是最好的转化时机——家长看到成果时的表情=成交信号。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L6 转化设计 ===== -->
+<div class="slide" id="L6">
+  <h2><span class="num">6</span> 家长沟通与转化设计</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握从体验课到正价课的转化方法论，理解"成果说服"的核心逻辑。
+  </div>
+
+  <h3>转化流程</h3>
+  <div class="step-box">
+    <div class="step"><div class="num">1</div><div class="title">成果展示</div><div class="desc">路演 + 作品集 + 照片</div></div>
+    <div class="step"><div class="num">2</div><div class="title">价值传递</div><div class="desc">课程体系介绍</div></div>
+    <div class="step"><div class="num">3</div><div class="title">紧迫感</div><div class="desc">暑假名额有限</div></div>
+    <div class="step"><div class="num">4</div><div class="title">限时优惠</div><div class="desc">现场报名优惠价</div></div>
+  </div>
+
+  <h3>家长沟通SOP</h3>
+  <table>
+    <tr><th>时间点</th><th>沟通内容</th><th>方式</th></tr>
+    <tr><td>开营前3天</td><td>发送上课通知+地址+停车指引+注意事项</td><td>微信群/短信</td></tr>
+    <tr><td>开营当天上午</td><td>群内发照片/视频，分享精彩瞬间</td><td>拍照 + 短视频</td></tr>
+    <tr><td>开营当天下午</td><td>群内发各组进展、预告路演时间</td><td>短视频 + 文字预告</td></tr>
+    <tr><td>结营后30分钟</td><td>发送每位学生专属成果照片+成长评语</td><td>1对1私信</td></tr>
+    <tr><td>结营后3天</td><td>发送暑假营报名链接+限时优惠倒计时</td><td>1对1私信</td></tr>
+    <tr><td>结营后7天</td><td>未转化：发送更多课程详情+学员案例<br>已转化：发送暑假营预习资料</td><td>1对1私信</td></tr>
+  </table>
+
+  <div class="callout gold">
+    <strong>转化话术核心：</strong>"您的孩子今天用AI完成了一个完整的商业创意——从市场分析到产品设计到路演。这说明TA具备了商业思维+AI应用的基础能力。如果给TA更多时间（5天暑假营），TA能做出一个真正可以参赛的商业项目。"<br>
+    —— 不是推销课程，而是肯定孩子的潜力和成果。
+  </div>
+</div>
+
+<!-- ===== L7 FAQ ===== -->
+<div class="slide" id="L7">
+  <h2><span class="num">7</span> 常见问题（FAQ）</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握家长常见问题的回答策略，建立专业信任。
+  </div>
+
+  <div class="lesson-card">
+    <div class="title">Q：孩子没接触过编程/AI，能跟上吗？</div>
+    <div class="desc">我们的课程是零基础入门。所有工具都是可视化/自然语言操作——孩子用对话就能用AI。已经有超过500名零基础学员完成课程并做出作品。</div>
+  </div>
+  <div class="lesson-card" style="margin-top:8px;">
+    <div class="title">Q：一天时间能学到什么？有什么用？</div>
+    <div class="desc">一天的核心不是"学了多少知识"，而是"体验了用AI创造的成就感"。孩子会带走一个完整的商业创意方案，更重要的是——TA会发现"原来我可以用AI做这么酷的事"，点燃持续学习的兴趣。</div>
+  </div>
+  <div class="lesson-card" style="margin-top:8px;">
+    <div class="title">Q：和外面的编程课/机器人课有什么区别？</div>
+    <div class="desc">传统的AI课教"AI技术是什么"，我们教"用AI创造商业价值"。我们不培养程序员，我们培养未来的创业者。商科思维+AI应用，是其他课程没有的差异化定位。</div>
+  </div>
+  <div class="lesson-card" style="margin-top:8px;">
+    <div class="title">Q：后续还有什么课程？怎么衔接？</div>
+    <div class="desc">我们设计了完整的进阶路径：一日营（启蒙）→ 暑假爱创营（5天做项目）→ ICC竞赛营（冲刺奖项）→ 背景提升陪跑（长期成果）。您今天看到的孩子在创意上的表现，继续深造会产出可参赛的作品。</div>
+  </div>
+
+  <div class="exercise">
+    <h4>讲师/助教课后复盘清单</h4>
+    <ol>
+      <li>今天有多少学生完成了"完整作品"？（目标：90%+）</li>
+      <li>哪些环节学生兴趣最高/最低？为什么？</li>
+      <li>遇到了哪些设备/网络问题？下次如何预防？</li>
+      <li>今天转化了几个暑假营？转化率目标：一日营→暑假营 20%+</li>
+      <li>哪些学生值得重点关注？（特别优秀/特别需要帮助）</li>
+    </ol>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>心光AI科创 · AI青少年创造营实操课 | 杨辉 Ken Yang · AI摆渡人</p>
+  <p><a href="../../index.html">← 返回教练首页</a></p>
+</div>
+
+</body>
+</html>

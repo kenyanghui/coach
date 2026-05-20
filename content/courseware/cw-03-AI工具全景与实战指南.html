@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件03 · AI工具全景与实战指南 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header {
+  background:linear-gradient(135deg,#0f2027 0%,#203a43 40%,#2c5364 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+.cw-header::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background:radial-gradient(ellipse at 30% 50%,rgba(0,200,200,0.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge {
+  display:inline-block; background:rgba(0,200,200,0.12); border:1px solid rgba(0,200,200,0.20);
+  color:#00c8c8; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#00c8c8,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav {
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap;
+}
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#00c8c8; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #00c8c8; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#00c8c8; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective { background:#e8f8f0; border-left:4px solid #27ae60; border-radius:10px; padding:16px 20px; margin:14px 0; }
+.objective strong { color:#1a6e3a; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.cyan { background:#e8f8f8; border-left:4px solid #00c8c8; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#e8f8f8; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.tool-card { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #00c8c8; }
+.tool-card .label { font-size:11px; color:#999; margin-bottom:2px; }
+.tool-card .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.tool-card .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-cyan { background:#e8f8f8; color:#008a8a; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.tag-gold { background:#fef9e7; color:#d4a017; }
+.tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.footer a { color:#00c8c8; text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+.level-card { background:#f8f9fa; border-radius:12px; padding:18px; text-align:center; border:1px solid #eef0f2; }
+.level-card .level { font-size:28px; font-weight:900; }
+.level-card .title { font-weight:700; font-size:14px; margin:4px 0; }
+.level-card .desc { font-size:12px; color:#888; }
+.exercise { background:#fef9e7; border:2px dashed #f6c842; border-radius:12px; padding:18px 22px; margin:14px 0; }
+.exercise h4 { color:#d4a017; margin-top:0; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课程 · 课件 03</div>
+  <h1>AI工具全景 · <span>实战指南</span></h1>
+  <div class="sub">从AI编程到内容创作的完整工具链 —— 选对工具，事半功倍</div>
+  <div class="meta">心光AI科创 · AI工具全景图 · 杨辉教练实战指南 2026</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#L1">全景概览</a>
+  <a href="#L2">AI编程</a>
+  <a href="#L3">AI内容</a>
+  <a href="#L4">AI数据分析</a>
+  <a href="#L5">AI办公</a>
+  <a href="#L6">AI智能体</a>
+  <a href="#L7">Paperclip</a>
+  <a href="../../index.html#courses">← 返回首页</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== L1 全景概览 ===== -->
+<div class="slide" id="L1">
+  <h2><span class="num">1</span> AI工具全景概览</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>了解AI工具的全景分类，建立AI工具选型框架，理解不同工具在商科教育中的适用场景。
+  </div>
+
+  <h3>六大AI工具类别</h3>
+  <div class="grid-3">
+    <div class="level-card" style="border-top:3px solid #7c5cfc;">
+      <div class="level" style="color:#7c5cfc;">🤖</div>
+      <div class="title">AI编程</div>
+      <div class="desc">Claude Code · Cursor · Windsurf · GitHub Copilot</div>
+    </div>
+    <div class="level-card" style="border-top:3px solid #ff6b9d;">
+      <div class="level" style="color:#ff6b9d;">🎨</div>
+      <div class="title">AI内容创作</div>
+      <div class="desc">Midjourney · Suno/UDIO · Sora · Runway</div>
+    </div>
+    <div class="level-card" style="border-top:3px solid #2e86c1;">
+      <div class="level" style="color:#2e86c1;">📊</div>
+      <div class="title">AI数据分析</div>
+      <div class="desc">Julius · Code Interpreter · ChatGPT 高级数据</div>
+    </div>
+    <div class="level-card" style="border-top:3px solid #27ae60;">
+      <div class="level" style="color:#27ae60;">📄</div>
+      <div class="title">AI办公</div>
+      <div class="desc">飞书AI · Gamma · Napkin · 沉浸式翻译</div>
+    </div>
+    <div class="level-card" style="border-top:3px solid #f6c842;">
+      <div class="level" style="color:#f6c842;">🧩</div>
+      <div class="title">AI智能体</div>
+      <div class="desc">Coze · 豆包 · Dify · MCP · Paperclip</div>
+    </div>
+    <div class="level-card" style="border-top:3px solid #e74c3c;">
+      <div class="level" style="color:#e74c3c;">🔧</div>
+      <div class="title">AI搜索/知识</div>
+      <div class="desc">Perplexity · 飞书知识问答 · 纳米搜索</div>
+    </div>
+  </div>
+
+  <div class="callout cyan">
+    <strong>工具选型原则：</strong>不追求"最好"的工具，而是找到"最适合当前场景"的工具。<br>
+    教给学生的不是某个具体工具的操作，而是"如何用AI解决问题的思维方式"。
+  </div>
+</div>
+
+<!-- ===== L2 AI编程 ===== -->
+<div class="slide" id="L2">
+  <h2><span class="num">2</span> AI编程 · 从零到一</h2>
+
+  <h3>主流AI编程工具对比</h3>
+  <table>
+    <tr><th>工具</th><th>定位</th><th>适合场景</th><th>上手难度</th></tr>
+    <tr><td>Claude Code</td><td>AI编程代理（深度）</td><td>复杂项目、全栈开发、Agent编排</td><td>中高</td></tr>
+    <tr><td>Cursor</td><td>AI原生IDE</td><td>日常编码、Tab补全、多文件编辑</td><td>低</td></tr>
+    <tr><td>Windsurf</td><td>AI原生IDE</td><td>Cascade模式、自动调试修复</td><td>低</td></tr>
+    <tr><td>GitHub Copilot</td><td>AI编程助手</td><td>代码补全、内联建议</td><td>低</td></tr>
+    <tr><td>OpenClaw</td><td>AI编程代理（新颖）</td><td>开源、终端原生、Python优先</td><td>中</td></tr>
+  </table>
+
+  <div class="callout cyan">
+    <strong>教学建议：</strong>对青少年商科教育，推荐先从Cursor/Windsurf开始（低门槛、有GUI），进阶后引入Claude Code（更高效率、更强Agent能力）。
+  </div>
+
+  <h3>教育场景应用</h3>
+  <div class="grid-2">
+    <div class="tool-card" style="border-left-color:#7c5cfc;">
+      <div class="title">AI编程 × 学生</div>
+      <div class="desc">学生可以用自然语言描述一个商业创意的功能，AI直接生成代码原型。不需要会编程，也能做技术验证。适合ICC竞赛中的AI原型搭建。</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#2e86c1;">
+      <div class="title">AI编程 × 教师</div>
+      <div class="desc">教师用AI编程快速制作课件、搭建教学演示平台、自动化作业批改。效率提升10倍以上。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L3 AI内容创作 ===== -->
+<div class="slide" id="L3">
+  <h2><span class="num">3</span> AI内容创作</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握AI图像、音乐、视频生成工具的使用场景，能够在教学中设计创意类课程活动。
+  </div>
+
+  <h3>AI图像生成</h3>
+  <table>
+    <tr><th>工具</th><th>风格</th><th>适合场景</th><th>价格</th></tr>
+    <tr><td>Midjourney v7</td><td>艺术级</td><td>海报设计、概念图、产品设计稿</td><td>$10-60/月</td></tr>
+    <tr><td>DALL·E 3 (ChatGPT)</td><td>精准</td><td>教学插图、方案配图</td><td>ChatGPT Plus $20</td></tr>
+    <tr><td>豆包/通义万相</td><td>本土化</td><td>中文风格、国风设计</td><td>免费/低价</td></tr>
+    <tr><td>Seedream (火山引擎)</td><td>高质量</td><td>商业级海报、产品渲染</td><td>按量计费</td></tr>
+  </table>
+
+  <h3>AI音乐与视频</h3>
+  <div class="grid-2">
+    <div class="tool-card" style="border-left-color:#ff6b9d;">
+      <div class="title">音乐生成</div>
+      <div class="desc">Suno v4 / UDIO：用文字描述"一首关于环保的青少年嘻哈"，AI生成完整歌曲。适合学生项目宣传曲、路演背景音乐。</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#ff6b9d;">
+      <div class="title">视频生成</div>
+      <div class="desc">Sora / Runway / 可灵：文字→视频/AI剪辑。适合路演视频制作、产品演示视频、项目宣传片。</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>教学场景：</strong>"一日创造营"中用AI绘画设计品牌Logo + 用Suno做品牌广告曲 + 用Runway做产品宣传片——一天做出一个完整的品牌方案。
+  </div>
+</div>
+
+<!-- ===== L4 AI数据分析 ===== -->
+<div class="slide" id="L4">
+  <h2><span class="num">4</span> AI数据分析</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>了解AI数据分析工具如何应用于市场调研、商业决策和教学评估。
+  </div>
+
+  <h3>核心工具</h3>
+  <div class="grid-2">
+    <div class="tool-card" style="border-left-color:#2e86c1;">
+      <div class="title">Julius AI</div>
+      <div class="desc">专业数据分析工具，上传CSV用自然语言分析。适合：市场调研数据分析、学生项目数据可视化、用户调研问卷分析。</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#2e86c1;">
+      <div class="title">ChatGPT 高级数据分析</div>
+      <div class="desc">内置Code Interpreter，可处理多种数据格式。适合：快速探索性分析、生成图表、数据清洗。</div>
+    </div>
+  </div>
+
+  <h3>商科教育应用</h3>
+  <div class="diagram">
+<pre>场景                          传统方法                  AI方法
+─────  ──────────────────────  ──────────────────────────────────
+市场调研   手动收集+Excel分析        AI自动抓取数据+自然语言分析+可视化
+竞品分析   耗时数天阅读竞品资料         AI 5分钟输出竞品对比分析报告
+用户调研   设计问卷→发放→手动统计      AI生成问卷→自动收集→智能分析
+财务预测   手动搭建财务模型             AI辅助搭建现金流预测模型
+商业演示   做PPT数小时                AI从数据一键生成演示文稿</pre>
+  </div>
+</div>
+
+<!-- ===== L5 AI办公 ===== -->
+<div class="slide" id="L5">
+  <h2><span class="num">5</span> AI办公效率</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握AI办公工具在教学管理、课件制作、家校沟通中的效率提升方法。
+  </div>
+
+  <div class="grid-3">
+    <div class="tool-card" style="border-left-color:#27ae60;">
+      <div class="title">飞书AI</div>
+      <div class="desc">会议纪要自动生成+AI知识库问答+文档智能写作，团队协作效率提升</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#27ae60;">
+      <div class="title">Gamma / Napkin</div>
+      <div class="desc">一句话生成PPT/Napkin自动可视化，课件制作从小时到分钟</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#27ae60;">
+      <div class="title">沉浸式翻译</div>
+      <div class="desc">双语对照阅读英文资料，AI辅助理解国际赛事规则、学术论文</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#27ae60;">
+      <div class="title">飞书MCP</div>
+      <div class="desc">飞书API通过MCP与AI工具打通，批量处理审批、文档更新</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#27ae60;">
+      <div class="title">Claude MCP</div>
+      <div class="desc">AI工具集成标准协议，打通飞书/数据库/代码仓库的自动化链路</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#27ae60;">
+      <div class="title">AI搜索</div>
+      <div class="desc">Perplexity/纳米搜索/360AI，实时联网的AI搜索替代传统搜索引擎</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L6 AI智能体 ===== -->
+<div class="slide" id="L6">
+  <h2><span class="num">6</span> AI智能体（Agent）</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解AI智能体的概念和在商科教育中的应用，掌握无代码智能体搭建的基本方法。
+  </div>
+
+  <h3>智能体平台对比</h3>
+  <table>
+    <tr><th>平台</th><th>定位</th><th>适合</th><th>特点</th></tr>
+    <tr><td>Coze (扣子)</td><td>AI Bot搭建平台</td><td>初学者、快速搭建</td><td>零代码、插件丰富、国内可用</td></tr>
+    <tr><td>豆包 (字节)</td><td>AI助手+Agent</td><td>日常使用、轻量Agent</td><td>微信集成、知识库管理</td></tr>
+    <tr><td>Dify</td><td>开源AI应用平台</td><td>开发者、定制化需求</td><td>开源、可自部署、灵活</td></tr>
+    <tr><td>Paperclip</td><td>零人工公司操作系统</td><td>高级用户、企业级</td><td>Agent编排、多层治理、预算控制</td></tr>
+  </table>
+
+  <div class="callout cyan">
+    <strong>教学核心：</strong>AI智能体是ICC竞赛的"秘密武器"——学生可以用Coze零代码搭建一个AI助手，作为项目的核心原型。相比传统APP或网页，AI智能体搭建快、技术感强、评委容易理解。
+  </div>
+
+  <h3>教育场景智能体示例</h3>
+  <div class="grid-3">
+    <div class="tool-card" style="border-left-color:#f6c842;">
+      <div class="title">AI学习教练</div>
+      <div class="desc">知识库+对话能力。适合：一对一辅导、知识点问答、作业辅助。</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#f6c842;">
+      <div class="title">AI情绪陪伴</div>
+      <div class="desc">情感识别+正向引导。适合：青少年心理支持、压力管理。（ICC选题方向）</div>
+    </div>
+    <div class="tool-card" style="border-left-color:#f6c842;">
+      <div class="title">AI社区助手</div>
+      <div class="desc">信息查询+事务处理。适合：社区服务、环保分类、老人关怀（ICC选题方向）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L7 Paperclip ===== -->
+<div class="slide" id="L7">
+  <h2><span class="num">7</span> Paperclip · 零人工公司操作系统</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>了解Paperclip平台的核心理念——什么是"零人工公司"，以及它在商科教育中的启发价值。
+  </div>
+
+  <h3>什么是Paperclip？</h3>
+  <p>Paperclip是一个开源（MIT协议）的AI Agent编排平台，定位为<strong>"零人工公司"的操作系统</strong>。它让你可以招募、管理和编排AI智能体团队，在最小人工干预下运营一家"企业"。</p>
+
+  <div class="diagram">
+<pre>旧模式：人 → 指挥 → AI Agent（一对一）
+
+新模式：人 → 设定目标 → Paperclip（公司）→ 管理 → AI Agent 团队（多对多）</pre>
+  </div>
+
+  <h3>零人工公司的组织架构</h3>
+  <table>
+    <tr><th>角色</th><th>传统公司</th><th>零人工公司</th></tr>
+    <tr><td>CEO</td><td>人类</td><td>AI Agent</td></tr>
+    <tr><td>CTO</td><td>人类</td><td>AI Agent</td></tr>
+    <tr><td>工程师</td><td>人类</td><td>AI Agent（Claude Code / Codex）</td></tr>
+    <tr><td>运营</td><td>人类</td><td>AI Agent</td></tr>
+    <tr><td>董事会</td><td>投资人</td><td>你（人类）</td></tr>
+  </table>
+
+  <h3>教育价值</h3>
+  <div class="grid-2">
+    <div class="callout blue">
+      <strong>商业思维启蒙：</strong>通过"零人工公司"的概念，学生可以理解企业组织架构、角色分工、预算管理、KPI考核等商业基础知识。
+    </div>
+    <div class="callout green">
+      <strong>升维思考：</strong>"如果AI可以承担所有执行工作，人的价值在哪里？"——引导学生思考：战略决策、创意方向、价值判断才是人类的核心竞争力。
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h4>课堂练习：设计你的"零人工公司"</h4>
+    <ol>
+      <li>选一个你感兴趣的商业创意（如：AI环保助手）</li>
+      <li>画出这家公司需要哪些角色（CEO/CTO/运营/市场...）</li>
+      <li>哪些角色可以用AI承担？哪些必须由人来完成？</li>
+      <li>用AI工具（Claude/Coze）来生成这家公司的"组织架构图"</li>
+    </ol>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>心光AI科创 · AI工具全景实战指南 | 杨辉 Ken Yang · AI摆渡人</p>
+  <p><a href="../../index.html">← 返回教练首页</a></p>
+</div>
+
+</body>
+</html>

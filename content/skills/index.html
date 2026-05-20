@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI技能生态 · 杨辉 Ken Yang | AI 摆渡人</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7c5cfc; --primary-light: #9b7fff; --gold: #f6c842; --accent-pink: #ff6b9d;
+  --text-primary: #1a1a2e; --text-secondary: #555; --card-bg: #fff; --section-bg: #f5f7fa;
+  --radius: 16px; --shadow: 0 1px 8px rgba(0,0,0,0.04); --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:var(--section-bg); color:var(--text-primary); line-height:1.8; }
+header {
+  background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+header::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.04) 0%,transparent 50%);
+  pointer-events:none;
+}
+header .badge {
+  display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20);
+  color:var(--gold); padding:5px 20px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+header h1 span { background:linear-gradient(135deg,var(--primary-light),var(--accent-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+header .sub { font-size:1em; font-weight:300; color:rgba(255,255,255,0.6); margin-top:8px; }
+.container { max-width:1000px; margin:0 auto; padding:28px 20px; }
+.section { background:var(--card-bg); border-radius:var(--radius); padding:32px 36px; margin-bottom:22px; box-shadow:var(--shadow); }
+.section h2 { font-size:1.25em; font-weight:800; padding-bottom:10px; border-bottom:3px solid var(--primary); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.section h3 { font-size:1.1em; font-weight:700; color:#2c3e50; margin:24px 0 12px; padding-bottom:6px; border-bottom:1px solid #eef0f2; }
+.section h4 { font-size:0.95em; font-weight:600; color:#555; margin:18px 0 8px; }
+.section p { font-size:14px; color:var(--text-secondary); margin-bottom:10px; line-height:1.9; }
+.section ul, .section ol { padding-left:20px; margin-bottom:10px; }
+.section li { font-size:14px; color:var(--text-secondary); margin-bottom:4px; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-3 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-3 { grid-template-columns:1fr; } }
+.card {
+  background:#f8f9fa; border-radius:12px; padding:16px 18px;
+  border:1px solid #eef0f2; transition:all .2s;
+}
+.card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.06); transform:translateY(-1px); }
+.card .tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; margin-bottom:6px; }
+.card .tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.card .tag-green { background:#e8f8f0; color:#27ae60; }
+.card .tag-blue { background:#eaf2f8; color:#2e86c1; }
+.card .tag-gold { background:#fef9e7; color:#d4a017; }
+.card .tag-red { background:#fdecea; color:#e74c3c; }
+.card .tag-cyan { background:#e8f8f8; color:#008a8a; }
+.card .title { font-weight:700; font-size:14px; margin-bottom:4px; color:var(--text-primary); }
+.card .desc { font-size:12px; color:#666; line-height:1.6; }
+.card .links { margin-top:8px; font-size:13px; }
+.card .links a { color:var(--primary); text-decoration:none; font-weight:500; }
+.card .links a:hover { text-decoration:underline; }
+.card.border-purple { border-left:4px solid var(--primary); }
+.card.border-blue { border-left:4px solid #2e86c1; }
+.card.border-green { border-left:4px solid #27ae60; }
+.card.border-gold { border-left:4px solid var(--gold); }
+.card.border-red { border-left:4px solid #e74c3c; }
+.card.border-cyan { border-left:4px solid #00c8c8; }
+.callout {
+  border-radius:10px; padding:14px 18px; margin:14px 0; font-size:14px; border-left:4px solid;
+}
+.callout.purple { background:#f0e6f6; border-color:var(--primary); }
+.callout.blue { background:#eaf2f8; border-color:#2e86c1; }
+.callout.green { background:#e8f8f0; border-color:#27ae60; }
+.callout.gold { background:#fef9e7; border-color:var(--gold); }
+.back { text-align:center; padding:20px 0; }
+.back a { color:var(--primary); text-decoration:none; font-weight:500; font-size:14px; }
+.back a:hover { text-decoration:underline; }
+.tag-sm { display:inline-block; font-size:11px; padding:1px 8px; border-radius:8px; font-weight:600; margin:1px 2px; }
+.tag-sm.sys { background:#eaf2f8; color:#2e86c1; }
+.tag-sm.import { background:#e8f8f0; color:#27ae60; }
+.tag-sm.gen { background:#f0e6f6; color:#7c5cfc; }
+.stat-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin:16px 0; }
+.stat-item { text-align:center; padding:16px 10px; background:#f8f9fa; border-radius:10px; border:1px solid #eef0f2; }
+.stat-item .num { font-size:28px; font-weight:900; }
+.stat-item .lbl { font-size:12px; color:#888; }
+.stats-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:640px){ .stats-grid { grid-template-columns:1fr; } }
+footer { text-align:center; color:#aaa; font-size:13px; padding:20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ AI技能生态研究</div>
+  <h1>Claude Code · <span>Skill 全景分析</span></h1>
+  <div class="sub">基于 Claude Code 可用技能的系统性研究 —— 内置系统Skill · 导入知识库 · 生成式技能</div>
+</header>
+
+<div class="container">
+
+  <!-- 总览 -->
+  <div class="section">
+    <h2>总览</h2>
+    <p>Claude Code 的 Skill 系统是一个可扩展的 AI 能力框架。每个 Skill 封装了特定领域的知识、提示词模板和工具调用逻辑。以下是全面分析：</p>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="num" style="color:#2e86c1;">60+</div>
+        <div class="lbl">总技能数</div>
+      </div>
+      <div class="stat-item">
+        <div class="num" style="color:#27ae60;">12</div>
+        <div class="lbl">导入知识库</div>
+      </div>
+      <div class="stat-item">
+        <div class="num" style="color:#7c5cfc;">17</div>
+        <div class="lbl">飞书办公套件</div>
+      </div>
+      <div class="stat-item">
+        <div class="num" style="color:#d4a017;">10</div>
+        <div class="lbl">AI创作设计</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 大分类 -->
+  <div class="section">
+    <h2>一、系统内置 · 平台能力</h2>
+    <p>Claude Code 原生集成的平台级 Skill，涵盖浏览器、扫描、更新、自我进化等基础设施。</p>
+    <div class="grid-2">
+      <div class="card border-blue">
+        <span class="tag tag-blue" style="float:right">系统</span>
+        <div class="title">agent-browser</div>
+        <div class="desc">浏览器自动化操作能力——网页导航、内容提取、交互执行。可用于自动化测试、数据采集等场景。</div>
+      </div>
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">系统</span>
+        <div class="title">skill-scanner</div>
+        <div class="desc">安全审计工具——扫描 Clawdbot 和 MCP 技能中的恶意软件、间谍软件、加密矿工等可疑代码模式。</div>
+      </div>
+      <div class="card border-blue">
+        <span class="tag tag-blue" style="float:right">系统</span>
+        <div class="title">update-skills</div>
+        <div class="desc">技能更新与同步管理——维护本地 Skills 与远程源的一致性。</div>
+      </div>
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">系统</span>
+        <div class="title">self-evolving-skill</div>
+        <div class="desc">自我进化技能——可以在使用中根据反馈自动优化自身行为模式。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 飞书办公套件 -->
+  <div class="section">
+    <h2>二、飞书办公套件 · Lark Suite</h2>
+    <p>17个深度集成的飞书 API Skill，覆盖企业协作全场景。以 lark- 为前缀命名，按功能分为三大集群：</p>
+
+    <h3>🔹 审批与流程</h3>
+    <div class="grid-2">
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-approval</div><div class="desc">审批实例、审批任务全生命周期管理。创建、查询、审批流转。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-attendance</div><div class="desc">考勤数据查询与管理——排班、打卡、请假、统计。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-task</div><div class="desc">任务管理——创建、分配、追踪、完成。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-vc</div><div class="desc">视频会议管理——预约、参会、录制、纪要。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-workflow-meeting-summary</div><div class="desc">会议纪要工作流——自动生成和分发会议摘要。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-workflow-standup-report</div><div class="desc">站会报告工作流——自动收集和汇总团队成员每日进展。</div></div>
+    </div>
+
+    <h3>🔹 内容与文档</h3>
+    <div class="grid-2">
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-doc</div><div class="desc">飞书文档（v2）：创建、读取、更新（8种指令）、图片上传、全文搜索。DocxXML/Markdown双格式支持。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-sheets</div><div class="desc">电子表格操作——读写数据、管理Sheet、格式化。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-slides</div><div class="desc">幻灯片管理——创建、编辑、排版演示文稿。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-markdown</div><div class="desc">Markdown 内容导入导出与转换——与其他文档格式互转。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-minutes</div><div class="desc">飞书妙记——会议录音转文字、智能摘要、关键词提取。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-whiteboard</div><div class="desc">飞书白板——可视化协作白板的创建、编辑、共享。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-wiki</div><div class="desc">知识库——Wiki 空间管理、页面编辑、权限控制。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-base</div><div class="desc">多维表格——类似 Notion/ Airtable 的数据库式电子表格。</div></div>
+    </div>
+
+    <h3>🔹 通讯与联系人</h3>
+    <div class="grid-2">
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-im</div><div class="desc">即时通讯——消息发送、群组管理、机器人交互。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-mail</div><div class="desc">邮件收发——读写邮件、管理附件、组织通讯。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-contact</div><div class="desc">联系人管理——组织架构、部门、人员信息查询。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-event</div><div class="desc">事件订阅与推送——Webhook 集成、事件驱动开发。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-calendar</div><div class="desc">日历管理——日程创建、查询、共享、提醒。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-drive</div><div class="desc">云盘文件管理——上传、下载、分享、版本管理。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-okr</div><div class="desc">OKR 目标管理——目标制定、对齐、进度追踪、复盘。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-openapi-explorer</div><div class="desc">OpenAPI 探索器——飞书开放接口的交互式探索和测试工具。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-shared</div><div class="desc">共享空间——跨团队的资源协作与共享管理。</div></div>
+      <div class="card"><span class="tag tag-blue" style="float:right">lark</span><div class="title">lark-skill-maker</div><div class="desc">Skill 创建工具——可视化方式自定义和生成飞书 Skill。</div></div>
+    </div>
+  </div>
+
+  <!-- AI创作与设计 -->
+  <div class="section">
+    <h2>三、AI创作与设计 · 内容生成</h2>
+    <p>覆盖从图片生成、设计、文章插图到公众号发布的完整内容创作链路。</p>
+
+    <h3>🔹 宝玉技能套件 · baoyu-*</h3>
+    <div class="grid-2">
+      <div class="card border-purple"><span class="tag tag-purple" style="float:right">AI创作</span><div class="title">baoyu-article-illustrator</div><div class="desc">文章插图生成——根据文章内容智能配图，风格匹配，提升阅读体验。</div></div>
+      <div class="card border-green"><span class="tag tag-green" style="float:right">AI创作</span><div class="title">baoyu-image-gen</div><div class="desc">AI 图片生成——基于提示词的通用图片生成能力。</div></div>
+      <div class="card border-blue"><span class="tag tag-blue" style="float:right">AI创作</span><div class="title">baoyu-cover-image</div><div class="desc">封面图生成——为文章、课程、社交媒体等生成封面。</div></div>
+      <div class="card border-gold"><span class="tag tag-gold" style="float:right">AI创作</span><div class="title">baoyu-compress-image</div><div class="desc">图片压缩优化——在不影响视觉质量的前提下减小图片体积。</div></div>
+      <div class="card border-purple"><span class="tag tag-purple" style="float:right">AI创作</span><div class="title">baoyu-markdown-to-html</div><div class="desc">Markdown → HTML 转换——快速将文档格式化为网页。</div></div>
+      <div class="card border-cyan"><span class="tag tag-cyan" style="float:right">AI创作</span><div class="title">baoyu-slide-deck</div><div class="desc">AI 幻灯片生成——自动生成演示文稿。</div></div>
+      <div class="card border-red"><span class="tag tag-red" style="float:right">AI创作</span><div class="title">baoyu-url-to-markdown</div><div class="desc">URL → Markdown——将网页内容抓取并转换为结构化 Markdown。</div></div>
+      <div class="card border-gold"><span class="tag tag-gold" style="float:right">AI创作</span><div class="title">baoyu-post-to-wechat</div><div class="desc">发布到微信公众号——AI 排版后一键发布至公众号。</div></div>
+      <div class="card border-purple"><span class="tag tag-purple" style="float:right">AI创作</span><div class="title">baoyu-xhs-images</div><div class="desc">小红书图片生成——适配小红书平台的图片规格与风格。</div></div>
+    </div>
+
+    <h3>🔹 专业设计工具</h3>
+    <div class="grid-2">
+      <div class="card"><span class="tag tag-purple" style="float:right">设计</span><div class="title">design-image-studio</div><div class="desc">设计级 AI 图片生成——海报、产品视觉、PPT插图、信息图、活动主视觉。基于 Seedream 模型，结构化设计简报。</div></div>
+      <div class="card"><span class="tag tag-cyan" style="float:right">设计</span><div class="title">high-density-infographic</div><div class="desc">高密度信息大图生成——将复杂信息浓缩为单张大图的专业信息图生成器。</div></div>
+      <div class="card"><span class="tag tag-purple" style="float:right">设计</span><div class="title">canvas-design</div><div class="desc">画布设计工具——可视化画布布局、模板设计。</div></div>
+      <div class="card"><span class="tag tag-gold" style="float:right">设计</span><div class="title">html-ppt-skill</div><div class="desc">HTML 转 PPT——将 HTML 内容转换为 PowerPoint 演示文稿。</div></div>
+    </div>
+
+    <h3>🔹 AI 绘画与视频</h3>
+    <div class="grid-2">
+      <div class="card border-purple"><span class="tag tag-purple" style="float:right">绘画</span><div class="title">mxai / mxai-skill</div><div class="desc">聚合多模型 AI 绘画和视频生成平台。支持 MJ (MidJourney)、SD 等多种模型一站式使用。</div></div>
+    </div>
+  </div>
+
+  <!-- 认知决策 -->
+  <div class="section">
+    <h2>四、认知与决策 · 思维工具</h2>
+    <p>覆盖深度思考、决策分析、预验尸、多引擎搜索等高级认知能力。</p>
+    <div class="grid-2">
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">深度</span>
+        <div class="title">cognitive-deep-dive</div>
+        <div class="desc">认知深度挖掘——对复杂问题进行多层次、多角度深度分析，直击本质。</div>
+      </div>
+      <div class="card border-blue">
+        <span class="tag tag-blue" style="float:right">决策</span>
+        <div class="title">decision-coach</div>
+        <div class="desc">决策教练——结构化决策分析。权衡利弊、风险评估、多方案比较，辅助做出高质量决策。</div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red" style="float:right">预判</span>
+        <div class="title">premortem</div>
+        <div class="desc">预验尸（Premortem）——在项目/计划开始前，"假设已经失败"来分析潜在风险。逆向思维工具。</div>
+      </div>
+      <div class="card border-cyan">
+        <span class="tag tag-cyan" style="float:right">搜索</span>
+        <div class="title">multi-search-engine</div>
+        <div class="desc">多引擎搜索——同时查询多个搜索引擎，聚合结果，提供更全面的信息检索。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMA知识库 -->
+  <div class="section">
+    <h2>五、IMA 知识库 · 腾讯智能助手</h2>
+    <p>腾讯 IMA（智能助手）系列 Skill——将 IMA 知识库与 AI Agent 深度集成，实现知识检索与问答。</p>
+    <div class="grid-2">
+      <div class="card"><span class="tag tag-gold" style="float:right">IMA</span><div class="title">ima-skill</div><div class="desc">IMA 知识库通用接口——检索、问答、知识管理。</div></div>
+      <div class="card"><span class="tag tag-gold" style="float:right">IMA</span><div class="title">ima-skill-136</div><div class="desc">IMA 知识库专项 #136——面向特定知识领域的专项检索。</div></div>
+      <div class="card"><span class="tag tag-gold" style="float:right">IMA</span><div class="title">ima-skill-180</div><div class="desc">IMA 知识库专项 #180——面向特定知识领域的专项检索。</div></div>
+      <div class="card"><span class="tag tag-gold" style="float:right">IMA</span><div class="title">ima-skill-189</div><div class="desc">IMA 知识库专项 #189——面向特定知识领域的专项检索。</div></div>
+    </div>
+  </div>
+
+  <!-- 自定义知识库 -->
+  <div class="section">
+    <h2>六、🗂️ 导入知识库 · Imported Skills</h2>
+    <p>从 GitHub 等来源导入的知识型 Skill。以经典著作、思想体系为核心，覆盖国学经典、投资智慧、商业方法论、心智教育四大领域。<strong>这是本教练在实践中重点使用和研究的技能集合。</strong></p>
+
+    <div class="callout purple">
+      <strong>研究价值：</strong>这些导入的知识库将人类经典智慧转化为 AI 可调用的结构化技能，是"AI 时代知识传承"的最佳实践。每个知识库对应一个完整的思维体系。
+    </div>
+
+    <h3>📚 国学经典 · 东方智慧</h3>
+    <div class="grid-2">
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">经典</span>
+        <div class="title">黄帝内经</div>
+        <div class="desc">huangdi-neijing-skill —— 中医经典《素问》《灵枢》的智慧。整体观念、阴阳平衡、五行生克、脏腑经络。中医辨证论治的源头。</div>
+        <div class="links"><a href="https://github.com/topics/huangdi-neijing" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">经典</span>
+        <div class="title">庄子 (book2startup)</div>
+        <div class="desc">《庄子》完整解读——逍遥游、齐物论、养生主等内篇精髓，以及外篇杂篇要义。道法自然、无用之用的东方智慧。</div>
+        <div class="links"><a href="https://github.com/glow2024/book2startup" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">经典</span>
+        <div class="title">易经 (book2startup)</div>
+        <div class="desc">《周易》六十四卦解读——变易、简易、不易三原则。阴阳爻变、卦象推演、时位应对思维。</div>
+        <div class="links"><a href="https://github.com/glow2024/book2startup" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">经典</span>
+        <div class="title">菜根谭 (book2startup)</div>
+        <div class="desc">明代洪应明处世智慧——儒释道三家融合的修身养性、为人处世之道。"菜根"喻意为淡泊中品味人生真味。</div>
+        <div class="links"><a href="https://github.com/glow2024/book2startup" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">经典</span>
+        <div class="title">孙子兵法 (book2startup)</div>
+        <div class="desc">《孙子兵法》十三篇——不战而屈人之兵、知己知彼、避实击虚等战略思想。商业竞争与人生博弈的底层智慧。</div>
+        <div class="links"><a href="https://github.com/glow2024/book2startup" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">经典</span>
+        <div class="title">达尔文</div>
+        <div class="desc">达尔文进化论思维——自然选择、适者生存、演化博弈。用进化思维理解商业、组织和社会系统的演化规律。</div>
+      </div>
+    </div>
+
+    <h3>💰 投资智慧 · 价值投资经典</h3>
+    <div class="grid-2">
+      <div class="card border-green">
+        <span class="tag tag-green" style="float:right">投资</span>
+        <div class="title">段永平 (duan-yongping-skill)</div>
+        <div class="desc">段永平商业与投资哲学。本分、平常心、敢为天下后。从步步高到OPPO/vivo，从投资网易到苹果的实战智慧。含 business-logic 和 investment-logic 两个子模块。</div>
+        <div class="links"><a href="https://github.com/topics/duan-yongping" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-green">
+        <span class="tag tag-green" style="float:right">投资</span>
+        <div class="title">巴菲特致股东信 (buffett-letters-skill)</div>
+        <div class="desc">沃伦·巴菲特历年致伯克希尔股东信精要。价值投资核心理念——护城河、安全边际、能力圈、市场先生、长期主义。含Aesop三问、商业筛选、CEO风控等子模块。</div>
+      </div>
+      <div class="card border-green">
+        <span class="tag tag-green" style="float:right">投资</span>
+        <div class="title">穷查理宝典 (poor-charlies-almanack-skill)</div>
+        <div class="desc">查理·芒格的多元思维模型体系。逆向思维、检查清单、能力圈、人类误判心理学、Lollapalooza效应。含演讲稿精要与25个思维模型。</div>
+      </div>
+      <div class="card border-green">
+        <span class="tag tag-green" style="float:right">投资</span>
+        <div class="title">缠论 (chanlun-skills)</div>
+        <div class="desc">缠中说禅技术分析理论体系。包含走势结构解析(笔/段/中枢)、多级别联立、买卖点识别、背离诊断。6个子技能覆盖完整分析框架。</div>
+        <div class="links"><a href="content/skills/chanlun-overview.html" target="_blank">本地研究笔记 →</a></div>
+      </div>
+    </div>
+
+    <h3>🏗️ 商业方法论</h3>
+    <div class="grid-2">
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">创业</span>
+        <div class="title">从书到创业 (book2startup)</div>
+        <div class="desc">将经典理论转化为创业实践的完整方法论。核心模块：精益创业skills（MVP-验证-迭代）、ScalingUp-skills（四大维度规模化）。</div>
+        <div class="links"><a href="https://github.com/glow2024/book2startup" target="_blank">GitHub →</a></div>
+      </div>
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">思维</span>
+        <div class="title">第一性原理 (first-principles-skill)</div>
+        <div class="desc">马斯克推崇的第一性原理方法论。公理化思维(欧几里得/阿基米德)、边界创新(熊彼特/克里斯坦森)、逆向决策、思维模型重组。从亚里士多德到量子物理的思维进化。</div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red" style="float:right">战略</span>
+        <div class="title">毛泽东选集 (mao-selected-works-skill)</div>
+        <div class="desc">毛泽东战略思想——辩证平衡、不对称战略(以弱胜强)、实事求是、群众路线、矛盾论、实践论。含战略分析、组织管理、竞争策略子模块。</div>
+      </div>
+    </div>
+
+    <h3>🧠 心智教育与身心健康</h3>
+    <div class="grid-2">
+      <div class="card border-cyan">
+        <span class="tag tag-cyan" style="float:right">心智</span>
+        <div class="title">包丰源视角 (baofengyuan-perspective)</div>
+        <div class="desc">包丰源"心想事成"心智能量体系。18本书 + 19个Skill → 四圈层框架。思想→情绪→能量→物质现实的转化逻辑。霍金斯能量层级完整应用。</div>
+        <div class="links"><a href="content/research/包丰源心智能量体系-心想事成.md" target="_blank">研究笔记 →</a></div>
+      </div>
+      <div class="card border-cyan">
+        <span class="tag tag-cyan" style="float:right">视角</span>
+        <div class="title">女娲</div>
+        <div class="desc">女娲视角——创造力与转化智慧。"补天精神"：修复与创造并重。适用于创新思维的启发与引导。</div>
+      </div>
+      <div class="card border-green">
+        <span class="tag tag-green" style="float:right">视角</span>
+        <div class="title">李善友视角 (li-shanyou-perspective)</div>
+        <div class="desc">混沌学园创始人李善友——第二曲线、分形创新、组合进化、底层思维。混沌创新理论体系的AI化表达。</div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">视角</span>
+        <div class="title">赵周拆书视角 (zhaozhou-chaishu-perspective)</div>
+        <div class="desc">拆书帮创始人赵周——RIA (阅读-拆解-应用) 拆书法。将知识转化为能力的方法论。</div>
+      </div>
+      <div class="card">
+        <span class="tag tag-purple" style="float:right">其他</span>
+        <div class="title">ljg-card</div>
+        <div class="desc">刘建刚卡片笔记工具——基于卡片盒笔记法的知识管理方法。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 专业教育 -->
+  <div class="section">
+    <h2>七、专业领域 · 教育竞赛</h2>
+    <div class="grid-2">
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">核心</span>
+        <div class="title">ICC 全球发明大会辅导 (icc-invention-coach)</div>
+        <div class="desc">教育部白名单赛事"全球发明大会"专业辅导 Skill。覆盖：比赛规则解读、创意激发、发明日志辅导、展板设计、路演答辩准备、全流程项目管理。本教练深度参与并迭代优化。</div>
+        <div class="links"><a href="content/courses/爱创营-AI智能体研学竞赛营-优化版.md" target="_blank">配套课程 →</a> <a href="content/courseware/cw-02-ICC全球发明大会辅导体系.html" target="_blank">课件 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 生成式技能 -->
+  <div class="section">
+    <h2>八、生成式技能 · Generated Skills</h2>
+    <p>通过 AI Agent（Claude Code / MiniMax / ChatGPT 等）辅助生成或自动生成的技能，体现"用AI创造AI工具"的理念。</p>
+
+    <div class="callout blue">
+      <strong>核心理念：</strong>AI 技能本身可以被 AI 生成。这意味着知识传承可以进入"自指"的加速循环——人类提供智慧和经验，AI 将其结构化、工具化、可调用化。
+    </div>
+
+    <div class="grid-2">
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">工具</span>
+        <div class="title">git-auto-website</div>
+        <div class="desc">Git 自动建站 Skill——将 git 仓库自动部署为网站。实现"push即发布"的工作流。</div>
+      </div>
+      <div class="card border-blue">
+        <span class="tag tag-blue" style="float:right">笔记</span>
+        <div class="title">getnote · summarize · para-pkm · llm-wiki</div>
+        <div class="desc">知识管理四件套：getnote（抓取笔记）→ summarize（智能摘要）→ para-pkm（个人知识管理）→ llm-wiki（LLM赋能Wiki）。形成从采集到组织的知识闭环。</div>
+      </div>
+      <div class="card border-cyan">
+        <span class="tag tag-cyan" style="float:right">OCR</span>
+        <div class="title">openai-whisper</div>
+        <div class="desc">OpenAI Whisper 语音识别集成——音频转文字、会议记录转写、语音指令识别。</div>
+      </div>
+      <div class="card border-purple">
+        <span class="tag tag-purple" style="float:right">API</span>
+        <div class="title">claude-api</div>
+        <div class="desc">Claude API 构建与优化——开发 Anthropic SDK 应用，含提示缓存、批处理、文件、快照等高级功能。</div>
+      </div>
+      <div class="card border-green">
+        <span class="tag tag-green" style="float:right">代码</span>
+        <div class="title">cangjie-skill</div>
+        <div class="desc">仓颉编程语言技能——华为仓颉语言的开发辅助，语法、编译、调试等。</div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red" style="float:right">审查</span>
+        <div class="title">review · security-review · verify · simplify</div>
+        <div class="desc">代码质量四件套：review（代码审查）→ security-review（安全审计）→ verify（功能验证）→ simplify（重构简化）。</div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">配置</span>
+        <div class="title">update-config · keybindings-help · fewer-permission-prompts</div>
+        <div class="desc">Claude Code 配置优化：settings配置、快捷键自定义、权限提示优化。提升开发体验。</div>
+      </div>
+    </div>
+
+    <h3>MiniMax AI Agent 生成页面</h3>
+    <p>通过 MiniMax 空间生成的 18+ 个品牌展示、课程推广与哲学传播页面。详见<a href="content/projects/index.html">项目实践</a>。</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="title">三智能体 · 企业AI转型（6个页面）</div>
+        <div class="desc">道马AI主站、AI企业家沙龙、爱马仕Max、品牌站等——爱·道·量三位一体的企业AI数字员工解决方案。</div>
+        <div class="links"><a href="https://3think.netlify.app/" target="_blank">主站 →</a></div>
+      </div>
+      <div class="card">
+        <div class="title">AI二代传承 · 创造成长（4个页面）</div>
+        <div class="desc">AI未来创造营 v1-v4——从5天5夜沉浸式到五大成果出口，持续迭代的AI教育展示页。</div>
+        <div class="links"><a href="https://8s415sbm8v3p.space.minimaxi.com/" target="_blank">品牌页 →</a></div>
+      </div>
+      <div class="card">
+        <div class="title">道商哲学 · 社会创新（3个页面）</div>
+        <div class="desc">利他共振道商哲学、打坐实证评点v1/v2——用AI呈现东方修行哲学。</div>
+        <div class="links"><a href="https://2aqhxozfv94a.space.minimaxi.com/" target="_blank">道商页 →</a></div>
+      </div>
+      <div class="card">
+        <div class="title">认知科学 · SDG全球议题（2个页面）</div>
+        <div class="desc">好奇心科学、AI三巨头思维、SDG2零饥饿——深度内容AI呈现。</div>
+        <div class="links"><a href="https://ofgs29jisvq2.space.minimaxi.com/" target="_blank">认知页 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 研究总结 -->
+  <div class="section">
+    <h2>研究总结</h2>
+
+    <div class="callout purple">
+      <strong>核心发现：</strong>Claude Code 的 Skill 系统正在重塑知识工作者的能力边界。60+ 个可用技能覆盖了从办公协作到国学智慧、从代码开发到心智教育的全谱系。<br><br>
+      <strong>个人实践：</strong>本教练已导入 12 个知识库（国学经典 + 投资智慧 + 商业方法论 + 心智教育），生成了 18+ 个 AI 展示页面，开发了 5 份 AI 商科课件。技能的"导入"和"生成"本身就是 AI 时代知识工作者的核心能力。
+    </div>
+
+    <div class="stats-grid">
+      <div style="text-align:center;padding:20px 12px;background:#f0e6f6;border-radius:12px;border:1px solid #e0d8f0;">
+        <div style="font-size:32px;font-weight:900;color:#7c5cfc;">60+</div>
+        <div style="font-size:14px;font-weight:600;margin:4px 0;">总可用技能</div>
+        <div style="font-size:12px;color:#888;">覆盖全工作流</div>
+      </div>
+      <div style="text-align:center;padding:20px 12px;background:#e8f8f0;border-radius:12px;border:1px solid #d8eed8;">
+        <div style="font-size:32px;font-weight:900;color:#27ae60;">12</div>
+        <div style="font-size:14px;font-weight:600;margin:4px 0;">导入知识库</div>
+        <div style="font-size:12px;color:#888;">经典→AI结构化</div>
+      </div>
+      <div style="text-align:center;padding:20px 12px;background:#fef9e7;border-radius:12px;border:1px solid #f5eddc;">
+        <div style="font-size:32px;font-weight:900;color:#d4a017;">18+</div>
+        <div style="font-size:14px;font-weight:600;margin:4px 0;">AI生成页面</div>
+        <div style="font-size:12px;color:#888;">MiniMax空间</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back">
+    <a href="../index.html">← 返回教练首页</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>杨辉 Ken Yang · AI 摆渡人 | 道商修行者 | 二代教育传承教练</p>
+  <p style="font-size:12px;color:#ccc;">Skill 生态研究 · 基于 Claude Code 可用技能分析 · © 2026</p>
+</footer>
+
+</body>
+</html>

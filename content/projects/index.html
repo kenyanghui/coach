@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目实践 · 杨辉 Ken Yang | AI 摆渡人</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7c5cfc; --primary-light: #9b7fff; --gold: #f6c842; --accent-pink: #ff6b9d;
+  --text-primary: #1a1a2e; --text-secondary: #555; --card-bg: #fff; --section-bg: #f5f7fa;
+  --radius: 16px; --shadow: 0 1px 8px rgba(0,0,0,0.04); --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:var(--section-bg); color:var(--text-primary); line-height:1.8; }
+header {
+  background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+header::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.04) 0%,transparent 50%);
+  pointer-events:none;
+}
+header .badge {
+  display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20);
+  color:var(--gold); padding:5px 20px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+header h1 span { background:linear-gradient(135deg,var(--primary-light),var(--accent-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+header .sub { font-size:1em; font-weight:300; color:rgba(255,255,255,0.6); margin-top:8px; }
+.container { max-width:1000px; margin:0 auto; padding:28px 20px; }
+.section { background:var(--card-bg); border-radius:var(--radius); padding:32px 36px; margin-bottom:22px; box-shadow:var(--shadow); }
+.section h2 { font-size:1.25em; font-weight:800; padding-bottom:10px; border-bottom:3px solid var(--primary); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.section p { font-size:14px; color:var(--text-secondary); margin-bottom:10px; line-height:1.9; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-3 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-3 { grid-template-columns:1fr; } }
+.card {
+  background:#f8f9fa; border-radius:12px; padding:16px 18px;
+  border:1px solid #eef0f2; transition:all .2s;
+}
+.card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.06); transform:translateY(-1px); }
+.card .tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; margin-bottom:6px; }
+.card .tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.card .tag-green { background:#e8f8f0; color:#27ae60; }
+.card .tag-blue { background:#eaf2f8; color:#2e86c1; }
+.card .tag-gold { background:#fef9e7; color:#d4a017; }
+.card .tag-red { background:#fdecea; color:#e74c3c; }
+.card .tag-cyan { background:#e8f8f8; color:#008a8a; }
+.card .title { font-weight:700; font-size:14px; margin-bottom:4px; color:var(--text-primary); }
+.card .desc { font-size:12px; color:#666; line-height:1.6; }
+.card .links { margin-top:8px; font-size:13px; }
+.card .links a { color:var(--primary); text-decoration:none; font-weight:500; }
+.card .links a:hover { text-decoration:underline; }
+.card.border-purple { border-left:4px solid var(--primary); }
+.card.border-blue { border-left:4px solid #2e86c1; }
+.card.border-green { border-left:4px solid #27ae60; }
+.card.border-gold { border-left:4px solid var(--gold); }
+.card.border-red { border-left:4px solid #e74c3c; }
+.card.border-cyan { border-left:4px solid #00c8c8; }
+.back { text-align:center; padding:20px 0; }
+.back a { color:var(--primary); text-decoration:none; font-weight:500; font-size:14px; }
+.back a:hover { text-decoration:underline; }
+footer { text-align:center; color:#aaa; font-size:13px; padding:20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ 项目实践</div>
+  <h1>AI 生成页面 · <span>MiniMax空间作品集</span></h1>
+  <div class="sub">基于AI Agent（MiniMax）生成的品牌展示、课程推广与哲学传播页面</div>
+</header>
+
+<div class="container">
+
+  <!-- 三智能体 -->
+  <div class="section">
+    <h2>🤖 三智能体 · 企业AI转型（爱·道·量）</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:14px;">基于「爱·道·量」三位一体的企业AI数字员工解决方案 —— 从认知到落地，从工具到组织，从个人到生态。含 Netlify 主站与 MiniMax 旧版。</p>
+    <div class="grid-2">
+      <div class="card" style="border-left:4px solid #e74c3c;">
+        <span class="tag tag-red" style="float:right">主站</span>
+        <div class="title">道马AI · 数字员工一站式平台</div>
+        <div class="desc"><strong>3think.netlify.app</strong> — 三智体（爱·道·量）完整平台。含AI摆渡人洞见、企业转型路径、Agent电脑（设备即服务）、AI科研、课程体系。24/7数字员工持续运行中。</div>
+        <div class="links"><a href="https://3think.netlify.app/" target="_blank">查看主站 →</a></div>
+      </div>
+      <div class="card" style="border-left:4px solid #e74c3c;">
+        <span class="tag tag-red" style="float:right">旧版</span>
+        <div class="title">道马AI · 思考版（MiniMax）</div>
+        <div class="desc"><em>h6elozh7vmeb.space.minimaxi.com</em> — 3think.netlify.app 的早期 MiniMax 生成版本。同一套三智体内容框架的早期呈现形态。</div>
+        <div class="links"><a href="https://h6elozh7vmeb.space.minimaxi.com/" target="_blank">查看旧版 →</a></div>
+      </div>
+      <div class="card" style="border-left:4px solid #3498db;">
+        <span class="tag tag-blue" style="float:right">主站</span>
+        <div class="title">AI企业家沙龙</div>
+        <div class="desc"><strong>3agents.netlify.app</strong> — 1小时企业家AI沙龙专项页面。三个真实场景演示（AI客服/会议纪要/销售跟单）+ 痛点共鸣 + 课程阶梯。限额20人免费预约。</div>
+        <div class="links"><a href="https://3agents.netlify.app/" target="_blank">查看主站 →</a></div>
+      </div>
+      <div class="card" style="border-left:4px solid #2ecc71;">
+        <span class="tag tag-green" style="float:right">主站</span>
+        <div class="title">道马AI · 品牌平台</div>
+        <div class="desc"><strong>daoma.netlify.app</strong> — 数字员工一站式平台。聚焦三智体能力详解（AI获客/策略心智/执行落地）、数字员工概念科普、Agent电脑介绍。从沙龙开始的三阶课程阶梯。</div>
+        <div class="links"><a href="https://daoma.netlify.app/" target="_blank">查看主站 →</a></div>
+      </div>
+      <div class="card" style="border-left:4px solid #9b59b6;">
+        <span class="tag tag-purple" style="float:right">主站</span>
+        <div class="title">爱马仕Max · 企业AI转型方案</div>
+        <div class="desc"><strong>3imax.netlify.app</strong> — 企业AI转型数字员工解决方案。爱(整合)×道(战略)×量(数据)三智体团队。含企业四大痛点分析、解决路径、免费沙龙预约。</div>
+        <div class="links"><a href="https://3imax.netlify.app/" target="_blank">查看主站 →</a></div>
+      </div>
+      <div class="card" style="border-left:4px solid #9b59b6;">
+        <span class="tag tag-purple" style="float:right">旧版</span>
+        <div class="title">爱马仕Max · 业务版（MiniMax）</div>
+        <div class="desc"><em>jdaffot7b0uq.space.minimaxi.com</em> — 3imax.netlify.app 的早期 MiniMax 生成版本。企业AI转型方案的早期呈现形态。</div>
+        <div class="links"><a href="https://jdaffot7b0uq.space.minimaxi.com/" target="_blank">查看旧版 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI教育 -->
+  <div class="section">
+    <h2>🎓 AI 二代传承与商科教育</h2>
+    <div class="grid-2">
+      <div class="card border-purple">
+        <span class="tag tag-purple">品牌页</span>
+        <div class="title">AI 摆渡人 · 二代数智成长</div>
+        <div class="desc">「立德·立业·立本」三大支柱 —— 社会创新+商业创新+量化投资。含方法论图谱、透明承诺、定价体系（三阶¥9,800-¥29,800）。</div>
+        <div class="links"><a href="https://8s415sbm8v3p.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-purple">
+        <span class="tag tag-purple">品牌页</span>
+        <div class="title">道马·杨辉 | AI摆渡人</div>
+        <div class="desc">三位一体身份展示：道商修行者/AI龙虾教练/二代传承教练。核心身份与价值观阐述，信仰基石与课程引导。</div>
+        <div class="links"><a href="https://jol79zp2j1hf.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red">创造营</span>
+        <div class="title">AI未来创造营 v1</div>
+        <div class="desc">5天5夜沉浸式少年创造者计划。从"使用AI"到"创造属于自己的AI世界"，营后赛事陪跑至获奖。国际赛事+科技特长生通道。</div>
+        <div class="links"><a href="https://1vz7wn41uzh9.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red">创造营</span>
+        <div class="title">AI未来创造营 v2</div>
+        <div class="desc">迭代版——五大成果出口：科创赛事/展览展示/学术会议/论文发表/专利申请。国际人工智能产业联盟专项计划。</div>
+        <div class="links"><a href="https://ivkhksnuosc5.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red">创造营</span>
+        <div class="title">AI未来创造营 v3</div>
+        <div class="desc">国际人工智能产业联盟·AI教育专委会专项计划。营后全程陪跑直达五大成果出口，从做项目到成果落地。</div>
+        <div class="links"><a href="https://h704wloqbwca.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-red">
+        <span class="tag tag-red">创造营</span>
+        <div class="title">AI未来创造营 v4</div>
+        <div class="desc">混沌学园·悦洋海外集团(AIIA教育专委会主任单位)出品。5天4夜沉浸式，完整成果出口体系展示。</div>
+        <div class="links"><a href="https://xpi7p7ry0ik2.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 道商哲学 -->
+  <div class="section">
+    <h2>☯ 道商哲学与社会创新</h2>
+    <div class="grid-2">
+      <div class="card border-gold">
+        <span class="tag tag-gold">道商</span>
+        <div class="title">利他共振 · 道商社会创新</div>
+        <div class="desc">最完整的道商哲学页面。敬天爱人·上善若水·共振创造。三大根基（道商修行/SDG17/社会创新名人）、修行六阶段、利他共振模型、SDG17全目标映射、社会创新五步法、龙虾课程体系、三教合一诠释、3Zeros文明愿景。超长深度页面。</div>
+        <div class="links"><a href="https://2aqhxozfv94a.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold">修行</span>
+        <div class="title">打坐实证评点 v1</div>
+        <div class="desc">六阶段完整修行指南——入门筑基→炼精化气→炼气化神→炼神还虚→炼虚合道→悟后起修。基于道藏经典与身体实证相互印证。</div>
+        <div class="links"><a href="https://ctu2x4hiv9b4.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold">修行</span>
+        <div class="title">打坐实证评点 v2</div>
+        <div class="desc">从感受到经典——基于杨辉(宗辉)5日打坐实证，对照道藏经典逐一评点。从筑基到还虚四阶段详解。</div>
+        <div class="links"><a href="https://44t3c4c1ug4g.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 认知科学 -->
+  <div class="section">
+    <h2>🧠 认知科学与AI思维</h2>
+    <div class="grid-2">
+      <div class="card border-blue">
+        <span class="tag tag-blue">心理学</span>
+        <div class="title">好奇心科学 · 丹尼尔·伯莱因</div>
+        <div class="desc">现代好奇心心理学之父。四种好奇类型、倒U曲线、五个冲突变量。理论深度应用于AI课程设计、企业家教练、产品设计。</div>
+        <div class="links"><a href="https://ofgs29jisvq2.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+      <div class="card border-cyan">
+        <span class="tag tag-cyan">AI思维</span>
+        <div class="title">深度蒸馏 · AI三巨头思维操作系统</div>
+        <div class="desc">辛顿/杨立昆/本吉奥——2018图灵奖得主思维对比。辛顿恐惧、杨立昆乐观、本吉奥行动。AI时代企业家心智操作系统。</div>
+        <div class="links"><a href="https://0xrb9c1jz1ro.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SDG -->
+  <div class="section">
+    <h2>🌍 全球可持续发展</h2>
+    <div class="grid-2">
+      <div class="card border-green">
+        <span class="tag tag-green">SDG2</span>
+        <div class="title">SDG 2 零饥饿 · 全球获奖项目汇编</div>
+        <div class="desc">联合国可持续发展目标SDG2专题页面。收录2023-2024全球与中国创新实践，含项目图鉴、获奖项目、WFP创新奖、GIAHS农业遗产等。</div>
+        <div class="links"><a href="https://4yon1fncmjsw.space.minimaxi.com/" target="_blank">查看页面 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back">
+    <a href="../index.html">← 返回教练首页</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>杨辉 Ken Yang · AI 摆渡人 | 道商修行者 | 二代教育传承教练</p>
+  <p style="font-size:12px;color:#ccc;">页面基于 MiniMax AI Agent 生成 · © 2026</p>
+</footer>
+
+</body>
+</html>
