@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI智能体研学课 · 40分钟教学方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; padding:40px 20px; }
+.container { max-width:900px; margin:0 auto; background:#fff; border-radius:16px; padding:40px 44px; box-shadow:0 1px 8px rgba(0,0,0,0.04); }
+h1 { font-size:1.8em; font-weight:900; padding-bottom:12px; border-bottom:3px solid #7c5cfc; margin-bottom:22px; }
+h2 { font-size:1.25em; font-weight:800; color:#1a1a2e; margin:30px 0 12px; padding-bottom:8px; border-bottom:2px solid #7c5cfc; }
+h3 { font-size:1.1em; font-weight:700; color:#2c3e50; margin:22px 0 10px; }
+h4 { font-size:0.95em; font-weight:600; color:#555; margin:16px 0 8px; }
+p { font-size:15px; color:#555; margin-bottom:12px; line-height:1.9; }
+ul, ol { padding-left:22px; margin-bottom:12px; }
+li { font-size:15px; color:#555; margin-bottom:4px; }
+strong { color:#1a1a2e; }
+a { color:#7c5cfc; text-decoration:none; }
+a:hover { text-decoration:underline; }
+blockquote { background:#f0e6f6; border-left:4px solid #7c5cfc; border-radius:8px; padding:14px 18px; margin:14px 0; font-size:14px; color:#555; }
+code { background:#f0e6f6; color:#7c5cfc; padding:2px 8px; border-radius:4px; font-size:13px; }
+pre { background:#f8f9fa; border:1px solid #eef0f2; border-radius:10px; padding:16px; overflow-x:auto; margin:14px 0; }
+pre code { background:none; color:#555; padding:0; }
+hr { border:none; border-top:1px solid #eef0f2; margin:24px 0; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 0; }
+.footer a { color:#7c5cfc; }
+img { max-width:100%; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>AI智能体研学课 · 40分钟教学方案</h1>
+
+<p><strong>适用场景</strong>：公办高中大班授课（40-50人）</p>
+<p><strong>课程定位</strong>：AI协作式研学体验课 / 公益课</p>
+<p><strong>适用年级</strong>：高一及以上</p>
+<p><strong>设计迭代</strong>：基于2026年5月8日广州七中真实课堂成果</p>
+
+<hr>
+
+<h2>一、设计理念</h2>
+
+<h3>核心主张</h3>
+
+<blockquote>不是替代老师，而是让老师插上AI的翅膀。</blockquote>
+
+<h3>三条假设（已被验证）</h3>
+
+<p>| # | 假设 | 七中课堂验证结果 |</p>
+<p>|---|------|-----------------|</p>
+<p>| 1 | 高一学生不需先学AI操作，可以直接用AI创造 | ✅ 40分钟产出7个完整网站 |</p>
+<p>| 2 | 给宏大框架比给具体指令更能激发学生 | ✅ 学生自发产出"称霸地球""制霸宇宙"等创意 |</p>
+<p>| 3 | 建站工具是产出效率的关键杠杆 | ✅ MiniMax space 零门槛建站，学生5分钟上手 |</p>
+
+<h3>老师角色转变</h3>
+
+<pre><code>
+传统课堂：老师讲 → 学生听 → 课后练
+这堂课：  老师设框架 → 学生跟AI共创 → 课堂直接出成果
+</code></pre>
+
+<p>老师在这40分钟里不是"教AI"，而是：</p>
+<ul><li><strong>架构师</strong>：设计课题框架和任务卡</li>
+<li><strong>引导者</strong>：巡场一句话激发学生</li>
+<li><strong>主持人</strong>：把控节奏和展示环节</li>
+</ul>
+<hr>
+
+<h2>二、课前准备清单</h2>
+
+<h3>2.1 技术准备（提前1天完成）</h3>
+
+<p>| 项目 | 说明 | 备注 |</p>
+<p>|------|------|------|</p>
+<p>| <strong>飞书群 × 4个频道</strong> | 建立班级飞书群，创建4个子频道 | 每个频道一个组 |</p>
+<p>| <strong>AI智能体配置</strong> | 每个频道接入1个AI智能体 | 推荐使用能联网搜索+长上下文模型 |</p>
+<p>| <strong>建站模板 × 4</strong> | 在 MiniMax space（或同类工具）创建4个空白网站模板 | 不同配色风格 |</p>
+<p>| <strong>任务卡 × 4</strong> | 打印4张任务卡（见第六部分模板） | A4纸单面打印 |</p>
+<p>| <strong>计时器</strong> | 准备40分钟倒计时大屏 | 用于控制节奏 |</p>
+
+<h3>2.2 分组策略（大班适用）</h3>
+
+<p>40-50人的班级分为 <strong>4个大组</strong>，每组10-12人：</p>
+
+<pre><code>
+组内角色分工（学生自选）：
+┌─────────────────────────────────────┐
+│  👤 提问官（1-2人）                  │
+│     负责向AI智能体提问、追问          │
+├─────────────────────────────────────┤
+│  👤 整理官（2-3人）                  │
+│     筛选AI回答，提炼要点              │
+├─────────────────────────────────────┤
+│  👤 视觉官（1-2人）                  │
+│     负责网站排版、配色、配图           │
+├─────────────────────────────────────┤
+│  👤 内容官（3-4人）                  │
+│     围绕课题组织内容框架              │
+├─────────────────────────────────────┤
+│  👤 发言人（1人）                    │
+│     最后1分钟展示成果                 │
+└─────────────────────────────────────┘
+</code></pre>
+
+<blockquote><strong>大班适配说明</strong>：10-12人一组确保全员参与。角色由学生自选，不强求均衡，实践中学生会自然分工。</blockquote>
+
+<h3>2.3 设备要求</h3>
+
+<p>| 设备 | 数量 | 用途 |</p>
+<p>|------|------|------|</p>
+<p>| 可上网电脑/平板/手机 | 每组至少2-3台 | 访问AI智能体 + 建站工具 |</p>
+<p>| 教室大屏/投影 | 1台 | 计时器 + 展示环节 |</p>
+<p>| 白板/黑板 | 1块 | 板书关键时间节点 |</p>
+
+<hr>
+
+<h2>三、40分钟课堂流程</h2>
+
+<pre><code>
+时间轴：
+0'─────────5'─────────10'──────────────────35'─────────40'
+ │           │           │                    │           │
+开场破冰    分组发卡    自由共创             成果展示    金句收尾
+(3min)      (5min)     (25min)              (5min)      (2min)
+</code></pre>
+
+<h3>⏱ 0:00-0:03 开场破冰（3分钟）</h3>
+
+<p><strong>老师话术参考</strong>：</p>
+
+<blockquote>"同学们，今天这40分钟，我们不做题、不听课——我们用AI做点有意思的事。</blockquote>
+<p>&gt;</p>
+<blockquote>40分钟很短，打一局游戏就没了。</blockquote>
+<blockquote>40分钟也可以很长，长到能从课堂走到宇宙。</blockquote>
+<p>&gt;</p>
+<blockquote>你们分成4个组，每组有一个AI智能体搭档。你们负责想，AI负责帮你们做出来。</blockquote>
+<blockquote>40分钟后，每组要拿出一个可以打开看的网站。</blockquote>
+<p>&gt;</p>
+<blockquote>开始。"</blockquote>
+
+<p><strong>要点</strong>：</p>
+<ul><li>不要演示AI怎么用——学生天然会用</li>
+<li>不要讲AI原理——时间留给创造</li>
+<li>制造紧迫感：40分钟倒计时开始</li>
+</ul>
+<h3>⏱ 0:03-0:08 分组 + 发任务卡（5分钟）</h3>
+
+<ul><li>快速分4组（如已提前分好，直接就位）</li>
+<li>每组发一张任务卡</li>
+<li>每组建站链接发到对应飞书频道</li>
+<li>学生自选角色（30秒内完成）</li>
+</ul>
+<h3>⏱ 0:08-0:33 自由共创（25分钟）</h3>
+
+<p><strong>学生自主流程</strong>：</p>
+
+<p>| 时间段 | 做什么 | 说明 |</p>
+<p>|--------|--------|------|</p>
+<p>| 0:08-0:13 | 组内讨论定方向 | 5分钟讨论，确定网站主题和内容框架 |</p>
+<p>| 0:13-0:26 | 跟AI智能体对话 | 13分钟反复提问、追问、迭代内容 |</p>
+<p>| 0:26-0:31 | 把内容做进网站 | 5分钟把AI产出的内容填入建站模板 |</p>
+<p>| 0:31-0:33 | 最后修整 | 2分钟调整排版，准备展示 |</p>
+
+<p><strong>老师巡场引导话术</strong>（每30秒穿过一个组）：</p>
+
+<p>| 场景 | 引导话术 |</p>
+<p>|------|---------|</p>
+<p>| 组内沉默 | "你们可以先问AI一个问题，看它怎么回答。" |</p>
+<p>| AI第一版不满意 | "继续追问，让它换个角度重新说。" |</p>
+<p>| 方向太散 | "选一个最亮眼的点，做深做透。" |</p>
+<p>| 时间过半 | "还有12分钟，建议开始把内容搬进网站了。" |</p>
+<p>| 快要完成 | "加一个让校长惊艳的数据或图表。" |</p>
+
+<h3>⏱ 0:33-0:38 成果快闪展示（5分钟）</h3>
+
+<p>每组 <strong>1分钟</strong> 展示：</p>
+
+<pre><code>
+展示模板：
+┌─────────────────────────────────────┐
+│  ① 报网址："我们的网站是xxx"        │
+│  ② 秀亮点：翻到最得意的一页         │
+│  ③ 一句话心得："我们学到了..."      │
+└─────────────────────────────────────┘
+</code></pre>
+
+<p>老师逐组30秒点评：只说一个亮点。</p>
+
+<h3>⏱ 0:38-0:40 金句收尾（2分钟）</h3>
+
+<blockquote>"今天你们用40分钟证明了四件事——</blockquote>
+<p>&gt;</p>
+<blockquote>第一，AI不是答案机器，它是你的思考伙伴；</blockquote>
+<blockquote>第二，最厉害的AI提示词，是你对这个世界的真诚好奇；</blockquote>
+<blockquote>第三，你们每个人都比想象中更有创造力；</blockquote>
+<blockquote>第四，AI时代最稀缺的能力，是<strong>做一个有温度的超级个体</strong>。</blockquote>
+<p>&gt;</p>
+<blockquote>网站链接会留在群里，你们可以继续迭代。</blockquote>
+<blockquote>下课。"</blockquote>
+
+<hr>
+
+<h2>四、4组课题设计</h2>
+
+<p>以下四个课题覆盖 <strong>10个以上学科</strong>，可直接用于课堂。</p>
+
+<h3>组一：战略组 —— "给七中设计AI时代战略"</h3>
+
+<p>| 项目 | 内容 |</p>
+<p>|------|------|</p>
+<p>| <strong>课题名称</strong> | 七中AI时代发展蓝图 |</p>
+<p>| <strong>任务描述</strong> | 假设你是七中的战略顾问，请用AI设计一份七中在AI时代的发展战略 |</p>
+<p>| <strong>涉及学科</strong> | 政治、历史、地理、语文 |</p>
+<p>| <strong>产出方向</strong> | 战略规划网站，含定位、路径、里程碑 |</p>
+<p>| <strong>可用AI提示词示例</strong> | "假设你是战略顾问，为广州七中设计一份AI时代的三年发展计划，包含：学校定位、师资建设、课程改革、品牌传播四个维度。" |</p>
+<p>| <strong>七中真实产出参考</strong> | 《七中称霸地球战略》《七中AI制霸宇宙精华集》 |</p>
+
+<h3>组二：学科组 —— "为某学科制作AI教学指南"</h3>
+
+<p>| 项目 | 内容 |</p>
+<p>|------|------|</p>
+<p>| <strong>课题名称</strong> | XX学科AI教学指南 |</p>
+<p>| <strong>任务描述</strong> | 选择一门学科，用AI设计一份教师AI应用指南，包含备课、授课、作业场景 |</p>
+<p>| <strong>涉及学科</strong> | 全部10个学科（语文/数学/英语/物理/化学/历史/政治/地理/生物/信息） |</p>
+<p>| <strong>产出方向</strong> | 学科指南网站，含工具推荐+Prompt模板 |</p>
+<p>| <strong>可用AI提示词示例</strong> | "请为高一生物学设计一份AI教学指南，包含：细胞生物学、遗传与进化、稳态与调节、生态系统四个模块，每个模块给出备课AI工具和课堂互动方案。" |</p>
+<p>| <strong>七中真实产出参考</strong> | 《七中各科AI应用方案》《高一生物AI教学完全指南》 |</p>
+
+<h3>组三：提分组 —— "用AI设计提分方案"</h3>
+
+<p>| 项目 | 内容 |</p>
+<p>|------|------|</p>
+<p>| <strong>课题名称</strong> | 用AI冲刺809分 |</p>
+<p>| <strong>任务描述</strong> | 假设你的目标是年级前10名，请用AI分析差距、制定各科提分策略 |</p>
+<p>| <strong>涉及学科</strong> | 数学、英语、语文、物理/化学等（全学科数据思维） |</p>
+<p>| <strong>产出方向</strong> | 提分方案网站，含数据分析、分科策略、时间轴 |</p>
+<p>| <strong>可用AI提示词示例</strong> | "假设我是高一学生，目前各科成绩在年级中游，目标是一年后进入年级前10。请帮我做：①各科差距分析 ②每科提分关键动作 ③每周时间分配方案 ④AI辅助学习工具推荐。" |</p>
+<p>| <strong>七中真实产出参考</strong> | 《分数线提升至809分方案》 |</p>
+
+<h3>组四：创意组 —— "用AI做交互式学习工具"</h3>
+
+<p>| 项目 | 内容 |</p>
+<p>|------|------|</p>
+<p>| <strong>课题名称</strong> | XX知识点交互学习工具 |</p>
+<p>| <strong>任务描述</strong> | 选择一个你学过的知识点，用AI把它变成一个有趣的交互式学习网页 |</p>
+<p>| <strong>涉及学科</strong> | 数学、物理、化学、英语等（适合做交互的学科） |</p>
+<p>| <strong>产出方向</strong> | 交互式学习网站，含知识点讲解+练习题+AI出题 |</p>
+<p>| <strong>可用AI提示词示例</strong> | "我高一正在学解三角形，请帮我设计一个交互式学习页面：①五种解三角形方法分步讲解 ②每种方法配一道例题 ③一组自测题并自动判断对错 ④一个AI随机出题功能。" |</p>
+<p>| <strong>七中真实产出参考</strong> | 《解三角形V2炫酷版》（含霓虹动效+交互测验+AI出题模式） |</p>
+
+<hr>
+
+<h2>五、大班授课关键要点</h2>
+
+<h3>5.1 跟小班课的核心区别</h3>
+
+<p>| 维度 | 小班（15-20人） | 大班（40-50人） |</p>
+<p>|------|----------------|----------------|</p>
+<p>| 分组 | 4-5组，每组4人 | 4组，每组10-12人 |</p>
+<p>| 角色分工 | 每人承担一个角色 | 更强调组内自发分工 |</p>
+<p>| 老师巡场 | 可以逐个指导 | 每30秒一个组，一句话引导 |</p>
+<p>| 展示环节 | 每组2-3分钟 | 每组严格1分钟 |</p>
+<p>| 纪律管理 | 较容易 | 需靠节奏和倒计时拉动 |</p>
+
+<h3>5.2 大班授课风险预案</h3>
+
+<p>| 风险 | 概率 | 应对措施 |</p>
+<p>|------|------|---------|</p>
+<p>| 学生不会用AI工具 | 低 | 任务卡上印好提示词模板，直接复制提问 |</p>
+<p>| 网站登录受阻 | 中 | 提前请学校信息老师协助开通网络权限 |</p>
+<p>| 组内有人无事可做 | 中 | 角色分工卡明确每个人的责任 |</p>
+<p>| 成果过于简单 | 低 | 巡场时引导追问："能不能让它再深一层？" |</p>
+<p>| 时间不够用 | 中 | 每个环节可弹性压缩2-3分钟 |</p>
+
+<h3>5.3 简化版（设备不足时）</h3>
+
+<p>若遇到以下限制，可按对应方案简化：</p>
+
+<p><strong>情况一：全校只有一个教师账号可用</strong></p>
+<ul><li>老师在大屏上操作AI，学生口述指令</li>
+<li>各组派代表轮流提问</li>
+<li>网站由老师统一操作，学生提供内容</li>
+</ul>
+<p><strong>情况二：学生没有个人设备</strong></p>
+<ul><li>4组轮流使用2-3台设备</li>
+<li>组内分工：提问组轮流操作，其余同学用纸笔整理内容</li>
+<li>建站环节由每组派1名代表操作</li>
+</ul>
+<p><strong>情况三：教室无网络/网络差</strong></p>
+<ul><li>课前在飞书群预置好AI智能体的对话种子</li>
+<li>学生分组讨论确定内容方向</li>
+<li>AI产出环节改为老师统一在大屏操作演示</li>
+<li>网站模板提前填好内容框架，现场只做调整</li>
+</ul>
+<hr>
+
+<h2>六、教学资源模板</h2>
+
+<h3>6.1 任务卡模板</h3>
+
+<pre><code>
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│   🎯 课题：[组名]                               │
+│                                                 │
+│   ───── 你的任务 ─────                         │
+│   在40分钟内，跟AI智能体合作，做出一个网站。      │
+│                                                 │
+│   📌 第一步：讨论确定方向（5分钟）              │
+│   你们想做什么？先讨论3分钟，再问AI。            │
+│                                                 │
+│   📌 第二步：跟AI深度对话（13分钟）             │
+│   打开飞书群，@AI智能体 开始提问。              │
+│   💡 提示：不满意就追问，至少追问3轮。          │
+│                                                 │
+│   📌 第三步：做出网站（5分钟）                  │
+│   把AI产出的内容，填入网站链接。                 │
+│   建站链接：[每组独立的空白模板链接]             │
+│                                                 │
+│   📌 第四步：准备展示（2分钟）                  │
+│   选好最得意的一页，发言人准备30秒介绍。         │
+│                                                 │
+│   建站链接：https://xxx.space.minimaxi.com/...   │
+│                                                 │
+└─────────────────────────────────────────────────┘
+</code></pre>
+
+<h3>6.2 展示评分卡（课后使用，非必需）</h3>
+
+<p>| 维度 | 说明 |</p>
+<p>|------|------|</p>
+<p>| ⭐ 内容完整度 | 网站是否有清晰的主题和完整内容 |</p>
+<p>| ⭐ AI协作深度 | 是否看到多轮追问的痕迹（vs 一次生成） |</p>
+<p>| ⭐ 创意亮点 | 是否有让人眼前一亮的创意 |</p>
+<p>| ⭐ 视觉呈现 | 网站排版和配色是否用心 |</p>
+<p>| ⭐ 团队协作 | 是否全员参与 |</p>
+
+<hr>
+
+<h2>七、从七中课堂验证的迭代方向</h2>
+
+<h3>已验证可复用的经验</h3>
+
+<ul><li><strong>建站工具选型正确</strong>：MiniMax space 零门槛，学生5分钟上手</li>
+<li><strong>角色分工有效</strong>：即使10-12人大组，自选角色后没有边缘人</li>
+<li><strong>宏大叙事激发创造力</strong>："称霸地球""制霸宇宙"等选题说明框架给了学生野心</li>
+<li><strong>AI出题模式</strong>：学生自发发现的用法，下次可直接写入任务卡</li>
+</ul>
+<h3>下次可尝试的改进</h3>
+
+<p>| 改进方向 | 说明 |</p>
+<p>|----------|------|</p>
+<p>| 增设"最佳追问奖" | 鼓励学生多轮迭代，而不是接受AI第一版答案 |</p>
+<p>| 引入组间互评 | 每组分一个"评委"到其他组打分，增加参与感 |</p>
+<p>| 预留"人类-only"环节 | 2分钟完全不用AI做头脑风暴，对比协作前后的差异 |</p>
+<p>| 课后延伸挑战 | "用AI做一个家族故事网站"——连接家庭教育 |</p>
+
+<hr>
+
+<h2>八、附录：七中课堂真实成果（2026.5.8）</h2>
+
+<p>以下为广州七中40分钟研学课真实产出，可作为教学成果参考展示：</p>
+
+<p>| # | 网站主题 | 链接 | 特色 |</p>
+<p>|---|---------|------|------|</p>
+<p>| 1 | 高一教师AI智能体使用指南 | minimaxi space | 学术风，11章节 |</p>
+<p>| 2 | 七中称霸地球战略 | minimaxi space | 紫绿金渐变科技风 |</p>
+<p>| 3 | 七中各科AI应用方案 | minimaxi space | 10学科全覆盖 |</p>
+<p>| 4 | 分数线提升至809分方案 | minimaxi space | 金色主题，KPI体系 |</p>
+<p>| 5 | 七中AI制霸宇宙精华集 | minimaxi space | 群讨论结晶 |</p>
+<p>| 6 | 高一生物AI教学完全指南 | minimaxi space | 清新绿色，4大模块 |</p>
+<p>| 7 | 解三角形V2炫酷版 | minimaxi space | 霓虹动效，交互测验 |</p>
+
+<p><strong>课程信息</strong>：</p>
+<ul><li>辅导老师：余诗佳、杨辉</li>
+<li>分组：4个大组（10-12人/组）</li>
+<li>产出：7个网站 / 覆盖10+学科</li>
+<li>工具：飞书群 × AI智能体 × MiniMax space</li>
+</ul>
+<hr>
+
+<p><em>本方案基于2026年5月8日广州市第七中学高一AI智能体研学课真实教学成果迭代设计。</em></p>
+
+<div class="footer"><p><a href="../index.html">← 返回教练首页</a></p><p style="font-size:12px;color:#ccc;">杨辉 Ken Yang · © 2026</p></div>
+</div>
+</body>
+</html>

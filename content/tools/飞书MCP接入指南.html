@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞书 MCP Server 接入指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; padding:40px 20px; }
+.container { max-width:900px; margin:0 auto; background:#fff; border-radius:16px; padding:40px 44px; box-shadow:0 1px 8px rgba(0,0,0,0.04); }
+h1 { font-size:1.8em; font-weight:900; padding-bottom:12px; border-bottom:3px solid #7c5cfc; margin-bottom:22px; }
+h2 { font-size:1.25em; font-weight:800; color:#1a1a2e; margin:30px 0 12px; padding-bottom:8px; border-bottom:2px solid #7c5cfc; }
+h3 { font-size:1.1em; font-weight:700; color:#2c3e50; margin:22px 0 10px; }
+h4 { font-size:0.95em; font-weight:600; color:#555; margin:16px 0 8px; }
+p { font-size:15px; color:#555; margin-bottom:12px; line-height:1.9; }
+ul, ol { padding-left:22px; margin-bottom:12px; }
+li { font-size:15px; color:#555; margin-bottom:4px; }
+strong { color:#1a1a2e; }
+a { color:#7c5cfc; text-decoration:none; }
+a:hover { text-decoration:underline; }
+blockquote { background:#f0e6f6; border-left:4px solid #7c5cfc; border-radius:8px; padding:14px 18px; margin:14px 0; font-size:14px; color:#555; }
+code { background:#f0e6f6; color:#7c5cfc; padding:2px 8px; border-radius:4px; font-size:13px; }
+pre { background:#f8f9fa; border:1px solid #eef0f2; border-radius:10px; padding:16px; overflow-x:auto; margin:14px 0; }
+pre code { background:none; color:#555; padding:0; }
+hr { border:none; border-top:1px solid #eef0f2; margin:24px 0; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 0; }
+.footer a { color:#7c5cfc; }
+img { max-width:100%; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>飞书 MCP Server 接入指南</h1>
+
+<blockquote><strong>课程定位</strong>：《企业智能体实战营》· 融龙虾篇</blockquote>
+<blockquote><strong>内容</strong>：把 Claude Code 和飞书通过 MCP Server 打通，实现 AI 直接读写飞书文档、发消息、管理数据</blockquote>
+<blockquote><strong>难度</strong>：★★☆☆☆（需基本命令行操作能力）</blockquote>
+<blockquote><strong>耗时</strong>：15-20 分钟</blockquote>
+
+<hr>
+
+<h2>一、什么是 MCP Server</h2>
+
+<h3>1.1 MCP 的概念</h3>
+
+<p>MCP（Model Context Protocol）是 Anthropic 推出的<strong>开放协议</strong>，相当于 AI 界的 USB-C 接口：</p>
+<ul><li>标准化的协议，让 AI 模型连接外部工具和数据源</li>
+<li>一个 MCP Server = 一个工具的"驱动程序"</li>
+<li>AI 通过 MCP 协议调用工具，不需要每次都写定制代码</li>
+</ul>
+<pre><code>
+┌─────────────────┐      MCP 协议       ┌─────────────────┐
+│   Claude Code   │ ◄────────────────►   │  飞书 MCP Server│
+│   (AI 引擎)      │                     │   (飞书 API 网关) │
+└─────────────────┘                     └────────┬────────┘
+                                                 │
+                                        ┌────────▼────────┐
+                                        │   飞书开放平台    │
+                                        │  文档/消息/表格   │
+                                        └─────────────────┘
+</code></pre>
+
+<h3>1.2 打通后的能力</h3>
+
+<p>| 能力 | 示例指令 |</p>
+<p>|------|---------|</p>
+<p>| <strong>创建文档</strong> | "帮我创建一份课程大纲飞书文档" |</p>
+<p>| <strong>读文档内容</strong> | "读取上周的客户提案文档" |</p>
+<p>| <strong>搜索文档</strong> | "找一下关于智能体的所有文档" |</p>
+<p>| <strong>发消息</strong> | "给企业智能体实战营群发课程提醒" |</p>
+<p>| <strong>多维表格</strong> | "在课程管理表中新增一名学员记录" |</p>
+<p>| <strong>Bitable</strong> | "创建学员信息数据库" |</p>
+
+<hr>
+
+<h2>二、前置准备</h2>
+
+<h3>2.1 你需要的东西</h3>
+
+<p>| 项目 | 说明 |</p>
+<p>|------|------|</p>
+<p>| ✅ Claude Code | 已安装并可用（终端输入 <code>claude</code> 验证） |</p>
+<p>| ✅ 飞书企业账号 | 有管理员权限，或能申请应用审批 |</p>
+<p>| ✅ 飞书开放平台账号 | 访问 <a href="https://open.feishu.cn">open.feishu.cn</a> |</p>
+<p>| ✅ Node.js | 确保已安装（<code>node -v</code> 验证，需 v18+） |</p>
+<p>| ✅ npx | 确保已安装（<code>npx -v</code> 验证，npm 自带） |</p>
+
+<h3>2.2 确认 Claude Code 版本</h3>
+
+<pre><code>
+claude --version
+# 建议 0.3.0 以上版本
+</code></pre>
+
+<h3>2.3 确认 Node.js 版本</h3>
+
+<pre><code>
+node -v
+# 建议 v18 以上
+npx -v
+</code></pre>
+
+<hr>
+
+<h2>三、步骤详解</h2>
+
+<h3>Step 1：创建飞书应用</h3>
+
+<ul><li>打开 <a href="https://open.feishu.cn">飞书开放平台</a></li>
+<li>点击右上角 <strong>"开发者后台"</strong></li>
+<li>点击 <strong>"创建应用"</strong></li>
+<li>选择 <strong>"企业自建应用"</strong></li>
+<li>填写应用信息：</li>
+<li><strong>应用名称</strong>：建议写 "Claude Code MCP"（或你喜欢的名字）</li>
+<li><strong>应用描述</strong>：用于 Claude Code 与飞书集成</li>
+<li><strong>头像</strong>：可自定义</li>
+</ul>
+<p>!<a href="./images/feishu-create-app.png">创建应用</a></p>
+
+<blockquote>如果创建时提示需要管理员权限，联系企业飞书管理员协助。</blockquote>
+
+<hr>
+
+<h3>Step 2：配置应用权限</h3>
+
+<p>在应用管理页面的左侧菜单，找到 <strong>"权限管理"</strong>。</p>
+
+<p>需要开启以下权限（点击"开启"按钮）：</p>
+
+<h4>2.1 文档权限</h4>
+
+<p>| 权限 | 说明 | 必选 |</p>
+<p>|------|------|------|</p>
+<p>| <code>docx:document</code> | 创建和管理文档 | ✅ |</p>
+<p>| <code>docx:document:readonly</code> | 读取文档内容 | ✅ |</p>
+<p>| <code>drive:drive</code> | 访问云盘文件 | ✅ |</p>
+
+<h4>2.2 消息权限</h4>
+
+<p>| 权限 | 说明 | 必选 |</p>
+<p>|------|------|------|</p>
+<p>| <code>im:message</code> | 发送和接收消息 | ✅ |</p>
+<p>| <code>im:message:readonly</code> | 读取消息 | ✅ |</p>
+<p>| <code>im:chat</code> | 管理群组 | ✅ |</p>
+<p>| <code>im:chat:readonly</code> | 查看群组信息 | ✅ |</p>
+
+<h4>2.3 多维表格权限</h4>
+
+<p>| 权限 | 说明 | 必选 |</p>
+<p>|------|------|------|</p>
+<p>| <code>bitable:app</code> | 管理多维表格 | 按需 |</p>
+<p>| <code>sheets:sheet</code> | 管理电子表格 | 按需 |</p>
+
+<h4>2.4 日历与任务（可选）</h4>
+
+<p>| 权限 | 说明 |</p>
+<p>|------|------|</p>
+<p>| <code>calendar:event</code> | 管理日历事件 |</p>
+<p>| <code>task:task</code> | 管理任务 |</p>
+
+<blockquote><strong>关键提醒</strong>：每次修改权限后，<strong>必须重新发布应用</strong>才能生效。</blockquote>
+
+<hr>
+
+<h3>Step 3：获取凭证（App ID &amp; App Secret）</h3>
+
+<ul><li>在左侧菜单找到 <strong>"凭证与基础信息"</strong></li>
+<li>你会看到两个关键值：</li>
+</ul>
+<pre><code>
+App ID:     cli_xxxxxxxxxxxxxxxxx
+App Secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</code></pre>
+
+<ul><li><strong>复制并安全保存</strong>这两个值（后面配置要用）</li>
+</ul>
+<blockquote>⚠️ <strong>安全提醒</strong>：App Secret 相当于密码，不要分享到公开代码仓库。</blockquote>
+<blockquote>建议在 <code>.env</code> 文件中管理，或直接配置到 <code>.claude/settings.json</code> 中（本机专用）。</blockquote>
+
+<hr>
+
+<h3>Step 4：发布应用</h3>
+
+<ul><li>左侧菜单点击 <strong>"版本管理与发布"</strong></li>
+<li>点击 <strong>"创建版本"</strong></li>
+<li>填写版本信息：</li>
+<li><strong>版本号</strong>：如 <code>1.0.0</code></li>
+<li><strong>更新说明</strong>：如 "首次发布，用于 Claude Code 集成"</li>
+<li>点击 <strong>"保存"</strong></li>
+<li>点击 <strong>"申请发布"</strong></li>
+<li>等待企业管理员审批</li>
+</ul>
+<blockquote>发布后应用即刻生效。如果后续修改了权限，需要创建新版本并重新发布。</blockquote>
+
+<hr>
+
+<h3>Step 5：配置 Claude Code MCP Server</h3>
+
+<h4>方式一：项目级配置（推荐）</h4>
+
+<p>在项目根目录的 <code>.claude/settings.json</code> 中添加：</p>
+
+<pre><code>
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "-a", "cli_xxxxxxxxxxxxxxxxx",
+        "-s", "你的_App_Secret"
+      ]
+    }
+  }
+}
+</code></pre>
+
+<p>将 <code>cli_xxxxxxxxxxxxxxxxx</code> 替换为你的 <strong>App ID</strong>，<code>你的_App_Secret</code> 替换为 <strong>App Secret</strong>。</p>
+
+<h4>方式二：全局配置（所有项目可用）</h4>
+
+<p>编辑 <code>~/.claude.json</code>（macOS/Linux）或 <code>%USERPROFILE%\.claude.json</code>（Windows）：</p>
+
+<pre><code>
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "-a", "cli_xxxxxxxxxxxxxxxxx",
+        "-s", "你的_App_Secret"
+      ]
+    }
+  }
+}
+</code></pre>
+
+<h4>方式三：通过 CLI 命令添加</h4>
+
+<pre><code>
+claude mcp add-json --scope=user lark-mcp '{
+  "command": "npx",
+  "args": ["-y", "@larksuiteoapi/lark-mcp", "mcp",
+    "-a", "cli_xxxxxxxxxxxxxxxxx",
+    "-s", "你的_App_Secret"
+  ]
+}'
+</code></pre>
+
+<blockquote><code>--scope=user</code> = 全局配置，<code>--scope=project</code> = 项目配置。</blockquote>
+
+<hr>
+
+<h3>Step 6：重启 Claude Code 并测试</h3>
+
+<ul><li><strong>退出并重新启动</strong> Claude Code</li>
+</ul>
+<ul><li>在 Claude Code 中输入测试指令：</li>
+</ul>
+<pre><code>
+帮我创建一个飞书文档，标题叫"Hello MCP"，内容写"飞书已经成功打通！"
+</code></pre>
+
+<p>如果配置正确，你会看到：</p>
+<ul><li>Claude 调用 <code>docx.v1.document.create</code> 工具</li>
+<li>返回成功，包含文档链接</li>
+<li>打开链接确认文档已创建</li>
+</ul>
+<ul><li>更多测试：</li>
+</ul>
+<pre><code>
+把我当前目录的 README.md 内容发送到我的飞书
+</code></pre>
+
+<pre><code>
+读取我刚才创建的那个文档内容
+</code></pre>
+
+<hr>
+
+<h2>四、进阶配置</h2>
+
+<h3>4.1 国际版 Lark</h3>
+
+<p>如果你使用 Lark（国际版飞书），添加 <code>--domain</code> 参数：</p>
+
+<pre><code>
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "-a", "cli_xxxxxxxxxxxxxxxxx",
+        "-s", "你的_App_Secret",
+        "--domain", "https://open.larksuite.com"
+      ]
+    }
+  }
+}
+</code></pre>
+
+<h3>4.2 启用更多工具预设</h3>
+
+<p>飞书 MCP Server 按功能分组为 preset，可以根据需要组合：</p>
+
+<pre><code>
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "-a", "cli_xxxxxxxxxxxxxxxxx",
+        "-s", "你的_App_Secret",
+        "-t", "preset.doc.default,preset.im.default,preset.base.default"
+      ]
+    }
+  }
+}
+</code></pre>
+
+<h4>Preset 速查表</h4>
+
+<p>| Preset | 包含能力 |</p>
+<p>|--------|---------|</p>
+<p>| <code>preset.doc.default</code> | 文档创建、读取、搜索 |</p>
+<p>| <code>preset.im.default</code> | 消息发送、群管理 |</p>
+<p>| <code>preset.base.default</code> | Bitable 多维表格基础操作 |</p>
+<p>| <code>preset.base.batch</code> | Bitable 批量操作 |</p>
+<p>| <code>preset.calendar.default</code> | 日历事件管理 |</p>
+<p>| <code>preset.task.default</code> | 任务管理 |</p>
+
+<h3>4.3 使用 OAuth（可选）</h3>
+
+<p>如果需要以个人身份（而非应用身份）访问文档，增加 <code>--oauth</code> 参数：</p>
+
+<pre><code>
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "-a", "cli_xxxxxxxxxxxxxxxxx",
+        "-s", "你的_App_Secret",
+        "--oauth"
+      ]
+    }
+  }
+}
+</code></pre>
+
+<p>首次使用会弹出浏览器要求飞书扫码授权。</p>
+
+<hr>
+
+<h2>五、实用案例：课程内容全流程</h2>
+
+<h3>案例 1：自动生成课程文档</h3>
+
+<p>发给 Claude：</p>
+
+<pre><code>
+请帮我生成《企业智能体实战营》第一天的课程大纲，按以下结构写成一个飞书文档：
+1. 上午：装龙虾 —— 智能体概念+环境搭建
+2. 下午：养龙虾 —— RAG接入+Prompt调教
+要求：每节包含学习目标、实操环节、交付物
+</code></pre>
+
+<h3>案例 2：群发课程提醒</h3>
+
+<pre><code>
+给"企业智能体实战营"群组发送一条消息：
+"明天开营啦！请准备好笔记本电脑，提前安装好 Node.js。上课链接：xxxx"
+</code></pre>
+
+<h3>案例 3：管理学员信息</h3>
+
+<pre><code>
+在"课程管理"多维表格中新增一行学员记录：
+姓名：张三
+公司：XX科技
+手机：13800138000
+报名课程：企业智能体实战营
+</code></pre>
+
+<hr>
+
+<h2>六、常见问题</h2>
+
+<h3>Q1：启动时提示 "unauthorized"</h3>
+
+<pre><code>
+错误信息：{"code": 10001, "msg": "unauthorized"}
+</code></pre>
+
+<p><strong>原因</strong>：App ID 或 App Secret 不正确，或者应用未发布。</p>
+
+<p><strong>解决</strong>：</p>
+<ul><li>检查 <code>settings.json</code> 中的 App ID 和 Secret 是否与开放平台一致</li>
+<li>确认应用已经发布（"版本管理与发布" → 查看是否有已发布的版本）</li>
+<li>如果修改了权限，重新发布新版本</li>
+</ul>
+<h3>Q2：调用时报 "permission denied"</h3>
+
+<pre><code>
+错误信息：{"code": 20003, "msg": "permission denied"}
+</code></pre>
+
+<p><strong>原因</strong>：未开启对应权限，或权限修改后未重新发布。</p>
+
+<p><strong>解决</strong>：</p>
+<ul><li>回到开放平台 → 权限管理 → 确认所需权限已开启</li>
+<li>创建新版本 → 重新发布</li>
+</ul>
+<h3>Q3：npx 安装卡住或超时</h3>
+
+<p><strong>原因</strong>：网络问题，首次需要下载包。</p>
+
+<p><strong>解决</strong>：</p>
+<pre><code>
+# 手动安装
+npm install -g @larksuiteoapi/lark-mcp
+
+# 如果在大陆，可能需要配置 npm 镜像
+npm config set registry https://registry.npmmirror.com
+</code></pre>
+
+<h3>Q4：如何验证 MCP Server 是否正常运行？</h3>
+
+<p>在 Claude Code 中输入：</p>
+
+<pre><code>
+/list 飞书文档
+</code></pre>
+
+<p>或者直接问：</p>
+
+<pre><code>
+你现在能调用飞书的工具吗？帮我列出可用的工具列表。
+</code></pre>
+
+<h3>Q5：App Secret 泄露了怎么办？</h3>
+
+<p>立即回到飞书开放平台 → 凭证与基础信息 → <strong>重置 App Secret</strong>。</p>
+
+<hr>
+
+<h2>七、融龙虾小结</h2>
+
+<p>打通飞书 MCP Server 的本质是 <strong>"让 AI 拥有企业协作能力"</strong>——</p>
+
+<pre><code>
+装龙虾（单体 Agent）
+  ↓
+养龙虾（喂知识 + 调行为）
+  ↓
+融龙虾（接入飞书/企微 → 企业级落地）← 你在这里 ✅
+</code></pre>
+
+<p>下一站：<strong>从单课打通到多课复用，从飞书文档到完整的数字员工体系。</strong></p>
+
+<hr>
+
+<blockquote><strong>参考资源</strong></blockquote>
+<blockquote>- 飞书开放平台：https://open.feishu.cn</blockquote>
+<blockquote>- MCP Server 包：https://www.npmjs.com/package/@larksuiteoapi/lark-mcp</blockquote>
+<blockquote>- GitHub 仓库：https://github.com/larksuite/lark-openapi-mcp</blockquote>
+<blockquote>- MCP 官方文档：https://modelcontextprotocol.io</blockquote>
+
+<div class="footer"><p><a href="../index.html">← 返回教练首页</a></p><p style="font-size:12px;color:#ccc;">杨辉 Ken Yang · © 2026</p></div>
+</div>
+</body>
+</html>
