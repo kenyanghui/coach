@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业二代投资精修班 — L3+L4 压缩课程</title>
+    <style>
+        @page { size: A4; margin: 18mm 16mm 20mm 16mm; @bottom-center { content: counter(page); font-size: 9pt; color: #888; font-family: "PingFang SC","Microsoft YaHei",sans-serif; } }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Source Han Sans", "Helvetica Neue", Arial, sans-serif;
+            font-size: 10.5pt; line-height: 1.75; color: #1a1a1a; background: #fff;
+        }
+
+        .cover {
+            page-break-after: always; text-align: center;
+            padding: 70mm 25mm 30mm 25mm;
+            background: linear-gradient(160deg, #0a0e1a 0%, #1a1a2e 50%, #1a0a2e 100%);
+            color: #fff; position: relative; height: 100%;
+        }
+        .cover h1 { font-size: 30pt; font-weight: 700; letter-spacing: 2px; }
+        .cover h1 span { color: #ffd700; }
+        .cover .badge {
+            display: inline-block; background: #ffd700; color: #0a0e1a;
+            padding: 3px 16px; border-radius: 4px; font-size: 10pt; font-weight: 700;
+            letter-spacing: 2px; margin-bottom: 16px;
+        }
+        .cover .subtitle { font-size: 12pt; color: rgba(255,255,255,0.7); margin-top: 8px; }
+        .cover .meta { margin-top: 32px; font-size: 9.5pt; color: rgba(255,255,255,0.55); line-height: 2.2; }
+        .cover .meta strong { color: #ffd700; }
+        .cover .version { position: absolute; bottom: 25mm; left: 0; right: 0; font-size: 8.5pt; color: rgba(255,255,255,0.3); }
+
+        .toc-page { page-break-after: always; }
+        .toc-page h2 { font-size: 16pt; color: #1a1a2e; border-bottom: 2px solid #ffd700; padding-bottom: 4px; margin-bottom: 12px; }
+        .toc-list { list-style: none; }
+        .toc-list li { padding: 2px 0; border-bottom: 1px dotted #ddd; font-size: 9.5pt; }
+        .toc-list li a { color: #1a1a2e; text-decoration: none; }
+        .toc-list .l1 { font-weight: 600; font-size: 10.5pt; margin-top: 6px; }
+        .toc-list .l2 { padding-left: 18px; font-size: 9.5pt; color: #444; }
+
+        .part-page { page-break-before: always; page-break-after: always; text-align: center; padding: 60mm 25mm; }
+        .part-page .part-num { font-size: 40pt; font-weight: 700; color: #ffd700; font-family: "Georgia",serif; }
+        .part-page h2 { font-size: 20pt; color: #1a1a2e; margin-top: 6px; }
+        .part-page p { font-size: 10pt; color: #666; margin-top: 4px; }
+
+        .chapter { page-break-before: always; }
+        .chapter h2 { font-size: 16pt; color: #1a1a2e; border-bottom: 2px solid #ffd700; padding-bottom: 4px; margin-bottom: 10px; }
+        .chapter h3 { font-size: 12.5pt; color: #2c3e50; margin: 14px 0 5px; }
+        .chapter h4 { font-size: 11pt; color: #8b5cf6; margin: 10px 0 3px; }
+        .chapter p { margin-bottom: 5px; font-size: 10pt; }
+        .chapter ul, .chapter ol { margin: 3px 0 6px 16px; }
+        .chapter li { margin-bottom: 2px; font-size: 9.5pt; }
+
+        .session {
+            border: 1px solid #ddd; border-radius: 6px;
+            padding: 10px 14px; margin: 8px 0; page-break-inside: avoid;
+            border-left: 4px solid #8b5cf6;
+        }
+        .session h4 { font-size: 11.5pt; color: #1a1a2e; margin-bottom: 2px; }
+        .session .meta { font-size: 8.5pt; color: #888; margin-bottom: 3px; }
+        .session .tag {
+            display: inline-block; padding: 1px 8px; border-radius: 3px;
+            font-size: 8pt; font-weight: 600; margin-right: 3px;
+        }
+        .tag-lec { background: #e3f2fd; color: #1565c0; }
+        .tag-pra { background: #e8f5e9; color: #2e7d32; }
+        .tag-proj { background: #f3e5f5; color: #6a1b9a; }
+        .tag-exam { background: #fff8e1; color: #e65100; }
+
+        table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 9.5pt; }
+        thead { background: #1a1a2e; color: #fff; }
+        th { padding: 5px 8px; text-align: left; font-weight: 600; font-size: 9pt; }
+        td { padding: 5px 8px; border-bottom: 1px solid #ddd; }
+        tbody tr:nth-child(even) { background: #f8f9fc; }
+
+        .note, .warn, .tip {
+            padding: 5px 10px; margin: 6px 0; font-size: 9pt;
+            border-radius: 4px; page-break-inside: avoid;
+        }
+        .note { background: #eef2ff; border-left: 4px solid #6366f1; }
+        .warn { background: #fff8e1; border-left: 4px solid #f59e0b; }
+        .tip { background: #e8f5e9; border-left: 4px solid #4caf50; }
+
+        .hl-box {
+            background: linear-gradient(135deg, #faf5ff, #f0f6ff);
+            border: 1px solid #ddd; border-radius: 6px;
+            padding: 10px 14px; margin: 8px 0; page-break-inside: avoid;
+        }
+        .hl-box h4 { color: #7c3aed; font-size: 11pt; margin-bottom: 2px; }
+        .hl-box p { font-size: 9.5pt; }
+
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 6px 0; }
+        .card { border: 1px solid #ddd; border-radius: 6px; padding: 8px 10px; page-break-inside: avoid; }
+        .card h4 { font-size: 10.5pt; margin-bottom: 2px; }
+        .card ul { margin: 2px 0 0 12px; }
+        .card li { font-size: 9pt; }
+        @media print { .card-grid { grid-template-columns: 1fr 1fr; } }
+
+        .footer-note { text-align: center; padding: 16px 0; margin-top: 24px; font-size: 8.5pt; color: #999; border-top: 1px solid #ddd; }
+
+        @media print {
+            .cover { background: linear-gradient(160deg, #0a0e1a 0%, #1a1a2e 50%, #1a0a2e 100%) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            thead { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .note { background: #eef2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .warn { background: #fff8e1 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tip { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hl-box { background: #faf5ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-lec { background: #e3f2fd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-pra { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-proj { background: #f3e5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-exam { background: #fff8e1 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            a { color: inherit; text-decoration: none; }
+        }
+        @media screen {
+            body { max-width: 210mm; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+            .cover { border-radius: 8px; margin: 20px 0; }
+            .part-page { border-radius: 8px; margin: 20px 0; background: #f8f9fc; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cover">
+    <div class="badge">企业二代 · 定向精修</div>
+    <h1>通达信 <span>投资精修班</span></h1>
+    <p class="subtitle">L3+L4 压缩课程 · 16 课时 · 8 周结业</p>
+    <div class="meta">
+        <strong>适合人群</strong> &nbsp; 企业接班人 / 家族办公室成员 / 高净值个人<br>
+        <strong>前置要求</strong> &nbsp; 具备基础金融认知（L1+L2 或同等水平）<br>
+        <strong>课程定位</strong> &nbsp; 从投资能力到资产管理能力的系统升级<br><br>
+        <strong>核心产出</strong> &nbsp; 家族资产配置方案 + 量化投资策略<br>
+        <strong>认证</strong> &nbsp; 通达信认证 Analyst
+    </div>
+    <div class="version">课程版本 v1.0 &nbsp;·&nbsp; 2026 年 5 月</div>
+</div>
+
+<div class="toc-page">
+    <h2>课程地图</h2>
+    <ul class="toc-list">
+        <li class="l1"><a href="#intro">课程导论：为什么这 8 周值得</a></li>
+        <li class="l1">模块一 · 市场认知与工具</li>
+        <li class="l2"><a href="#s1">第 1 课 市场格局与通达信高阶运用</a></li>
+        <li class="l2"><a href="#s2">第 2 课 技术分析与公式编写</a></li>
+        <li class="l1">模块二 · 交易系统构建</li>
+        <li class="l2"><a href="#s3">第 3 课 交易心理学与行为金融</a></li>
+        <li class="l2"><a href="#s4">第 4 课 风险管理与仓位控制</a></li>
+        <li class="l1">模块三 · 量化交易实战</li>
+        <li class="l2"><a href="#s5">第 5 课 量化平台与自动化交易</a></li>
+        <li class="l2"><a href="#s6">第 6 课 策略回测与绩效评估</a></li>
+        <li class="l1">模块四 · 资产管理与接班</li>
+        <li class="l2"><a href="#s7">第 7 课 家族资产配置与企业资金管理</a></li>
+        <li class="l2"><a href="#s8">第 8 课 结业项目答辩</a></li>
+        <li class="l1"><a href="#appendix">附录：师资 / 考核 / 实施</a></li>
+    </ul>
+</div>
+
+<!-- ==================== 课程导论 ==================== -->
+<div class="chapter" id="intro">
+    <h2>课程导论：为什么这 8 周值得</h2>
+
+    <div class="hl-box">
+        <h4>三门必修课</h4>
+        <p>作为企业接班人，你的"投资"不只是买卖股票——而是管理家族财富、配置企业资产、理解资本市场。这门压缩课程的核心不是教你怎么炒股，而是帮你建立一套<strong>可传承的资产管理框架</strong>。</p>
+    </div>
+
+    <h3>四个模块的逻辑</h3>
+    <table>
+        <thead><tr><th style="width:40px;">模块</th><th>解决的问题</th><th>对企业的价值</th></tr></thead>
+        <tbody>
+            <tr><td><strong>一</strong></td><td>"我看不懂市场在发生什么"</td><td>能独立判断市场环境，看懂分析师报告</td></tr>
+            <tr><td><strong>二</strong></td><td>"我做决策总是受情绪影响"</td><td>建立系统化决策框架，减少非理性失误</td></tr>
+            <tr><td><strong>三</strong></td><td>"我想用程序辅助投资但不知从何入手"</td><td>掌握量化思维，能用工具验证投资想法</td></tr>
+            <tr><td><strong>四</strong></td><td>"家族资产和企业资金应该怎么管"</td><td>能设计资产配置方案，与专业投顾有效沟通</td></tr>
+        </tbody>
+    </table>
+
+    <h3>与完整 L3+L4 的区别</h3>
+    <table>
+        <thead><tr><th>对比项</th><th>完整 L3+L4（48 课时）</th><th>本压缩班（16 课时）</th></tr></thead>
+        <tbody>
+            <tr><td>适合对象</td><td>青少年学生，从零到一系统学习</td><td>企业二代，已有基础，时间有限</td></tr>
+            <tr><td>课时</td><td>16 次 × 3 小时</td><td><strong>8 次 × 3 小时</strong></td></tr>
+            <tr><td>Python 编程</td><td>从基础语法到完整策略</td><td>聚焦策略理解，提供模板代码</td></tr>
+            <tr><td>模拟交易</td><td>4 周模拟交易大赛</td><td>课后自主练习 + 课堂复盘</td></tr>
+            <tr><td>企业/家族专题</td><td>1 节课</td><td><strong>贯穿全程，第 7 课深度专题</strong></td></tr>
+            <tr><td>实操占比</td><td>~60%</td><td>~50%（更多讲授-讨论-案例）</td></tr>
+        </tbody>
+    </table>
+
+    <div class="note"><strong>设计理念：</strong>压缩的不是质量，而是练习时间。我们把需要"自己摸索"的部分精简为核心方法论 + 案例示范，课后布置有指导的自学任务。最重要的是 <strong>第 7 课和第 8 课</strong>——这两课是其他课程没有的企业二代专属内容。</div>
+</div>
+
+<!-- ==================== 模块一 ==================== -->
+<div class="part-page">
+    <div class="part-num">一</div>
+    <h2>市场认知与工具</h2>
+    <p>2 课 · 看懂市场在发生什么，用通达信高效获取信息</p>
+</div>
+
+<!-- 第 1 课 -->
+<div class="chapter" id="s1">
+    <h2>第 1 课 市场格局与通达信高阶运用</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-pra">实操</span> 3 课时</div></div>
+
+    <h3>本课目标</h3>
+    <ul>
+        <li>理解中国资本市场格局——券商、公募、私募、游资各在做什么</li>
+        <li>通达信从"会用"到"精通"——信息获取效率翻倍</li>
+        <li>建立每日市场扫描的标准化流程</li>
+    </ul>
+
+    <h3>第一部分：中国资本市场格局（45min）</h3>
+    <ul>
+        <li>市场参与者全景：散户（交易量占比 ~60%）、公募基金（~30 万亿规模）、私募量化（~1.5 万亿）、游资、外资</li>
+        <li>信息在市场中如何传递？谁先知道？谁后知道？</li>
+        <li>作为企业二代，你在市场中的定位——不是跟散户拼速度，是跟机构比认知</li>
+    </ul>
+
+    <h3>第二部分：通达信高阶操作（60min）</h3>
+    <ul>
+        <li>多股同列、多周期同列、自定义页面布局</li>
+        <li>板块监控与资金流向分析</li>
+        <li>条件预警的进阶用法（多条件组合、文件输出）</li>
+        <li>快捷键强化：日常扫描全市场只需要 10 秒</li>
+    </ul>
+
+    <h3>第三部分：每日市场扫描流程（45min）</h3>
+    <div class="card-grid">
+        <div class="card">
+            <h4>开盘前（15 分钟）</h4>
+            <ul>
+                <li>外盘表现（美股/A50/恒生）</li>
+                <li>当日重要事件（经济数据/政策公告）</li>
+                <li>自选股预警检查</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>盘中（3 次/日）</h4>
+            <ul>
+                <li>大盘走势判断</li>
+                <li>板块涨幅排名（寻找热点）</li>
+                <li>持仓/关注品种扫一眼</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>收盘后（30 分钟）</h4>
+            <ul>
+                <li>当日复盘（大盘/板块/个股）</li>
+                <li>交易记录检查</li>
+                <li>明日计划</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>课后任务</h3>
+    <ul>
+        <li>在通达信中搭建自己的"工作台"（自选股分组 + 自定义版面）</li>
+        <li>按上述流程执行 3 个交易日，记录心得体会</li>
+    </ul>
+</div>
+
+<!-- 第 2 课 -->
+<div class="chapter" id="s2">
+    <h2>第 2 课 技术分析与公式编写</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-pra">实操</span> 3 课时</div></div>
+
+    <h3>本课目标</h3>
+    <ul>
+        <li>理解技术分析的核心哲学（不是预测，是应对）</li>
+        <li>掌握通达信公式编写基础，能自定义指标</li>
+        <li>避免技术分析中最常见的陷阱</li>
+    </ul>
+
+    <h3>第一部分：技术分析的本质（45min）</h3>
+    <ul>
+        <li>三大假设：市场行为包容一切、价格沿趋势移动、历史会重演</li>
+        <li>技术分析不是算命——它是一种风险管理工具</li>
+        <li>企业二代的视角：技术分析在资产配置中的角色（择时 vs 择仓）</li>
+    </ul>
+
+    <h3>第二部分：通达信公式编写（90min）</h3>
+    <ul>
+        <li>公式语言基础：变量、运算符、内置函数（MA, EMA, CROSS, HHV, LLV, REF）</li>
+        <li>实战：编写一个自定义选股公式——"价量齐升+均线多头排列"</li>
+        <li>实战：编写一个技术指标公式——自定义 MACD + 成交量确认</li>
+        <li>公式调试与优化技巧</li>
+    </ul>
+
+    <h3>第三部分：常见陷阱（30min）</h3>
+    <ul>
+        <li>过度拟合：把参数调到完美拟合过去，但未来完全失效</li>
+        <li>幸存者偏差：只看成功的案例，忽略失败的</li>
+        <li>未来函数：不小心用到未来数据，回测结果虚假</li>
+    </ul>
+
+    <div class="warn"><strong>核心原则：</strong>技术指标是你决策的"参考系"，不是"圣杯"。同样的 K 线形态在牛市中成功率 70%，在熊市中可能只有 30%。先判断市场环境，再用指标——这个顺序不能反。</div>
+
+    <h3>课后任务</h3>
+    <ul>
+        <li>编写 1 个自己的选股公式，理由写清楚</li>
+        <li>用通达信的回测功能测试过去 3 个月的表现</li>
+    </ul>
+</div>
+
+<!-- ==================== 模块二 ==================== -->
+<div class="part-page">
+    <div class="part-num">二</div>
+    <h2>交易系统构建</h2>
+    <p>2 课 · 管好情绪，管好风险，建立可复用的交易系统</p>
+</div>
+
+<!-- 第 3 课 -->
+<div class="chapter" id="s3">
+    <h2>第 3 课 交易心理学与行为金融</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-proj">案例</span> 3 课时</div></div>
+
+    <h3>本课目标</h3>
+    <ul>
+        <li>认识最常见的投资心理偏误，建立免疫系统</li>
+        <li>理解为什么聪明人也会做蠢事</li>
+        <li>企业二代的特殊心理挑战（家族压力、光环效应、风险偏好偏移）</li>
+    </ul>
+
+    <h3>第一部分：行为金融学核心（60min）</h3>
+    <div class="card-grid">
+        <div class="card">
+            <h4>损失厌恶</h4>
+            <p>亏 100 的痛苦 ≈ 赚 250 的快乐。这是人类天性，不是你的错。但知道它就能对抗它。</p>
+        </div>
+        <div class="card">
+            <h4>确认偏误</h4>
+            <p>只找支持自己判断的证据，忽略反面信息。持有股票时就只看利好新闻。</p>
+        </div>
+        <div class="card">
+            <h4>锚定效应</h4>
+            <p>被第一个看到的价格锚住。"这只股票之前是 100 块，现在 60 块，好便宜！"——可能它只值 30 块。</p>
+        </div>
+        <div class="card">
+            <h4>处置效应</h4>
+            <p>过早卖出盈利的股票，死扛亏损的股票。结果：赚小钱，亏大钱。</p>
+        </div>
+    </div>
+
+    <h3>第二部分：企业二代的特殊心理挑战（45min）</h3>
+    <ul>
+        <li><strong>光环效应：</strong>"我爸做实业很成功，我炒股也应该赚"——实业和金融是两套能力</li>
+        <li><strong>家族压力：</strong>亏了会被评判，导致不敢做决策或过度冒险</li>
+        <li><strong>风险偏好偏移：</strong>用别人的钱（家族资金）和用自己的钱，决策质量不同</li>
+    </ul>
+
+    <h3>第三部分：构建决策防火墙（45min）</h3>
+    <ul>
+        <li>写投资日记——每笔交易记录时写下"我的情绪状态"</li>
+        <li>设检查点——在情绪激动（大涨/大跌）时不交易，等 24 小时</li>
+        <li>请外脑——和有经验的投资者定期交流，暴露自己的盲区</li>
+    </ul>
+
+    <h3>课后任务</h3>
+    <ul>
+        <li>开始写投资日记（每天 5 分钟），重点记录情绪状态</li>
+        <li>找出自己过去最亏钱的一笔交易，分析当时是什么心理偏误导致的</li>
+    </ul>
+</div>
+
+<!-- 第 4 课 -->
+<div class="chapter" id="s4">
+    <h2>第 4 课 风险管理与仓位控制</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-pra">实操</span> 3 课时</div></div>
+
+    <h3>本课目标</h3>
+    <ul>
+        <li>理解风险管理是投资的第一原则——不是收益最大化，是生存</li>
+        <li>掌握仓位管理和止损止盈的具体方法</li>
+        <li>设计自己的风控规则</li>
+    </ul>
+
+    <h3>第一部分：风险管理的底层逻辑（45min）</h3>
+    <ul>
+        <li>"不要亏大钱"比"赚大钱"重要 100 倍——亏损 50% 需要赚 100% 才能回本</li>
+        <li>最大回撤是资产管理能力的核心指标——机构考核基金经理先看回撤再看收益</li>
+        <li>企业二代的特殊风险：家族资金的安全边际要求更高</li>
+    </ul>
+
+    <h3>第二部分：仓位控制方法（60min）</h3>
+    <table>
+        <thead><tr><th>方法</th><th>规则示例</th><th>适合场景</th></tr></thead>
+        <tbody>
+            <tr><td><strong>固定比例法</strong></td><td>单品种 ≤ 总资金 20%，总仓位 ≤ 70%</td><td>初学者，简单易执行</td></tr>
+            <tr><td><strong>凯利公式</strong></td><td>f = (p × b - q) / b，根据胜率和赔率计算</td><td>有历史数据的策略</td></tr>
+            <tr><td><strong>波动率调整</strong></td><td>高波动品种仓位减半，低波动品种仓位加倍</td><td>多品种组合</td></tr>
+            <tr><td><strong>最大回撤止损</strong></td><td>账户总回撤 -10% 时清仓休息</td><td>所有场景的底线</td></tr>
+        </tbody>
+    </table>
+
+    <h3>第三部分：止损的艺术（45min）</h3>
+    <ul>
+        <li><strong>价格止损：</strong>跌破某价位就走（如 -5% 或跌破 20 日均线）</li>
+        <li><strong>时间止损：</strong>买了以后 N 天不涨就走（资金效率）</li>
+        <li><strong>事件止损：</strong>买入逻辑被证伪（如公司业绩变脸）</li>
+        <li><strong>熔断机制：</strong>当日亏损达到 X% 时停止所有交易</li>
+    </ul>
+
+    <h3>课后任务</h3>
+    <ul>
+        <li>设计一套自己的交易风控规则（书面，不少于 5 条）</li>
+        <li>在通达信中设置条件预警，用技术手段辅助执行</li>
+    </ul>
+</div>
+
+<!-- ==================== 模块三 ==================== -->
+<div class="part-page">
+    <div class="part-num">三</div>
+    <h2>量化交易实战</h2>
+    <p>2 课 · 从想法到策略，用程序验证投资逻辑</p>
+</div>
+
+<!-- 第 5 课 -->
+<div class="chapter" id="s5">
+    <h2>第 5 课 量化平台与自动化交易</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-pra">实操</span> 3 课时</div></div>
+
+    <h3>本课目标</h3>
+    <ul>
+        <li>理解量化交易的核心逻辑——规则化、系统化、自动化</li>
+        <li>了解 QMT / miniQMT 平台的基本用法</li>
+        <li>体验"通达信信号 → 自动下单"的完整链路</li>
+    </ul>
+
+    <h3>第一部分：量化交易是什么（30min）</h3>
+    <ul>
+        <li>量化 ≠ 高频交易。量化 = 用规则替代直觉</li>
+        <li>量化的三层价值：<strong>纪律性</strong>（不情绪化）、<strong>可验证</strong>（能回测）、<strong>可改进</strong>（迭代优化）</li>
+        <li>国内外量化行业格局：幻方/九坤/明汯在做什么，个人量化怎么做</li>
+        <li>企业二代的视角：量化思维不仅用于交易，也用于企业决策——用数据替代直觉</li>
+    </ul>
+
+    <h3>第二部分：QMT / miniQMT 实战（90min）</h3>
+    <ul>
+        <li>QMT 与 PTrade 的定位对比：本地运行 vs 云端运行，各有什么优劣</li>
+        <li>miniQMT 安装配置：极简模式启动，Python 环境准备</li>
+        <li>核心函数演示：<code>get_market_data()</code> 获取行情、<code>passorder()</code> 下单</li>
+        <li><strong>现场演示：</strong>通达信条件预警 → 写入 JSON 文件 → Python 监控 → 自动下单</li>
+    </ul>
+
+    <h3>第三部分：完整链路演示（30min）</h3>
+    <div class="hl-box">
+        <h4>链路全景</h4>
+        <p>通达信（指标公式→条件预警→信号文件）→ Python 监控（watchdog→解析→风控）→ miniQMT（xttrader.passorder→委托）→ 券商柜台 → 交易所</p>
+    </div>
+
+    <h3>课后任务</h3>
+    <ul>
+        <li>在自己的电脑上安装 miniQMT 并完成配置</li>
+        <li>运行提供的示例 Python 脚本，获取实时行情</li>
+        <li>（选做）尝试将通达信的一个条件预警输出到文件</li>
+    </ul>
+</div>
+
+<!-- 第 6 课 -->
+<div class="chapter" id="s6">
+    <h2>第 6 课 策略回测与绩效评估</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-pra">实操</span> 3 课时</div></div>
+
+    <h3>本课目标</h3>
+    <ul>
+        <li>学会用历史数据检验策略的有效性</li>
+        <li>理解关键的绩效评估指标</li>
+        <li>识别回测中最常见的"作弊"手段</li>
+    </ul>
+
+    <h3>第一部分：回测框架与方法（60min）</h3>
+    <ul>
+        <li>回测的基本流程：定义策略 → 历史数据跑一遍 → 计算绩效 → 分析</li>
+        <li>样本内 vs 样本外：留一部分数据不做优化，最后验证</li>
+        <li>过拟合识别：如果策略参数稍微一变结果就差很多，说明过拟合了</li>
+        <li><strong>实战演示：</strong>用 Python 对均线策略做回测</li>
+    </ul>
+
+    <h3>第二部分：绩效指标解读（45min）</h3>
+    <table>
+        <thead><tr><th>指标</th><th>公式/含义</th><th>说明</th></tr></thead>
+        <tbody>
+            <tr><td><strong>年化收益率</strong></td><td>总收益换算到年</td><td>基本指标，但单独看没有意义</td></tr>
+            <tr><td><strong>最大回撤</strong></td><td>从最高点到最低点的最大跌幅</td><td><strong>最重要的风控指标</strong></td></tr>
+            <tr><td><strong>夏普比率</strong></td><td>(收益-无风险利率)/波动率</td><td>衡量每单位风险获得的超额收益，>1 算好</td></tr>
+            <tr><td><strong>胜率</strong></td><td>盈利交易次数/总次数的比例</td><td>高胜率不一定是好策略（很多小赚+一次大亏）</td></tr>
+            <tr><td><strong>盈亏比</strong></td><td>平均盈利/平均亏损</td><td>胜率 40% 但盈亏比 3:1 也能赚钱</td></tr>
+        </tbody>
+    </table>
+
+    <h3>第三部分：常见回测陷阱（30min）</h3>
+    <ul>
+        <li><strong>前视偏差：</strong>用到了未来才发生的数据（如财报发布后才知晓的数据提前使用了）</li>
+        <li><strong>忽略交易成本：</strong>没算手续费、滑点、冲击成本</li>
+        <li><strong>生存偏差：</strong>只测试还在的股票，退市的那些亏损被忽略了</li>
+    </ul>
+
+    <h3>课后任务</h3>
+    <ul>
+        <li>用通达信或 Python 回测一个简单策略（均线/KDJ/RSI 任选），计算全部指标</li>
+        <li>写一份简短的策略评估报告（含策略逻辑、回测结果、风险和局限性）</li>
+    </ul>
+</div>
+
+<!-- ==================== 模块四 ==================== -->
+<div class="part-page">
+    <div class="part-num">四</div>
+    <h2>资产管理与接班</h2>
+    <p>2 课 · 企业二代专属内容，从投资到资产管理</p>
+</div>
+
+<!-- 第 7 课 -->
+<div class="chapter" id="s7">
+    <h2>第 7 课 家族资产配置与企业资金管理</h2>
+    <div class="session"><div class="meta"><span class="tag tag-lec">讲授</span> + <span class="tag tag-proj">实战</span> 3 课时</div></div>
+
+    <div class="hl-box">
+        <h4>这是整门课程最核心的一课</h4>
+        <p>前面的 6 课都在帮你建立"投资能力"，这一课把它落地到"资产管理"——作为企业接班人，你真正需要的是管理家族财富的能力，而不仅仅是买卖股票的能力。</p>
+    </div>
+
+    <h3>第一部分：资产配置的底层逻辑（45min）</h3>
+    <ul>
+        <li>资产配置决定了投资组合 90% 以上的收益波动（Brinson 研究）——选股和择时没那么重要</li>
+        <li>核心资产类别特性对比：股票（高收益高波动）、债券（稳定收益低波动）、商品（对冲通胀）、现金（安全性）、不动产（抗通胀但流动性差）</li>
+        <li>相关性分散——把不相关的资产放在一起，降低整体波动</li>
+    </ul>
+
+    <h3>第二部分：家族资产配置实战（60min）</h3>
+    <p><strong>案例背景：</strong>某制造业家族企业，年利润 5000 万，现有可投资金融资产 8000 万，不动产 3000 万，企业估值约 5 亿。企业主 55 岁，计划 5 年内逐步交班给孩子。</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <h4>问题 1：流动性分层</h4>
+            <ul>
+                <li>第一层：日常备用金（3~6 个月开支）</li>
+                <li>第二层：中期配置（1~3 年，债券+分红股票）</li>
+                <li>第三层：长期增长（3 年以上，权益类+私募股权）</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>问题 2：产业与投资的平衡</h4>
+            <ul>
+                <li>实业现金流稳定时，金融资产可以更进取</li>
+                <li>实业需要资金时，金融资产提供流动性</li>
+                <li>"产业 + 投资"双轮驱动如何落地</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>问题 3：交班过渡期配置</h4>
+            <ul>
+                <li>逐步降低风险偏好（随着年龄增长）</li>
+                <li>建立家族办公室或委托专业投顾</li>
+                <li>子女参与投资决策的路径设计</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>第三部分：与专业投顾共事（30min）</h3>
+    <ul>
+        <li>如何选择投顾机构——看业绩不如看理念一致性</li>
+        <li>如何评估投顾表现——不是每年排名前 10%，是风险调整后收益 + 理念执行</li>
+        <li>投顾 vs 家族办公室 vs 自己管——不同规模下的最优选择</li>
+    </ul>
+
+    <h3>第四部分：结业项目启动（15min）</h3>
+    <p><strong>项目任务：</strong>以自己家族的实际状况（或一个假设场景），设计一份完整的家族资产配置方案。第 8 课进行答辩。</p>
+    <div class="note"><strong>项目要求：</strong>包含现状分析、配置比例、选择理由、风险评估、与投顾合作模式。不要求真实数据（可用脱敏数据），但逻辑必须自洽。</div>
+</div>
+
+<!-- 第 8 课 -->
+<div class="chapter" id="s8">
+    <h2>第 8 课 结业项目答辩</h2>
+    <div class="session"><div class="meta"><span class="tag tag-proj">项目</span> + <span class="tag tag-exam">考核</span> 3 课时</div></div>
+
+    <h3>答辩流程</h3>
+    <table>
+        <thead><tr><th>环节</th><th>时间</th><th>内容</th></tr></thead>
+        <tbody>
+            <tr><td>项目展示</td><td>15 分钟/人</td><td>展示家族资产配置方案</td></tr>
+            <tr><td></td><td></td><td>（背景→配置方案→理由→风险评估）</td></tr>
+            <tr><td>评委问答</td><td>10 分钟/人</td><td>导师团提问，检验方案的自洽性</td></tr>
+            <tr><td>同行互评</td><td>5 分钟/人</td><td>其他学员给出反馈和建议</td></tr>
+        </tbody>
+    </table>
+
+    <h3>评委构成</h3>
+    <ul>
+        <li>课程导师（投资专家）</li>
+        <li>企业家校友（实业视角）</li>
+        <li>特邀嘉宾（家族办公室/财富管理从业者）</li>
+    </ul>
+
+    <h3>评分标准</h3>
+    <table>
+        <thead><tr><th>维度</th><th>权重</th><th>说明</th></tr></thead>
+        <tbody>
+            <tr><td>逻辑自洽性</td><td>30%</td><td>配置方案有没有充分理由支撑</td></tr>
+            <tr><td>风险意识</td><td>25%</td><td>是否充分考虑了风险场景和应对</td></tr>
+            <tr><td>可行性</td><td>20%</td><td>方案在实际中能否落地</td></tr>
+            <tr><td>创新性</td><td>15%</td><td>有没有独到的见解或差异化思考</td></tr>
+            <tr><td>表达清晰度</td><td>10%</td><td>是否能让非专业人士听懂</td></tr>
+        </tbody>
+    </table>
+
+    <h3>通关条件</h3>
+    <ul>
+        <li>答辩评分 ≥ 70 分</li>
+        <li>完成全部 8 次课的课后任务</li>
+        <li>通达信操作考核（30 分钟测试）≥ 80 分</li>
+    </ul>
+
+    <div class="tip"><strong>认证：</strong>通过后获颁<strong>通达信认证 Analyst</strong> 证书（纸质 + 数字徽章）。优秀学员可推荐至合作金融机构/家族办公室实习。</div>
+</div>
+
+<!-- ==================== 附录 ==================== -->
+<div class="part-page" id="appendix">
+    <div class="part-num">附</div>
+    <h2>附录</h2>
+    <p>师资建议 · 实施参数 · 配套资源</p>
+</div>
+
+<div class="chapter">
+    <h2>师资建议</h2>
+    <table>
+        <thead><tr><th>课次</th><th>内容</th><th>推荐师资</th></tr></thead>
+        <tbody>
+            <tr><td>第 1~2 课</td><td>市场格局 / 技术分析</td><td>券商研究所分析师 / 投资总监</td></tr>
+            <tr><td>第 3~4 课</td><td>交易心理 / 风险管理</td><td>私募基金经理 / 资深交易员</td></tr>
+            <tr><td>第 5~6 课</td><td>量化交易 / 回测</td><td>量化工程师 / 私募量化主管</td></tr>
+            <tr><td>第 7 课</td><td>家族资产配置</td><td>家族办公室负责人 / 私人银行家</td></tr>
+            <tr><td>第 8 课</td><td>答辩评审</td><td>全体导师 + 企业家校友</td></tr>
+        </tbody>
+    </table>
+
+    <h2>实施参数</h2>
+    <div class="card-grid">
+        <div class="card">
+            <h4>班级规模</h4>
+            <p>8~15 人。小班保证每人都有充分的互动和指导时间。</p>
+        </div>
+        <div class="card">
+            <h4>授课形式</h4>
+            <p>线下为主。每周半天。社群每日推送市场简讯。</p>
+        </div>
+        <div class="card">
+            <h4>参考学费</h4>
+            <p>¥16,800 / 人（含全套教材 + 认证费）。<br>企业团体报名享优惠。</p>
+        </div>
+        <div class="card">
+            <h4>学员权益</h4>
+            <p>毕业后可加入校友社群，参加月度投资沙龙，持续学习。</p>
+        </div>
+    </div>
+
+    <h2>配套教材</h2>
+    <table>
+        <thead><tr><th>资源</th><th>类型</th><th>用途</th></tr></thead>
+        <tbody>
+            <tr><td>通达信知识体系.html</td><td>主教材</td><td>课前预习 + 课后查阅，覆盖全部技术细节</td></tr>
+            <tr><td>通达信入门手册（Win+Mac）</td><td>操作手册</td><td>课堂实操参考，快捷键速查</td></tr>
+            <tr><td>通达信横向对比分析.html</td><td>行业分析</td><td>第 1 课讨论材料，理解行业格局</td></tr>
+            <tr><td>量化交易技术方案.html</td><td>技术文档</td><td>第 5~6 课量化交易技术参考</td></tr>
+            <tr><td>量化交易竞争差异分析.html</td><td>战略分析</td><td>帮助定位个人在量化市场中的位置</td></tr>
+        </tbody>
+    </table>
+
+    <h2>学员权益与后续服务</h2>
+    <ul>
+        <li>全套通达信知识体系 HTML 文件终身访问权</li>
+        <li>课后社群答疑（导师 + 助教在线）</li>
+        <li>每月一次线上投资沙龙（案例复盘 + 市场讨论）</li>
+        <li>优秀学员可获推荐至合作金融机构/家族办公室实习</li>
+        <li>校友终身学习计划——后续课程更新免费获取</li>
+    </ul>
+
+    <div class="footer-note">
+        <p>通达信企业二代投资精修班 — L3+L4 压缩课程 v1.0</p>
+        <p>8 周 · 16 课时 · 核心产出：家族资产配置方案 + 通达信认证 Analyst</p>
+    </div>
+</div>
+
+</body>
+</html>

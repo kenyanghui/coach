@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期权期货入门培训 - 小白也能懂（80+品种全攻略）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.7;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px 40px;
+  }
+  .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+  .header p { font-size: 1.1em; opacity: 0.85; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+  .section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px 35px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .section h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #e8f0fe;
+    color: #1a1a2e;
+  }
+  .section h2 .num {
+    display: inline-block;
+    background: #0f3460;
+    color: #fff;
+    width: 32px; height: 32px;
+    text-align: center; line-height: 32px;
+    border-radius: 50%;
+    font-size: 0.8em;
+    margin-right: 10px;
+  }
+  .section h3 {
+    font-size: 1.15em;
+    color: #0f3460;
+    margin: 20px 0 10px;
+  }
+  .highlight-box {
+    background: #fff8e1;
+    border-left: 4px solid #ff9800;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .tip-box {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .warn-box {
+    background: #fce4ec;
+    border-left: 4px solid #e53935;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .chart-container {
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: center;
+  }
+  .chart-container svg { max-width: 100%; height: auto; }
+  .chart-label {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  th, td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  th {
+    background: #0f3460;
+    color: #fff;
+    font-weight: 500;
+  }
+  tr:nth-child(even) { background: #f8f9fa; }
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 500;
+  }
+  .tag-green { background: #c8e6c9; color: #2e7d32; }
+  .tag-red { background: #ffcdd2; color: #c62828; }
+  .tag-blue { background: #bbdefb; color: #1565c0; }
+  .tag-orange { background: #ffe0b2; color: #e65100; }
+  .step-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+  }
+  .step-card {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+  }
+  .step-card .step-num {
+    width: 36px; height: 36px;
+    background: #0f3460;
+    color: #fff;
+    border-radius: 50%;
+    line-height: 36px;
+    font-weight: bold;
+    margin: 0 auto 10px;
+  }
+  .step-card h4 { margin-bottom: 6px; color: #0f3460; }
+  .step-card p { font-size: 0.9em; color: #555; }
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #888;
+    font-size: 0.9em;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 15px 0;
+  }
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .section { padding: 20px; }
+    .header h1 { font-size: 1.6em; }
+  }
+  .contract-card {
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid;
+  }
+  .contract-card h4 { font-size: 1.1em; margin-bottom: 8px; }
+  .contract-card p { font-size: 0.9em; margin: 4px 0; }
+  .glossary-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .glossary-item:last-child { border-bottom: none; }
+  .glossary-item .term {
+    font-weight: 600;
+    color: #0f3460;
+    min-width: 80px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>期权 &amp; K线 入门培训</h1>
+  <p>零基础也能学会 · 图文并茂版 · <strong>13章全攻略</strong></p>
+</div>
+
+<div class="container">
+
+<!-- ===== 第一章 ===== -->
+<div class="section">
+  <h2><span class="num">1</span>K线是什么？一根蜡烛说清楚</h2>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 340" width="760" height="340">
+      <!-- 阳线（红色涨） -->
+      <text x="130" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#e53935">阳线（涨）</text>
+      <line x1="130" y1="45" x2="130" y2="75" stroke="#666" stroke-width="2"/>
+      <rect x="110" y="75" width="40" height="80" fill="#e53935" rx="2"/>
+      <line x1="130" y1="155" x2="130" y2="185" stroke="#666" stroke-width="2"/>
+      <text x="130" y="205" text-anchor="middle" font-size="13" fill="#666">收盘价 ↑</text>
+      <text x="130" y="68" text-anchor="middle" font-size="13" fill="#666">最高价</text>
+      <text x="130" y="175" text-anchor="middle" font-size="13" fill="#666">最低价</text>
+      <line x1="155" y1="78" x2="200" y2="78" stroke="#999" stroke-width="1" stroke-dash="3"/>
+      <text x="210" y="82" font-size="12" fill="#999">这是"上影线"——价格冲上去又被打下来了</text>
+      <line x1="155" y1="152" x2="200" y2="152" stroke="#999" stroke-width="1" stroke-dash="3"/>
+      <text x="210" y="148" font-size="12" fill="#999">这是"下影线"——价格砸下去又被拉回来了</text>
+
+      <!-- 阴线（绿色跌） -->
+      <text x="380" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#4caf50">阴线（跌）</text>
+      <line x1="380" y1="45" x2="380" y2="85" stroke="#666" stroke-width="2"/>
+      <rect x="360" y="85" width="40" height="70" fill="#4caf50" rx="2"/>
+      <line x1="380" y1="155" x2="380" y2="180" stroke="#666" stroke-width="2"/>
+      <text x="380" y="205" text-anchor="middle" font-size="13" fill="#666">收盘价 ↓</text>
+      <text x="380" y="68" text-anchor="middle" font-size="13" fill="#666">最高价</text>
+      <text x="380" y="175" text-anchor="middle" font-size="13" fill="#666">最低价</text>
+
+      <!-- 示意图标注 -->
+      <text x="130" y="240" text-anchor="middle" font-size="14" fill="#e53935" font-weight="bold">🔴 阳线 = 收盘 &gt; 开盘 = 涨了</text>
+      <text x="130" y="265" text-anchor="middle" font-size="12" fill="#999">实体越大，涨得越猛</text>
+
+      <text x="380" y="240" text-anchor="middle" font-size="14" fill="#4caf50" font-weight="bold">🟢 阴线 = 收盘 &lt; 开盘 = 跌了</text>
+      <text x="380" y="265" text-anchor="middle" font-size="12" fill="#999">实体越大，跌得越狠</text>
+
+      <!-- 看图只看三个东西 -->
+      <rect x="540" y="40" width="200" height="140" rx="10" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="640" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">看图只看三样</text>
+      <text x="550" y="90" font-size="13" fill="#333">① 颜色 → 涨还是跌</text>
+      <text x="550" y="112" font-size="13" fill="#333">② 实体大小 → 力度</text>
+      <text x="550" y="134" font-size="13" fill="#333">③ 影线长短 → 阻力</text>
+      <text x="550" y="160" font-size="12" fill="#888">上影线长 = 上方卖压大</text>
+      <text x="550" y="178" font-size="12" fill="#888">下影线长 = 下方支撑强</text>
+    </svg>
+    <div class="chart-label">▲ 一根K线 = 四个价格 + 涨跌颜色</div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>一句话记住：</strong>不看那些复杂的线，先看颜色——<span class="tag tag-red">红涨</span> <span class="tag tag-green">绿跌</span>，就够了。
+  </div>
+</div>
+
+<!-- ===== 第二章：时间周期 ===== -->
+<div class="section">
+  <h2><span class="num">2</span>日线 vs 120分钟线：望远镜 vs 放大镜</h2>
+
+  <p style="margin-bottom:12px;">同一个东西，用不同倍数看，效果完全不一样。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 350" width="760" height="350">
+      <!-- 日线 模拟 -->
+      <text x="190" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f3460">日线 —— 望远镜（看方向）</text>
+      <text x="190" y="52" text-anchor="middle" font-size="13" fill="#888">一根K线 = 一天。看整体趋势</text>
+
+      <!-- 日线K线：大走势 -->
+      <rect x="50" y="260" width="18" height="40" fill="#e53935" rx="2"/>
+      <rect x="78" y="240" width="18" height="60" fill="#e53935" rx="2"/>
+      <rect x="106" y="220" width="18" height="80" fill="#e53935" rx="2"/>
+      <rect x="134" y="230" width="18" height="50" fill="#4caf50" rx="2"/>
+      <rect x="162" y="250" width="18" height="30" fill="#4caf50" rx="2"/>
+      <rect x="190" y="255" width="18" height="40" fill="#e53935" rx="2"/>
+      <rect x="218" y="235" width="18" height="60" fill="#e53935" rx="2"/>
+      <rect x="246" y="215" width="18" height="70" fill="#e53935" rx="2"/>
+      <rect x="274" y="225" width="18" height="40" fill="#4caf50" rx="2"/>
+      <rect x="302" y="240" width="18" height="30" fill="#e53935" rx="2"/>
+
+      <!-- 箭头趋势 -->
+      <path d="M55,310 Q170,270 310,300" stroke="#0f3460" stroke-width="2.5" fill="none" marker-end="url(#arrowBlue)"/>
+      <defs>
+        <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#0f3460"/></marker>
+        <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#e53935"/></marker>
+      </defs>
+      <text x="170" y="345" text-anchor="middle" font-size="12" fill="#0f3460">整体看：价格在上涨趋势中</text>
+
+      <!-- 分割线 -->
+      <line x1="365" y1="20" x2="365" y2="330" stroke="#ddd" stroke-width="2" stroke-dash="5"/>
+
+      <!-- 120分钟线 模拟 -->
+      <text x="565" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#e65100">120分钟线 —— 放大镜（找买点）</text>
+      <text x="565" y="52" text-anchor="middle" font-size="13" fill="#888">一根K线 = 2小时。看精确拐点</text>
+
+      <!-- 120分钟线：细节 -->
+      <rect x="395" y="130" width="14" height="18" fill="#e53935" rx="1"/>
+      <rect x="415" y="125" width="14" height="25" fill="#e53935" rx="1"/>
+      <rect x="435" y="120" width="14" height="30" fill="#e53935" rx="1"/>
+      <rect x="455" y="128" width="14" height="18" fill="#4caf50" rx="1"/>
+      <rect x="475" y="135" width="14" height="12" fill="#4caf50" rx="1"/>
+      <rect x="495" y="125" width="14" height="22" fill="#e53935" rx="1"/>
+      <rect x="515" y="118" width="14" height="28" fill="#e53935" rx="1"/>
+      <rect x="535" y="130" width="14" height="16" fill="#4caf50" rx="1"/>
+      <rect x="555" y="140" width="14" height="10" fill="#4caf50" rx="1"/>
+      <rect x="575" y="132" width="14" height="15" fill="#e53935" rx="1"/>
+      <rect x="595" y="128" width="14" height="20" fill="#e53935" rx="1"/>
+      <rect x="615" y="122" width="14" height="26" fill="#4caf50" rx="1"/>
+      <rect x="635" y="130" width="14" height="14" fill="#e53935" rx="1"/>
+      <rect x="655" y="125" width="14" height="22" fill="#e53935" rx="1"/>
+      <rect x="675" y="120" width="14" height="28" fill="#4caf50" rx="1"/>
+      <rect x="695" y="132" width="14" height="15" fill="#e53935" rx="1"/>
+
+      <!-- 左侧日线框出的范围 -->
+      <rect x="215" y="210" width="72" height="62" fill="none" stroke="#e65100" stroke-width="2" stroke-dash="4"/>
+      <line x1="287" y1="200" x2="395" y2="100" stroke="#e65100" stroke-width="1.5" stroke-dash="4"/>
+      <text x="320" y="90" font-size="11" fill="#e65100">"放大这一块"</text>
+
+      <path d="M400,170 Q550,145 700,160" stroke="#e65100" stroke-width="2" fill="none" marker-end="url(#arrowRed)"/>
+      <text x="550" y="195" text-anchor="middle" font-size="12" fill="#e65100">细节里能看到：涨涨跌跌，并不是一路直上</text>
+    </svg>
+    <div class="chart-label">▲ 左边看方向，右边看细节，两个一起用</div>
+  </div>
+
+  <table>
+    <tr><th style="width:120px;"></th><th>日线</th><th>120分钟线</th></tr>
+    <tr>
+      <td><strong>比喻</strong></td>
+      <td>望远镜</td>
+      <td>放大镜</td>
+    </tr>
+    <tr>
+      <td><strong>一根=</strong></td>
+      <td>1天</td>
+      <td>2小时（一天出2根）</td>
+    </tr>
+    <tr>
+      <td><strong>看什么</strong></td>
+      <td>大方向：整体在涨还是跌？</td>
+      <td>细节：具体在哪里买/卖？</td>
+    </tr>
+    <tr>
+      <td><strong>优缺点</strong></td>
+      <td>稳定，但反应慢</td>
+      <td>灵敏，但假信号多一点点</td>
+    </tr>
+  </table>
+
+  <div class="tip-box">
+    <strong>口诀：</strong><br>
+    日线定方向 —— 是涨是跌先看清楚<br>
+    120分找买点 —— 方向定了再精确入场
+  </div>
+</div>
+
+<!-- ===== 第三章：三档合约 ===== -->
+<div class="section">
+  <h2><span class="num">3</span>期权的三档：实值 / 平值 / 虚值</h2>
+
+  <p>还是打比方最好懂。假设现在<strong>茅台的股价 = 200元</strong>，我们来看三种情况：</p>
+
+  <div class="two-col">
+    <div class="contract-card" style="border-color:#4caf50; background:#e8f5e9;">
+      <h4 style="color:#2e7d32;">实值合约</h4>
+      <p>看涨：约定 180 元买入</p>
+      <p style="font-weight:bold; color:#2e7d32;">市场200，你能180买 → 立刻赚20</p>
+      <p style="font-size:0.85em; color:#666;">行权立刻赚钱，所以贵</p>
+    </div>
+    <div class="contract-card" style="border-color:#ff9800; background:#fff8e1;">
+      <h4 style="color:#e65100;">平值合约</h4>
+      <p>看涨：约定 200 元买入</p>
+      <p style="font-weight:bold; color:#e65100;">和市场价一样 → 不赚不亏</p>
+      <p style="font-size:0.85em; color:#666;">只有时间价值，没有内在价值</p>
+    </div>
+  </div>
+
+  <div class="contract-card" style="border-color:#e53935; background:#fce4ec; margin-bottom:15px;">
+    <h4 style="color:#c62828;">虚值合约 ⭐ 文档里选的就是这个</h4>
+    <p>看涨：约定 220 元买入</p>
+    <p style="font-weight:bold; color:#c62828;">市场才200，我凭什么花220买？→ 行权就亏</p>
+    <p style="font-size:0.85em; color:#666;">现在没有任何价值，只有"赌未来会涨"的希望</p>
+  </div>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 720 230" width="720" height="230">
+      <!-- 价格轴 -->
+      <line x1="40" y1="180" x2="680" y2="180" stroke="#333" stroke-width="2"/>
+      <text x="360" y="210" text-anchor="middle" font-size="14" fill="#333">价格 →</text>
+      <text x="30" y="185" font-size="13" fill="#333">0</text>
+
+      <!-- 当前市价 200 -->
+      <line x1="340" y1="175" x2="340" y2="185" stroke="#333" stroke-width="2"/>
+      <text x="340" y="170" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">当前市价 200</text>
+      <polygon points="340,10 330,30 350,30" fill="#333"/>
+
+      <!-- 实值区 -->
+      <rect x="50" y="40" width="200" height="120" rx="8" fill="#c8e6c9" opacity="0.4"/>
+      <text x="150" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">实值区</text>
+      <text x="150" y="90" text-anchor="middle" font-size="11" fill="#2e7d32">看涨：约定买入价 &lt; 200</text>
+      <text x="150" y="108" text-anchor="middle" font-size="11" fill="#2e7d32">看跌：约定卖出价 &gt; 200</text>
+      <text x="150" y="130" text-anchor="middle" font-size="11" fill="#555">行权就赚 → 贵，但稳</text>
+
+      <!-- 平值 -->
+      <text x="360" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">← 平值 ≈ 200 →</text>
+      <text x="360" y="90" text-anchor="middle" font-size="11" fill="#e65100">行权 = 市场价，不赚不亏</text>
+      <text x="360" y="130" text-anchor="middle" font-size="11" fill="#555">价格全凭"时间"</text>
+
+      <!-- 虚值区 -->
+      <rect x="460" y="40" width="200" height="120" rx="8" fill="#ffcdd2" opacity="0.4"/>
+      <text x="560" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">虚值区</text>
+      <text x="560" y="90" text-anchor="middle" font-size="11" fill="#c62828">看涨：约定买入价 &gt; 200</text>
+      <text x="560" y="108" text-anchor="middle" font-size="11" fill="#c62828">看跌：约定卖出价 &lt; 200</text>
+      <text x="560" y="130" text-anchor="middle" font-size="11" fill="#555">行权就亏 → 便宜像彩票</text>
+
+      <!-- 箭头 -->
+      <text x="150" y="165" text-anchor="middle" font-size="12" fill="#2e7d32">价格低 ← 越往左越实值</text>
+      <text x="560" y="165" text-anchor="middle" font-size="12" fill="#c62828">越往右越虚值 → 价格高</text>
+    </svg>
+    <div class="chart-label">▲ 站在当前价格（200元）看三档的位置</div>
+  </div>
+
+  <table>
+    <tr><th></th><th>实值</th><th>平值</th><th style="background:#c62828;">虚值（文档选的）</th></tr>
+    <tr><td><strong>价格（权利金）</strong></td><td>贵</td><td>中等</td><td style="background:#fff0f0;"><strong>便宜</strong></td></tr>
+    <tr><td><strong>行权赚钱？</strong></td><td>立刻赚</td><td>不赚不亏</td><td style="background:#fff0f0;">立刻亏</td></tr>
+    <tr><td><strong>杠杆</strong></td><td>低</td><td>中等</td><td style="background:#fff0f0;"><strong>最高</strong></td></tr>
+    <tr><td><strong>风险</strong></td><td>低</td><td>中等</td><td style="background:#fff0f0;"><strong>容易归零</strong></td></tr>
+    <tr><td><strong>适合谁</strong></td><td>保守型</td><td>普通</td><td style="background:#fff0f0;"><strong>博高收益</strong></td></tr>
+  </table>
+
+  <div class="highlight-box">
+    <strong>一句话总结虚值合约：</strong>花小钱买"万一"——万一行情暴涨/暴跌就赚翻了，没到就全亏。跟买彩票一个道理，只是赔率你算得出来。
+  </div>
+</div>
+
+<!-- ===== 第四章：模型 ===== -->
+<div class="section">
+  <h2><span class="num">4</span>核心模型：突破回撤法（等车理论）</h2>
+
+  <p style="margin-bottom:15px;">文档里的模型核心就一句话：<strong>涨上去 → 跌回来 → 在跌不动的地方买</strong>。跟等公交车一模一样。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 380" width="760" height="380">
+      <text x="380" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f3460">模型图解：等它涨上去再跌回来，在红线附近买</text>
+
+      <!-- 两条均线 -->
+      <!-- 蓝线（短期） -->
+      <path d="M50,300 Q120,280 180,240 Q240,180 300,190 Q360,200 420,160 Q480,120 540,130 Q600,140 660,115 Q700,100 730,95"
+            stroke="#1565c0" stroke-width="3" fill="none"/>
+      <text x="740" y="95" font-size="13" fill="#1565c0" font-weight="bold">蓝线（短期均线）</text>
+
+      <!-- 红线（长期） -->
+      <path d="M50,320 Q120,310 180,290 Q240,270 300,265 Q360,260 420,250 Q480,240 540,235 Q600,230 660,228 Q700,225 730,225"
+            stroke="#e53935" stroke-width="3" fill="none"/>
+      <text x="740" y="225" font-size="13" fill="#e53935" font-weight="bold">红线（长期均线）</text>
+
+      <!-- 金叉标记 -->
+      <circle cx="240" cy="180" r="20" fill="none" stroke="#ff9800" stroke-width="2.5" stroke-dash="4"/>
+      <text x="240" y="155" text-anchor="middle" font-size="12" fill="#e65100">① 蓝线上穿红线</text>
+      <text x="240" y="170" text-anchor="middle" font-size="11" fill="#e65100">= "金叉"</text>
+      <text x="240" y="210" text-anchor="middle" font-size="11" fill="#e65100">上涨信号来了</text>
+
+      <!-- 第二步：涨上去了 -->
+      <text x="420" y="118" text-anchor="middle" font-size="12" fill="#1565c0">② 价格一路上涨</text>
+
+      <!-- 第三步：回踩 -->
+      <circle cx="600" cy="235" r="22" fill="none" stroke="#4caf50" stroke-width="3"/>
+      <text x="600" y="265" text-anchor="middle" font-size="12" fill="#2e7d32">③ 价格回踩红线</text>
+      <text x="600" y="282" text-anchor="middle" font-size="12" fill="#2e7d32">跌不动了 → 买！</text>
+      <text x="600" y="300" text-anchor="middle" font-size="11" fill="#888">这就是你的上车点</text>
+
+      <!-- 买入标注 -->
+      <line x1="600" y1="235" x2="600" y2="340" stroke="#4caf50" stroke-width="2" stroke-dash="4"/>
+      <polygon points="595,340 605,340 600,350" fill="#4caf50"/>
+
+      <!-- 第四步市 继续涨 -->
+      <text x="700" y="118" text-anchor="middle" font-size="12" fill="#1565c0">④ 继续涨 → 持有等卖</text>
+
+      <!-- 底部文字说明 -->
+      <rect x="30" y="345" width="700" height="35" rx="6" fill="#fff8e1" stroke="#ff9800" stroke-width="1"/>
+      <text x="380" y="367" text-anchor="middle" font-size="13" fill="#e65100">买点条件：蓝线在红线上面（确认上涨趋势）+ 价格跌回红线附近（回踩不破）= 买入</text>
+    </svg>
+    <div class="chart-label">▲ 蓝线上穿红线 = 确认涨势，等价格回踩红线 = 上车机会</div>
+  </div>
+
+  <h3>用等公交车来理解</h3>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h4>车来了</h4>
+      <p>价格开始涨了<br><span style="font-size:0.85em;color:#c62828;">别追！追容易站岗</span></p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h4>确认方向</h4>
+      <p>蓝线上穿红线<br><span style="font-size:0.85em;color:#1565c0;">确认真的在涨</span></p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h4>到站停车</h4>
+      <p>价格跌回红线<br><span style="font-size:0.85em;color:#2e7d32;">等它跌不动 → 上车</span></p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <h4>坐等收钱</h4>
+      <p>涨了就持有<br><span style="font-size:0.85em;color:#e65100;">按计划分批卖</span></p>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>买入秘诀：</strong>不追高，等回踩。宁可不做，不要做错。<br>
+    <strong>卖出秘诀：</strong>涨一倍卖一半，涨两倍再卖一半，剩下的看它飞到哪。
+  </div>
+</div>
+
+<!-- ===== 第五章：完整流程 ===== -->
+<div class="section">
+  <h2><span class="num">5</span>完整操作流程（照做就行）</h2>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 720 260" width="720" height="260">
+      <!-- 流程图 -->
+      <rect x="15" y="20" width="155" height="70" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+      <text x="92" y="48" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">第一步：选合约</text>
+      <text x="92" y="66" text-anchor="middle" font-size="11" fill="#333">到期日 10-40天</text>
+      <text x="92" y="82" text-anchor="middle" font-size="11" fill="#333">持仓 ≥ 1000手</text>
+
+      <text x="100" y="118" text-anchor="middle" font-size="20" fill="#999">→</text>
+
+      <rect x="190" y="20" width="155" height="70" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+      <text x="267" y="48" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">第二步：选档位</text>
+      <text x="267" y="66" text-anchor="middle" font-size="11" fill="#333">选 <span style="color:#c62828;font-weight:bold;">虚值合约</span></text>
+      <text x="267" y="82" text-anchor="middle" font-size="11" fill="#333">价格便宜，杠杆高</text>
+
+      <text x="275" y="118" text-anchor="middle" font-size="20" fill="#999">→</text>
+
+      <rect x="365" y="20" width="155" height="70" rx="10" fill="#fff8e1" stroke="#ff9800" stroke-width="2"/>
+      <text x="442" y="48" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">第三步：看周期</text>
+      <text x="442" y="66" text-anchor="middle" font-size="11" fill="#333">日线 或 120分钟线</text>
+      <text x="442" y="82" text-anchor="middle" font-size="11" fill="#333">哪个出信号用哪个</text>
+
+      <text x="450" y="118" text-anchor="middle" font-size="20" fill="#999">→</text>
+
+      <rect x="540" y="20" width="165" height="70" rx="10" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+      <text x="622" y="48" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">第四步：等买点</text>
+      <text x="622" y="66" text-anchor="middle" font-size="11" fill="#333">蓝线上穿红线</text>
+      <text x="622" y="82" text-anchor="middle" font-size="11" fill="#333">价格回踩红线→买</text>
+
+      <!-- AI 辅助 -->
+      <rect x="190" y="150" width="340" height="60" rx="10" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" stroke-dash="4"/>
+      <text x="360" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">AI助攻（可选）</text>
+      <text x="360" y="195" text-anchor="middle" font-size="11" fill="#555">问AI：这个品种最近有没有重大利好/利空？</text>
+
+      <text x="360" y="142" text-anchor="middle" font-size="14" fill="#999">↓</text>
+
+      <!-- 卖出 -->
+      <rect x="540" y="150" width="165" height="60" rx="10" fill="#e0f2f1" stroke="#00897b" stroke-width="2"/>
+      <text x="622" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#00695c">卖出规则</text>
+      <text x="622" y="195" text-anchor="middle" font-size="11" fill="#555">1倍卖一半，2倍再卖一半</text>
+
+      <text x="535" y="177" text-anchor="middle" font-size="14" fill="#999">→</text>
+    </svg>
+    <div class="chart-label">▲ 四个步骤，照着做就行</div>
+  </div>
+
+  <table>
+    <tr><th>步骤</th><th>操作</th><th>大白话</th></tr>
+    <tr><td><strong>1. 选合约</strong></td><td>到期10-40天，持仓≥1000手</td><td>挑一个快要到期、有人玩的</td></tr>
+    <tr><td><strong>2. 选档位</strong></td><td>选虚值合约</td><td>买便宜的，博高收益</td></tr>
+    <tr><td><strong>3. 看周期</strong></td><td>日线或120分钟线</td><td>哪个出了信号就用哪个</td></tr>
+    <tr><td><strong>4. 等买点</strong></td><td>金叉→回踩→买</td><td>等车到站再上，不追高</td></tr>
+    <tr><td><strong>卖出</strong></td><td>1倍卖一半，2倍再卖一半</td><td>分批止盈，落袋为安</td></tr>
+  </table>
+
+  <div class="warn-box">
+    <strong>重要提醒：</strong>单个品种投入不超过总资金的5%，同一板块只选一个，防止黑天鹅事件全仓爆仓。
+  </div>
+</div>
+
+<!-- ===== 第六章：词条 ===== -->
+<div class="section">
+  <h2><span class="num">6</span>必记词条（收藏这张表）</h2>
+
+  <div class="glossary-item">
+    <span class="term">K线</span>
+    <span>一根"蜡烛"，包含开盘/收盘/最高/最低四个价格。红色=涨，绿色=跌。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">阳线</span>
+    <span>收盘价 > 开盘价，涨了。实体越大涨得越猛。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">阴线</span>
+    <span>收盘价 < 开盘价，跌了。实体越大跌得越狠。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">影线</span>
+    <span>上影线长 = 上面卖的人多（压力大）；下影线长 = 下面买的人多（支撑强）。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">日线</span>
+    <span>一根K线=一天。看大方向用，稳定但反应慢。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">120分钟线</span>
+    <span>一根K线=两小时。一天交易4小时出2根。找精确买卖点用。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">实值合约</span>
+    <span>行权立刻赚钱。贵但稳。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">平值合约</span>
+    <span>行权不赚不亏，价格全由时间决定。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">虚值合约</span>
+    <span>行权就亏，但便宜、杠杆高，赌方向用的。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">金叉</span>
+    <span>短期均线上穿长期均线 = 上涨信号。</span>
+  </div>
+  <div class="glossary-item">
+    <span class="term">突破回撤</span>
+    <span>价格涨上去突破关键位，又跌回来测试支撑。在支撑位买就叫"突破回撤买入法"。</span>
+  </div>
+</div>
+
+<!-- ===== 第七章：80+品种 ===== -->
+<div class="section">
+  <h2><span class="num">7</span>80+交易品种大全（你都能炒什么）</h2>
+
+  <p>期货市场有<strong>80多个品种</strong>，分成几大类。你选的合约就是从这些品种里挑的。来看看都有什么：</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 490" width="760" height="490">
+      <!-- 标题 -->
+      <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f3460">国内期货市场 80+ 品种分类总览</text>
+
+      <!-- ===== 第一行：四大交易所 ===== -->
+      <rect x="15" y="45" width="170" height="38" rx="8" fill="#1a237e" opacity="0.9"/>
+      <text x="100" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">上海期货交易所（上期所）</text>
+
+      <rect x="200" y="45" width="170" height="38" rx="8" fill="#b71c1c" opacity="0.9"/>
+      <text x="285" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">大连商品交易所（大商所）</text>
+
+      <rect x="385" y="45" width="170" height="38" rx="8" fill="#004d40" opacity="0.9"/>
+      <text x="470" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">郑州商品交易所（郑商所）</text>
+
+      <rect x="570" y="45" width="175" height="38" rx="8" fill="#e65100" opacity="0.9"/>
+      <text x="657" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">中国金融期货交易所（中金所）</text>
+
+      <!-- ===== 上期所 品种 ===== -->
+      <rect x="15" y="95" width="170" height="105" rx="6" fill="#e8eaf6" stroke="#1a237e" stroke-width="1"/>
+      <text x="100" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a237e">贵金属</text>
+      <text x="100" y="130" text-anchor="middle" font-size="11" fill="#333">黄金（AU）、白银（AG）</text>
+      <text x="100" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a237e">有色金属</text>
+      <text x="100" y="167" text-anchor="middle" font-size="11" fill="#333">铜、铝、锌、铅、镍、锡</text>
+      <text x="100" y="187" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a237e">能源化工</text>
+      <text x="100" y="198" text-anchor="middle" font-size="10" fill="#333">原油、燃油、沥青、橡胶</text>
+
+      <!-- ===== 大商所 品种 ===== -->
+      <rect x="200" y="95" width="170" height="105" rx="6" fill="#ffebee" stroke="#b71c1c" stroke-width="1"/>
+      <text x="285" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#b71c1c">农产品</text>
+      <text x="285" y="130" text-anchor="middle" font-size="11" fill="#333">豆一、豆二、豆油、豆粕</text>
+      <text x="285" y="147" text-anchor="middle" font-size="11" fill="#333">玉米、玉米淀粉、粳米</text>
+      <text x="285" y="167" text-anchor="middle" font-size="11" font-weight="bold" fill="#b71c1c">化工/黑色</text>
+      <text x="285" y="184" text-anchor="middle" font-size="11" fill="#333">焦炭、焦煤、铁矿石</text>
+      <text x="285" y="198" text-anchor="middle" font-size="11" fill="#333">聚乙烯（LLDPE）、聚丙烯（PP）</text>
+
+      <!-- ===== 郑商所 品种 ===== -->
+      <rect x="385" y="95" width="170" height="105" rx="6" fill="#e0f2f1" stroke="#004d40" stroke-width="1"/>
+      <text x="470" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#004d40">农产品</text>
+      <text x="470" y="130" text-anchor="middle" font-size="11" fill="#333">棉花、白糖、苹果、红枣</text>
+      <text x="470" y="147" text-anchor="middle" font-size="11" fill="#333">花生、菜籽油、菜籽粕</text>
+      <text x="470" y="167" text-anchor="middle" font-size="11" font-weight="bold" fill="#004d40">化工/建材</text>
+      <text x="470" y="184" text-anchor="middle" font-size="11" fill="#333">甲醇、PTA、纯碱、尿素</text>
+      <text x="470" y="198" text-anchor="middle" font-size="11" fill="#333">玻璃、短纤、对二甲苯</text>
+
+      <!-- ===== 中金所 品种 ===== -->
+      <rect x="570" y="95" width="175" height="105" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+      <text x="657" y="113" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">股指期货</text>
+      <text x="657" y="130" text-anchor="middle" font-size="11" fill="#333">沪深300（IF）</text>
+      <text x="657" y="147" text-anchor="middle" font-size="11" fill="#333">中证500（IC）</text>
+      <text x="657" y="164" text-anchor="middle" font-size="11" fill="#333">上证50（IH）</text>
+      <text x="657" y="184" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">国债期货</text>
+      <text x="657" y="198" text-anchor="middle" font-size="11" fill="#333">2年/5年/10年期国债</text>
+
+      <!-- ===== 第二行：上海能源 + 广期所 ===== -->
+      <rect x="15" y="215" width="170" height="38" rx="8" fill="#4a148c" opacity="0.9"/>
+      <text x="100" y="240" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">上海国际能源交易中心</text>
+
+      <rect x="200" y="215" width="170" height="38" rx="8" fill="#33691e" opacity="0.9"/>
+      <text x="285" y="240" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">广州期货交易所（广期所）</text>
+
+      <rect x="385" y="215" width="360" height="38" rx="8" fill="#555" opacity="0.9"/>
+      <text x="565" y="240" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">境外/国际品种（部分）</text>
+
+      <!-- 上海能源品种 -->
+      <rect x="15" y="260" width="170" height="65" rx="6" fill="#f3e5f5" stroke="#4a148c" stroke-width="1"/>
+      <text x="100" y="280" text-anchor="middle" font-size="11" fill="#333">原油（SC）</text>
+      <text x="100" y="297" text-anchor="middle" font-size="11" fill="#333">低硫燃料油</text>
+      <text x="100" y="314" text-anchor="middle" font-size="11" fill="#333">20号胶、国际铜</text>
+
+      <!-- 广期所品种 -->
+      <rect x="200" y="260" width="170" height="65" rx="6" fill="#f1f8e9" stroke="#33691e" stroke-width="1"/>
+      <text x="285" y="280" text-anchor="middle" font-size="11" fill="#333">碳酸锂</text>
+      <text x="285" y="297" text-anchor="middle" font-size="11" fill="#333">工业硅</text>
+      <text x="285" y="314" text-anchor="middle" font-size="11" fill="#333">（新能源品种）</text>
+
+      <!-- 境外品种 -->
+      <rect x="385" y="260" width="360" height="65" rx="6" fill="#eee" stroke="#555" stroke-width="1"/>
+      <text x="565" y="280" text-anchor="middle" font-size="11" fill="#555">布伦特原油、天然气、美豆</text>
+      <text x="565" y="297" text-anchor="middle" font-size="11" fill="#555">新加坡铁矿、新交所橡胶</text>
+      <text x="565" y="314" text-anchor="middle" font-size="11" fill="#555">通过特定渠道参与</text>
+
+      <!-- ===== 热门前10 ===== -->
+      <rect x="15" y="345" width="730" height="130" rx="10" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="370" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">最热门的 10 个品种（新手先看这些）</text>
+
+      <text x="50" y="395" font-size="12" fill="#333">① <strong>螺纹钢</strong> — 房地产、基建风向标</text>
+      <text x="280" y="395" font-size="12" fill="#333">② <strong>铁矿石</strong> — 炼钢原料</text>
+      <text x="510" y="395" font-size="12" fill="#333">③ <strong>原油</strong> — 工业血液</text>
+
+      <text x="50" y="418" font-size="12" fill="#333">④ <strong>甲醇</strong> — 化工之母</text>
+      <text x="280" y="418" font-size="12" fill="#333">⑤ <strong>PTA</strong> — 纺织原料</text>
+      <text x="510" y="418" font-size="12" fill="#333">⑥ <strong>豆粕</strong> — 饲料核心</text>
+
+      <text x="50" y="441" font-size="12" fill="#333">⑦ <strong>黄金</strong> — 避险之王</text>
+      <text x="280" y="441" font-size="12" fill="#333">⑧ <strong>沪深300</strong> — 股票指数</text>
+      <text x="510" y="441" font-size="12" fill="#333">⑨ <strong>纯碱</strong> — 玻璃/光伏原料</text>
+
+      <text x="50" y="464" font-size="12" fill="#333">⑩ <strong>碳酸锂</strong> — 新能源电池核心</text>
+      <text x="280" y="464" font-size="12" fill="#555">（新手可以先关注 3-5 个熟悉品种就行）</text>
+    </svg>
+    <div class="chart-label">▲ 全市场80+品种，按交易所分类，热门品种加黄底高亮</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>新手建议：</strong>别想着所有品种都做。先选 <strong>1-2 个</strong>你比较熟悉的行业（比如你做化工就关注甲醇、PTA，做建筑就关注螺纹钢、玻璃），盯住了再慢慢扩展。
+  </div>
+
+  <div class="highlight-box">
+    <strong>文档里的品种举例：</strong>苯乙烯（化工）、烧碱（化工）、甲醇（化工）、燃油（能源）、螺纹钢（黑色）—— 可以看到主讲人主要盯的是 <strong>化工和黑色系</strong>。
+  </div>
+</div>
+
+<!-- ===== 第八章：交易时间 ===== -->
+<div class="section">
+  <h2><span class="num">8</span>交易时间表（什么时候开盘收盘）</h2>
+
+  <p>国内期货不是24小时交易的，分白天和夜盘。记不住没关系，先知道有这么回事：</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 215" width="760" height="215">
+      <!-- 标题 -->
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">国内期货交易时间</text>
+
+      <!-- 白天盘 9:00-15:00 -->
+      <rect x="20" y="40" width="400" height="55" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+      <text x="220" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">白天盘（日盘）</text>
+      <text x="220" y="80" text-anchor="middle" font-size="14" fill="#333">上午 9:00 - 10:15 ｜ 10:30 - 11:30</text>
+      <text x="220" y="95" text-anchor="middle" font-size="12" fill="#555">下午 13:30 - 15:00</text>
+
+      <!-- 夜盘 21:00-23:00/02:30 -->
+      <rect x="440" y="40" width="300" height="55" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+      <text x="590" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">夜盘</text>
+      <text x="590" y="80" text-anchor="middle" font-size="14" fill="#333">晚上 21:00 开始</text>
+      <text x="590" y="97" text-anchor="middle" font-size="11" fill="#555">结束时间看品种（23:00 / 01:00 / 02:30）</text>
+
+      <!-- 中间休息 -->
+      <rect x="20" y="115" width="720" height="40" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="135" text-anchor="middle" font-size="13" fill="#e65100">⚠ 上午 10:15 - 10:30 有 15 分钟休息，行情暂停</text>
+      <text x="380" y="150" text-anchor="middle" font-size="12" fill="#888">不是所有品种都有夜盘，农产品大多没有夜盘</text>
+
+      <!-- 按品种分的夜盘时间 -->
+      <text x="20" y="185" font-size="12" font-weight="bold" fill="#333">夜盘分三档：</text>
+      <text x="120" y="185" font-size="12" fill="#555">23:00 收 — 铜铝锌铅（有色金属）</text>
+      <text x="400" y="185" font-size="12" fill="#555">23:00 收 — 螺纹钢、铁矿石（黑色系）</text>
+      <text x="20" y="205" font-size="12" fill="#555">01:00 收 — 原油、燃油、沥青（能源）</text>
+      <text x="400" y="205" font-size="12" fill="#555">02:30 收 — 黄金、白银（贵金属）</text>
+    </svg>
+    <div class="chart-label">▲ 白天盘所有品种都一样，夜盘看品种类型</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>新手记住：</strong>大部分重要行情都出在 <strong>夜盘</strong>（因为欧美白天对应我们的晚上）。但新手不用熬夜，第二天看开盘跳空也行。
+  </div>
+</div>
+
+<!-- ===== 第九章：保证金与杠杆 ===== -->
+<div class="section">
+  <h2><span class="num">9</span>保证金和杠杆（为什么期货能"小钱博大钱"）</h2>
+
+  <p>这是期货最有魅力的地方，也是<strong>最危险的地方</strong>。必须搞懂。</p>
+
+  <h3>什么是保证金？</h3>
+  <p><strong>保证金</strong> = 你买合约时实际要交的"押金"，不是全款。就像租房子交押金，不是把整个房子买下来。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 200" width="760" height="200">
+      <!-- 对比 -->
+      <rect x="20" y="15" width="340" height="75" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+      <text x="190" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">假如没有期货（全款买）</text>
+      <text x="190" y="62" text-anchor="middle" font-size="13" fill="#333">100 万的螺纹钢 → 你要掏 100 万</text>
+      <text x="190" y="80" text-anchor="middle" font-size="12" fill="#888">涨 10% 赚 10 万，收益率 10%</text>
+
+      <text x="195" y="125" text-anchor="middle" font-size="22" fill="#999">vs</text>
+
+      <rect x="400" y="15" width="340" height="75" rx="10" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+      <text x="570" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#c62828">用期货（保证金交易）</text>
+      <text x="570" y="62" text-anchor="middle" font-size="13" fill="#333">100 万的螺纹钢 → 只掏 10 万保证金</text>
+      <text x="570" y="80" text-anchor="middle" font-size="12" fill="#888">涨 10% 赚 10 万，收益率 <strong>100%</strong></text>
+
+      <!-- 杠杆说明 -->
+      <rect x="20" y="145" width="720" height="45" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="165" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">这就是 10 倍杠杆：10 万的本金，控制 100 万的货</text>
+      <text x="380" y="182" text-anchor="middle" font-size="11" fill="#888">不同品种保证金比例不同（5%-15%），杠杆倍数 = 1 ÷ 保证金比例</text>
+    </svg>
+    <div class="chart-label">▲ 同样的 10% 涨幅，有杠杆和没杠杆收益差 10 倍</div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠ 杠杆是双刃剑：</strong>涨 10% 赚 100%，跌 10% 也亏 100%！<br>
+    满仓做错方向，跌 10% 你的本金就归零了（爆仓）。所以文档里强调 <strong>单品种不超过总资金 5%</strong>。
+  </div>
+
+  <table>
+    <tr><th>品种类型</th><th>大致保证金比例</th><th>杠杆倍数</th><th>举例</th></tr>
+    <tr><td>股指期货</td><td>12%-15%</td><td>约 7-8 倍</td><td>50万本金控制约380万</td></tr>
+    <tr><td>商品期货（主流）</td><td>8%-12%</td><td>约 8-12 倍</td><td>10万本金控制约100万</td></tr>
+    <tr><td>某些小品种</td><td>5%-8%</td><td>约 12-20 倍</td><td>5万本金控制约50万</td></tr>
+  </table>
+
+  <div class="highlight-box">
+    <strong>小白记住三句话：</strong><br>
+    ① 杠杆是借来的钱，赚得快亏得也快<br>
+    ② 永远不要满仓干，留一半资金防回调<br>
+    ③ 每笔最多亏总资金的 5%，到了就止损
+  </div>
+</div>
+
+<!-- ===== 第十章：期货 vs 期权 ===== -->
+<div class="section">
+  <h2><span class="num">10</span>期货 vs 期权（到底有啥区别）</h2>
+
+  <p>很多人搞混这两个东西，其实区别就一句话：<strong>期货是必须执行，期权是选择权。</strong></p>
+
+  <div class="two-col">
+    <div class="contract-card" style="border-color:#1565c0; background:#e3f2fd;">
+      <h4 style="color:#1565c0;">期货</h4>
+      <p style="font-size:1.8em; margin:5px 0;">🤝</p>
+      <p style="font-weight:bold;">"必须完成"</p>
+      <p style="font-size:0.85em; color:#555;">买了一份原油期货合约，到期你必须按约定价格买卖，不管你是赚是亏。</p>
+    </div>
+    <div class="contract-card" style="border-color:#e65100; background:#fff3e0;">
+      <h4 style="color:#e65100;">期权</h4>
+      <p style="font-size:1.8em; margin:5px 0;">🎫</p>
+      <p style="font-weight:bold;">"可以选择"</p>
+      <p style="font-size:0.85em; color:#555;">买了一份看涨期权，到期如果涨了就行权赚差价；跌了就不行权，只亏买期权的钱。</p>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>对比项</th><th>期货</th><th>期权</th></tr>
+    <tr><td><strong>本质</strong></td><td>必须履行的合同</td><td>可选择的权利</td></tr>
+    <tr><td><strong>最大亏损</strong></td><td>可能亏光本金还倒欠</td><td><strong>最多只亏权利金</strong>（买期权时付的钱）</td></tr>
+    <tr><td><strong>最大收益</strong></td><td>无限（跟方向走）</td><td>理论上无限（看涨期权）</td></tr>
+    <tr><td><strong>需要保证金？</strong></td><td>需要（双方都要交）</td><td><strong>买方不用交</strong>（只付权利金）</td></tr>
+    <tr><td><strong>复杂度</strong></td><td>中等</td><td>较高（三档+时间价值）</td></tr>
+    <tr><td><strong>适合新手？</strong></td><td>可以做模拟盘试试</td><td>建议先弄懂期货再看</td></tr>
+  </table>
+
+  <div class="highlight-box">
+    <strong>一句话：</strong>期货像"签了合同必须执行"，期权像"买了一张可以选的行不行的门票"。期权买方最大的好处是 <strong>亏有上限（最多亏门票钱），赚没上限</strong>。
+  </div>
+</div>
+
+<!-- ===== 第十一章：怎么看盘 ===== -->
+<div class="section">
+  <h2><span class="num">11</span>怎么看行情软件（通达信基础操作）</h2>
+
+  <p>文档里用的软件是 <strong>通达信</strong>（国内主流期货/股票行情软件）。不用全部会，先学会这 5 步就行：</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 290" width="760" height="290">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">通达信入门 5 步走</text>
+
+      <!-- 第1步 -->
+      <rect x="15" y="35" width="175" height="60" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+      <text x="102" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">① 输入品种代码</text>
+      <text x="102" y="75" text-anchor="middle" font-size="11" fill="#555">比如输入 RB 找螺纹钢</text>
+      <text x="102" y="89" text-anchor="middle" font-size="10" fill="#888">或直接打拼音首字母</text>
+
+      <text x="107" y="115" text-anchor="middle" font-size="18" fill="#999">→</text>
+
+      <!-- 第2步 -->
+      <rect x="195" y="35" width="175" height="60" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
+      <text x="282" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">② 切换K线周期</text>
+      <text x="282" y="75" text-anchor="middle" font-size="11" fill="#555">日线：看趋势</text>
+      <text x="282" y="89" text-anchor="middle" font-size="11" fill="#555">120分：找买卖点</text>
+
+      <text x="287" y="115" text-anchor="middle" font-size="18" fill="#999">→</text>
+
+      <!-- 第3步 -->
+      <rect x="375" y="35" width="175" height="60" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="462" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">③ 叠加均线</text>
+      <text x="462" y="75" text-anchor="middle" font-size="11" fill="#555">设置红线和蓝线</text>
+      <text x="462" y="89" text-anchor="middle" font-size="11" fill="#555">调成自己的参数</text>
+
+      <text x="467" y="115" text-anchor="middle" font-size="18" fill="#999">→</text>
+
+      <!-- 第4步 -->
+      <rect x="555" y="35" width="190" height="60" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="650" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">④ 找金叉+回踩</text>
+      <text x="650" y="75" text-anchor="middle" font-size="11" fill="#555">蓝线上穿红线=金叉</text>
+      <text x="650" y="89" text-anchor="middle" font-size="11" fill="#555">价格回踩红线=买点</text>
+
+      <text x="660" y="115" text-anchor="middle" font-size="18" fill="#999">→</text>
+
+      <!-- 第5步 -->
+      <rect x="265" y="130" width="230" height="55" rx="8" fill="#e0f2f1" stroke="#00897b" stroke-width="1.5"/>
+      <text x="380" y="152" text-anchor="middle" font-size="13" font-weight="bold" fill="#00695c">⑤ 设置120分钟周期</text>
+      <text x="380" y="170" text-anchor="middle" font-size="11" fill="#555">右键周期设置 → 添加 120 分钟到菜单</text>
+
+      <!-- 怎么看懂盘面 -->
+      <rect x="15" y="205" width="730" height="75" rx="10" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1.5"/>
+      <text x="380" y="228" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">打开一个品种，你要看这四个东西：</text>
+      <text x="30" y="250" font-size="12" fill="#333">① <strong>最新价</strong> — 现在多少钱</text>
+      <text x="230" y="250" font-size="12" fill="#333">② <strong>涨跌幅</strong> — 今天涨了/跌了多少</text>
+      <text x="460" y="250" font-size="12" fill="#333">③ <strong>持仓量</strong> — 多少人参与了</text>
+      <text x="640" y="250" font-size="12" fill="#333">④ <strong>成交量</strong> — 今天交易多活跃</text>
+      <text x="30" y="272" font-size="11" fill="#888">其他指标（MACD、KDJ等）新手先别看，容易懵</text>
+    </svg>
+    <div class="chart-label">▲ 打开通达信后，按这 5 步走就行</div>
+  </div>
+</div>
+
+<!-- ===== 第十二章：成交量与持仓量 ===== -->
+<div class="section">
+  <h2><span class="num">12</span>成交量和持仓量（判断"人气"的关键）</h2>
+
+  <p>文档里筛选合约的条件有一条：<strong>持仓量 ≥ 1000手</strong>。为什么？因为没"人气"的合约不能碰。</p>
+
+  <div class="two-col">
+    <div style="background:#e3f2fd; border-radius:10px; padding:18px; border:1px solid #90caf9;">
+      <h3 style="color:#1565c0; margin-top:0; font-size:1.05em;">📊 成交量</h3>
+      <p style="font-size:0.9em;"><strong>一天之内成交了多少张合约</strong></p>
+      <p style="font-size:0.85em; color:#555;">好比一家店一天有多少人进店买东西</p>
+      <p style="font-size:0.85em; color:#555;">成交量越大 → 越活跃 → 买卖越容易成交</p>
+    </div>
+    <div style="background:#fff8e1; border-radius:10px; padding:18px; border:1px solid #ffe082;">
+      <h3 style="color:#e65100; margin-top:0; font-size:1.05em;">📦 持仓量</h3>
+      <p style="font-size:0.9em;"><strong>当前还有多少张合约没有平仓</strong></p>
+      <p style="font-size:0.85em; color:#555;">好比有多少人手里还拿着这个品种的票</p>
+      <p style="font-size:0.85em; color:#555;">持仓量越大 → 参与的人越多 → 趋势越稳</p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 160" width="760" height="160">
+      <text x="380" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f3460">持仓量怎么看：四个阶段</text>
+
+      <rect x="15" y="35" width="170" height="55" rx="8" fill="#c8e6c9" stroke="#43a047" stroke-width="1.5"/>
+      <text x="100" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">持仓量增加 ↑</text>
+      <text x="100" y="73" text-anchor="middle" font-size="11" fill="#555">价格也涨 → 强势上涨</text>
+      <text x="100" y="86" text-anchor="middle" font-size="10" fill="#888">可以跟多</text>
+
+      <rect x="205" y="35" width="170" height="55" rx="8" fill="#ffcdd2" stroke="#e53935" stroke-width="1.5"/>
+      <text x="290" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828">持仓量减少 ↓</text>
+      <text x="290" y="73" text-anchor="middle" font-size="11" fill="#555">价格在涨 → 在出货了</text>
+      <text x="290" y="86" text-anchor="middle" font-size="10" fill="#888">小心回调</text>
+
+      <rect x="395" y="35" width="170" height="55" rx="8" fill="#ffcdd2" stroke="#e53935" stroke-width="1.5"/>
+      <text x="480" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828">持仓量增加 ↑</text>
+      <text x="480" y="73" text-anchor="middle" font-size="11" fill="#555">价格在跌 → 空头强势</text>
+      <text x="480" y="86" text-anchor="middle" font-size="10" fill="#888">不要抄底</text>
+
+      <rect x="585" y="35" width="160" height="55" rx="8" fill="#c8e6c9" stroke="#43a047" stroke-width="1.5"/>
+      <text x="665" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">持仓量减少 ↓</text>
+      <text x="665" y="73" text-anchor="middle" font-size="11" fill="#555">价格在跌 → 在平仓了</text>
+      <text x="665" y="86" text-anchor="middle" font-size="10" fill="#888">跌势快到头</text>
+
+      <rect x="15" y="105" width="730" height="45" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1"/>
+      <text x="380" y="125" text-anchor="middle" font-size="13" fill="#e65100">最简单的用法：持仓量在增加 + 价格在涨 = 安全的做多信号</text>
+      <text x="380" y="143" text-anchor="middle" font-size="11" fill="#888">文档要求持仓量 ≥ 1000手，就是为了确保合约"有人气"</text>
+    </svg>
+    <div class="chart-label">▲ 持仓和价格配合着看，能判断趋势是否健康</div>
+  </div>
+</div>
+
+<!-- ===== 第十三章：FAQ ===== -->
+<div class="section">
+  <h2><span class="num">13</span>新手常见问题（FAQ）</h2>
+
+  <div style="margin:10px 0;">
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：我该用多少钱开始做？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：1-2万就可以开始。但建议先用<strong>模拟盘</strong>练1-2个月，熟悉了再拿真钱做。别一上来就重仓。</p>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：亏了怎么办？要不要死扛？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：<strong>永远不要死扛。</strong>设好止损线（比如亏10%就走），到了就走。期货有杠杆，死扛会爆仓。留得青山在。</p>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：每天要看盘多久？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：做日线级别的交易，每天看 <strong>15-30分钟</strong>就够了。开盘看一眼有没有跳空，收盘前看一眼决定要不要过夜。不用一直盯着。</p>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：日线和120分钟线信号不一致怎么办？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：<strong>日线为主，120分钟为辅。</strong>日线看涨，120分钟出买点→可以做。日线看跌，120分钟出买点→放弃。大方向必须对。</p>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：为什么选虚值合约而不是实值？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：因为模型做的是<strong>趋势爆发</strong>，不是稳稳的小幅波动。虚值合约便宜、杠杆高，一旦趋势爆发，收益率远高于实值。实值合约太贵，同样的钱买不到几张。</p>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：最多同时做几个品种？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：新手建议 <strong>最多 2-3 个</strong>。同一个板块只选一个（比如化工里只选甲醇，不选苯乙烯+甲醇+PTA一起上），防止板块黑天鹅把资金全吞了。</p>
+    </div>
+    <div style="background:#f0f4ff; border-radius:8px; padding:12px 16px; margin:8px 0;">
+      <strong style="color:#1565c0;">Q：一天赚多少算及格？</strong>
+      <p style="margin:5px 0 0; font-size:0.9em; color:#555;">A：不要盯每天的盈亏。模型做的不是短线，是<strong>波段趋势</strong>。可能一周不开张，开张吃一周。稳定执行模型，而不是追求每天都赚钱。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 第十四章：做多与做空 ===== -->
+<div class="section">
+  <h2><span class="num">14</span>做多 vs 做空（涨了能赚，跌了也能赚）</h2>
+
+  <p>股票只能"涨了赚钱"。但期货和期权不一样——<strong>涨跌都能赚钱</strong>，选对方向就行。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 280" width="760" height="280">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">做多 vs 做空</text>
+
+      <!-- 做多 -->
+      <rect x="15" y="40" width="345" height="110" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+      <text x="187" y="65" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">📈 做多 = 先买后卖</text>
+      <text x="187" y="90" text-anchor="middle" font-size="13" fill="#333">预期价格 <strong>上涨</strong></text>
+      <text x="30" y="115" font-size="12" fill="#555">第一步：低价买入（开仓）</text>
+      <text x="30" y="135" font-size="12" fill="#555">第二步：高价卖出（平仓）→ 赚差价</text>
+      <text x="30" y="155" font-size="11" fill="#888">比如 3000 买入 → 3500 卖出 → 赚 500</text>
+
+      <!-- 做空 -->
+      <rect x="400" y="40" width="345" height="110" rx="10" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+      <text x="572" y="65" text-anchor="middle" font-size="16" font-weight="bold" fill="#c62828">📉 做空 = 先卖后买</text>
+      <text x="572" y="90" text-anchor="middle" font-size="13" fill="#333">预期价格 <strong>下跌</strong></text>
+      <text x="415" y="115" font-size="12" fill="#555">第一步：高价卖出（开仓）</text>
+      <text x="415" y="135" font-size="12" fill="#555">第二步：低价买回（平仓）→ 赚差价</text>
+      <text x="415" y="155" font-size="11" fill="#888">比如 3500 卖出 → 3000 买回 → 赚 500</text>
+
+      <!-- 对比箭头 -->
+      <rect x="15" y="170" width="730" height="95" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="192" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">选对方向 = 赚钱，选错方向 = 亏钱</text>
+      <text x="30" y="215" font-size="12" fill="#333">做多亏钱的情况：买完价格跌了 → 被套/止损</text>
+      <text x="30" y="235" font-size="12" fill="#333">做空亏钱的情况：卖完价格涨了 → 被套/止损</text>
+      <text x="30" y="258" font-size="11" fill="#888">所以模型里先做多（等蓝线上穿红线确认涨势），等熟悉了再做空</text>
+    </svg>
+    <div class="chart-label">▲ 做多=先买后卖（涨了赚），做空=先卖后买（跌了赚）</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>新手只做多：</strong>文档里也说了"你们先跑第一个做多的模型"。做空比较反人性，等做多熟练了再学做空。<br>
+    <small>（做空感觉像"跟人对着干"，心理压力更大，容易拿不住单）</small>
+  </div>
+</div>
+
+<!-- ===== 第十五章：四价详解 ===== -->
+<div class="section">
+  <h2><span class="num">15</span>开盘/收盘/最高/最低（四个价格各自的意义）</h2>
+
+  <p>一根K线虽然只有四个价格，但每个价格都有自己的"性格"。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 310" width="760" height="310">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">四个价格，四种性格</text>
+
+      <!-- 阳线 -->
+      <rect x="20" y="35" width="340" height="100" rx="10" fill="#fff5f5" stroke="#e53935" stroke-width="1.5"/>
+      <rect x="140" y="45" width="55" height="80" fill="#e53935" rx="3"/>
+      <line x1="167" y1="45" x2="167" y2="30" stroke="#333" stroke-width="2"/>
+      <text x="167" y="24" text-anchor="middle" font-size="11" fill="#c62828">最高价</text>
+      <line x1="167" y1="125" x2="167" y2="138" stroke="#333" stroke-width="2"/>
+      <text x="167" y="148" text-anchor="middle" font-size="11" fill="#c62828">最低价</text>
+      <text x="280" y="55" font-size="12" fill="#c62828">收盘价（顶上）</text>
+      <text x="280" y="75" font-size="12" fill="#c62828">← 最终胜负</text>
+      <text x="280" y="100" font-size="12" fill="#c62828">开盘价（底下）</text>
+      <text x="280" y="120" font-size="12" fill="#c62828">← 开盘情绪</text>
+
+      <!-- 阴线 -->
+      <rect x="400" y="35" width="340" height="100" rx="10" fill="#f0faf0" stroke="#4caf50" stroke-width="1.5"/>
+      <rect x="520" y="55" width="55" height="70" fill="#4caf50" rx="3"/>
+      <line x1="547" y1="55" x2="547" y2="35" stroke="#333" stroke-width="2"/>
+      <text x="547" y="29" text-anchor="middle" font-size="11" fill="#2e7d32">最高价</text>
+      <line x1="547" y1="125" x2="547" y2="140" stroke="#333" stroke-width="2"/>
+      <text x="547" y="150" text-anchor="middle" font-size="11" fill="#2e7d32">最低价</text>
+      <text x="650" y="60" font-size="12" fill="#2e7d32">开盘价（顶上）</text>
+      <text x="650" y="80" font-size="12" fill="#2e7d32">← 开盘情绪</text>
+      <text x="650" y="105" font-size="12" fill="#2e7d32">收盘价（底下）</text>
+      <text x="650" y="125" font-size="12" fill="#2e7d32">← 最终胜负</text>
+
+      <!-- 解读区 -->
+      <rect x="20" y="170" width="720" height="125" rx="8" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1.5"/>
+      <text x="380" y="193" text-anchor="middle" font-size="14" font-weight="bold" fill="#7b1fa2">这四个价格告诉我们什么？</text>
+      <text x="35" y="218" font-size="12" fill="#333">🔵 <strong>开盘价</strong> — 早上一开盘，大家的第一反应。受昨晚消息影响最大。</text>
+      <text x="35" y="240" font-size="12" fill="#333">🔴 <strong>收盘价</strong> — 一天结束后的"定论"。所有技术分析最看重这个价。</text>
+      <text x="35" y="262" font-size="12" fill="#333">🟡 <strong>最高/最低价</strong> — 今天多空双方"打到过"的位置。上影线长=空头强，下影线长=多头强。</text>
+      <text x="35" y="284" font-size="11" fill="#888">看K线的顺序：先看颜色（红绿）→ 看收盘价的位置 → 看影线长短</text>
+    </svg>
+    <div class="chart-label">▲ 四个价格各有含义，收盘价最重要</div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>简单记：</strong>开盘看情绪，收盘看结果，影线看打架有多激烈。收盘价如果收在最高点附近 = 多头强势到尾盘，收在最低点附近 = 空头压着打。
+  </div>
+</div>
+
+<!-- ===== 第十六章：跳空缺口 ===== -->
+<div class="section">
+  <h2><span class="num">16</span>跳空缺口（一觉醒来价格变了）</h2>
+
+  <p>你有没有遇到过这种情况：昨晚明明收盘 3000，今天一开盘直接 3100，中间的 3000-3100 这段完全没人交易过？这就是<strong>跳空缺口</strong>。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 260" width="760" height="260">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">跳空缺口长这样</text>
+
+      <!-- 跳空上涨 -->
+      <rect x="15" y="40" width="345" height="100" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
+      <text x="187" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">向上跳空（利多）</text>
+      <!-- 前一天K线 -->
+      <rect x="70" y="120" width="30" height="40" fill="#4caf50" rx="2"/>
+      <text x="85" y="108" text-anchor="middle" font-size="10" fill="#333">昨天收 3000</text>
+      <!-- 缺口 -->
+      <rect x="155" y="82" width="30" height="18" fill="#fff" stroke="#ff9800" stroke-width="2" stroke-dash="3"/>
+      <text x="170" y="77" text-anchor="middle" font-size="10" fill="#e65100">缺口</text>
+      <!-- 今天K线 -->
+      <rect x="200" y="55" width="30" height="85" fill="#e53935" rx="2"/>
+      <text x="215" y="50" text-anchor="middle" font-size="10" fill="#333">今开 3100</text>
+      <text x="187" y="150" text-anchor="middle" font-size="10" fill="#888">中间没人交易到</text>
+
+      <!-- 跳空下跌 -->
+      <rect x="400" y="40" width="345" height="100" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="572" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">向下跳空（利空）</text>
+      <rect x="460" y="55" width="30" height="80" fill="#e53935" rx="2"/>
+      <text x="475" y="50" text-anchor="middle" font-size="10" fill="#333">昨天收 3000</text>
+      <rect x="545" y="82" width="30" height="18" fill="#fff" stroke="#ff9800" stroke-width="2" stroke-dash="3"/>
+      <text x="560" y="77" text-anchor="middle" font-size="10" fill="#e65100">缺口</text>
+      <rect x="590" y="100" width="30" height="55" fill="#4caf50" rx="2"/>
+      <text x="605" y="96" text-anchor="middle" font-size="10" fill="#333">今开 2900</text>
+
+      <!-- 补缺口说明 -->
+      <rect x="15" y="160" width="730" height="90" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="182" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">缺口很重要！因为"缺口早晚会补"</text>
+      <text x="30" y="205" font-size="12" fill="#333">向上跳空缺口 = 开盘价比昨天最高价还高 → 说明有利好消息，大家抢着买</text>
+      <text x="30" y="225" font-size="12" fill="#333">向下跳空缺口 = 开盘价比昨天最低价还低 → 说明有利空消息，大家抢着卖</text>
+      <text x="30" y="245" font-size="11" fill="#888">"补缺口"的意思是价格又回到缺口那个位置了。很多交易者会在缺口附近设买卖单。</text>
+    </svg>
+    <div class="chart-label">▲ 跳空就是"价格断层"，往往由重大消息引发</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>新手遇到跳空怎么办？</strong>别慌。<br>
+    ① 向上跳空 → 如果你持多单 → 恭喜，开盘就赚了<br>
+    ② 向下跳空 → 如果你持多单 → 按止损处理（不要幻想它会涨回来）<br>
+    ③ 不要因为跳空就去追涨杀跌，等价格稳一稳再说<br>
+    <small>（很多新手在跳空时追进去，结果被"假突破"骗了）</small>
+  </div>
+</div>
+
+<!-- ===== 第十七章：支撑与阻力 ===== -->
+<div class="section">
+  <h2><span class="num">17</span>支撑与阻力（价格"跌不下去"和"涨不上去"的地方）</h2>
+
+  <p>这是技术分析最基础也最好用的概念。就两句话：</p>
+
+  <div class="two-col">
+    <div style="background:#e8f5e9; border-radius:10px; padding:18px; border:2px solid #43a047;">
+      <h3 style="color:#2e7d32; margin-top:0; font-size:1.1em;">🛡️ 支撑位</h3>
+      <p style="font-size:0.9em;"><strong>价格跌到这里，跌不动了</strong></p>
+      <p style="font-size:0.85em; color:#555;">下面有很多人等着买</p>
+      <p style="font-size:0.85em; color:#555;">就像地板，价格砸到这里弹起来</p>
+    </div>
+    <div style="background:#fce4ec; border-radius:10px; padding:18px; border:2px solid #e53935;">
+      <h3 style="color:#c62828; margin-top:0; font-size:1.1em;">🧱 阻力位</h3>
+      <p style="font-size:0.9em;"><strong>价格涨到这里，涨不动了</strong></p>
+      <p style="font-size:0.85em; color:#555;">上面有很多人等着卖</p>
+      <p style="font-size:0.85em; color:#555;">就像天花板，价格碰到这里掉下来</p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 240" width="760" height="240">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">支撑和阻力在K线图上长这样</text>
+
+      <!-- K线示意图 -->
+      <rect x="50" y="130" width="18" height="30" fill="#e53935" rx="1"/>
+      <rect x="80" y="110" width="18" height="50" fill="#e53935" rx="1"/>
+      <rect x="110" y="120" width="18" height="35" fill="#4caf50" rx="1"/>
+      <rect x="140" y="105" width="18" height="55" fill="#e53935" rx="1"/>
+      <rect x="170" y="95" width="18" height="70" fill="#4caf50" rx="1"/>
+      <rect x="200" y="100" width="18" height="50" fill="#e53935" rx="1"/>
+      <rect x="230" y="85" width="18" height="65" fill="#e53935" rx="1"/>
+      <rect x="260" y="95" width="18" height="40" fill="#4caf50" rx="1"/>
+      <rect x="290" y="80" width="18" height="60" fill="#e53935" rx="1"/>
+      <rect x="320" y="90" width="18" height="35" fill="#4caf50" rx="1"/>
+      <rect x="350" y="75" width="18" height="55" fill="#e53935" rx="1"/>
+      <rect x="380" y="85" width="18" height="40" fill="#4caf50" rx="1"/>
+      <rect x="410" y="70" width="18" height="55" fill="#e53935" rx="1"/>
+      <rect x="440" y="80" width="18" height="35" fill="#4caf50" rx="1"/>
+      <rect x="470" y="65" width="18" height="50" fill="#e53935" rx="1"/>
+      <rect x="500" y="75" width="18" height="35" fill="#e53935" rx="1"/>
+      <rect x="530" y="60" width="18" height="55" fill="#4caf50" rx="1"/>
+      <rect x="560" y="70" width="18" height="40" fill="#e53935" rx="1"/>
+      <rect x="590" y="55" width="18" height="50" fill="#e53935" rx="1"/>
+      <rect x="620" y="65" width="18" height="35" fill="#4caf50" rx="1"/>
+      <rect x="650" y="50" width="18" height="55" fill="#e53935" rx="1"/>
+      <rect x="680" y="60" width="18" height="40" fill="#e53935" rx="1"/>
+
+      <!-- 阻力线 -->
+      <line x1="35" y1="55" x2="715" y2="55" stroke="#e53935" stroke-width="2.5" stroke-dash="6"/>
+      <text x="727" y="59" font-size="12" fill="#e53935" font-weight="bold">阻力位（天花板）</text>
+
+      <!-- 支撑线 -->
+      <line x1="35" y1="190" x2="715" y2="190" stroke="#4caf50" stroke-width="2.5" stroke-dash="6"/>
+      <text x="727" y="194" font-size="12" fill="#4caf50" font-weight="bold">支撑位（地板）</text>
+
+      <!-- 突破说明 -->
+      <rect x="30" y="205" width="710" height="30" rx="6" fill="#fff8e1" stroke="#ff9800" stroke-width="1"/>
+      <text x="385" y="225" text-anchor="middle" font-size="12" fill="#e65100">价格突破阻力位 → 阻力变支撑（做多信号）｜价格跌破支撑位 → 支撑变阻力（做空信号）</text>
+    </svg>
+    <div class="chart-label">▲ 价格冲到阻力线就掉下来，跌到支撑线就弹起来。突破就是"掀翻天花板"</div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>和模型的关系：</strong>文档里的<strong>红线</strong>其实就是一条<strong>动态的支撑线</strong>。价格回踩到红线附近=测试支撑，跌不破=买点。这个逻辑在所有周期的K线图上都适用。
+  </div>
+</div>
+
+<!-- ===== 第十八章：趋势 ===== -->
+<div class="section">
+  <h2><span class="num">18</span>趋势（上涨、下跌、震荡——三种行情）</h2>
+
+  <p>市场只有三种状态。一眼能认出来，就知道该怎么操作了。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 200" width="760" height="200">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">三种行情状态</text>
+
+      <!-- 上涨趋势 -->
+      <rect x="15" y="35" width="230" height="80" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
+      <text x="130" y="55" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">📈 上涨趋势</text>
+      <path d="M30,100 Q70,95 110,80 Q150,65 190,50 Q210,42 230,38" stroke="#2e7d32" stroke-width="3" fill="none"/>
+      <text x="130" y="125" text-anchor="middle" font-size="11" fill="#555">一浪比一浪高 → 做多</text>
+
+      <!-- 下跌趋势 -->
+      <rect x="265" y="35" width="230" height="80" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="380" y="55" text-anchor="middle" font-size="14" font-weight="bold" fill="#c62828">📉 下跌趋势</text>
+      <path d="M280,38 Q320,42 360,50 Q400,65 440,80 Q470,90 490,100" stroke="#c62828" stroke-width="3" fill="none"/>
+      <text x="380" y="125" text-anchor="middle" font-size="11" fill="#555">一浪比一浪低 → 做空/观望</text>
+
+      <!-- 震荡 -->
+      <rect x="515" y="35" width="230" height="80" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="630" y="55" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">〰️ 震荡/盘整</text>
+      <path d="M530,70 Q550,45 570,70 Q590,45 610,70 Q630,45 650,70 Q670,45 690,70 Q710,45 730,70" stroke="#e65100" stroke-width="3" fill="none"/>
+      <text x="630" y="125" text-anchor="middle" font-size="11" fill="#555">上下反复摩擦 → 不动最好</text>
+
+      <rect x="15" y="140" width="730" height="50" rx="8" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1"/>
+      <text x="380" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">散户亏钱第一大原因：在震荡行情里反复买卖，把本金磨没了</text>
+      <text x="380" y="180" text-anchor="middle" font-size="11" fill="#888">文档的模型只在上涨趋势中做多（日线确认），震荡和下跌都不做</text>
+    </svg>
+    <div class="chart-label">▲ 先看现在是什么行情，再决定做不做</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>怎么判断趋势？</strong>最简单的办法：用日线看。连涨3天以上+一底比一底高=上涨趋势。连跌3天以上+一顶比一顶低=下跌趋势。上上下下没方向=震荡。<br>
+    <strong>震荡行情怎么办？</strong>不动就是最好的操作。等趋势出来了再进场。
+  </div>
+</div>
+
+<!-- ===== 第十九章：止损与止盈 ===== -->
+<div class="section">
+  <h2><span class="num">19</span>止损与止盈（会卖才是师傅）</h2>
+
+  <p>很多人只关心"什么时候买"，但真正赚钱的人更关心"什么时候卖"。<strong>会买的是徒弟，会卖的是师傅。</strong></p>
+
+  <div class="two-col">
+    <div style="background:#fce4ec; border-radius:10px; padding:18px; border:2px solid #e53935;">
+      <h3 style="color:#c62828; margin-top:0; font-size:1.1em;">✂️ 止损</h3>
+      <p style="font-size:0.9em;"><strong>提前设好"亏多少就走"</strong></p>
+      <p style="font-size:0.85em; color:#555;">比如亏 10% 无条件卖出</p>
+      <p style="font-size:0.85em; color:#555;">防止小亏变成大亏</p>
+      <p style="font-size:0.85em; color:#888;">保命用的，不是可选项</p>
+    </div>
+    <div style="background:#e8f5e9; border-radius:10px; padding:18px; border:2px solid #43a047;">
+      <h3 style="color:#2e7d32; margin-top:0; font-size:1.1em;">💰 止盈</h3>
+      <p style="font-size:0.9em;"><strong>提前想好"赚多少就走"</strong></p>
+      <p style="font-size:0.85em; color:#555;">比如赚一倍卖一半</p>
+      <p style="font-size:0.85em; color:#555;">落袋为安，不让利润变亏损</p>
+      <p style="font-size:0.85em; color:#888;">锁住利润用的</p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 200" width="760" height="200">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">为什么必须设止损？</text>
+
+      <!-- 有止损 -->
+      <rect x="15" y="40" width="345" height="75" rx="8" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/>
+      <text x="187" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">有止损的人 😌</text>
+      <text x="187" y="85" text-anchor="middle" font-size="12" fill="#333">亏 10% 就跑了 → 亏 1000 元</text>
+      <text x="187" y="105" text-anchor="middle" font-size="11" fill="#888">下次有机会还能赚回来</text>
+
+      <!-- 没止损 -->
+      <rect x="400" y="40" width="345" height="75" rx="8" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/>
+      <text x="572" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#c62828">没止损的人 😱</text>
+      <text x="572" y="85" text-anchor="middle" font-size="12" fill="#333">死扛到亏 50% → 亏 5000 元</text>
+      <text x="572" y="105" text-anchor="middle" font-size="11" fill="#888">要赚 100% 才能回本（难了）</text>
+
+      <!-- 表格 -->
+      <rect x="15" y="130" width="730" height="60" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="150" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">亏多少 = 需要赚多少才能回本</text>
+      <text x="50" y="173" font-size="12" fill="#333">亏 10% → 需赚 11%</text>
+      <text x="230" y="173" font-size="12" fill="#333">亏 20% → 需赚 25%</text>
+      <text x="410" y="173" font-size="12" fill="#c62828">亏 30% → 需赚 43%</text>
+      <text x="590" y="173" font-size="12" fill="#c62828">亏 50% → 需赚 100%（翻倍）</text>
+    </svg>
+    <div class="chart-label">▲ 小亏不走就会变成大亏，大亏后很难翻身</div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>文档里的卖出规则就是最好的止盈策略：</strong><br>
+    "1倍卖一半，2倍再卖一半，5-10倍清仓"<br>
+    → 赚一倍先收回本金，剩下的全是利润，拿得住也亏不了本。
+  </div>
+
+  <div class="warn-box">
+    <strong>新手最常犯的错：</strong>亏了不舍得割肉，总想着"会涨回来的"。结果越亏越多，最终爆仓。<br>
+    记住：<strong>亏损就像伤口，小伤不治会要命。割肉不丢人，爆仓才丢人。</strong>
+  </div>
+</div>
+
+<!-- ===== 第二十章：仓位管理 ===== -->
+<div class="section">
+  <h2><span class="num">20</span>仓位管理（别把鸡蛋放一个篮子里）</h2>
+
+  <p>很多新手一上来就把全部资金砸进去，这是最致命的错误。仓位管理比选品种更重要。<strong>你亏多少，不取决于行情，而取决于你下了多重的注。</strong></p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 230" width="760" height="230">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">三种人，三种仓位</text>
+
+      <!-- 正确 -->
+      <rect x="15" y="40" width="230" height="100" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+      <text x="130" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">✅ 教科书式</text>
+      <text x="130" y="84" text-anchor="middle" font-size="12" fill="#333">总资金 10 万</text>
+      <text x="130" y="104" text-anchor="middle" font-size="12" fill="#333">每笔只投 <strong>5000</strong>（5%）</text>
+      <text x="130" y="125" text-anchor="middle" font-size="11" fill="#888">可以连续错 20 次才亏光</text>
+
+      <!-- 激进 -->
+      <rect x="265" y="40" width="230" height="100" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="2"/>
+      <text x="380" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">⚠ 常见新手</text>
+      <text x="380" y="84" text-anchor="middle" font-size="12" fill="#333">总资金 10 万</text>
+      <text x="380" y="104" text-anchor="middle" font-size="12" fill="#333">每笔投 <strong>3 万</strong>（30%）</text>
+      <text x="380" y="125" text-anchor="middle" font-size="11" fill="#555">错 3-4 次就差不多了</text>
+
+      <!-- 找死 -->
+      <rect x="515" y="40" width="230" height="100" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+      <text x="630" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">❌ 赌徒式</text>
+      <text x="630" y="84" text-anchor="middle" font-size="12" fill="#333">总资金 10 万</text>
+      <text x="630" y="104" text-anchor="middle" font-size="12" fill="#333">全仓干！<strong>10 万梭哈</strong></text>
+      <text x="630" y="125" text-anchor="middle" font-size="11" fill="#888">错一次直接出局</text>
+
+      <rect x="15" y="155" width="730" height="65" rx="8" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1.5"/>
+      <text x="380" y="177" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">仓位管理公式（新手照着算）</text>
+      <text x="30" y="200" font-size="12" fill="#333">每笔最大亏损 = 总资金 × 5%</text>
+      <text x="320" y="200" font-size="12" fill="#333">每笔亏损 ≤ 总资金 × 2%（更保守）</text>
+      <text x="30" y="216" font-size="11" fill="#888">举例：10万资金，每笔最多亏 2000 元。如果止损设在亏 10%，那就只买 2 万的货</text>
+    </svg>
+    <div class="chart-label">▲ 仓位越重，死得越快。期货市场活得久比赚得快重要</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>文档的仓位规则：</strong><br>
+    ① 单个品种投入 ≤ 总资金的 5%<br>
+    ② 同一板块只选一个品种<br>
+    ③ 严格执行 → 就算连续判断错几次，本金还在<br>
+    <small>（很多高手年化收益才 30%，但他们能做到几乎不回撤，靠的就是仓位管理）</small>
+  </div>
+</div>
+
+<!-- ===== 第二十一章：合约代码 ===== -->
+<div class="section">
+  <h2><span class="num">21</span>合约代码怎么看（RB2510 是什么意思）</h2>
+
+  <p>打开行情软件，满屏的 RB2510、MA509、SC07…… 新手一看就懵。其实很好理解：</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 200" width="760" height="200">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">合约代码 = 品种 + 年份 + 月份</text>
+
+      <!-- 拆解 -->
+      <rect x="60" y="45" width="160" height="110" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2.5"/>
+      <text x="140" y="72" text-anchor="middle" font-size="28" font-weight="bold" fill="#1565c0">RB</text>
+      <text x="140" y="100" text-anchor="middle" font-size="13" fill="#1565c0">品种：螺纹钢</text>
+      <text x="140" y="125" text-anchor="middle" font-size="11" fill="#888">ReBar（钢筋）缩写</text>
+      <text x="140" y="145" text-anchor="middle" font-size="11" fill="#555">每个品种有固定代码</text>
+
+      <text x="240" y="100" text-anchor="middle" font-size="30" fill="#999">+</text>
+
+      <rect x="275" y="45" width="160" height="110" rx="10" fill="#fff8e1" stroke="#ff9800" stroke-width="2.5"/>
+      <text x="355" y="72" text-anchor="middle" font-size="28" font-weight="bold" fill="#e65100">25</text>
+      <text x="355" y="100" text-anchor="middle" font-size="13" fill="#e65100">年份：2025 年</text>
+      <text x="355" y="125" text-anchor="middle" font-size="11" fill="#888">取后两位</text>
+      <text x="355" y="145" text-anchor="middle" font-size="11" fill="#555">2025 年 = 25</text>
+
+      <text x="455" y="100" text-anchor="middle" font-size="30" fill="#999">+</text>
+
+      <rect x="490" y="45" width="160" height="110" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2.5"/>
+      <text x="570" y="72" text-anchor="middle" font-size="28" font-weight="bold" fill="#2e7d32">10</text>
+      <text x="570" y="100" text-anchor="middle" font-size="13" fill="#2e7d32">月份：10 月</text>
+      <text x="570" y="125" text-anchor="middle" font-size="11" fill="#888">到期月份</text>
+      <text x="570" y="145" text-anchor="middle" font-size="11" fill="#555">10 月到期</text>
+
+      <!-- 结果 -->
+      <rect x="170" y="170" width="420" height="28" rx="14" fill="#1a237e" opacity="0.85"/>
+      <text x="380" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">RB2510 = 2025年10月到期的螺纹钢期货合约</text>
+    </svg>
+    <div class="chart-label">▲ RB2510 = 螺纹钢 2025年10月合约</div>
+  </div>
+
+  <table>
+    <tr><th>品种</th><th>代码</th><th>交易所</th><th>常见月份</th></tr>
+    <tr><td>螺纹钢</td><td>RB</td><td>上期所</td><td>1/5/10</td></tr>
+    <tr><td>铁矿石</td><td>I</td><td>大商所</td><td>1/5/9</td></tr>
+    <tr><td>甲醇</td><td>MA</td><td>郑商所</td><td>1/5/9</td></tr>
+    <tr><td>原油</td><td>SC</td><td>上海能源</td><td>1-12月</td></tr>
+    <tr><td>沪深300股指</td><td>IF</td><td>中金所</td><td>当月/下月/下季</td></tr>
+    <tr><td>黄金</td><td>AU</td><td>上期所</td><td>6/12</td></tr>
+    <tr><td>豆粕</td><td>M</td><td>大商所</td><td>1/5/9</td></tr>
+    <tr><td>PTA</td><td>TA</td><td>郑商所</td><td>1/5/9</td></tr>
+  </table>
+
+  <div class="highlight-box">
+    <strong>新手实用技巧：</strong>不用记所有代码。常用品种就那么几个，用多了自然记住了。在通达信里直接打拼音首字母（比如"luogang"出螺纹钢，"jiachun"出甲醇）也能搜到。
+  </div>
+</div>
+
+<!-- ===== 第二十二章：主力合约与移仓换月 ===== -->
+<div class="section">
+  <h2><span class="num">22</span>主力合约与移仓换月（为什么同品种有多个价格）</h2>
+
+  <p>你有没有发现，螺纹钢同时有 RB2505、RB2510、RB2601 好几个合约在交易？它们价格还不一样。到底该看哪个？</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 250" width="760" height="250">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">主力合约：交易量最大的那个</text>
+
+      <!-- 所有合约 -->
+      <rect x="15" y="40" width="730" height="85" rx="8" fill="#f5f5f5" stroke="#999" stroke-width="1.5"/>
+      <text x="380" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#555">同一品种所有在交易的合约</text>
+      <text x="35" y="85" font-size="12" fill="#888">RB2501 → 持仓 500 手</text>
+      <text x="35" y="105" font-size="12" fill="#888">RB2505 → 持仓 2000 手</text>
+      <text x="35" y="120" font-size="12" fill="#888">RB2510 → 持仓 5000 手  ← 这个就是主力合约（交易最活跃）</text>
+      <text x="290" y="85" font-size="12" fill="#888">RB2601 → 持仓 800 手</text>
+      <text x="290" y="105" font-size="12" fill="#888">RB2605 → 持仓 300 手</text>
+
+      <!-- 移仓换月 -->
+      <rect x="15" y="140" width="730" height="100" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">移仓换月：主力合约切换的过程</text>
+      <text x="35" y="185" font-size="12" fill="#333">比如现在是 2025 年 8 月：</text>
+      <text x="35" y="205" font-size="12" fill="#333">RB2510（10月到期）还是主力 → 但快到期了 → 大家开始慢慢转到 RB2601</text>
+      <text x="35" y="225" font-size="12" fill="#333">再过段时间 → RB2601 持仓量超过 RB2510 → 主力合约换成 RB2601</text>
+      <text x="35" y="240" font-size="11" fill="#888">这个"慢慢转"的过程就叫移仓换月。一般发生在到期前 1-2 个月</text>
+    </svg>
+    <div class="chart-label">▲ 主力合约=持仓量最大的合约，看行情就看主力合约</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>文档的合约筛选条件为什么要求"10-40天到期"？</strong><br>
+    因为快到期的合约时间价值消耗快，价格便宜，杠杆高。这是期权特有的逻辑——距离到期越近，虚值合约越便宜，一旦爆发收益越高。<br>
+    <small>但注意：快到期的合约也有"归零风险"，时间越短，价格没动的话合约价值就跌得越快。</small>
+  </div>
+</div>
+
+<!-- ===== 第二十三章：结算价与涨跌停板 ===== -->
+<div class="section">
+  <h2><span class="num">23</span>结算价与涨跌停板（期货特有的规则）</h2>
+
+  <p>这两条规则股票里没有，是期货独有的。搞懂它们，你才不会在关键时刻懵掉。</p>
+
+  <div class="two-col">
+    <div style="background:#e3f2fd; border-radius:10px; padding:18px; border:1px solid #90caf9;">
+      <h3 style="color:#1565c0; margin-top:0; font-size:1.05em;">🧮 结算价</h3>
+      <p style="font-size:0.9em;"><strong>不是你看到的收盘价</strong></p>
+      <p style="font-size:0.85em; color:#555;">期货每天收盘后，交易所会算一个"结算价"</p>
+      <p style="font-size:0.85em; color:#555;">用来算你账户每天的盈亏（浮动盈亏）</p>
+      <p style="font-size:0.85em; color:#888;">结算价 ≈ 收盘前一段时间的加权平均价</p>
+    </div>
+    <div style="background:#fce4ec; border-radius:10px; padding:18px; border:1px solid #ef9a9a;">
+      <h3 style="color:#c62828; margin-top:0; font-size:1.05em;">⛔ 涨跌停板</h3>
+      <p style="font-size:0.9em;"><strong>一天最多只能涨/跌这么多</strong></p>
+      <p style="font-size:0.85em; color:#555;">比如螺纹钢涨跌停板是 ±6%</p>
+      <p style="font-size:0.85em; color:#555;">涨到 6% 就"封板"了，买不进去也卖不出来</p>
+      <p style="font-size:0.85em; color:#888;">不同品种幅度不同，交易所会临时调整</p>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>品种类型</th><th>涨跌停板幅度（大致）</th><th>备注</th></tr>
+    <tr><td>股指期货</td><td>±10%</td><td>跟股票一样</td></tr>
+    <tr><td>主流商品（螺纹钢、甲醇等）</td><td>±6% ~ ±8%</td><td>连续涨跌停会扩板</td></tr>
+    <tr><td>原油</td><td>±13%</td><td>波动大，幅度大</td></tr>
+    <tr><td>农产品（豆粕、玉米等）</td><td>±5% ~ ±8%</td><td>受天气影响大时会调整</td></tr>
+  </table>
+
+  <div class="warn-box">
+    <strong>特别注意：</strong>连续涨停/跌停时，你的单子可能<strong>平不掉</strong>（卖不出去或买不回来）。这就是"流动性风险"。文档要求持仓量≥1000手，就是为了避免冷门合约在极端行情时平不掉。
+  </div>
+</div>
+
+<!-- ===== 第二十四章：交易心理 ===== -->
+<div class="section">
+  <h2><span class="num">24</span>交易心理（管住手比技术分析更重要）</h2>
+
+  <p>很多人技术学得很好了，但还是亏钱。为什么？因为<strong>管不住自己</strong>。下面是新手最常犯的"心魔"：</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 310" width="760" height="310">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">新手四大心魔</text>
+
+      <!-- 心魔1 -->
+      <rect x="15" y="40" width="355" height="55" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="25" y="62" font-size="13" font-weight="bold" fill="#c62828">心魔一：追涨杀跌 🏃</text>
+      <text x="25" y="82" font-size="12" fill="#555">看到涨了就追进去→结果买在最高点。看到跌了就割肉→结果卖在最低点。</text>
+
+      <rect x="390" y="40" width="355" height="55" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="400" y="62" font-size="13" font-weight="bold" fill="#c62828">心魔二：扛单不认错 🐂</text>
+      <text x="400" y="82" font-size="12" fill="#555">亏了不舍得走，总想着"会回来的"→结果小亏变爆仓。</text>
+
+      <rect x="15" y="110" width="355" height="55" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="25" y="132" font-size="13" font-weight="bold" fill="#c62828">心魔三：赚钱拿不住 🐔</text>
+      <text x="25" y="152" font-size="12" fill="#555">赚了一点点就跑，错过了后面的大行情。这就是"吃鱼头丢了鱼身"。</text>
+
+      <rect x="390" y="110" width="355" height="55" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+      <text x="400" y="132" font-size="13" font-weight="bold" fill="#c62828">心魔四：频繁交易 🔄</text>
+      <text x="400" y="152" font-size="12" fill="#555">一天不交易就手痒，来回操作全交了手续费。越做越亏，越亏越做。</text>
+
+      <!-- 解药 -->
+      <rect x="15" y="185" width="730" height="110" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+      <text x="380" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">解药：把交易变成"执行计划"</text>
+      <text x="30" y="232" font-size="12" fill="#333">✅ 没有信号就不做 → 战胜追涨杀跌</text>
+      <text x="30" y="254" font-size="12" fill="#333">✅ 到了止损就砍 → 战胜扛单</text>
+      <text x="30" y="276" font-size="12" fill="#333">✅ 按计划分批卖 → 战胜拿不住单</text>
+      <text x="30" y="296" font-size="11" fill="#888">记住：你的任务不是"预测行情"，而是"执行策略"。做对了没赚钱也比做错了赚了钱强。</text>
+    </svg>
+    <div class="chart-label">▲ 所有亏损的根源，99%都在上面这四个里面</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>给小白的三条铁律：</strong><br>
+    ① 没有信号就不做 —— 空仓不丢人，乱做才丢人<br>
+    ② 亏损超过计划就走 —— 亏多少不是行情决定的，是你自己决定的<br>
+    ③ 连续亏 3 次就休息 —— 心态乱了再做必亏，出去走走明天再来
+  </div>
+</div>
+
+<!-- ===== 第二十五章：模拟盘怎么练 ===== -->
+<div class="section">
+  <h2><span class="num">25</span>模拟盘怎么练（不花钱先练手）</h2>
+
+  <p><strong>千万不要一上来就拿真钱做！</strong>就像考驾照，你不能直接上路，得先在驾校练。模拟盘就是你的"驾校"。</p>
+
+  <h3>去哪里开模拟盘？</h3>
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h4>下载通达信</h4>
+      <p>搜索"通达信期货版"<br><span style="font-size:0.85em;color:#888;">免费下载安装</span></p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h4>开模拟账户</h4>
+      <p>注册模拟账号<br><span style="font-size:0.85em;color:#888;">一般送 100 万虚拟资金</span></p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h4>执行模型</h4>
+      <p>按照前面教的模型<br><span style="font-size:0.85em;color:#888;">等信号→买入→持有→卖出</span></p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <h4>复盘记录</h4>
+      <p>每笔交易记下来<br><span style="font-size:0.85em;color:#888;">哪里做对了/哪里做错了</span></p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 155" width="760" height="155">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">模拟盘训练计划（照着做一个月）</text>
+
+      <rect x="15" y="35" width="175" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+      <text x="102" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565c0">第一周：只看不买</text>
+      <text x="102" y="73" text-anchor="middle" font-size="10" fill="#555">熟悉软件、找品种</text>
+
+      <text x="107" y="83" font-size="14" fill="#999">→</text>
+
+      <rect x="205" y="35" width="175" height="50" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="292" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">第二周：轻仓试单</text>
+      <text x="292" y="73" text-anchor="middle" font-size="10" fill="#555">用模拟资金小仓位练</text>
+
+      <text x="297" y="83" font-size="14" fill="#999">→</text>
+
+      <rect x="395" y="35" width="175" height="50" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
+      <text x="482" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">第三周：严格执行</text>
+      <text x="482" y="73" text-anchor="middle" font-size="10" fill="#555">按模型信号操作</text>
+
+      <text x="487" y="83" font-size="14" fill="#999">→</text>
+
+      <rect x="585" y="35" width="160" height="50" rx="8" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1.5"/>
+      <text x="665" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#7b1fa2">第四周：复盘总结</text>
+      <text x="665" y="73" text-anchor="middle" font-size="10" fill="#555">看胜率、改毛病</text>
+
+      <!-- 目标 -->
+      <rect x="15" y="100" width="730" height="45" rx="8" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+      <text x="380" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">模拟盘的目标不是"赚多少钱"，而是"养成好习惯"</text>
+      <text x="380" y="138" text-anchor="middle" font-size="11" fill="#888">连续 1 个月模拟盘盈利，再考虑用真钱。而且第一笔真钱只放 5000 块</text>
+    </svg>
+    <div class="chart-label">▲ 一个月模拟盘训练计划</div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>模拟盘和实盘最大的区别：</strong>模拟盘亏了不心疼，实盘亏了会心疼。所以模拟盘做得好，不意味着实盘也能做好。<br>
+    很多人模拟盘翻了好几倍，一上实盘就亏——因为心态变了。<br>
+    <strong>解决办法：</strong>模拟盘就要当实盘做。每一笔都要记录买卖理由，养成"按计划执行"的习惯。
+  </div>
+</div>
+
+<!-- ===== 第二十六章：每日复盘清单 ===== -->
+<div class="section">
+  <h2><span class="num">26</span>每日复盘清单（每天花 10 分钟做这件事）</h2>
+
+  <p>高手和普通人的区别：高手每天都复盘。不是看今天赚了多少，而是看<strong>今天有没有按计划做</strong>。</p>
+
+  <div class="chart-container">
+    <svg viewBox="0 0 760 330" width="760" height="330">
+      <text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f3460">每日复盘清单（打印出来贴墙上）</text>
+
+      <!-- 第一部分 -->
+      <rect x="15" y="35" width="730" height="25" rx="5" fill="#e3f2fd"/>
+      <text x="25" y="53" font-size="13" font-weight="bold" fill="#1565c0">📋 盘前准备（开盘前 5 分钟）</text>
+
+      <text x="35" y="78" font-size="12" fill="#333">□ 今天关注的品种有没有跳空高开/低开？</text>
+      <text x="35" y="100" font-size="12" fill="#333">□ 昨晚外盘（原油、美豆等）怎么走的？</text>
+      <text x="35" y="122" font-size="12" fill="#333">□ 今天有没有重要的经济数据发布？</text>
+      <text x="35" y="144" font-size="12" fill="#333">□ 持仓的合约有没有触发止损/止盈？</text>
+
+      <rect x="15" y="158" width="730" height="25" rx="5" fill="#fff8e1"/>
+      <text x="25" y="176" font-size="13" font-weight="bold" fill="#e65100">📊 盘中执行（交易时间）</text>
+
+      <text x="35" y="200" font-size="12" fill="#333">□ 有没有出现模型信号？有 → 按计划执行；没有 → 不动</text>
+      <text x="35" y="222" font-size="12" fill="#333">□ 有没有手痒乱开单？有 → 记下来检讨</text>
+      <text x="35" y="244" font-size="12" fill="#333">□ 持仓是否在计划的止损/止盈范围内？</text>
+
+      <rect x="15" y="258" width="730" height="25" rx="5" fill="#e8f5e9"/>
+      <text x="25" y="276" font-size="13" font-weight="bold" fill="#2e7d32">📝 盘后总结（收盘后 5 分钟）</text>
+
+      <text x="35" y="300" font-size="12" fill="#333">□ 今天有没有遵守交易计划？（是/否，否的话原因是什么）</text>
+      <text x="35" y="322" font-size="12" fill="#333">□ 今天盈亏多少？原因是什么？明天计划怎么做？</text>
+    </svg>
+    <div class="chart-label">▲ 每天 10 分钟，坚持一个月，你会发现自己进步神速</div>
+  </div>
+
+  <div class="tip-box">
+    <strong>真正的成长来自复盘：</strong>不要只看盈亏。今天按计划做对了但亏钱了 → 也是好的交易（市场不配合而已）。今天没按计划做但赚钱了 → 这是坏的交易（运气好而已，下次会栽跟头）。
+  </div>
+</div>
+
+<div class="footer">
+  <p>🎓 <strong>26 章全部学完</strong> — 你已经从小白变成了入门选手</p>
+  <p>记住三句话：<strong>不追高、等回踩、分批卖</strong> ｜ <strong>先模拟、轻仓练、勤复盘</strong></p>
+  <p style="margin-top:8px; font-size:0.85em; color:#aaa;">打开浏览器，按顺序看，一次学一章。全部看完就是出师了。</p>
+</div>
+
+</div>
+
+</body>
+</html>

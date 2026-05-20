@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 2 · 量化系统搭建</title>
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0b0e17;
+    color: #e8edf5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+  }
+  .container { max-width: 1200px; width: 100%; }
+
+  /* ===== Header ===== */
+  .phase-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .phase-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 4px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .phase-header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa, #818cf8, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .phase-header .subtitle {
+    color: #94a3b8;
+    font-size: 18px;
+    margin-top: 8px;
+  }
+  .phase-header .subtitle span {
+    color: #818cf8;
+    font-weight: 600;
+  }
+
+  /* ===== Architecture Overview ===== */
+  .arch-card {
+    background: linear-gradient(145deg, #131a2e, #0f1628);
+    border: 1px solid rgba(129,140,248,0.15);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+  }
+  .arch-card h3 {
+    font-size: 16px;
+    color: #818cf8;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+  }
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .arch-node {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .arch-node .node-icon { font-size: 24px; margin-bottom: 4px; }
+  .arch-node .node-label { font-size: 13px; color: #93c5fd; font-weight: 600; }
+  .arch-node .node-desc { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .arch-arrow {
+    color: #475569;
+    font-size: 20px;
+    font-weight: 300;
+    padding: 0 4px;
+  }
+
+  /* ===== Tech Stack ===== */
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin: 16px 0 4px;
+  }
+  .tech-item {
+    background: rgba(15,23,42,0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tech-item .tech-icon { font-size: 16px; }
+  .tech-item .highlight {
+    color: #818cf8;
+    font-weight: 600;
+  }
+
+  /* ===== Grid ===== */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin-bottom: 40px; }
+
+  /* ===== Card ===== */
+  .card {
+    background: linear-gradient(145deg, #131a2e, #0f1628);
+    border-radius: 20px;
+    padding: 28px 24px 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(99,102,241,0.10); }
+  .card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; }
+  .card:nth-child(1)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+  .card:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+  .card:nth-child(3)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+  .card:nth-child(4)::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+  .card:nth-child(5)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+  .card:nth-child(6)::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+  .card-top { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .step-num {
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:18px; flex-shrink:0;
+  }
+  .card:nth-child(1) .step-num { background:rgba(59,130,246,0.20); color:#60a5fa; }
+  .card:nth-child(2) .step-num { background:rgba(16,185,129,0.20); color:#34d399; }
+  .card:nth-child(3) .step-num { background:rgba(245,158,11,0.20); color:#fbbf24; }
+  .card:nth-child(4) .step-num { background:rgba(239,68,68,0.20); color:#f87171; }
+  .card:nth-child(5) .step-num { background:rgba(236,72,153,0.20); color:#f472b6; }
+  .card:nth-child(6) .step-num { background:rgba(139,92,246,0.20); color:#a78bfa; }
+
+  .card-title { font-size:18px; font-weight:700; }
+  .card:nth-child(1) .card-title { color:#93c5fd; }
+  .card:nth-child(2) .card-title { color:#6ee7b7; }
+  .card:nth-child(3) .card-title { color:#fde68a; }
+  .card:nth-child(4) .card-title { color:#fca5a5; }
+  .card:nth-child(5) .card-title { color:#fbcfe8; }
+  .card:nth-child(6) .card-title { color:#c4b5fd; }
+
+  .card-desc { color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:16px; }
+
+  .code-block {
+    background: #060a14;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #a5b4fc;
+    overflow-x: auto;
+    white-space: pre;
+    margin-bottom: 14px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .code-block .cmt { color: #64748b; }
+  .code-block .key { color: #f472b6; }
+  .code-block .str { color: #34d399; }
+  .code-block .num { color: #fbbf24; }
+
+  .bullet-list { list-style:none; margin-top:8px; }
+  .bullet-list li {
+    font-size:13px; color:#94a3b8; line-height:1.7;
+    padding-left:18px; position:relative; margin-bottom:4px;
+  }
+  .bullet-list li::before { content:'▸'; position:absolute; left:0; color:#475569; }
+
+  .tag-group { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .tag {
+    font-size:12px; padding:3px 10px; border-radius:6px; font-weight:500;
+  }
+  .tag-blue   { background:rgba(59,130,246,0.15); color:#93c5fd; }
+  .tag-green  { background:rgba(16,185,129,0.15); color:#6ee7b7; }
+  .tag-yellow { background:rgba(245,158,11,0.15); color:#fde68a; }
+  .tag-red    { background:rgba(239,68,68,0.15);  color:#fca5a5; }
+  .tag-purple { background:rgba(139,92,246,0.15); color:#c4b5fd; }
+  .tag-pink   { background:rgba(236,72,153,0.15); color:#fbcfe8; }
+
+  /* ===== Daily Tips ===== */
+  .tips-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+  .tip-card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:14px; padding:18px 20px;
+  }
+  .tip-card .tip-label { font-size:12px; font-weight:600; color:#818cf8; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .tip-card .tip-body { font-size:14px; color:#cbd5e1; line-height:1.6; }
+
+  /* ===== Checkpoints ===== */
+  .checkpoints { margin-top:40px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center; }
+  .checkpoint {
+    background:rgba(99,102,241,0.10);
+    border:1px solid rgba(99,102,241,0.25);
+    border-radius:30px; padding:10px 24px;
+    font-size:14px; color:#a5b4fc;
+    display:flex; align-items:center; gap:8px;
+  }
+  .checkpoint .check-icon {
+    width:20px; height:20px; border-radius:50%;
+    background:rgba(99,102,241,0.20);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+  }
+
+  /* ===== Money Box ===== */
+  .money-box {
+    background: linear-gradient(135deg, rgba(16,185,129,0.10), rgba(99,102,241,0.08));
+    border:1px solid rgba(16,185,129,0.20);
+    border-radius:16px; padding:18px 24px;
+    display:flex; align-items:center; gap:14px;
+    margin-bottom:40px;
+  }
+  .money-box .icon { font-size:24px; flex-shrink:0; }
+  .money-box .text { font-size:14px; color:#cbd5e1; line-height:1.6; }
+  .money-box .text strong { color:#34d399; }
+
+  /* ===== Responsive ===== */
+  @media (max-width:768px) {
+    body { padding:20px 12px 40px; }
+    .phase-header h1 { font-size:28px; }
+    .grid { grid-template-columns:1fr; }
+    .tips-grid { grid-template-columns:1fr; }
+    .arch-flow { flex-direction:column; }
+    .arch-arrow { transform:rotate(90deg); }
+    .code-block { font-size:12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ====== Header ====== -->
+  <div class="phase-header">
+    <div class="phase-badge">⚙️ PHASE 2</div>
+    <h1>量化系统搭建</h1>
+    <p class="subtitle">建议周期：<span>2-4 周</span> &nbsp;·&nbsp; 纯代码开发，不涉及实盘资金</p>
+  </div>
+
+  <!-- ====== Architecture ====== -->
+  <div class="arch-card">
+    <h3>📐 系统架构总览</h3>
+    <div class="arch-flow">
+      <div class="arch-node"><div class="node-icon">📡</div><div class="node-label">行情源</div><div class="node-desc">通达信 / CTP</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node"><div class="node-icon">🔍</div><div class="node-label">合约筛选器</div><div class="node-desc">85+ 品种扫描</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node"><div class="node-icon">🤖</div><div class="node-label">LLM 情感分析</div><div class="node-desc">DeepSeek V4 (云端)</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node"><div class="node-icon">📊</div><div class="node-label">策略引擎</div><div class="node-desc">突破回撤</div></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node"><div class="node-icon">⚡</div><div class="node-label">执行模块</div><div class="node-desc">券商 API</div></div>
+    </div>
+    <div class="tech-stack">
+      <span class="tech-item"><span class="tech-icon">🐍</span> Python 3.11+</span>
+      <span class="tech-item"><span class="tech-icon">📦</span> Pandas / NumPy</span>
+      <span class="tech-item"><span class="tech-icon">🔄</span> Backtrader</span>
+      <span class="tech-item"><span class="tech-icon">⚡</span> <span class="highlight">DeepSeek V4 Flash</span></span>
+      <span class="tech-item"><span class="tech-icon">⌨️</span> <span class="highlight">Claude Code CLI</span></span>
+      <span class="tech-item"><span class="tech-icon">🗄️</span> SQLite / CSV</span>
+      <span class="tech-item"><span class="tech-icon">🔌</span> CTP API</span>
+    </div>
+  </div>
+
+  <!-- ====== Money Note ====== -->
+  <div class="money-box">
+    <div class="icon">💡</div>
+    <div class="text">
+      全部用 <strong>云端 DeepSeek V4 Flash</strong>，不需要买 GPU、不需要租服务器装大模型。
+      开发时 <strong>Claude Code CLI</strong> 底层就是 DeepSeek V4，运行时策略代码直接调 DeepSeek API。
+      每月 API 费用预估：<strong>￥20-80</strong>（DeepSeek 定价极低）。
+    </div>
+  </div>
+
+  <!-- ====== 6 Steps ====== -->
+  <div class="grid">
+
+    <!-- 1: 环境 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">1</div><div class="card-title">搭建开发环境</div></div>
+      <div class="card-desc">
+        搭好 Python 量化基础环境，装好必要的库。
+      </div>
+      <div class="code-block"><span class="cmt"># 核心依赖</span>
+pip install pandas numpy backtrader
+pip install requests python-dotenv
+pip install ta          <span class="cmt"># 技术指标</span>
+pip install vnpy        <span class="cmt"># 可选，对接 CTP</span></div>
+      <div class="bullet-list">
+        <li>创建项目目录结构：data/ strategy/ backtest/ executor/</li>
+        <li>配置 .env 文件存 API Key（不上传到 GitHub）</li>
+        <li>写好行情数据下载脚本（1 天搞定）</li>
+      </div>
+      <div class="tag-group"><span class="tag tag-blue">Python 3.11+</span><span class="tag tag-blue">venv 隔离</span></div>
+    </div>
+
+    <!-- 2: 回测框架 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">2</div><div class="card-title">回测引擎 + 红蓝线</div></div>
+      <div class="card-desc">
+        用 Backtrader 实现突破回撤策略，核心是找出红蓝线交叉买点。
+      </div>
+      <div class="code-block"><span class="cmt"># 伪代码：红蓝线逻辑</span>
+fast_ma = SMA(close, <span class="num">5</span>)   <span class="cmt"># 蓝线</span>
+slow_ma = SMA(close, <span class="num">20</span>)  <span class="cmt"># 红线</span>
+
+<span class="key">if</span> crossover(fast_ma, slow_ma):
+    <span class="cmt"># 蓝线上穿红线 → 交叉成立</span>
+    entry_price = close
+    stop_loss   = slow_ma    <span class="cmt"># 回踩红线</span></div>
+      <div class="bullet-list">
+        <li>⚠️ 红蓝线参数文档中未公开，先用 5/20 作为占位，后续调参优化</li>
+        <li>集成 TA-Lib 或 pandas_ta 计算指标</li>
+        <li>输出回测报告：胜率、最大回撤、夏普比率</li>
+      </div>
+      <div class="tag-group"><span class="tag tag-blue">Backtrader</span><span class="tag tag-green">回测报告</span></div>
+    </div>
+
+    <!-- 3: 合约筛选 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">3</div><div class="card-title">合约自动筛选器</div></div>
+      <div class="card-desc">
+        每天定时扫描 85+ 品种，按规则过滤出候选合约。
+      </div>
+      <div class="code-block"><span class="cmt"># 筛选条件</span>
+contracts = all_contracts()
+
+<span class="key">def</span> filter(ct):
+    <span class="key">return</span> (
+        <span class="num">10</span> &lt;= ct.days_to_expiry &lt;= <span class="num">40</span>
+        <span class="key">and</span> ct.open_interest &gt;= <span class="num">1000</span>
+        <span class="key">and</span> ct.moneyness == <span class="str">'OTM'</span>
+    )
+
+candidates = [c <span class="key">for</span> c <span class="key">in</span> contracts <span class="key">if</span> filter(c)]</div>
+      <div class="bullet-list">
+        <li>对接行情源获取合约列表（天勤/掘金/米筐）</li>
+        <li>自动计算到期时间、持仓量、虚实值</li>
+        <li>输出 Excel / CSV 候选表，每日盘前跑一次</li>
+      </div>
+      <div class="tag-group"><span class="tag tag-yellow">10-40天</span><span class="tag tag-yellow">持仓 ≥1000</span><span class="tag tag-red">虚值</span></div>
+    </div>
+
+    <!-- 4: LLM 情感分析 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">4</div><div class="card-title">DeepSeek V4 情感分析</div></div>
+      <div class="card-desc">
+        对筛选出的品种，调 DeepSeek V4 Flash API 自动分析新闻情绪。
+        注意：<strong style="color:#fbbf24;">你当前正在用的就是同一个模型</strong>——Claude Code CLI 背后就是 DeepSeek V4。
+      </div>
+      <div class="code-block"><span class="cmt"># 运行时调 DeepSeek API（和 CLI 是同一个模型）</span>
+<span class="key">from</span> openai <span class="key">import</span> OpenAI
+
+client = OpenAI(
+    api_key=os.getenv(<span class="str">"DEEPSEEK_API_KEY"</span>),
+    base_url=<span class="str">"https://api.deepseek.com"</span>
+)
+
+prompt = <span class="str">f"""近一周 {品种} 的新闻：
+{news_text}
+
+请判断：利好 ✅ / 利空 ❌ / 中性 ⏸
+一句话说明理由。"""</span>
+
+resp = client.chat.completions.create(
+    model=<span class="str">"deepseek-chat"</span>,
+    messages=[{<span class="str">"role"</span>:<span class="str">"user"</span>, <span class="str">"content"</span>: prompt}]
+)</div>
+      <div class="bullet-list">
+        <li>DeepSeek V4 定价极低：每月 1 万次分析成本不到 ￥50</li>
+        <li>开发时：终端里跟 Claude Code CLI 对话，它帮你写量化代码</li>
+        <li>运行时：Python 代码直接调 DeepSeek API 做新闻分析</li>
+      </div>
+      <div class="tag-group"><span class="tag tag-purple">DeepSeek V4</span><span class="tag tag-green">利好/利空</span><span class="tag tag-blue">￥20-80/月</span></div>
+    </div>
+
+    <!-- 5: 买卖策略编码 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">5</div><div class="card-title">交易策略编码</div></div>
+      <div class="card-desc">
+        把廖老师的全套买卖规则写成可执行的代码。
+      </div>
+      <div class="code-block"><span class="cmt"># 卖出规则</span>
+<span class="key">def</span> exit_rule(position, current_price):
+    cost = position.avg_price
+    multiple = current_price / cost
+
+    <span class="key">if</span> multiple &gt;= <span class="num">2.0</span>:
+        sell_half(position)             <span class="cmt"># 赚一倍 → 卖一半保本</span>
+
+    <span class="key">if</span> multiple &gt;= <span class="num">5.0</span>:
+        sell_all(position)              <span class="cmt"># 赚 5-10 倍 → 清仓</span>
+
+    <span class="key">if</span> holding_days(position) &gt;= <span class="num">30</span>:
+        sell_all(position)              <span class="cmt"># 满 30 天 → 强制清仓</span></div>
+      <div class="bullet-list">
+        <li>仓位管理：单品种 ≤ 总资金 5%，同板块只选 1 个</li>
+        <li>买入后 30 天内不管涨跌不准动（窖藏酒理论）</li>
+        <li>日志系统：记录每笔开仓/平仓的时间、价格、盈亏</li>
+      </div>
+      <div class="tag-group"><span class="tag tag-red">止损-不动</span><span class="tag tag-green">止盈-分批</span><span class="tag tag-yellow">30天戒律</span></div>
+    </div>
+
+    <!-- 6: 自动化执行 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">6</div><div class="card-title">自动化执行模块</div></div>
+      <div class="card-desc">
+        对接券商 CTP 接口，让代码自动下单，彻底摆脱手动交易的情绪干扰。
+      </div>
+      <div class="code-block"><span class="cmt"># 伪代码：自动执行流程</span>
+<span class="key">while</span> market_is_open():
+    signal = strategy.check()          <span class="cmt"># 红蓝线交叉?</span>
+
+    <span class="key">if</span> signal == <span class="str">"BUY"</span>:
+        order = broker.buy(
+            contract=contract,
+            qty=calc_qty(capital * <span class="num">0.05</span>),
+            order_type=<span class="str">"LIMIT"</span>,
+            price=red_line
+        )
+        log_order(order)
+
+    <span class="key">if</span> signal == <span class="str">"SELL"</span>:
+        broker.sell(position)</div>
+      <div class="bullet-list">
+        <li>先用模拟盘对接（SimNow 仿真环境）</li>
+        <li>实盘用 CTP（上期技术）或掘金量化 API</li>
+        <li>邮件/微信告警：成交通知 + 异常提醒</li>
+      </div>
+      <div class="tag-group"><span class="tag tag-pink">SimNow</span><span class="tag tag-red">CTP</span><span class="tag tag-purple">自动下单</span></div>
+    </div>
+
+  </div>
+
+  <!-- ====== Daily Tips ====== -->
+  <div style="margin-top:8px;">
+    <h3 style="font-size:16px; color:#94a3b8; margin-bottom:14px; letter-spacing:1px;">🧪 开发节奏建议</h3>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-label">第 1 周</div>
+        <div class="tip-body">搭环境 + 通过 Claude Code CLI 生成回测引擎骨架。（你现在就在用的方式）拿历史数据跑通红蓝线策略。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">第 2 周</div>
+        <div class="tip-body">合约筛选器 + DeepSeek V4 API 情感分析（和 CLI 同一个模型）。每天盘前收到候选清单。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">第 3 周</div>
+        <div class="tip-body">完整策略联调。模拟盘跑通"筛选→分析→下单→记录"全流程。代码全部通过 Claude Code CLI 对话生成。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">第 4 周</div>
+        <div class="tip-body">调参优化。用 2024-2025 年数据反复回测，让 Claude Code CLI 帮你分析回测报告，迭代策略。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Checkpoints ====== -->
+  <div class="checkpoints">
+    <div class="checkpoint"><span class="check-icon">✓</span> 回测能跑出完整的胜率 / 收益率报告</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 合约筛选器每天自动输出候选清单</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> DeepSeek API 情感分析打通，结果入库</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 模拟盘自动下单流程跑通</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 代码用 Git 管理，上传私有仓库</div>
+  </div>
+
+</div>
+</body>
+</html>

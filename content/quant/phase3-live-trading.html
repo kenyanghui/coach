@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 3 · 实盘测试</title>
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0b0e17;
+    color: #e8edf5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+  }
+  .container { max-width: 1200px; width:100%; }
+
+  /* ===== Header ===== */
+  .phase-header { text-align:center; margin-bottom:48px; }
+  .phase-badge {
+    display:inline-block;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    color:#fff; font-weight:700; font-size:14px;
+    padding:4px 16px; border-radius:20px; letter-spacing:1px; margin-bottom:16px;
+  }
+  .phase-header h1 {
+    font-size:42px; font-weight:800;
+    background: linear-gradient(135deg, #f87171, #fbbf24, #f97316);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .phase-header .subtitle { color:#94a3b8; font-size:18px; margin-top:8px; }
+  .phase-header .subtitle span { color:#fbbf24; font-weight:600; }
+
+  /* ===== Banner ===== */
+  .banner {
+    background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(251,146,60,0.08));
+    border:1px solid rgba(239,68,68,0.25);
+    border-radius:16px; padding:20px 28px;
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:40px;
+  }
+  .banner .icon { font-size:32px; flex-shrink:0; }
+  .banner .text { font-size:15px; line-height:1.6; color:#fca5a5; }
+  .banner .text strong { color:#fbbf24; }
+
+  /* ===== Roadmap Timeline ===== */
+  .timeline { margin-bottom:48px; }
+  .timeline h3 { font-size:16px; color:#94a3b8; margin-bottom:20px; letter-spacing:1px; }
+  .tl-steps { display:flex; gap:0; position:relative; }
+  .tl-step {
+    flex:1; text-align:center; position:relative;
+  }
+  .tl-dot {
+    width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 8px; font-weight:700; font-size:14px;
+    position:relative; z-index:2;
+  }
+  .tl-step:nth-child(1) .tl-dot { background:#3b82f6; color:#fff; }
+  .tl-step:nth-child(2) .tl-dot { background:#10b981; color:#fff; }
+  .tl-step:nth-child(3) .tl-dot { background:#f59e0b; color:#0b0e17; }
+  .tl-step:nth-child(4) .tl-dot { background:#ef4444; color:#fff; }
+  .tl-line {
+    position:absolute; top:18px; left:50%; width:100%; height:2px;
+    background:#1e293b; z-index:1;
+  }
+  .tl-step:last-child .tl-line { display:none; }
+  .tl-label { font-size:13px; font-weight:600; color:#cbd5e1; }
+  .tl-desc { font-size:12px; color:#64748b; margin-top:2px; }
+
+  /* ===== Grid ===== */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(340px,1fr)); gap:24px; margin-bottom:40px; }
+
+  /* ===== Card ===== */
+  .card {
+    background: linear-gradient(145deg, #131a2e, #0f1628);
+    border-radius:20px; padding:28px 24px 24px;
+    border:1px solid rgba(255,255,255,0.06);
+    position:relative; overflow:hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(251,146,60,0.08); }
+  .card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; }
+  .card:nth-child(1)::before { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
+  .card:nth-child(2)::before { background:linear-gradient(90deg,#10b981,#34d399); }
+  .card:nth-child(3)::before { background:linear-gradient(90deg,#f59e0b,#fbbf24); }
+  .card:nth-child(4)::before { background:linear-gradient(90deg,#ef4444,#f87171); }
+  .card:nth-child(5)::before { background:linear-gradient(90deg,#8b5cf6,#a78bfa); }
+
+  .card-top { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .step-num {
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:18px; flex-shrink:0;
+  }
+  .card:nth-child(1) .step-num { background:rgba(59,130,246,0.20); color:#60a5fa; }
+  .card:nth-child(2) .step-num { background:rgba(16,185,129,0.20); color:#34d399; }
+  .card:nth-child(3) .step-num { background:rgba(245,158,11,0.20); color:#fbbf24; }
+  .card:nth-child(4) .step-num { background:rgba(239,68,68,0.20); color:#f87171; }
+  .card:nth-child(5) .step-num { background:rgba(139,92,246,0.20); color:#a78bfa; }
+
+  .card-title { font-size:18px; font-weight:700; }
+  .card:nth-child(1) .card-title { color:#93c5fd; }
+  .card:nth-child(2) .card-title { color:#6ee7b7; }
+  .card:nth-child(3) .card-title { color:#fde68a; }
+  .card:nth-child(4) .card-title { color:#fca5a5; }
+  .card:nth-child(5) .card-title { color:#c4b5fd; }
+
+  .card-desc { color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:16px; }
+  .card-desc strong.hl-yellow { color:#fbbf24; }
+  .card-desc strong.hl-red { color:#f87171; }
+  .card-desc strong.hl-green { color:#34d399; }
+
+  .rule-list { list-style:none; margin-top:10px; }
+  .rule-list li {
+    font-size:13px; color:#94a3b8; line-height:1.7;
+    padding-left:20px; position:relative; margin-bottom:6px;
+  }
+  .rule-list li::before { position:absolute; left:0; font-weight:700; }
+  .rule-list li.ok::before { content:'✅'; }
+  .rule-list li.warn::before { content:'⚠️'; }
+  .rule-list li.danger::before { content:'🔴'; }
+
+  .divider { height:1px; background:rgba(255,255,255,0.06); margin:14px 0; }
+
+  .tag-group { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .tag {
+    font-size:12px; padding:3px 10px; border-radius:6px; font-weight:500;
+  }
+  .tag-blue   { background:rgba(59,130,246,0.15); color:#93c5fd; }
+  .tag-green  { background:rgba(16,185,129,0.15); color:#6ee7b7; }
+  .tag-yellow { background:rgba(245,158,11,0.15); color:#fde68a; }
+  .tag-red    { background:rgba(239,68,68,0.15);  color:#fca5a5; }
+  .tag-purple { background:rgba(139,92,246,0.15); color:#c4b5fd; }
+  .tag-orange { background:rgba(251,146,60,0.15); color:#fdba74; }
+
+  /* ===== Rules Summary ===== */
+  .rules-summary {
+    background: linear-gradient(145deg, #131a2e, #0f1628);
+    border:1px solid rgba(251,146,60,0.15);
+    border-radius:20px; padding:28px 32px;
+    margin-bottom:40px;
+  }
+  .rules-summary h3 { font-size:16px; color:#fbbf24; margin-bottom:18px; letter-spacing:1px; }
+  .rules-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .rule-item {
+    background:rgba(255,255,255,0.03);
+    border-radius:12px; padding:16px 18px;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+  .rule-item .r-icon { font-size:20px; margin-bottom:4px; }
+  .rule-item .r-title { font-size:14px; font-weight:600; color:#e2e8f0; }
+  .rule-item .r-body { font-size:13px; color:#94a3b8; line-height:1.5; margin-top:4px; }
+
+  /* ===== Battle-Tested ===== */
+  .truth-box {
+    background: linear-gradient(135deg, rgba(239,68,68,0.06), rgba(251,146,60,0.04));
+    border:1px solid rgba(239,68,68,0.15);
+    border-radius:16px; padding:24px 28px;
+    margin-bottom:40px;
+  }
+  .truth-box h3 { font-size:16px; color:#f87171; margin-bottom:14px; letter-spacing:1px; }
+  .truth-list { list-style:none; }
+  .truth-list li {
+    font-size:14px; color:#cbd5e1; line-height:1.7;
+    padding:6px 0 6px 24px; position:relative;
+  }
+  .truth-list li::before { content:'❗'; position:absolute; left:0; }
+
+  /* ===== Tips ===== */
+  .tips-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+  .tip-card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:14px; padding:18px 20px;
+  }
+  .tip-card .tip-label { font-size:12px; font-weight:600; color:#f97316; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .tip-card .tip-body { font-size:14px; color:#cbd5e1; line-height:1.6; }
+
+  /* ===== Checkpoints ===== */
+  .checkpoints { margin-top:40px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center; }
+  .checkpoint {
+    background:rgba(239,68,68,0.10);
+    border:1px solid rgba(239,68,68,0.25);
+    border-radius:30px; padding:10px 24px;
+    font-size:14px; color:#fca5a5;
+    display:flex; align-items:center; gap:8px;
+  }
+  .checkpoint .check-icon {
+    width:20px; height:20px; border-radius:50%;
+    background:rgba(239,68,68,0.20);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+  }
+  .checkpoint.done { background:rgba(16,185,129,0.10); border-color:rgba(16,185,129,0.25); color:#6ee7b7; }
+  .checkpoint.done .check-icon { background:rgba(16,185,129,0.20); }
+
+  @media (max-width:768px) {
+    body { padding:20px 12px 40px; }
+    .phase-header h1 { font-size:28px; }
+    .grid { grid-template-columns:1fr; }
+    .rules-grid { grid-template-columns:1fr; }
+    .tips-grid { grid-template-columns:1fr; }
+    .banner { flex-direction:column; text-align:center; }
+    .tl-steps { flex-direction:column; gap:16px; }
+    .tl-line { display:none; }
+    .tl-step { display:flex; align-items:center; gap:12px; text-align:left; }
+    .tl-dot { margin:0; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ====== Header ====== -->
+  <div class="phase-header">
+    <div class="phase-badge">🔥 PHASE 3</div>
+    <h1>实盘测试</h1>
+    <p class="subtitle">建议周期：<span>3-6 个月</span> &nbsp;·&nbsp; 小资金验证策略，用机器战胜人性</p>
+  </div>
+
+  <!-- ====== Banner ====== -->
+  <div class="banner">
+    <div class="icon">🚨</div>
+    <div class="text">
+      <strong>最大亏损 = 全部本金。</strong> 期权买方最多亏光权利金，不会穿仓。
+      但这笔钱必须是<b>亏光了也不影响生活的闲钱</b>。
+      廖老师原话：<em>"需要爆仓心态——1万变20万再归零，你敢不敢？"</em>
+    </div>
+  </div>
+
+  <!-- ====== Timeline ====== -->
+  <div class="timeline">
+    <h3>🗺️ 实盘路线图</h3>
+    <div class="tl-steps">
+      <div class="tl-step">
+        <div class="tl-line"></div>
+        <div class="tl-dot">1</div>
+        <div><div class="tl-label">模拟盘验证</div><div class="tl-desc">1 个月，跑通全流程</div></div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-line"></div>
+        <div class="tl-dot">2</div>
+        <div><div class="tl-label">¥5,000 起步</div><div class="tl-desc">最小成本测试</div></div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-line"></div>
+        <div class="tl-dot">3</div>
+        <div><div class="tl-label">¥10,000-20,000</div><div class="tl-desc">验证策略稳定性</div></div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-line"></div>
+        <div class="tl-dot">4</div>
+        <div><div class="tl-label">复盘迭代</div><div class="tl-desc">调参优化</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 5 Steps ====== -->
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">1</div><div class="card-title">模拟盘跑通全流程</div></div>
+      <div class="card-desc">
+        先不要真金白银。用 <strong class="hl-yellow">SimNow</strong>（上期技术仿真环境）或券商模拟盘，
+        把 Phase 2 开发的系统完整跑一遍。
+      </div>
+      <div class="divider"></div>
+      <ul class="rule-list">
+        <li class="ok">合约筛选器每天输出候选</li>
+        <li class="ok">DeepSeek V4 情感分析正常返回</li>
+        <li class="ok">策略引擎产生买卖信号</li>
+        <li class="ok">模拟下单成功，日志记录完整</li>
+        <li class="ok">跑满 <strong class="hl-yellow">1 个月</strong>，统计胜率和收益率</li>
+      </ul>
+      <div class="tag-group"><span class="tag tag-blue">SimNow</span><span class="tag tag-blue">模拟盘</span><span class="tag tag-green">跑1个月</span></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">2</div><div class="card-title">¥5,000 真实验证</div></div>
+      <div class="card-desc">
+        模拟盘跑顺之后，转入最小实盘资金。<strong class="hl-yellow">¥5,000</strong> 是底线，
+        即使全部亏完也能承受。
+      </div>
+      <div class="divider"></div>
+      <ul class="rule-list">
+        <li class="ok">开一个期货账户（支持商品期权）</li>
+        <li class="ok">入金 ¥5,000，单品种最多 ¥250（5% 仓位）</li>
+        <li class="danger"><strong>绝对手动干预</strong> —— 让机器全自动执行</li>
+        <li class="warn">不要因为金额小就轻视，严格执行每一条规则</li>
+      </ul>
+      <div class="tag-group"><span class="tag tag-red">底限资金</span><span class="tag tag-orange">￥5,000 起</span></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">3</div><div class="card-title">执行铁律</div></div>
+      <div class="card-desc">
+        以下规则写进代码和你的潜意识，<strong class="hl-red">没有任何例外</strong>。
+      </div>
+      <div class="divider"></div>
+      <ul class="rule-list">
+        <li class="danger"><strong>窖藏酒理论：</strong>买入后 30 天内不准动，死了也不动</li>
+        <li class="danger"><strong>分批止盈：</strong>赚 1 倍卖一半保本，剩的拿 5-10 倍或满 30 天</li>
+        <li class="danger"><strong>仓位硬限：</strong>单品种 ≤ 5%，同板块只选 1 个</li>
+        <li class="danger"><strong>零干预：</strong>信号来了系统自动下单，你只能看日志</li>
+      </ul>
+      <div class="tag-group">
+        <span class="tag tag-red">30天戒律</span>
+        <span class="tag tag-red">零干预</span>
+        <span class="tag tag-yellow">分批止盈</span>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">4</div><div class="card-title">复盘日志</div></div>
+      <div class="card-desc">
+        每笔交易都要有记录。数据是优化策略的唯一依据，不要靠感觉。
+      </div>
+      <div class="divider"></div>
+      <ul class="rule-list">
+        <li class="ok">记录：开仓时间、品种、价格、数量</li>
+        <li class="ok">记录：平仓时间、价格、盈亏、持有天数</li>
+        <li class="ok">记录：DeepSeek V4 当时的判断（利好/利空）</li>
+        <li class="ok">每周用 Claude Code CLI 分析一次日志，让它帮你找问题</li>
+      </ul>
+      <div class="tag-group"><span class="tag tag-purple">数据驱动</span><span class="tag tag-green">每周复盘</span></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="card-top"><div class="step-num">5</div><div class="card-title">迭代优化</div></div>
+      <div class="card-desc">
+        实盘数据出来之后，用结果反哺策略。
+      </div>
+      <div class="divider"></div>
+      <ul class="rule-list">
+        <li class="ok">红蓝线参数调优（如果实盘胜率明显偏离回测）</li>
+        <li class="ok">情感分析权重调整（DeepSeek V4 判断有多准？）</li>
+        <li class="ok">止盈策略对比：直接 10 倍清仓 vs 分批出</li>
+        <li class="warn">每次只改一个变量，A/B 测试</li>
+      </ul>
+      <div class="tag-group"><span class="tag tag-yellow">A/B测试</span><span class="tag tag-purple">持续迭代</span></div>
+    </div>
+  </div>
+
+  <!-- ====== 铁律汇总 ====== -->
+  <div class="rules-summary">
+    <h3>📜 交易铁律（打印出来贴墙上）</h3>
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="r-icon">🏺</div>
+        <div class="r-title">窖藏酒理论</div>
+        <div class="r-body">买入后密封 30 天，中途无论涨跌不准打开。动了酒就不香了。</div>
+      </div>
+      <div class="rule-item">
+        <div class="r-icon">📊</div>
+        <div class="r-title">仓位 ≤ 5%</div>
+        <div class="r-body">单个品种不超过总资金 5%，同一板块只选一个，规避黑天鹅。</div>
+      </div>
+      <div class="rule-item">
+        <div class="r-icon">🎯</div>
+        <div class="r-title">分批止盈</div>
+        <div class="r-body">赚 1 倍卖一半（保本），剩下一半拿 5-10 倍或满 30 天清仓。</div>
+      </div>
+      <div class="rule-item">
+        <div class="r-icon">🤖</div>
+        <div class="r-title">零手动干预</div>
+        <div class="r-body">信号由系统自动执行。你只能看日志，不能点鼠标。</div>
+      </div>
+      <div class="rule-item">
+        <div class="r-icon">📝</div>
+        <div class="r-title">每笔必记</div>
+        <div class="r-body">开仓、平仓、盈亏、AI 判断，全部结构化记录到数据库。</div>
+      </div>
+      <div class="rule-item">
+        <div class="r-icon">📅</div>
+        <div class="r-title">每周复盘</div>
+        <div class="r-body">用 Claude Code CLI 分析日志，让 AI 帮你找策略漏洞。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Truth ====== -->
+  <div class="truth-box">
+    <h3>⚠️ 文档中廖老师亲口承认的事实</h3>
+    <ul class="truth-list">
+      <li>去年所有大牛股都抓住了，但 <strong style="color:#fbbf24;">自己也没赚到 100 倍</strong> —— 人性拿不住</li>
+      <li>胜率只有 <strong style="color:#fbbf24;">30%</strong>，70% 的交易是亏钱的，靠一次 10 倍覆盖 10 次亏损</li>
+      <li>1 万变 20 万再跌回 10 万，普通人根本扛不住，<strong style="color:#fbbf24;">所以才需要量化</strong></li>
+      <li>模型参数没有公开，红蓝线具体均线周期需要自己回测找到最佳值</li>
+    </ul>
+  </div>
+
+  <!-- ====== Tips ====== -->
+  <div style="margin-top:8px;">
+    <h3 style="font-size:16px; color:#94a3b8; margin-bottom:14px; letter-spacing:1px;">🧠 心理建设</h3>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-label">接受亏损</div>
+        <div class="tip-body">5,000 就是全部学费。亏光了说明策略需要大改，不是你的问题。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">不要盯盘</div>
+        <div class="tip-body">每天看一次日志就够了。盯盘只会让你手痒想干预，破坏策略。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">相信数据</div>
+        <div class="tip-body">回测报告说胜率 30%、盈亏比 10:1，那就相信它。单次亏损不代表失败。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">保持耐心</div>
+        <div class="tip-body">每年只有 3-5 次百倍龙头机会。空仓等待也是策略的一部分。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Checkpoints ====== -->
+  <div class="checkpoints">
+    <div class="checkpoint"><span class="check-icon">✓</span> 模拟盘跑满 1 个月</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 实盘入金 ¥5,000</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 系统自动下单全流程跑通</div>
+    <div class="checkpoint done"><span class="check-icon">✓</span> 没有手动干预过任何一笔交易</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 每笔交易都有完整的日志记录</div>
+    <div class="checkpoint"><span class="check-icon">✓</span> 坚持 3 个月以上</div>
+  </div>
+
+</div>
+</body>
+</html>

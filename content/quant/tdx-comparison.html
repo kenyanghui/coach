@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票软件横向对比 — 通达信 vs 同花顺 vs 东方财富 vs 大智慧</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            line-height: 1.8;
+        }
+
+        /* ===== 导航 ===== */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(26, 26, 46, 0.97);
+            backdrop-filter: blur(8px);
+            padding: 0 28px;
+            height: 52px;
+            display: flex; align-items: center; gap: 22px;
+        }
+        .top-nav .logo { color: #fff; font-weight: 700; font-size: 16px; text-decoration: none; }
+        .top-nav .logo span { color: #ffd700; }
+        .top-nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+        .top-nav a:hover { color: #ffd700; }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar {
+            position: fixed; top: 52px; left: 0; bottom: 0; width: 220px;
+            background: #fff; border-right: 1px solid #e8ecf1;
+            overflow-y: auto; padding: 16px 0; z-index: 50;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .sidebar h3 {
+            font-size: 11px; color: #888; text-transform: uppercase;
+            letter-spacing: 1px; padding: 0 18px; margin: 16px 0 6px;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: block; padding: 5px 18px; font-size: 13px;
+            color: #444; text-decoration: none; transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: #1a73e8; background: #f0f6ff;
+            border-left-color: #1a73e8;
+        }
+
+        /* ===== 主内容 ===== */
+        .main { margin-left: 220px; margin-top: 52px; padding: 36px 48px 80px; max-width: 1000px; }
+
+        /* ===== 封面 ===== */
+        .hero {
+            text-align: center; padding: 56px 20px 44px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 16px; margin-bottom: 36px; color: #fff;
+        }
+        .hero h1 { font-size: 36px; margin-bottom: 10px; }
+        .hero h1 span { color: #ffd700; }
+        .hero p { font-size: 15px; opacity: 0.85; max-width: 520px; margin: 0 auto; }
+
+        /* ===== 章节 ===== */
+        section { margin-bottom: 44px; }
+        section h2 {
+            font-size: 24px; color: #1a1a2e;
+            padding-bottom: 10px; border-bottom: 3px solid #1a73e8;
+            margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+        }
+        section h2 .badge {
+            font-size: 11px; background: #1a73e8; color: #fff;
+            padding: 2px 10px; border-radius: 10px; font-weight: 400;
+        }
+        section h3 {
+            font-size: 17px; color: #2c3e50; margin: 22px 0 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        section h3 .arrow { color: #1a73e8; }
+        section p { margin-bottom: 10px; color: #444; font-size: 14px; }
+        section ul, section ol { margin: 6px 0 14px 22px; color: #444; font-size: 14px; }
+        section li { margin-bottom: 4px; }
+
+        /* ===== 提示框 ===== */
+        .tip {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 14px 0; font-size: 13px;
+        }
+        .warn {
+            background: #fff8e1; border-left: 4px solid #ffc107;
+            padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 14px 0; font-size: 13px;
+        }
+        .key-insight {
+            background: #eef2ff; border-left: 4px solid #6366f1;
+            padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
+        }
+        .key-insight h4 { color: #4338ca; font-size: 15px; margin-bottom: 4px; }
+        .key-insight p { color: #1e1b4b; }
+
+        /* ===== 代码 ===== */
+        code, kbd {
+            font-family: "JetBrains Mono", "Consolas", monospace;
+            background: #eef0f5; padding: 2px 7px; border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        /* ===== 表格通用 ===== */
+        .table-wrap { overflow-x: auto; margin: 12px 0; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #1a1a2e; color: #fff; }
+        th { padding: 9px 14px; text-align: left; font-weight: 600; }
+        td { padding: 9px 14px; border-bottom: 1px solid #e8ecf1; color: #444; }
+        tbody tr:hover { background: #f8f9fc; }
+
+        /* ===== 软件品牌色标签 ===== */
+        .tag-tdx { background: #e8eaf6; color: #283593; }
+        .tag-ths { background: #e3f2fd; color: #1565c0; }
+        .tag-dfcf { background: #fce4ec; color: #b71c1c; }
+        .tag-dzh { background: #f3e5f5; color: #6a1b9a; }
+        .tag { display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+        /* ===== 雷达/对比卡片 ===== */
+        .compare-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;
+        }
+        .compare-card {
+            background: #fff; border: 1px solid #e8ecf1; border-radius: 12px;
+            padding: 18px; border-top: 4px solid #ccc;
+        }
+        .compare-card h4 { font-size: 16px; margin-bottom: 4px; }
+        .compare-card p { font-size: 13px; color: #666; margin-bottom: 8px; }
+        .compare-card ul { margin: 4px 0 0 16px; }
+        .compare-card ul li { font-size: 13px; margin-bottom: 2px; }
+        .compare-card .score { font-size: 28px; font-weight: 700; margin: 4px 0; }
+        .card-tdx { border-top-color: #3f51b5; }
+        .card-ths { border-top-color: #2196f3; }
+        .card-dfcf { border-top-color: #f44336; }
+        .card-dzh { border-top-color: #9c27b0; }
+
+        @media (max-width: 680px) {
+            .compare-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== 市场占比图表（纯CSS） ===== */
+        .bar-chart { margin: 14px 0; }
+        .bar-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
+        .bar-label { width: 80px; font-size: 13px; font-weight: 600; text-align: right; flex-shrink: 0; }
+        .bar-track { flex: 1; height: 26px; background: #e8ecf1; border-radius: 13px; overflow: hidden; position: relative; }
+        .bar-fill { height: 100%; border-radius: 13px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; color: #fff; font-weight: 600; }
+        .bar-note { font-size: 12px; color: #888; width: 120px; flex-shrink: 0; }
+        .bar-tdx .bar-fill { background: linear-gradient(90deg, #3f51b5, #5c6bc0); width: 90%; }
+        .bar-ths .bar-fill { background: linear-gradient(90deg, #2196f3, #64b5f6); width: 95%; }
+        .bar-dzh .bar-fill { background: linear-gradient(90deg, #9c27b0, #ba68c8); width: 40%; }
+
+        /* ===== 底部 ===== */
+        footer {
+            text-align: center; padding: 24px 0; color: #999;
+            font-size: 12px; border-top: 1px solid #e8ecf1; margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; padding: 24px 18px 60px; }
+            .hero h1 { font-size: 26px; }
+            .top-nav { padding: 0 14px; gap: 14px; }
+            .top-nav a { font-size: 12px; }
+        }
+        @media print { .top-nav, .sidebar { display: none; } .main { margin: 0; padding: 20px; } }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <a href="#" class="logo">股票软件 <span>横向对比</span></a>
+    <a href="#overview">总览</a>
+    <a href="#compare">四强对比</a>
+    <a href="#why-tdx">为什么是通达信</a>
+    <a href="#financial">财务数据</a>
+    <a href="#summary">总结</a>
+</nav>
+
+<aside class="sidebar">
+    <h3>开篇</h3>
+    <a href="#overview">市场格局总览</a>
+    <a href="#compare">四款软件对比</a>
+
+    <h3>四强详解</h3>
+    <a href="#ths">同花顺</a>
+    <a href="#dfcf">东方财富</a>
+    <a href="#tdx">通达信（财富趋势）</a>
+    <a href="#dzh">大智慧</a>
+
+    <h3>深度分析</h3>
+    <a href="#why-tdx">为什么行业普遍选用通达信</a>
+    <a href="#financial">财务数据对比</a>
+    <a href="#challenge">通达信的挑战</a>
+
+    <h3>总结</h3>
+    <a href="#summary">总结与选型建议</a>
+</aside>
+
+<div class="main">
+
+    <div class="hero">
+        <h1>股票软件 <span>横向对比</span></h1>
+        <p>通达信 · 同花顺 · 东方财富 · 大智慧 —— 功能、模式、财务、行业地位全面对比，以及"为什么行业普遍选用通达信"的深度分析</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 第 1 章：市场格局总览 -->
+    <!-- ============================================================ -->
+    <section id="overview">
+        <h2>市场格局总览</h2>
+        <p>国内股票行情交易软件市场呈现<strong>"四强争霸"</strong>格局，但四家公司的商业模式和定位截然不同：</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>软件</th><th>母公司</th><th>上市代码</th><th>核心模式</th><th>C端月活</th><th>券商覆盖率</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-tdx">通达信</span></td>
+                        <td>财富趋势</td>
+                        <td>688318.SH</td>
+                        <td><strong>B2B为主</strong>（给券商做系统）</td>
+                        <td>~250万</td>
+                        <td>90%+</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-ths">同花顺</span></td>
+                        <td>同花顺</td>
+                        <td>300033.SZ</td>
+                        <td>B2B+B2C并重</td>
+                        <td>~3500万</td>
+                        <td>~80%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-dfcf">东方财富</span></td>
+                        <td>东方财富</td>
+                        <td>300059.SZ</td>
+                        <td><strong>B2C为主</strong>（门户+基金）</td>
+                        <td>~1700万</td>
+                        <td>较低</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-dzh">大智慧</span></td>
+                        <td>大智慧</td>
+                        <td>601519.SH</td>
+                        <td>B2C为主，持续亏损中</td>
+                        <td>~500万</td>
+                        <td>低</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>一个关键认知：<strong>通达信在 C 端知名度不如同花顺和东方财富，但在 B 端（券商侧）近乎垄断。</strong>你在券商官网下载的交易软件，有很大概率就是通达信贴牌的。</p>
+
+        <div class="key-insight">
+            <h4>核心数据一览</h4>
+            <p>通达信服务了 <strong>90% 以上的国内证券公司</strong>，B端收入占比超 80%，毛利率高达 86%。同花顺虽然营收是通达信的 16 倍，但主要靠 C 端流量变现（广告+基金代销），两者不在同一个赛道上竞争。</p>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 2 章：四强对比 -->
+    <!-- ============================================================ -->
+    <section id="compare">
+        <h2>四款软件核心对比</h2>
+
+        <div class="compare-grid">
+            <div class="compare-card card-tdx">
+                <h4><span class="tag tag-tdx">通达信</span></h4>
+                <div class="score" style="color:#3f51b5;">指标之王</div>
+                <p>B端霸主，深度技术分析</p>
+                <ul>
+                    <li>技术指标最全、公式系统最强</li>
+                    <li>券商覆盖率 90%+，行业标准</li>
+                    <li>自选股、板块分析、条件选股</li>
+                    <li>支持 DLL 插件、自定义公式</li>
+                </ul>
+            </div>
+            <div class="compare-card card-ths">
+                <h4><span class="tag tag-ths">同花顺</span></h4>
+                <div class="score" style="color:#2196f3;">全能冠军</div>
+                <p>C端最强，闪电交易</p>
+                <ul>
+                    <li>月活 3500 万，行业第一</li>
+                    <li>免费 Level-2 行情、闪电交易</li>
+                    <li>"问财" AI 自然语言选股</li>
+                    <li>覆盖 90% 券商交易接口</li>
+                </ul>
+            </div>
+            <div class="compare-card card-dfcf">
+                <h4><span class="tag tag-dfcf">东方财富</span></h4>
+                <div class="score" style="color:#f44336;">生态之王</div>
+                <p>门户+社区+基金全生态</p>
+                <ul>
+                    <li>东方财富网 + 股吧社区</li>
+                    <li>天天基金保有量 6113 亿</li>
+                    <li>自研"妙想"金融大模型</li>
+                    <li>Choice 数据终端（机构级）</li>
+                </ul>
+            </div>
+            <div class="compare-card card-dzh">
+                <h4><span class="tag tag-dzh">大智慧</span></h4>
+                <div class="score" style="color:#9c27b0;">老牌转型</div>
+                <p>DDE决策、高频场景</p>
+                <ul>
+                    <li>DDE 决策系统有特色</li>
+                    <li>超级龙虎榜功能</li>
+                    <li>连续四年扣非亏损</li>
+                    <li>与湘财合并是转折关键</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3><span class="arrow">▸</span> 综合能力雷达（10分制）</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>维度</th><th>通达信</th><th>同花顺</th><th>东方财富</th><th>大智慧</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>行情数据</strong></td><td>9.0</td><td>9.2</td><td>9.5</td><td>9.0</td></tr>
+                    <tr><td><strong>技术指标</strong></td><td><strong>9.8</strong></td><td>9.0</td><td>7.5</td><td>8.5</td></tr>
+                    <tr><td><strong>交易体验</strong></td><td>8.5</td><td><strong>9.6</strong></td><td>9.0</td><td>8.5</td></tr>
+                    <tr><td><strong>资讯质量</strong></td><td>7.5</td><td>8.8</td><td><strong>8.9</strong></td><td>8.0</td></tr>
+                    <tr><td><strong>社区生态</strong></td><td>6.5</td><td>8.9</td><td><strong>9.3</strong></td><td>7.5</td></tr>
+                    <tr><td><strong>AI/智能工具</strong></td><td>7.0</td><td><strong>9.3</strong></td><td>9.1</td><td>8.8</td></tr>
+                    <tr><td><strong>券商覆盖（B端）</strong></td><td><strong>9.8</strong></td><td>8.5</td><td>4.0</td><td>3.0</td></tr>
+                    <tr><td><strong>公式/扩展性</strong></td><td><strong>9.9</strong></td><td>8.0</td><td>6.0</td><td>7.0</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 3 章：各软件详解 -->
+    <!-- ============================================================ -->
+    <section id="ths">
+        <h3 style="font-size:20px;color:#1565c0;"><span class="arrow">▸</span> 同花顺 — C端之王，全能型选手</h3>
+        <p>2025 年营收 <strong>60.29 亿元</strong>，净利润 <strong>32.05 亿元</strong>，月活用户约 3500 万，三项指标均为行业第一。同花顺的核心竞争力在于 C 端流量变现能力——免费提供行情软件，通过广告、基金代销、增值服务盈利。</p>
+        <ul>
+            <li><strong>优势：</strong>用户规模断层领先，AI"问财"体验好，闪电交易速度极快，免费 Level-2 吸引散户</li>
+            <li><strong>劣势：</strong>收入高度依赖市场活跃度（牛市弹性大、熊市承压），资讯内容偏机器聚合</li>
+            <li><strong>适合：</strong>散户投资者、短线交易者、AI 选股爱好者</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3 style="font-size:20px;color:#b71c1c;"><span class="arrow">▸</span> 东方财富 — 生态之王，一站式理财</h3>
+        <p>以东方财富网门户起家，构建了"资讯 + 社区 + 基金 + 券商 + 数据终端"的完整生态。旗下天天基金非货基保有量达 6113 亿元，Choice 数据终端对标 Wind。</p>
+        <ul>
+            <li><strong>优势：</strong>内容生态最完善（股吧社区粘性极高），基金代销龙头，自研"妙想"大模型落地好</li>
+            <li><strong>劣势：</strong>交易系统偶有延迟（分时图 0.5s 抖动），券商自营业务占比低</li>
+            <li><strong>适合：</strong>学习型投资者、基金投资者、需要看资讯和社区讨论的用户</li>
+        </ul>
+    </section>
+
+    <section id="tdx">
+        <h3 style="font-size:20px;color:#283593;"><span class="arrow">▸</span> 通达信（财富趋势）— B端霸主，技术指标之王</h3>
+        <p>2025 年营收 <strong>3.68 亿元</strong>，净利润 <strong>3.15 亿元</strong>。虽然营收规模只有同花顺的 1/16，但毛利率高达 <strong>82.84%</strong>，期间费用率仅 <strong>21.28%</strong>，是四家里面经营效率最高的公司。</p>
+        <ul>
+            <li><strong>优势：</strong>券商覆盖率 90%+（B端几乎垄断），技术指标系统最强，公式/策略回测行业顶尖，信创/国密改造领先</li>
+            <li><strong>劣势：</strong>C端月活仅 250 万，研发投入最少（0.86 亿），AI 产品化进度偏慢</li>
+            <li><strong>适合：</strong>技术深度分析者、专业投资者、券商机构用户</li>
+        </ul>
+    </section>
+
+    <section id="dzh">
+        <h3 style="font-size:20px;color:#6a1b9a;"><span class="arrow">▸</span> 大智慧 — 老牌选手，艰难转型</h3>
+        <p>2025 年营收 <strong>8.27 亿元</strong>，但扣非净利润连续四年亏损，累计亏损超 6 亿元。期间费用率高达 71.79%——每 100 元收入要花 72 元费用，经营效率堪忧。</p>
+        <ul>
+            <li><strong>优势：</strong>DDE 决策系统有独特用户群，超级龙虎榜功能受短线客欢迎</li>
+            <li><strong>劣势：</strong>连续巨亏，研发费用下降 16%，与湘财股份合并尚存变数</li>
+            <li><strong>适合：</strong>仅建议等其经营情况好转后再考虑</li>
+        </ul>
+        <div class="warn">
+            <strong>注意：</strong>大智慧连续四年扣非亏损，ROE 为 -5.82%。如果考虑使用其产品，注意公司基本面风险。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 4 章：为什么行业普遍选用通达信（核心） -->
+    <!-- ============================================================ -->
+    <section id="why-tdx">
+        <h2>为什么行业普遍选用通达信？<span class="badge">核心分析</span></h2>
+
+        <p>你可能注意到一个有趣的现象：<strong>同花顺 C 端用户是同花顺的 14 倍，营收是 16 倍，但你用的券商交易软件很可能还是通达信。</strong>为什么？</p>
+
+        <!-- 原因 1 -->
+        <h3><span class="arrow">▸</span> 原因一：30 年先发优势，深度绑定券商基础设施</h3>
+        <p>通达信成立于 <strong>1995 年</strong>，是国内最早的证券软件企业之一。在证券行业电子化的早期，通达信就已经成为了券商交易系统的标准配置。</p>
+        <ul>
+            <li>经过近 30 年的迭代，通达信系统与券商的柜台系统、结算系统深度耦合</li>
+            <li>券商更换核心交易系统的成本极高——涉及稳定性风险、合规审计、全营业部培训、证监会报备</li>
+            <li><strong>迁移成本远高于使用成本</strong>，只要通达信不犯致命错误，券商没有动力更换</li>
+        </ul>
+
+        <!-- 原因 2 -->
+        <h3><span class="arrow">▸</span> 原因二：B2B 模式 + 高粘性维护收入</h3>
+        <p>通达信的商业模式是典型的 B2B：</p>
+        <ul>
+            <li><strong>软件销售</strong> — 一次性建设费，覆盖系统初始部署</li>
+            <li><strong>维护服务</strong> — 占收入比重 <strong>41%</strong>，每年持续收费，形成稳定现金流</li>
+            <li>B端业务的维护服务毛利率高达 <strong>93.7%</strong>，是真正的"现金牛"</li>
+        </ul>
+        <p>这种模式让券商和通达信形成了长期绑定——券商每年付维护费，通达信持续提供更新和支持。</p>
+
+        <!-- 原因 3 -->
+        <h3><span class="arrow">▸</span> 原因三：政策驱动的刚性升级需求</h3>
+        <p>每一次资本市场改革，都意味着券商系统需要升级：</p>
+        <ul>
+            <li><strong>注册制改革</strong> — 前端交易系统适配改造</li>
+            <li><strong>北交所设立</strong> — 新增交易品种和规则支持</li>
+            <li><strong>新"国九条"</strong> — 配套政策密集落地，催生大量系统改造需求</li>
+            <li><strong>国密改造</strong> — 2023 年券商集中商密改造，直接推动通达信 B 端收入增长 44%</li>
+        </ul>
+        <p>这些政策升级需求，通达信都是<strong>最先完成适配的厂商之一</strong>（甚至是最早的）。券商没有选择，必须跟着政策走，而通达信已经准备好了。</p>
+
+        <!-- 原因 4 -->
+        <h3><span class="arrow">▸</span> 原因四：信创（国产替代）的先发优势</h3>
+        <p>金融信创是近年来证券行业的确定性增量：</p>
+        <ul>
+            <li>通达信率先完成在 <strong>统信、麒麟</strong> 国产操作系统的适配</li>
+            <li>发布了 <strong>鸿蒙 PC 版</strong> 客户端</li>
+            <li>全栈信创解决方案（商密 + 信创 + 多端协同）是券商信创验收的首选</li>
+        </ul>
+        <p>对券商来说，选择通达信 = 在信创合规上少走很多弯路。</p>
+
+        <!-- 原因 5 -->
+        <h3><span class="arrow">▸</span> 原因五：技术指标的行业标准</h3>
+        <p>通达信的公式系统和指标体系是业内公认最强的：</p>
+        <ul>
+            <li><strong>通达信公式语言</strong> 是事实上的行业标准——大量的网络教程、书籍、策略源码都以通达信公式编写</li>
+            <li>支持 <strong>DLL 插件</strong> 扩展，专业投资者可以写 C++ 策略</li>
+            <li>条件选股、技术指标预警、历史回测等功能极为成熟</li>
+        </ul>
+        <p>对于专业投资者和量化爱好者来说，通达信的"可编程性"是其他软件无法替代的。</p>
+
+        <div class="key-insight">
+            <h4>一句话总结</h4>
+            <p>券商选择通达信，不是因为它最好，而是因为<strong>换掉它的成本太高</strong>。30 年的路径依赖 + 政策性刚需 + 信创合规 + 行业标准，四重锁定让通达信的 B 端地位难以撼动。</p>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 5 章：财务数据对比 -->
+    <!-- ============================================================ -->
+    <section id="financial">
+        <h2>财务数据对比（2025 年）</h2>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>指标</th><th>同花顺</th><th>通达信（财富趋势）</th><th>大智慧</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>营收</strong></td><td>60.29 亿</td><td>3.68 亿</td><td>8.27 亿</td></tr>
+                    <tr><td><strong>净利润</strong></td><td>32.05 亿</td><td>3.15 亿</td><td>-0.44 亿</td></tr>
+                    <tr><td><strong>毛利率</strong></td><td>~80%</td><td><strong>82.84%</strong></td><td>较低</td></tr>
+                    <tr><td><strong>期间费用率</strong></td><td>33.58%</td><td><strong>21.28%</strong>（最低）</td><td>71.79%（最高）</td></tr>
+                    <tr><td><strong>研发费用</strong></td><td>11.45 亿</td><td>0.86 亿</td><td>1.85 亿</td></tr>
+                    <tr><td><strong>研发人员</strong></td><td>3,141 人</td><td>293 人</td><td>672 人</td></tr>
+                    <tr><td><strong>研发费用率</strong></td><td>19.0%</td><td><strong>30.19%</strong>（2025H1）</td><td>22.4%</td></tr>
+                    <tr><td><strong>ROE</strong></td><td><strong>36.7%</strong></td><td>较高</td><td>-5.82%</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tip">
+            <strong>解读：</strong>通达信营收虽小但含金量极高——毛利率 82.84%、费用率仅 21.28%，意味着每赚 100 元只需花 21 元运营成本。这种"小而美"的模式在 IT 行业中非常罕见。同花顺营收大但费用也高（广告推广成本巨大）。大智慧则是典型"烧钱都赚不到钱"。
+        </div>
+
+        <h3><span class="arrow">▸</span> B端券商IT收入对比（2023年）</h3>
+        <div class="bar-chart">
+            <div class="bar-row bar-ths">
+                <div class="bar-label" style="color:#2196f3;">同花顺</div>
+                <div class="bar-track"><div class="bar-fill">4.38 亿</div></div>
+            </div>
+            <div class="bar-row bar-tdx">
+                <div class="bar-label" style="color:#3f51b5;">通达信</div>
+                <div class="bar-track"><div class="bar-fill">3.64 亿</div></div>
+            </div>
+            <div class="bar-row bar-dzh">
+                <div class="bar-label" style="color:#9c27b0;">大智慧</div>
+                <div class="bar-track"><div class="bar-fill">0.92 亿</div></div>
+            </div>
+            <p style="font-size:12px;color:#888;margin-top:4px;">注：仅统计面向券商的 B 端行情交易系统收入</p>
+        </div>
+
+        <p>在 B 端行情交易系统这个细分赛道里，通达信和同花顺几乎平分秋色（3.64 亿 vs 4.38 亿），大智慧只有 0.92 亿。如果算上券商覆盖率（90%+ vs 80%），通达信在 B 端的影响力甚至更强。</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 6 章：通达信的挑战 -->
+    <!-- ============================================================ -->
+    <section id="challenge">
+        <h2>通达信面临的挑战</h2>
+
+        <p>尽管通达信在 B 端地位稳固，但并非高枕无忧：</p>
+
+        <div class="compare-grid">
+            <div class="compare-card" style="border-top-color:#f44336;">
+                <h4 style="color:#f44336;">C端存在感薄弱</h4>
+                <ul>
+                    <li>月活仅 ~250 万，远落后同花顺 3500 万</li>
+                    <li>C 端收入占比仅 ~23%</li>
+                    <li>品牌知名度在散户中很低</li>
+                    <li>如果券商自建 APP 趋势加强，通达信可能被"架空"</li>
+                </ul>
+            </div>
+            <div class="compare-card" style="border-top-color:#f44336;">
+                <h4 style="color:#f44336;">研发投入不足</h4>
+                <ul>
+                    <li>研发费用仅 0.86 亿（同花顺 11.45 亿）</li>
+                    <li>研发人员仅 293 人（同比减少 38 人）</li>
+                    <li>AI 大模型（TendencyGPT）落地较慢</li>
+                    <li>面临"不进则退"的长期风险</li>
+                </ul>
+            </div>
+            <div class="compare-card" style="border-top-color:#f44336;">
+                <h4 style="color:#f44336;">同花顺 B 端渗透</h4>
+                <ul>
+                    <li>同花顺 B 端收入已超越通达信（4.38 亿 vs 3.64 亿）</li>
+                    <li>同花顺凭借 C 端影响力撬动 B 端合作</li>
+                    <li>部分中小券商开始选择同花顺方案</li>
+                </ul>
+            </div>
+            <div class="compare-card" style="border-top-color:#f44336;">
+                <h4 style="color:#f44336;">营收下滑趋势</h4>
+                <ul>
+                    <li>2025 年营收同比下降 5.37%</li>
+                    <li>软件销售收入同比大幅下滑 28.39%</li>
+                    <li>对券商 IT 预算周期高度敏感</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 7 章：总结与选型建议 -->
+    <!-- ============================================================ -->
+    <section id="summary">
+        <h2>总结与选型建议</h2>
+
+        <h3><span class="arrow">▸</span> 为什么行业普遍选用通达信？</h3>
+        <p>核心就一句话：<strong>路径依赖 + 政策刚需 + 信创合规 + 行业标准 = 不可替代性</strong></p>
+        <ul>
+            <li>30 年积累的 <strong>先发优势</strong>：券商交易系统一经部署，迁移成本极高</li>
+            <li><strong>B2B 模式</strong> 锁定长期维护费收入，券商和通达信利益深度绑定</li>
+            <li>每一次 <strong>政策改革</strong>（注册制、北交所、国密改造）都带来刚性升级需求</li>
+            <li><strong>信创国产化</strong> 的先发优势让通达信成为券商信创验收的首选</li>
+            <li><strong>公式语言</strong> 成为行业标准，专业用户群形成强劲的网络效应</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 不同角色的选择建议</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>角色</th><th>推荐软件</th><th>理由</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>普通散户 / 新手</strong></td><td><span class="tag tag-ths">同花顺</span> 或 <span class="tag tag-dfcf">东方财富</span></td><td>界面友好、社区活跃、学习资源多、免费 Level-2</td></tr>
+                    <tr><td><strong>技术分析爱好者</strong></td><td><span class="tag tag-tdx">通达信</span></td><td>指标最全、公式系统最强、策略回测最专业</td></tr>
+                    <tr><td><strong>短线交易者</strong></td><td><span class="tag tag-ths">同花顺</span></td><td>闪电交易、Level-2 免费、速度最快</td></tr>
+                    <tr><td><strong>基金投资者</strong></td><td><span class="tag tag-dfcf">东方财富</span></td><td>天天基金平台、投顾服务完善</td></tr>
+                    <tr><td><strong>量化/专业投资者</strong></td><td><span class="tag tag-tdx">通达信</span> + <span class="tag tag-ths">同花顺</span></td><td>通达信做分析回测，同花顺做交易执行</td></tr>
+                    <tr><td><strong>券商机构</strong></td><td><span class="tag tag-tdx">通达信</span></td><td>合规成熟、信创达标、券商覆盖率最高</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-insight">
+            <h4>最终结论</h4>
+            <p>通达信也许不是最好用的炒股软件，但它是 <strong>券商最"省心"的选择</strong>——合规、稳定、信创达标、不用担心厂商倒闭。在这个行业里，"不出错"比"做得好"更重要。这恰恰是通达信在 B 端无人能撼的根本原因。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>股票软件横向对比分析 &mdash; 数据来源：公开财报、行业研报、第三方测评</p>
+        <p style="margin-top:4px;">通达信官网：<a href="https://www.tdx.com.cn" style="color:#1a73e8;" target="_blank">tdx.com.cn</a> &nbsp;|&nbsp; 风险提示：股市有风险，投资需谨慎</p>
+    </footer>
+
+</div>
+
+</body>
+</html>

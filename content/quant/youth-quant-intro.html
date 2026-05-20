@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>青少年金融思维启蒙课 | 看懂一套交易策略背后的秘密</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<!-- Mermaid.js -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0f0f14;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --text: #e8e8f0;
+  --text-dim: #8888aa;
+  --cyan: #00d4ff;
+  --pink: #ff6b9d;
+  --lime: #39ff14;
+  --gold: #ffd700;
+  --purple: #b44dff;
+  --orange: #ff8c00;
+  --red: #ff3355;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Fredoka One', 'ZCOOL KuaiLe', 'Noto Sans SC', sans-serif;
+  line-height: 1.3;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* ===== PARTICLES ===== */
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 24px 80px;
+}
+
+/* ===== DISCLAIMER BANNER ===== */
+.disclaimer-banner {
+  background: linear-gradient(135deg, rgba(255,51,85,0.15), rgba(255,107,0,0.10));
+  border: 1px solid rgba(255,51,85,0.3);
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.disclaimer-banner .icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+.disclaimer-banner .text { font-size: 0.85rem; color: #ff8899; font-weight: 500; }
+.disclaimer-banner .text strong { color: #ff3355; }
+
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  padding: 60px 20px 48px;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,215,0,0.12);
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  animation: fadeInDown 0.8s ease;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--pink) 40%, var(--gold) 70%, var(--lime) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glowPulse 3s ease-in-out infinite, fadeInUp 0.8s ease 0.1s both;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 30px rgba(0,212,255,0.3));
+}
+
+.hero .subtitle {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--text-dim);
+  font-weight: 400;
+  margin-bottom: 12px;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.hero .tagline {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--text);
+  margin-bottom: 28px;
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+.hero .tagline .highlight { color: var(--cyan); }
+
+/* ===== PROGRESS BAR ===== */
+.progress-tracker {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 40px;
+  backdrop-filter: blur(12px);
+  animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.progress-tracker .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.progress-tracker .header .label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.progress-tracker .header .level {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 0.85rem;
+  color: var(--lime);
+  background: rgba(57,255,20,0.1);
+  padding: 4px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(57,255,20,0.2);
+}
+
+.progress-bar-outer {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-bar-inner {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--pink), var(--gold));
+  border-radius: 100px;
+  transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.progress-lessons {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.progress-lessons .dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.08);
+  color: var(--text-dim);
+  transition: all 0.4s ease;
+  cursor: default;
+}
+
+.progress-lessons .dot.active {
+  border-color: var(--cyan);
+  background: rgba(0,212,255,0.15);
+  color: var(--cyan);
+  box-shadow: 0 0 16px rgba(0,212,255,0.2);
+}
+
+.progress-lessons .dot.completed {
+  border-color: var(--lime);
+  background: rgba(57,255,20,0.15);
+  color: var(--lime);
+}
+
+/* ===== SECTION / LESSON CARDS ===== */
+.lesson-section {
+  margin-bottom: 60px;
+}
+
+.lesson-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.lesson-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lesson-card:hover {
+  transform: translateY(-4px);
+}
+
+.lesson-card .card-glow {
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lesson-card:hover .card-glow { opacity: 1; }
+
+/* Lesson accent colors */
+.lesson-card.l1 { --accent: var(--cyan); }
+.lesson-card.l2 { --accent: var(--gold); }
+.lesson-card.l3 { --accent: var(--purple); }
+.lesson-card.l4 { --accent: var(--pink); }
+.lesson-card.l5 { --accent: var(--lime); }
+.lesson-card.l6 { --accent: var(--orange); }
+
+.lesson-card.l1::before { background: var(--cyan); }
+.lesson-card.l2::before { background: var(--gold); }
+.lesson-card.l3::before { background: var(--purple); }
+.lesson-card.l4::before { background: var(--pink); }
+.lesson-card.l5::before { background: var(--lime); }
+.lesson-card.l6::before { background: var(--orange); }
+
+.lesson-card:hover::before { opacity: 1; }
+
+.lesson-card.l1:hover { border-color: rgba(0,212,255,0.25); box-shadow: 0 8px 40px rgba(0,212,255,0.08); }
+.lesson-card.l2:hover { border-color: rgba(255,215,0,0.25); box-shadow: 0 8px 40px rgba(255,215,0,0.08); }
+.lesson-card.l3:hover { border-color: rgba(180,77,255,0.25); box-shadow: 0 8px 40px rgba(180,77,255,0.08); }
+.lesson-card.l4:hover { border-color: rgba(255,107,157,0.25); box-shadow: 0 8px 40px rgba(255,107,157,0.08); }
+.lesson-card.l5:hover { border-color: rgba(57,255,20,0.25); box-shadow: 0 8px 40px rgba(57,255,20,0.08); }
+.lesson-card.l6:hover { border-color: rgba(255,140,0,0.25); box-shadow: 0 8px 40px rgba(255,140,0,0.08); }
+
+/* Lesson header */
+.lesson-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.lesson-number {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 0.75rem;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 2px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.lesson-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.lesson-title {
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+  flex: 1;
+  color: var(--accent);
+}
+
+.lesson-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.lesson-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lesson-content {
+  font-size: 0.95rem;
+  color: #c8c8dd;
+}
+
+.lesson-content p {
+  margin-bottom: 14px;
+}
+
+.lesson-content .highlight-box {
+  background: rgba(255,255,255,0.04);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+
+.lesson-content .highlight-box .label {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.key-learning {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 20px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.key-learning .kl-icon { font-size: 1.5rem; flex-shrink: 0; }
+.key-learning .kl-text { font-size: 0.9rem; color: #d0d0e8; }
+.key-learning .kl-text strong { color: var(--accent); }
+
+/* ===== MERMAID WRAPPER ===== */
+.mermaid-wrapper {
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin: 20px 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.mermaid-wrapper .mermaid {
+  max-width: 100%;
+}
+
+/* ===== CHART WRAPPER ===== */
+.chart-wrapper {
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+/* ===== SVG ILLUSTRATIONS ===== */
+.svg-illustration {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* ===== TABLE ===== */
+.assessment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 20px 0;
+  font-size: 0.9rem;
+}
+
+.assessment-table th {
+  font-family: 'Fredoka One', 'Noto Sans SC', sans-serif;
+  padding: 12px 16px;
+  text-align: left;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 2px solid var(--border);
+  color: var(--text);
+  font-weight: 400;
+}
+
+.assessment-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: #c8c8dd;
+}
+
+.assessment-table tr:last-child td { border-bottom: none; }
+.assessment-table .icon-col { font-size: 1.3rem; text-align: center; width: 50px; }
+.assessment-table .yes { color: var(--lime); }
+.assessment-table .no { color: var(--red); }
+.assessment-table .warn { color: var(--gold); }
+
+/* ===== FINAL PILLARS ===== */
+.final-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 28px 0;
+}
+
+.pillar {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.pillar:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 32px rgba(0,212,255,0.06);
+}
+
+.pillar:nth-child(1) { --accent: var(--red); }
+.pillar:nth-child(2) { --accent: var(--gold); }
+.pillar:nth-child(3) { --accent: var(--cyan); }
+
+.pillar .p-icon { font-size: 2.4rem; margin-bottom: 12px; display: block; }
+.pillar .p-title { font-family: 'Fredoka One', 'Noto Sans SC', sans-serif; font-size: 1rem; color: var(--accent); margin-bottom: 8px; }
+.pillar .p-desc { font-size: 0.85rem; color: var(--text-dim); }
+
+/* ===== TRAFFIC LIGHT ===== */
+.traffic-light {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 28px 0;
+  flex-wrap: wrap;
+}
+
+.tl-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tl-circle {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.tl-circle.red { background: rgba(255,51,85,0.2); border: 3px solid var(--red); box-shadow: 0 0 30px rgba(255,51,85,0.2); }
+.tl-circle.yellow { background: rgba(255,215,0,0.2); border: 3px solid var(--gold); box-shadow: 0 0 30px rgba(255,215,0,0.2); animation-delay: 0.5s; }
+.tl-circle.green { background: rgba(57,255,20,0.2); border: 3px solid var(--lime); box-shadow: 0 0 30px rgba(57,255,20,0.2); animation-delay: 1s; }
+
+.tl-label { font-size: 0.8rem; color: var(--text-dim); font-weight: 700; }
+.tl-label.red-label { color: var(--red); }
+.tl-label.yellow-label { color: var(--gold); }
+.tl-label.green-label { color: var(--lime); }
+
+/* ===== CERTIFICATE ===== */
+.certificate-area {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(0,212,255,0.10), rgba(255,215,0,0.10));
+  border: 2px solid rgba(255,215,0,0.25);
+  border-radius: 16px;
+  padding: 24px 40px;
+  animation: fadeInUp 0.8s ease, glowPulse 4s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.cert-badge:hover {
+  transform: scale(1.03);
+  border-color: rgba(255,215,0,0.4);
+}
+
+.cert-badge .cert-icon { font-size: 2.4rem; }
+.cert-badge .cert-text { text-align: left; }
+.cert-badge .cert-title { font-family: 'Fredoka One', 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--gold); }
+.cert-badge .cert-sub { font-size: 0.75rem; color: var(--text-dim); }
+
+/* ===== BADGES ===== */
+.badge-row {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: all 0.3s ease;
+}
+
+.badge-item:hover {
+  background: rgba(255,255,255,0.07);
+  transform: translateY(-2px);
+}
+
+.badge-item.locked { opacity: 0.4; filter: grayscale(0.6); }
+
+/* ===== COMPARISON GRID ===== */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.compare-col {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.compare-col.left { background: rgba(0,212,255,0.04); border-color: rgba(0,212,255,0.15); }
+.compare-col.right { background: rgba(255,107,157,0.04); border-color: rgba(255,107,157,0.15); }
+
+.compare-col .c-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
+.compare-col.left .c-title { color: var(--cyan); }
+.compare-col.right .c-title { color: var(--pink); }
+.compare-col .c-body { font-size: 0.85rem; color: #b0b0cc; }
+
+/* ===== EMOJI SCALE ===== */
+.emoji-scale {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 16px 0;
+  position: relative;
+}
+
+.emoji-scale::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 10%;
+  width: 80%; height: 3px;
+  background: linear-gradient(90deg, var(--lime), var(--gold), var(--red));
+  border-radius: 2px;
+  transform: translateY(-50%);
+}
+
+.emoji-scale .es-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding: 0 8px;
+}
+
+.emoji-scale .es-em { font-size: 1.8rem; }
+.emoji-scale .es-label { font-size: 0.65rem; color: var(--text-dim); white-space: nowrap; }
+
+/* ===== SIGN OFF ===== */
+.sign-off {
+  text-align: center;
+  margin-top: 60px;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.sign-off .so-emoji { font-size: 3rem; margin-bottom: 16px; }
+.sign-off .so-text { font-size: 1.1rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; }
+.sign-off .so-text strong { color: var(--text); }
+
+/* ===== DISCLAIMER FOOTER ===== */
+.footer-disclaimer {
+  margin-top: 40px;
+  padding: 24px;
+  background: rgba(255,51,85,0.05);
+  border: 1px solid rgba(255,51,85,0.15);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.footer-disclaimer .fd-title { font-weight: 700; color: var(--red); margin-bottom: 8px; font-size: 0.9rem; }
+.footer-disclaimer .fd-text { font-size: 0.78rem; color: #9999bb; line-height: 1.8; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(0,212,255,0.15)); }
+  50% { filter: drop-shadow(0 0 40px rgba(0,212,255,0.35)); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,51,85,0.05); }
+  50% { box-shadow: 0 0 20px rgba(255,51,85,0.12); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-6px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-4px); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.anim-fade-up { animation: fadeInUp 0.8s ease both; }
+.anim-fade-down { animation: fadeInDown 0.8s ease both; }
+.anim-slide-left { animation: slideInLeft 0.8s ease both; }
+.anim-slide-right { animation: slideInRight 0.8s ease both; }
+.anim-float { animation: float 4s ease-in-out infinite; }
+.anim-bounce { animation: bounce 2s ease-in-out infinite; }
+.anim-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container { padding: 12px 16px 60px; }
+  .hero { padding: 40px 12px 32px; }
+  .lesson-card { padding: 24px 18px; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .traffic-light { gap: 20px; }
+  .final-pillars { grid-template-columns: 1fr; }
+  .lesson-header { gap: 10px; }
+  .cert-badge { padding: 18px 24px; flex-direction: column; text-align: center; }
+  .cert-badge .cert-text { text-align: center; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 14px; }
+  .progress-tracker { padding: 16px; }
+  .progress-lessons .dot { width: 24px; height: 24px; font-size: 0.6rem; }
+}
+
+/* ===== SECTION VISIBILITY ANIMATION ===== */
+.lesson-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.lesson-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== TYPEWRITER CURSOR ===== */
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: var(--cyan);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PARTICLES CANVAS ===== -->
+<canvas id="particles-canvas"></canvas>
+
+<div class="container">
+
+  <!-- ===== DISCLAIMER BANNER ===== -->
+  <div class="disclaimer-banner" id="top-disclaimer">
+    <span class="icon">&#9888;&#65039;</span>
+    <div class="text">
+      <strong>重要安全提示：</strong> 本课程是金融素养与批判性思维教育内容，面向13-18岁青少年。<strong>不构成任何投资建议</strong>。真实的金融交易需要多年专业学习，未成年人不得参与期权等高风险交易。我们通过分析一套真实交易策略，教你如何识别话术、理解风险、培养独立思考能力。
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-badge">&#127891; 青少年金融素养课程</div>
+    <h1>&#128200; 金融思维训练营</h1>
+    <p class="subtitle">—— 看懂一套交易策略背后的秘密</p>
+    <p class="tagline">
+      <span class="highlight">不是教你赚钱</span>，是教你 <span class="highlight">怎么想</span>
+    </p>
+    <div class="badge-row">
+      <span class="badge-item">&#9201; 6节课</span>
+      <span class="badge-item">&#128197; 适合13-18岁</span>
+      <span class="badge-item">&#128218; 批判性思维</span>
+      <span class="badge-item">&#128300; 金融素养</span>
+      <span class="badge-item">&#128170; 防骗意识</span>
+    </div>
+  </div>
+
+  <!-- ===== PROGRESS TRACKER ===== -->
+  <div class="progress-tracker" id="progress-tracker">
+    <div class="header">
+      <span class="label">&#127919; 课程进度</span>
+      <span class="level">Lv. 0 学徒</span>
+    </div>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progress-bar" style="width: 0%;"></div>
+    </div>
+    <div class="progress-lessons" id="progress-dots">
+      <span class="dot active" data-lesson="0">1</span>
+      <span class="dot" data-lesson="1">2</span>
+      <span class="dot" data-lesson="2">3</span>
+      <span class="dot" data-lesson="3">4</span>
+      <span class="dot" data-lesson="4">5</span>
+      <span class="dot" data-lesson="5">6</span>
+    </div>
+  </div>
+
+  <!-- ===== COURSE INTRODUCTION ===== -->
+  <div class="lesson-section visible" id="intro">
+    <div class="lesson-card" style="border-color: rgba(0,212,255,0.12);">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-icon">&#127937;</span>
+        <span class="lesson-title" style="color: var(--cyan);">&#127916; 欢迎来到金融思维训练营</span>
+      </div>
+      <div class="lesson-content">
+        <p>你有没有在网上看过这样的内容：</p>
+        <p style="padding-left: 20px; border-left: 2px solid var(--text-dim); color: var(--text-dim); font-style: italic;">
+          "月入十万的秘密"、"这套战法让我从10万赚到1000万"、"跟着我做，躺着也能赚钱"
+        </p>
+        <p>看起来是不是很诱人？&#129321; 但等等——如果真的有这么好的方法，为什么还要教给别人呢？</p>
+        <p>这门课要用一套 <strong>真实的交易策略系统</strong> 作为案例，带你做一件事：<strong style="color: var(--cyan);">拆解它、分析它、用批判性思维看待它。</strong></p>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+graph TB
+    A["&#128218; 你看到一套策略"] --> B{"&#129300; 第一反应是什么？"}
+    B -->|"兴奋：我也想试试！"| C["&#128200; 本课程教你"]
+    B -->|"怀疑：这是真的吗？"| C
+    C --> D["&#128270; 拆解话术"]
+    C --> E["&#9878;&#65039; 识别风险"]
+    C --> F["&#129504; 理解心理机制"]
+    C --> G["&#128161; 培养独立思考"]
+    D --> H["&#127891; 毕业：金融思维训练营"]
+    E --> H
+    F --> H
+    G --> H
+          </div>
+        </div>
+
+        <p style="text-align: center; color: var(--text-dim); font-size: 0.9rem;">— 完成全部6节课，获得训练营毕业证书 —</p>
+
+        <div class="key-learning" style="border-color: rgba(0,212,255,0.2);">
+          <span class="kl-icon">&#128161;</span>
+          <div class="kl-text">
+            <strong>核心态度：</strong> 我们不教你怎么交易。我们教你<strong>怎么看懂一套交易策略</strong>——就像看魔术表演，我们关心的不是"怎么变"，而是"为什么我们会被骗"。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON 1 ===== -->
+  <div class="lesson-section" id="lesson1">
+    <div class="lesson-card l1">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-number">Lv.1</span>
+        <span class="lesson-icon">&#127922;</span>
+        <span class="lesson-title">这套策略到底在说啥？</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 用一个游戏来理解</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 第1课</span>
+        <span>&#9200; 阅读时间：5分钟</span>
+        <span>&#127942; 核心能力：信息拆解</span>
+      </div>
+      <div class="lesson-content">
+        <p>想象你在玩一款超级难的RPG游戏 &#127918;。游戏里有这样一个设定：</p>
+
+        <div class="highlight-box" style="border-color: var(--cyan);">
+          <div class="label">&#127922; 游戏设定：</div>
+          <p style="margin-bottom: 0;">
+            <strong>百倍龙王</strong> &#128009; —— 一个隐藏Boss，每年只出现3-5次。打败它，你获得100倍经验值。<br>
+            <strong>洞藏酒</strong> &#127866; —— 一种特殊药水，喝下去后30天内不能操作角色。<br>
+            <strong>将死不死</strong> &#9876;&#65039; —— 一个被动技能，角色濒死时触发，会回血但仍然弱小。
+          </p>
+        </div>
+
+        <p>听起来像是一个很有意思的游戏机制，对吧？但问题是——<strong>这个游戏不是游戏，而是真实的交易策略。</strong></p>
+        <p>策略的创造者说：每年有3-5次机会，发现信号就买入（打败龙王），然后把操作权限锁住30天（洞藏酒——不能提前卖出），等股票跌到一定程度会自动触发卖单（将死不死）。</p>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+flowchart LR
+    subgraph GAME["&#127922; 游戏视角"]
+        A1["&#128009; 龙王出现"] --> A2["&#9876;&#65039; 打败龙王"]
+        A2 --> A3["&#127866; 喝洞藏酒<br/>(锁30天)"]
+        A3 --> A4["&#128170; 等待触发被动"]
+        A4 --> A5["&#127942; 获得奖励"]
+    end
+    subgraph REAL["&#128200; 真实策略"]
+        B1["&#128200; 行情信号出现"] --> B2["&#128176; 买入期权"]
+        B2 --> B3["&#128274; 锁仓30天"]
+        B3 --> B4["&#128200; 等跌到止损线"]
+        B4 --> B5["&#128184; 卖出/归零"]
+    end
+    GAME -->|"&#128161; 本质相同"| REAL
+          </div>
+        </div>
+
+        <p>这样一对比，是不是清晰多了？但关键问题来了：</p>
+
+        <div class="compare-grid">
+          <div class="compare-col left">
+            <div class="c-title">&#127922; 在游戏里：</div>
+            <div class="c-body">
+              &#9989; Boss刷新时间是已知的游戏机制<br>
+              &#9989; 技能效果写在说明书里<br>
+              &#9989; 死了可以重来<br>
+              &#9989; 游戏是设计来让你赢的
+            </div>
+          </div>
+          <div class="compare-col right">
+            <div class="c-title">&#128200; 在真实交易中：</div>
+            <div class="c-body">
+              &#10060; 市场没有"设定好的刷新时间"<br>
+              &#10060; 没有说明书告诉你规则<br>
+              &#10060; 亏了就是真金白银<br>
+              &#10060; 市场不关心你是否盈利
+            </div>
+          </div>
+        </div>
+
+        <div class="key-learning" style="border-color: rgba(0,212,255,0.2);">
+          <span class="kl-icon">&#127991;</span>
+          <div class="kl-text">
+            <strong>第一课考点：</strong> 所有游戏都有明确的规则。但在真实市场中，<strong>规则是模糊的、变化的、没有人保证你能赢。</strong> 如果有人把一个复杂的系统说得像游戏攻略一样简单，你要问：<strong style="color: var(--cyan);">"规则书在哪？"</strong>
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge-item">&#127775; 完成Lv.1</span>
+          <span class="badge-item locked">&#128274; Lv.2 未解锁</span>
+          <span class="badge-item locked">&#128274; Lv.3 未解锁</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON 2 ===== -->
+  <div class="lesson-section" id="lesson2">
+    <div class="lesson-card l2">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-number">Lv.2</span>
+        <span class="lesson-icon">&#9878;&#65039;</span>
+        <span class="lesson-title">他们说投资只是底气——那为啥算出来这么多钱？</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 发现言行不一</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 第2课</span>
+        <span>&#9200; 阅读时间：6分钟</span>
+        <span>&#127942; 核心能力：识别矛盾</span>
+      </div>
+      <div class="lesson-content">
+        <p>你有没有遇到过这种人？&#128517;</p>
+        <p style="padding-left: 20px; border-left: 2px solid var(--gold); color: var(--text-dim); font-style: italic;">
+          "我就随便玩玩，不当真的" —— 然后每天打游戏12小时，rank分比命都高。
+        </p>
+        <p>这套策略也有同样的矛盾。策略的创造者反复强调："<strong style="color: var(--gold);">投资只是底气，不要想着暴富</strong>"。听起来很理性，对吧？</p>
+        <p>但当你去看他们晒出来的收益截图、他们举的例子、他们的宣传文案——满屏都是：</p>
+
+        <div class="highlight-box" style="border-color: var(--gold);">
+          <div class="label">&#128270; 看看这些宣传语言：</div>
+          <p style="margin-bottom: 0;">
+            "100倍收益" &#128176;&#128176;&#128176;<br>
+            "精准捕获龙王信号" &#127919;<br>
+            "一个月翻倍不是梦" &#127942;<br>
+            "这套战法价值百万" &#128178;
+          </p>
+        </div>
+
+        <p>这就好比有人说："我去网吧只是为了查资料"，然后你发现他通宵打了8小时《英雄联盟》。</p>
+        <p>心理学上管这个叫 <strong>认知失调 (Cognitive Dissonance)</strong> —— 当一个人说的话和他的行为矛盾时，他会感到不舒服。通常他会：</p>
+
+        <div class="svg-illustration">
+          <svg width="480" height="220" viewBox="0 0 480 220" style="max-width:100%;">
+            <!-- Balance scale -->
+            <rect x="10" y="108" width="460" height="4" rx="2" fill="rgba(255,215,0,0.3)"/>
+            <polygon points="235,108 245,108 240,200" fill="rgba(255,215,0,0.15)" stroke="rgba(255,215,0,0.4)" stroke-width="2"/>
+            <!-- Left pan -->
+            <rect x="70" y="80" width="120" height="50" rx="8" fill="rgba(255,215,0,0.06)" stroke="rgba(255,215,0,0.25)" stroke-width="1.5"/>
+            <text x="130" y="105" text-anchor="middle" fill="#ffd700" font-size="11" font-family="sans-serif">他们说：</text>
+            <text x="130" y="120" text-anchor="middle" fill="#e8e8f0" font-size="10" font-family="sans-serif">"只是底气，别想暴富"</text>
+            <!-- Lever arm -->
+            <line x1="130" y1="80" x2="130" y2="110" stroke="rgba(255,215,0,0.3)" stroke-width="3"/>
+            <!-- Fulcrum -->
+            <circle cx="240" cy="108" r="6" fill="rgba(255,215,0,0.2)" stroke="rgba(255,215,0,0.4)" stroke-width="2"/>
+            <!-- Right pan -->
+            <rect x="290" y="80" width="120" height="50" rx="8" fill="rgba(255,107,157,0.06)" stroke="rgba(255,107,157,0.25)" stroke-width="1.5"/>
+            <text x="350" y="105" text-anchor="middle" fill="#ff6b9d" font-size="11" font-family="sans-serif">他们做的是：</text>
+            <text x="350" y="120" text-anchor="middle" fill="#e8e8f0" font-size="10" font-family="sans-serif">"100倍收益！月入翻倍！"</text>
+            <line x1="350" y1="80" x2="350" y2="110" stroke="rgba(255,107,157,0.3)" stroke-width="3"/>
+            <!-- Tilt indicators -->
+            <text x="240" y="30" text-anchor="middle" fill="#ffd700" font-size="13" font-family="sans-serif">&#9878;&#65039; 言行天平</text>
+            <text x="240" y="50" text-anchor="middle" fill="#8888aa" font-size="9" font-family="sans-serif">一边说"别想暴富"，一边用"暴富"做宣传</text>
+            <!-- Arrow -->
+            <path d="M240,160 Q280,175 340,170" stroke="rgba(255,215,0,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrow-gold)"/>
+            <defs>
+              <marker id="arrow-gold" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,215,0,0.4)"/>
+              </marker>
+            </defs>
+            <text x="280" y="185" fill="#8888aa" font-size="9" font-family="sans-serif">这里有问题...</text>
+          </svg>
+        </div>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+flowchart LR
+    subgraph WORDS["&#128172; 说的话"]
+        W1["投资只是底气"]
+        W2["不要想着暴富"]
+        W3["心态最重要"]
+    end
+    subgraph ACTIONS["&#128200; 实际展示"]
+        A1["晒100倍收益截图"]
+        A2["用'暴富'做标题"]
+        A3["收费教学员 '秘籍'"]
+    end
+    WORDS -->|"&#128503; 矛盾！"| CONFLICT["&#9888;&#65039; 认知失调"]
+    ACTIONS --> CONFLICT
+    CONFLICT --> RESULT1["&#129300; 理性思考者：发现矛盾，提出问题"]
+    CONFLICT --> RESULT2["&#128562; 被吸引的人：忽略矛盾，说服自己"]
+          </div>
+        </div>
+
+        <div class="key-learning" style="border-color: rgba(255,215,0,0.2);">
+          <span class="kl-icon">&#128270;</span>
+          <div class="kl-text">
+            <strong>第二课考点：</strong> 当一个人说的和做的不一致时，<strong>要相信他做的，而不是他说的。</strong> 如果有人一边说"不要想暴富"，一边用"100倍收益"来吸引你——他真正在卖的不是策略，是<strong style="color: var(--gold);">暴富的幻想</strong>。
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge-item">&#127775; 完成Lv.1</span>
+          <span class="badge-item">&#127775; 完成Lv.2</span>
+          <span class="badge-item locked">&#128274; Lv.3 未解锁</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON 3 ===== -->
+  <div class="lesson-section" id="lesson3">
+    <div class="lesson-card l3">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-number">Lv.3</span>
+        <span class="lesson-icon">&#129309;</span>
+        <span class="lesson-title">庄家是谁？</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 以为有人操控一切</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 第3课</span>
+        <span>&#9200; 阅读时间：6分钟</span>
+        <span>&#127942; 核心能力：复杂系统思维</span>
+      </div>
+      <div class="lesson-content">
+        <p>打游戏输了的时候，你有没有说过这些话？&#128545;</p>
+        <p style="padding-left: 20px; border-left: 2px solid var(--purple); color: var(--text-dim); font-style: italic;">
+          "队友太菜了！" "对面开挂了吧？" "这游戏机制有问题！" "系统在针对我！"
+        </p>
+        <p>把责任推给一个看不见的"他们"，会让你感觉好受一些。因为这说明不是你的问题，而是有人在操控。</p>
+        <p>在交易世界里，这个"他们"被称为 <strong style="color: var(--purple);">"庄家"</strong>。很多人相信：有一群神秘的大人物在幕后操控股价，只要你能读懂庄家的意图，就能赚钱。</p>
+
+        <div class="svg-illustration">
+          <svg width="520" height="260" viewBox="0 0 520 260" style="max-width:100%;">
+            <!-- Title -->
+            <text x="260" y="25" text-anchor="middle" fill="#b44dff" font-size="14" font-family="sans-serif" font-weight="bold">&#129309; 谁在操控市场？两种世界观</text>
+
+            <!-- View A - Simple -->
+            <rect x="10" y="40" width="240" height="200" rx="12" fill="rgba(180,77,255,0.04)" stroke="rgba(180,77,255,0.2)" stroke-width="1.5"/>
+            <text x="130" y="65" text-anchor="middle" fill="#b44dff" font-size="12" font-family="sans-serif" font-weight="bold">&#128083; 观点A：庄家操控论</text>
+
+            <!-- Puppet master -->
+            <circle cx="130" cy="100" r="18" fill="rgba(180,77,255,0.1)" stroke="rgba(180,77,255,0.3)" stroke-width="2"/>
+            <text x="130" y="105" text-anchor="middle" fill="#b44dff" font-size="14">&#128373;</text>
+            <text x="130" y="125" text-anchor="middle" fill="#8888aa" font-size="8">"庄家"</text>
+            <!-- Strings -->
+            <line x1="115" y1="115" x2="80" y2="150" stroke="rgba(180,77,255,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="145" y1="115" x2="180" y2="150" stroke="rgba(180,77,255,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+            <!-- Puppets -->
+            <rect x="60" y="150" width="40" height="40" rx="8" fill="rgba(180,77,255,0.06)" stroke="rgba(180,77,255,0.15)" stroke-width="1"/>
+            <text x="80" y="175" text-anchor="middle" fill="#8888aa" font-size="10">&#128176;</text>
+            <rect x="160" y="150" width="40" height="40" rx="8" fill="rgba(180,77,255,0.06)" stroke="rgba(180,77,255,0.15)" stroke-width="1"/>
+            <text x="180" y="175" text-anchor="middle" fill="#8888aa" font-size="10">&#128176;</text>
+            <text x="130" y="220" text-anchor="middle" fill="#666688" font-size="8">&#9989; 简单、让人安心</text>
+            <text x="130" y="232" text-anchor="middle" fill="#666688" font-size="8">&#10060; 通常不是真的</text>
+
+            <!-- View B - Complex -->
+            <rect x="270" y="40" width="240" height="200" rx="12" fill="rgba(0,212,255,0.04)" stroke="rgba(0,212,255,0.2)" stroke-width="1.5"/>
+            <text x="390" y="65" text-anchor="middle" fill="#00d4ff" font-size="12" font-family="sans-serif" font-weight="bold">&#129504; 观点B：涌现系统</text>
+
+            <!-- Many dots -->
+            <circle cx="310" cy="95" r="5" fill="rgba(0,212,255,0.3)"/>
+            <circle cx="340" cy="90" r="4" fill="rgba(0,212,255,0.2)"/>
+            <circle cx="370" cy="100" r="6" fill="rgba(0,212,255,0.25)"/>
+            <circle cx="400" cy="92" r="4" fill="rgba(0,212,255,0.2)"/>
+            <circle cx="430" cy="98" r="5" fill="rgba(0,212,255,0.3)"/>
+            <circle cx="445" cy="105" r="3" fill="rgba(0,212,255,0.15)"/>
+            <circle cx="320" cy="120" r="5" fill="rgba(0,212,255,0.25)"/>
+            <circle cx="350" cy="125" r="4" fill="rgba(0,212,255,0.2)"/>
+            <circle cx="380" cy="118" r="6" fill="rgba(0,212,255,0.3)"/>
+            <circle cx="410" cy="128" r="4" fill="rgba(0,212,255,0.2)"/>
+            <circle cx="440" cy="120" r="5" fill="rgba(0,212,255,0.25)"/>
+            <circle cx="335" cy="145" r="4" fill="rgba(0,212,255,0.2)"/>
+            <circle cx="360" cy="140" r="5" fill="rgba(0,212,255,0.25)"/>
+            <circle cx="390" cy="148" r="4" fill="rgba(0,212,255,0.2)"/>
+            <circle cx="420" cy="142" r="5" fill="rgba(0,212,255,0.25)"/>
+            <circle cx="450" cy="145" r="3" fill="rgba(0,212,255,0.15)"/>
+            <!-- Connecting lines -->
+            <line x1="310" y1="95" x2="340" y2="90" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+            <line x1="340" y1="90" x2="370" y2="100" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+            <line x1="370" y1="100" x2="400" y2="92" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+            <line x1="320" y1="120" x2="350" y2="125" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+            <line x1="380" y1="118" x2="410" y2="128" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+            <line x1="335" y1="145" x2="360" y2="140" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+            <line x1="390" y1="148" x2="420" y2="142" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+
+            <text x="390" y="185" text-anchor="middle" fill="#666688" font-size="8">&#9989; 更接近真实</text>
+            <text x="390" y="197" text-anchor="middle" fill="#666688" font-size="8">&#10060; 复杂、难以理解</text>
+            <text x="390" y="215" text-anchor="middle" fill="#666688" font-size="8">&#9888;&#65039; 没人"控制"一切</text>
+
+            <!-- labels -->
+            <text x="130" y="195" text-anchor="middle" fill="#666688" font-size="8">1个人控制10个木偶</text>
+            <text x="390" y="170" text-anchor="middle" fill="#666688" font-size="8">无数人各自做决定</text>
+          </svg>
+        </div>
+
+        <p>用音乐节来类比 &#129310;：</p>
+
+        <div class="compare-grid">
+          <div class="compare-col left">
+            <div class="c-title">&#129309; "有一个人在操控"</div>
+            <div class="c-body">
+              就像认为音乐节的mosh pit（人群冲撞区）是有人在指挥的。有人喊"往左！"大家就往左。
+            </div>
+          </div>
+          <div class="compare-col right">
+            <div class="c-title">&#129504; "涌现的自发秩序"</div>
+            <div class="c-body">
+              实际上mosh pit是每个人独立决定的结果。A被人挤了一下撞到B，B为了躲开往左移，C看到了跟着往左——整体看起来像有方向，但没有人指挥。
+            </div>
+          </div>
+        </div>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+flowchart TB
+    subgraph SIMPLE["&#128083; 看起来简单的解释"]
+        S1["&#129309; 庄家在操控股价"] --> S2["读懂庄家意图就能赚钱"] --> S3["&#128176; 听起来很容易"]
+    end
+    subgraph REAL2["&#128200; 更真实的解释"]
+        R1["&#128101;&#128101;&#128101; 数百万投资者"] --> R2["各自根据信息做决定"]
+        R2 --> R3["买卖力量形成价格"]
+        R3 --> R4["价格反过来影响决策"]
+        R4 -->|"反馈循环"| R1
+    end
+    QUESTION{"&#129300; 哪个版本更可能是真的？"}
+    SIMPLE --> QUESTION
+    REAL2 --> QUESTION
+    QUESTION --> ANSWER["&#128270; 系统思维：<br/>复杂现象通常有简单解释，<br/>但简单解释通常是错的。"]
+          </div>
+        </div>
+
+        <div class="key-learning" style="border-color: rgba(180,77,255,0.2);">
+          <span class="kl-icon">&#129504;</span>
+          <div class="kl-text">
+            <strong>第三课考点：</strong> 把复杂的事情归结为"有人在操控"，是一种 <strong>认知捷径</strong>。世界是复杂的，市场是无数人决策的总和。<strong style="color: var(--purple);">不要用一个舒服的谎言替代一个不舒服的真相。</strong>
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge-item">&#127775; 完成Lv.1</span>
+          <span class="badge-item">&#127775; 完成Lv.2</span>
+          <span class="badge-item">&#127775; 完成Lv.3</span>
+          <span class="badge-item locked">&#128274; Lv.4 未解锁</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON 4 ===== -->
+  <div class="lesson-section" id="lesson4">
+    <div class="lesson-card l4">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-number">Lv.4</span>
+        <span class="lesson-icon">&#128274;</span>
+        <span class="lesson-title">锁仓30天！</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 为什么有人会让自己不能操作？</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 第4课</span>
+        <span>&#9200; 阅读时间：7分钟</span>
+        <span>&#127942; 核心能力：理解时间价值</span>
+      </div>
+      <div class="lesson-content">
+        <p>想象一下：你在玩《王者荣耀》或《原神》或者任何你喜欢的游戏 &#127918;。</p>
+        <p>你按下了"大招"键——然后屏幕上弹出提示：<strong style="color: var(--pink);">"你的操作已被锁定30秒"</strong>。</p>
+        <p>你只能看，不能动。敌人就在面前，你的角色站着挨打。心脏狂跳，手心出汗，但你什么都做不了。</p>
+        <p>是不是很恐怖？&#128561;</p>
+        <p>那如果有人告诉你：在真实的金融市场里，有人会主动把自己锁住<strong>30天</strong>呢？</p>
+
+        <div class="svg-illustration">
+          <svg width="520" height="200" viewBox="0 0 520 200" style="max-width:100%;">
+            <!-- Title -->
+            <text x="260" y="20" text-anchor="middle" fill="#ff6b9d" font-size="13" font-family="sans-serif" font-weight="bold">&#9200; 时间锁对比</text>
+
+            <!-- Game lock -->
+            <rect x="20" y="35" width="220" height="140" rx="12" fill="rgba(255,107,157,0.04)" stroke="rgba(255,107,157,0.15)" stroke-width="1.5"/>
+            <text x="130" y="65" text-anchor="middle" fill="#ff6b9d" font-size="14">&#127918; 游戏时间锁</text>
+            <text x="130" y="90" text-anchor="middle" fill="#e8e8f0" font-size="28">&#128274;</text>
+            <text x="130" y="115" text-anchor="middle" fill="#ff6b9d" font-size="22" font-weight="bold">30秒</text>
+            <text x="130" y="140" text-anchor="middle" fill="#8888aa" font-size="10">"操作被锁定"</text>
+            <text x="130" y="158" text-anchor="middle" fill="#666688" font-size="9">感觉已经无法忍受了</text>
+
+            <!-- VS -->
+            <text x="260" y="105" text-anchor="middle" fill="#8888aa" font-size="20" font-weight="bold">VS</text>
+
+            <!-- Trading lock -->
+            <rect x="280" y="35" width="220" height="140" rx="12" fill="rgba(255,51,85,0.04)" stroke="rgba(255,51,85,0.15)" stroke-width="1.5"/>
+            <text x="390" y="65" text-anchor="middle" fill="#ff3355" font-size="14">&#128176; 真实策略锁仓</text>
+            <text x="390" y="90" text-anchor="middle" fill="#e8e8f0" font-size="28">&#128274;</text>
+            <text x="390" y="115" text-anchor="middle" fill="#ff3355" font-size="22" font-weight="bold">30天</text>
+            <text x="390" y="140" text-anchor="middle" fill="#8888aa" font-size="10">"洞藏酒——不能卖出"</text>
+            <text x="390" y="158" text-anchor="middle" fill="#666688" font-size="9">&#128561; 30秒都受不了，30天呢？</text>
+          </svg>
+        </div>
+
+        <p>这个策略里有一个叫"洞藏酒"的机制：你买入后，系统自动锁定30天不能卖出。策略方的解释是："为了避免你因为恐慌而错误卖出。"</p>
+
+        <p>听起来很贴心？但我们来算一笔账：</p>
+
+        <div class="highlight-box" style="border-color: var(--pink);">
+          <div class="label">&#128200; 时间就是金钱（Theta 衰减）</div>
+          <p>
+            在期权交易中，有一个概念叫 <strong style="color: var(--pink);">Theta（时间价值衰减）</strong>。简单来说：<br><br>
+            <strong>你买了一张"30天后到期"的门票。每一天过去，这张票都在贬值。到第30天，如果活动还没开始，票就变成废纸了。</strong><br><br>
+            所以锁仓30天意味着：你眼睁睁看着自己的票一天天贬值，却什么也做不了。
+          </p>
+        </div>
+
+        <div class="chart-wrapper">
+          <canvas id="thetaChart" width="600" height="300"></canvas>
+          <p style="text-align:center; font-size:0.75rem; color:var(--text-dim); margin-top:8px;">&#128200; 期权时间价值衰减曲线：越靠近到期日，价值消失得越快</p>
+        </div>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+timeline
+    title &#128198; 三种可能的结果（锁仓30天）
+    scenario A &#9989 理想情况：行情在第3天大涨 ： 30天后解锁卖出获利 &#10004;&#65039;
+    scenario B &#128560 糟糕情况：行情在第2天暴跌 ： 被锁住不能止损，只能眼睁睁看着亏更多
+    scenario C &#128565 最糟情况：行情在第31天爆发 ： 锁仓刚结束，你已经卖出了，错过了涨幅
+          </div>
+        </div>
+
+        <div class="key-learning" style="border-color: rgba(255,107,157,0.2);">
+          <span class="kl-icon">&#9200;</span>
+          <div class="kl-text">
+            <strong>第四课考点：</strong> "锁仓"听起来像是纪律，但它有一个致命的假设：<strong>你的判断一定是对的。</strong> 如果错了，锁仓不是保护你，是<strong style="color: var(--pink);">把你困在错误里</strong>。真正的风险管理不是不能操作，而是<strong>随时可以控制损失</strong>。
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge-item">&#127775; 完成Lv.1</span>
+          <span class="badge-item">&#127775; 完成Lv.2</span>
+          <span class="badge-item">&#127775; 完成Lv.3</span>
+          <span class="badge-item">&#127775; 完成Lv.4</span>
+          <span class="badge-item locked">&#128274; Lv.5 未解锁</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON 5 ===== -->
+  <div class="lesson-section" id="lesson5">
+    <div class="lesson-card l5">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-number">Lv.5</span>
+        <span class="lesson-icon">&#129504;</span>
+        <span class="lesson-title">为什么赚了20倍还不卖？</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 你的大脑在骗你</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 第5课</span>
+        <span>&#9200; 阅读时间：7分钟</span>
+        <span>&#127942; 核心能力：认识认知偏差</span>
+      </div>
+      <div class="lesson-content">
+        <p>这个场景你可能很熟悉 &#128071;</p>
+
+        <div class="highlight-box" style="border-color: var(--lime);">
+          <div class="label">&#127918; 游戏里的故事：</div>
+          <p style="margin-bottom: 0;">
+            你在游戏里打到一个<strong>极品装备</strong> &#9889;。有人出价500元收。<br>
+            你想："等等，可能还能涨，等等再卖。"<br>
+            第二天，有人出价300元。<br>
+            你想："之前500我都没卖，现在300卖？那我不是亏了200？不卖！"<br>
+            第三天，出价100元。<br>
+            你更不想卖了。最后装备烂在仓库里，一分钱都没拿到。&#128557;
+          </p>
+        </div>
+
+        <p>心理学上管这个叫 <strong style="color: var(--lime);">损失厌恶 (Loss Aversion)</strong> —— 失去100元的痛苦，比得到100元的快乐要强烈得多。大概是2到2.5倍。</p>
+
+        <div class="svg-illustration">
+          <svg width="480" height="220" viewBox="0 0 480 220" style="max-width:100%;">
+            <text x="240" y="20" text-anchor="middle" fill="#39ff14" font-size="13" font-family="sans-serif" font-weight="bold">&#9878;&#65039; 快乐 vs 痛苦的心理学曲线</text>
+
+            <!-- Y axis -->
+            <line x1="80" y1="40" x2="80" y2="190" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+            <!-- X axis -->
+            <line x1="80" y1="115" x2="440" y2="115" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+            <!-- Labels -->
+            <text x="60" y="60" text-anchor="end" fill="#39ff14" font-size="10">快乐 +</text>
+            <text x="60" y="120" text-anchor="end" fill="#8888aa" font-size="9">0</text>
+            <text x="60" y="180" text-anchor="end" fill="#ff3355" font-size="10">痛苦 -</text>
+
+            <!-- Loss curve (steeper) -->
+            <path d="M 260 115 L 300 130 L 340 155 L 380 178 L 420 192" stroke="#ff3355" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <text x="420" y="205" text-anchor="end" fill="#ff3355" font-size="9">失去的痛</text>
+
+            <!-- Gain curve (shallower) -->
+            <path d="M 260 115 L 220 98 L 180 85 L 140 75 L 100 68" stroke="#39ff14" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <text x="100" y="62" text-anchor="start" fill="#39ff14" font-size="9">得到的乐</text>
+
+            <!-- Vertical dashed line -->
+            <line x1="260" y1="40" x2="260" y2="190" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+            <text x="240" y="200" text-anchor="middle" fill="#8888aa" font-size="8">同等金额</text>
+
+            <!-- Gap arrow -->
+            <path d="M 130 50 L 370 190" stroke="rgba(255,255,255,0.06)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
+            <text x="200" y="100" fill="#8888aa" font-size="8" transform="rotate(-35, 200, 100)">痛苦 &gt; 快乐 约2倍</text>
+          </svg>
+        </div>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+flowchart TD
+    START["&#128176; 买入期权"] --> UP["&#128200; 价格上涨了！盈利20倍！"]
+    UP --> THINK1["&#129300; 再等等，可能还能涨"]
+    THINK1 --> DOWN["&#128200; 价格开始下跌"]
+    DOWN --> THINK2["&#129300; 刚才20倍都没卖<br/>现在卖就亏了"]
+    THINK2 --> MORE_DOWN["&#128200; 继续下跌"]
+    MORE_DOWN --> THINK3["&#129300; 等反弹就卖"]
+    THINK3 --> ZERO["&#128565; 归零"]
+    ZERO --> REGRET["&#128557; 后悔：早知道..."]
+    REGRET --> START
+
+    THINK1 -->|"&#129504; 关键问题"| Q["是什么阻止了你卖？"]
+    Q --> A1["&#9989; 贪婪：想要更多"]
+    Q --> A2["&#9989; 损失厌恶：不想认亏"]
+    Q --> A3["&#9989; 沉没成本：'我已经等了这么久'"]
+          </div>
+        </div>
+
+        <div class="emoji-scale">
+          <div class="es-item"><span class="es-em">&#128522;</span><span class="es-label">买入时</span></div>
+          <div class="es-item"><span class="es-em">&#128578;</span><span class="es-label">涨了</span></div>
+          <div class="es-item"><span class="es-em">&#128528;</span><span class="es-label">犹豫</span></div>
+          <div class="es-item"><span class="es-em">&#128557;</span><span class="es-label">跌了</span></div>
+          <div class="es-item"><span class="es-em">&#128565;</span><span class="es-label">归零</span></div>
+        </div>
+
+        <div class="highlight-box" style="border-color: var(--lime);">
+          <div class="label">&#128218; 换个场景：考试</div>
+          <p style="margin-bottom: 0;">
+            你为一次重要考试复习了整整一周，感觉很充实、很快乐（&#128522;）。<br>
+            成绩出来：B，不是预期的A。<br>
+            你的快乐（来自复习）完全被失望（来自结果）淹没了。<br>
+            <strong style="color: var(--lime);">这就是损失厌恶在日常生活里的运作方式。</strong>
+          </p>
+        </div>
+
+        <div class="key-learning" style="border-color: rgba(57,255,20,0.2);">
+          <span class="kl-icon">&#129504;</span>
+          <div class="kl-text">
+            <strong>第五课考点：</strong> 你的大脑是一台<strong>古老的机器</strong>，是为原始社会的生存设计的，不是为了在现代金融市场做决策而设计的。当你感觉"再等等"、"不能亏着卖"的时候——<strong style="color: var(--lime);">那是你的原始大脑在接管。</strong>最好的决策往往是"无聊"的决策。
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge-item">&#127775; 完成Lv.1</span>
+          <span class="badge-item">&#127775; 完成Lv.2</span>
+          <span class="badge-item">&#127775; 完成Lv.3</span>
+          <span class="badge-item">&#127775; 完成Lv.4</span>
+          <span class="badge-item">&#127775; 完成Lv.5</span>
+          <span class="badge-item locked">&#128274; Lv.6 最终关</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON 6 ===== -->
+  <div class="lesson-section" id="lesson6">
+    <div class="lesson-card l6">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-number">Lv.6</span>
+        <span class="lesson-icon">&#127891;</span>
+        <span class="lesson-title">夏虫不可语冰</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 这句话是真理还是陷阱？</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 第6课</span>
+        <span>&#9200; 阅读时间：8分钟</span>
+        <span>&#127942; 核心能力：辨别智慧与话术</span>
+      </div>
+      <div class="lesson-content">
+        <p>先解释一下这句话：</p>
+        <div class="highlight-box" style="border-color: var(--orange);">
+          <div class="label">&#128214; 出处：《庄子·秋水》</div>
+          <p style="margin-bottom: 0;">
+            <strong>"夏虫不可以语于冰者，笃于时也。"</strong><br>
+            夏天的虫子活不到冬天，你跟它说冰是什么，它理解不了——不是因为它笨，是因为它没经历过。
+          </p>
+        </div>
+
+        <p>很深刻的道理，对吧？但问题来了——这句话在策略的推广中被用来做什么？</p>
+
+        <p>你可能会看到这样的对话：</p>
+
+        <div style="background: rgba(255,140,0,0.06); border-radius: 12px; padding: 16px; margin: 16px 0;">
+          <p style="display:flex; gap:8px; margin-bottom:8px;"><span style="font-weight:700; color:var(--orange);">学员问：</span><span style="color:var(--text-dim);">"这个策略真的能赚钱吗？为什么我算了一下觉得风险很大？"</span></p>
+          <p style="display:flex; gap:8px;"><span style="font-weight:700; color:var(--cyan);">老师答：</span><span style="color:var(--text-dim);">"&#128517; 夏虫不可语冰。等你真正经历过一轮牛熊，你就懂了。"</span></p>
+        </div>
+
+        <p>看到了吗？这是一个非常巧妙的 <strong style="color: var(--orange);">话术技巧</strong>：</p>
+
+        <ol style="padding-left: 20px; margin: 12px 0; color: #c8c8dd;">
+          <li>学员提出了合理的质疑</li>
+          <li>老师没有正面回答问题</li>
+          <li>反而暗示"你不懂是因为你层次不够"</li>
+          <li>把质疑者放在一个"还需要修炼"的位置上</li>
+        </ol>
+
+        <div class="svg-illustration">
+          <svg width="500" height="240" viewBox="0 0 500 240" style="max-width:100%;">
+            <text x="250" y="20" text-anchor="middle" fill="#ff8c00" font-size="13" font-family="sans-serif" font-weight="bold">&#128161; 知识边界：真实智慧 vs 话术门禁</text>
+
+            <!-- Outer circle -->
+            <circle cx="130" cy="130" r="90" fill="none" stroke="rgba(0,212,255,0.15)" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <!-- Inner circle -->
+            <circle cx="130" cy="130" r="60" fill="rgba(0,212,255,0.03)" stroke="rgba(0,212,255,0.2)" stroke-width="2"/>
+            <circle cx="130" cy="130" r="30" fill="rgba(0,212,255,0.06)" stroke="rgba(0,212,255,0.3)" stroke-width="2"/>
+
+            <text x="130" y="125" text-anchor="middle" fill="#e8e8f0" font-size="10">&#128218; 我知道的</text>
+            <text x="130" y="165" text-anchor="middle" fill="#8888aa" font-size="8">(学到的知识)</text>
+
+            <text x="175" y="75" text-anchor="start" fill="#00d4ff" font-size="9">&#128270; 我知道我不知道的</text>
+            <text x="60" y="210" text-anchor="middle" fill="#666688" font-size="8">(意识到还有未知领域)</text>
+
+            <text x="220" y="85" text-anchor="start" fill="#8888aa" font-size="8" font-style="italic">"我甚至不知道</text>
+            <text x="220" y="98" text-anchor="start" fill="#8888aa" font-size="8" font-style="italic">我不知道什么"</text>
+
+            <!-- Right side - Gatekeeping -->
+            <rect x="290" y="40" width="200" height="170" rx="12" fill="rgba(255,140,0,0.04)" stroke="rgba(255,140,0,0.2)" stroke-width="1.5"/>
+
+            <text x="390" y="65" text-anchor="middle" fill="#ff8c00" font-size="11" font-weight="bold">&#128274; 话术门禁</text>
+
+            <text x="300" y="90" fill="#c8c8dd" font-size="9">"你不懂是因为你没经历过"</text>
+            <text x="300" y="108" fill="#c8c8dd" font-size="9">"等你到了我这个层次就懂了"</text>
+            <text x="300" y="126" fill="#c8c8dd" font-size="9">"这个没法解释，要自己悟"</text>
+
+            <line x1="300" y1="140" x2="478" y2="140" stroke="rgba(255,140,0,0.1)" stroke-width="1"/>
+
+            <text x="300" y="158" fill="#ff6b9d" font-size="9" font-weight="bold">&#9888;&#65039; 注意：</text>
+            <text x="300" y="175" fill="#8888aa" font-size="9">真正的知识是可以解释的。</text>
+            <text x="300" y="192" fill="#8888aa" font-size="9">如果一个人无法回答你的问题，</text>
+            <text x="300" y="205" fill="#8888aa" font-size="9">却让你"自己悟"——要警惕。</text>
+          </svg>
+        </div>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+flowchart TD
+    Q["&#129300; 听到'夏虫不可语冰'"] --> D{"这句话是..."}
+    D -->|"&#128161; 真诚的智慧"| WISE["真的解释自己经历过的感悟<br/>愿意回答你的问题<br/>承认自己的局限性"]
+    D -->|"&#128520; 话术门禁"| TRAP["拒绝回答具体问题<br/>暗示你层次不够<br/>让你觉得是自己的问题"]
+    WISE --> TRUST["&#9989; 可以信任"]
+    TRAP --> ALERT["&#9888;&#65039; 需要警惕"]
+    TRAP --> CHECK{"&#128270; 问自己："}
+    CHECK --> C1["他正面回答我的问题了吗？"]
+    CHECK --> C2["他说'你不懂'还是'我来解释'？"]
+    CHECK --> C3["如果这真的是智慧，<br/>为什么不能用清晰的语言表达？"]
+          </div>
+        </div>
+
+        <div class="key-learning" style="border-color: rgba(255,140,0,0.2);">
+          <span class="kl-icon">&#127891;</span>
+          <div class="kl-text">
+            <strong>第六课考点：</strong> "夏虫不可语冰"是一句深刻的智慧——但它也经常被用来<strong>回避问题、打压质疑</strong>。真正的智慧是可以被<strong>解释</strong>的、可以被<strong>讨论</strong>的、可以<strong>经得起质疑</strong>的。<strong style="color: var(--orange);">如果有人拒绝回答你的问题，却让你"自己悟"——那可能不是你不懂，而是他不想让你懂。</strong>
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge-item">&#127775; 完成Lv.1</span>
+          <span class="badge-item">&#127775; 完成Lv.2</span>
+          <span class="badge-item">&#127775; 完成Lv.3</span>
+          <span class="badge-item">&#127775; 完成Lv.4</span>
+          <span class="badge-item">&#127775; 完成Lv.5</span>
+          <span class="badge-item">&#127775; 完成Lv.6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COURSE CONCLUSION ===== -->
+  <div class="lesson-section" id="conclusion">
+    <div class="lesson-card" style="border-color: rgba(255,215,0,0.15);">
+      <div class="card-glow"></div>
+      <div class="lesson-header">
+        <span class="lesson-icon">&#127942;</span>
+        <span class="lesson-title" style="color: var(--gold);">所以这套策略到底行不行？</span>
+        <span style="font-size:0.75rem; color:var(--text-dim);">—— 诚实的最终评估</span>
+      </div>
+      <div class="lesson-meta">
+        <span>&#128197; 结业课</span>
+        <span>&#9200; 阅读时间：5分钟</span>
+        <span>&#127942; 核心能力：综合判断</span>
+      </div>
+      <div class="lesson-content">
+        <p>好了，我们花了6节课的时间拆解了这套策略。现在到了最后一问：</p>
+
+        <p style="text-align: center; font-size: 1.2rem; margin: 20px 0;">
+          <strong style="color: var(--gold);">"这套策略，到底能不能赚钱？"</strong>
+        </p>
+
+        <p>答案是：<strong style="color: var(--gold);">可能能，但问题不在于"能不能"。</strong></p>
+
+        <table class="assessment-table">
+          <thead>
+            <tr>
+              <th style="width:50px;"></th>
+              <th>评估项</th>
+              <th style="text-align:center;">评分</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="icon-col">&#9989;</td>
+              <td><strong>逻辑自洽性</strong></td>
+              <td style="text-align:center;"><span class="yes">中等</span></td>
+              <td>策略内部逻辑是通的，但建立在很多假设之上</td>
+            </tr>
+            <tr>
+              <td class="icon-col">&#9888;&#65039;</td>
+              <td><strong>风险透明度</strong></td>
+              <td style="text-align:center;"><span class="warn">低</span></td>
+              <td>用游戏化语言掩盖了真实风险，实际风险比看起来大得多</td>
+            </tr>
+            <tr>
+              <td class="icon-col">&#10060;</td>
+              <td><strong>对新手友好度</strong></td>
+              <td style="text-align:center;"><span class="no">危险</span></td>
+              <td>新手根本无法评估风险，容易被"100倍"吸引而忽视亏损可能</td>
+            </tr>
+            <tr>
+              <td class="icon-col">&#9888;&#65039;</td>
+              <td><strong>收费模式</strong></td>
+              <td style="text-align:center;"><span class="warn">有争议</span></td>
+              <td>靠卖课/卖策略赚钱 vs 靠交易赚钱，利益不一致</td>
+            </tr>
+            <tr>
+              <td class="icon-col">&#10060;</td>
+              <td><strong>可验证性</strong></td>
+              <td style="text-align:center;"><span class="no">极低</span></td>
+              <td>收益是"晒截图"而不是"可复现的统计数据"</td>
+            </tr>
+            <tr>
+              <td class="icon-col">&#9989;</td>
+              <td><strong>作为案例价值</strong></td>
+              <td style="text-align:center;"><span class="yes">很高</span></td>
+              <td>对学习批判性思维来说，这是一个绝佳的研究对象</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="mermaid-wrapper">
+          <div class="mermaid">
+flowchart LR
+    subgraph TAKE["&#128140; 值得带走的"]
+        T1["批判性思维"]
+        T2["理解风险意识"]
+        T3["认知偏差知识"]
+        T4["话术识别能力"]
+    end
+    subgraph LEAVE["&#128465;&#65039; 需要留下的"]
+        L1["'100倍收益'的幻想"]
+        L2["'跟着我就能赚钱'的承诺"]
+        L3["锁仓30天的安全感幻觉"]
+        L4["把复杂市场当游戏的想法"]
+    end
+    TAKE --> BALANCE{"&#9878;&#65039; 平衡"}
+    LEAVE --> BALANCE
+    BALANCE --> RESULT["&#127891; 金融素养 + 批判性思维 = 真正的财富"]
+          </div>
+        </div>
+
+        <div style="margin-top: 28px; margin-bottom: 20px;">
+          <p style="text-align:center; margin-bottom:16px; font-weight:700;">&#128681; 最终判断交通灯</p>
+          <div class="traffic-light">
+            <div class="tl-item">
+              <div class="tl-circle red">&#10060;</div>
+              <span class="tl-label red-label">作为投资方法</span>
+              <span style="font-size:0.7rem; color:#666688;">不适合普通人</span>
+            </div>
+            <div class="tl-item">
+              <div class="tl-circle yellow">&#9888;&#65039;</div>
+              <span class="tl-label yellow-label">作为学习案例</span>
+              <span style="font-size:0.7rem; color:#666688;">非常有价值</span>
+            </div>
+            <div class="tl-item">
+              <div class="tl-circle green">&#9989;</div>
+              <span class="tl-label green-label">作为思维训练</span>
+              <span style="font-size:0.7rem; color:#666688;">满分推荐</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 32px;">
+          <p style="text-align:center; margin-bottom:20px; font-weight:700;">&#128737;&#65039; 人生三堂课（不止是交易）</p>
+          <div class="final-pillars">
+            <div class="pillar">
+              <span class="p-icon">&#128681;</span>
+              <div class="p-title">太好就不真</div>
+              <div class="p-desc">如果一件事听起来好得不像是真的，那它很可能就不是真的。无论它包装得多华丽。</div>
+            </div>
+            <div class="pillar">
+              <span class="p-icon">&#129320;</span>
+              <div class="p-title">谁在受益？</div>
+              <div class="p-desc">永远问一句：如果我相信了这个说法，谁会在里面受益？有答案的时候，你就清醒了一半。</div>
+            </div>
+            <div class="pillar">
+              <span class="p-icon">&#128737;&#65039;</span>
+              <div class="p-title">你不特殊</div>
+              <div class="p-desc">最危险的想法是"我比别人聪明"、"我不会犯错"。你不是特殊的——所以你要像普通人一样保护自己。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CERTIFICATE ===== -->
+  <div class="certificate-area">
+    <div class="cert-badge" id="certificate">
+      <span class="cert-icon">&#127942;</span>
+      <div class="cert-text">
+        <div class="cert-title">&#127891; 金融思维训练营 · 毕业证书</div>
+        <div class="cert-sub">恭喜完成全部6节课程 &#127775;<br>你已经掌握了批判性思维、风险意识、认知偏差识别等核心金融素养技能<br><span style="color:#666688; font-size:0.7rem;">本证书不代表任何投资能力，仅代表你完成了本次思维训练</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SIGN OFF ===== -->
+  <div class="sign-off">
+    <div class="so-emoji">&#128075;</div>
+    <div class="so-text">
+      <strong>感谢你完成了金融思维训练营！</strong><br><br>
+      记住：真正的财富不是赚快钱，是<strong>拥有独立思考的能力</strong>。<br>
+      在这个信息爆炸的时代，<strong style="color: var(--cyan);">会思考</strong>比<strong>会赚钱</strong>更重要。<br><br>
+      如果你对这堂课有收获，把它分享给你的朋友。<br>
+      下次看到"轻松赚钱"的广告时——<strong style="color: var(--lime);">你会知道该看什么。</strong>
+    </div>
+  </div>
+
+  <!-- ===== DISCLAIMER FOOTER ===== -->
+  <div class="footer-disclaimer">
+    <div class="fd-title">&#9888;&#65039; 重要免责声明</div>
+    <div class="fd-text">
+      本课程仅为金融素养与批判性思维教育目的而设计。课程中涉及的交易策略（"道商-天问堂 量化战法"）仅作为教学案例进行分析和讨论，<strong>不构成任何形式的投资建议、推荐或诱导</strong>。<br><br>
+      期权等金融衍生品交易具有高度风险，可能导致本金全部损失。在中国大陆，未成年人不得参与证券期货等金融交易。任何真实的金融交易都需要严格的专业教育和资格认证。<br><br>
+      本课程的目标是帮助青少年建立批判性思维、理解金融心理学、识别营销话术，<strong>并非教授实际的量化交易操作方法。</strong> 我们强烈建议：在获得正规金融教育和法定交易资格之前，不要参与任何形式的实际金融交易。<br><br>
+      <strong style="color: var(--red);">如果你或身边的人正在考虑投资某个"稳赚不赔"的策略，请停下来，用这6节课学到的方法重新审视它。</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ===== Initialize Mermaid =====
+mermaid.initialize({
+  theme: 'dark',
+  themeVariables: {
+    fontFamily: '"Noto Sans SC", sans-serif',
+    fontSize: '13px',
+    primaryColor: '#00d4ff',
+    primaryTextColor: '#e8e8f0',
+    primaryBorderColor: '#00d4ff',
+    lineColor: '#4444aa',
+    secondaryColor: '#ff6b9d',
+    tertiaryColor: '#ffd700',
+    background: 'transparent',
+    mainBkg: 'rgba(0,212,255,0.06)',
+    nodeBorder: 'rgba(0,212,255,0.2)',
+    clusterBkg: 'rgba(255,255,255,0.02)',
+    clusterBorder: 'rgba(255,255,255,0.06)',
+    titleColor: '#e8e8f0',
+    edgeLabelBackground: 'rgba(15,15,20,0.8)',
+    nodeTextColor: '#e8e8f0',
+  }
+});
+
+// ===== Chart.js - Theta Decay =====
+const thetaCtx = document.getElementById('thetaChart').getContext('2d');
+const thetaGradient = thetaCtx.createLinearGradient(0, 0, 0, 300);
+thetaGradient.addColorStop(0, 'rgba(255,107,157,0.3)');
+thetaGradient.addColorStop(1, 'rgba(255,107,157,0)');
+
+new Chart(thetaCtx, {
+  type: 'line',
+  data: {
+    labels: ['第30天', '第25天', '第20天', '第15天', '第10天', '第5天', '到期'],
+    datasets: [{
+      label: '时间价值 (Theta 衰减)',
+      data: [100, 82, 62, 40, 20, 7, 0],
+      borderColor: '#ff6b9d',
+      backgroundColor: thetaGradient,
+      borderWidth: 3,
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: '#ff6b9d',
+      pointBorderColor: '#ff6b9d',
+      pointRadius: 5,
+      pointHoverRadius: 8,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: '#e8e8f0', font: { size: 12, family: "'Noto Sans SC', sans-serif" } }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(15,15,20,0.9)',
+        titleColor: '#ff6b9d',
+        bodyColor: '#e8e8f0',
+        borderColor: 'rgba(255,107,157,0.3)',
+        borderWidth: 1,
+        padding: 12,
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#8888aa', font: { size: 11, family: "'Noto Sans SC', sans-serif" } },
+        grid: { color: 'rgba(255,255,255,0.04)' }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#8888aa', font: { size: 11 } },
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        title: {
+          display: true,
+          text: '剩余价值 (%)',
+          color: '#8888aa',
+          font: { size: 11, family: "'Noto Sans SC', sans-serif" }
+        }
+      }
+    }
+  }
+});
+
+// ===== Intersection Observer for section animations =====
+const sections = document.querySelectorAll('.lesson-section:not(#intro)');
+const observerOptions = {
+  threshold: 0.15,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOptions);
+
+sections.forEach(section => observer.observe(section));
+
+// ===== Progress tracking =====
+const progressDots = document.querySelectorAll('.progress-lessons .dot');
+const progressBar = document.getElementById('progress-bar');
+const levelLabel = document.querySelector('.progress-tracker .level');
+
+function updateProgress() {
+  const scrollY = window.scrollY;
+  const windowH = window.innerHeight;
+  const docH = document.documentElement.scrollHeight;
+  const scrollPercent = scrollY / (docH - windowH);
+  const progress = Math.min(scrollPercent * 100, 100);
+  progressBar.style.width = progress + '%';
+
+  // Determine which lessons are visible
+  const lessonSections = document.querySelectorAll('.lesson-section');
+  let activeCount = 0;
+  lessonSections.forEach((section, index) => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top < windowH - 100) {
+      activeCount = index + 1;
+    }
+  });
+
+  // For course structure (intro = index 0, lesson1-6 = indices 1-6, conclusion = index 7)
+  // Map to progress dots (6 dots for 6 lessons)
+  // intro visible => 1 dot, lesson1 => 2 dots, etc.
+  let dotCount = 0;
+  if (activeCount > 0) dotCount = Math.min(activeCount, 7); // cap at conclusion
+
+  const dots = document.querySelectorAll('.progress-lessons .dot');
+  dots.forEach((dot, i) => {
+    dot.classList.remove('active', 'completed');
+    if (i < dotCount - 1) {
+      dot.classList.add('completed');
+    } else if (i === dotCount - 1) {
+      dot.classList.add('active');
+    }
+  });
+
+  // Update level
+  const levels = ['学徒', '侦察兵', '分析师', '风险官', '心理学家', '哲学家', '毕业生'];
+  const lvl = Math.min(Math.floor(dotCount), levels.length - 1);
+  levelLabel.textContent = 'Lv. ' + dotCount + ' ' + levels[lvl];
+}
+
+window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('resize', updateProgress, { passive: true });
+
+// Initial update after a small delay for layout settle
+setTimeout(updateProgress, 500);
+
+// ===== Particles =====
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouseX = 0;
+let mouseY = 0;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.hue = Math.random() * 360;
+    this.pulse = Math.random() * Math.PI * 2;
+    this.pulseSpeed = Math.random() * 0.02 + 0.01;
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.pulse += this.pulseSpeed;
+    this.opacity = Math.sin(this.pulse) * 0.2 + 0.3;
+
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+      this.reset();
+      this.x = Math.random() * canvas.width;
+      this.y = this.y < 0 ? canvas.height : 0;
+    }
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${this.hue}, 70%, 70%, ${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+// Create particles
+for (let i = 0; i < 80; i++) {
+  particles.push(new Particle());
+}
+
+let mouseParticles = [];
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  // Draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(100, 100, 200, ${0.06 * (1 - dist / 120)})`;
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+// ===== Card mouse tracking for glow effect =====
+document.querySelectorAll('.lesson-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mouse-x', x + '%');
+    card.style.setProperty('--mouse-y', y + '%');
+  });
+});
+
+// ===== Update certificate completion =====
+function updateCertificateVisibility() {
+  const cert = document.getElementById('certificate');
+  const conclusionSection = document.getElementById('conclusion');
+  if (!cert || !conclusionSection) return;
+
+  const rect = conclusionSection.getBoundingClientRect();
+  if (rect.top < window.innerHeight + 100) {
+    cert.style.opacity = '1';
+    cert.style.transform = 'scale(1)';
+  }
+}
+
+window.addEventListener('scroll', updateCertificateVisibility, { passive: true });
+updateCertificateVisibility();
+
+// ===== Smooth scroll for all anchor links =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+console.log('%c&#127891; 金融思维训练营', 'font-size:24px; font-weight:bold; color:#00d4ff;');
+console.log('%c你已经完成了所有6节课的学习！', 'font-size:14px; color:#e8e8f0;');
+console.log('%c记住：会思考比会赚钱更重要。', 'font-size:14px; color:#39ff14;');
+console.log('%c如果你真的对金融感兴趣，去学习正规的金融知识，打好数学和经济学基础。', 'font-size:12px; color:#8888aa;');
+</script>
+</body>
+</html>

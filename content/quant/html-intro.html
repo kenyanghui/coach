@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 入门手册</title>
+    <style>
+        /* ===== 全局重置 & 基础 ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            line-height: 1.8;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(26, 26, 46, 0.97);
+            backdrop-filter: blur(8px);
+            padding: 0 24px;
+            height: 56px;
+            display: flex; align-items: center; gap: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+        .top-nav .logo {
+            color: #fff; font-weight: 700; font-size: 18px;
+            text-decoration: none; white-space: nowrap;
+        }
+        .top-nav .logo span { color: #ffd700; }
+        .top-nav a {
+            color: rgba(255,255,255,0.75); text-decoration: none;
+            font-size: 14px; transition: color 0.2s;
+        }
+        .top-nav a:hover { color: #ffd700; }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar {
+            position: fixed; top: 56px; left: 0; bottom: 0; width: 240px;
+            background: #fff; border-right: 1px solid #e8ecf1;
+            overflow-y: auto; padding: 20px 0; z-index: 50;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .sidebar h3 {
+            font-size: 12px; color: #888; text-transform: uppercase;
+            letter-spacing: 1px; padding: 0 20px; margin: 20px 0 8px;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: block; padding: 6px 20px; font-size: 14px;
+            color: #444; text-decoration: none; transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: #1a73e8; background: #f0f6ff;
+            border-left-color: #1a73e8;
+        }
+
+        /* ===== 主内容 ===== */
+        .main { margin-left: 240px; margin-top: 56px; padding: 40px 48px 80px; max-width: 960px; }
+
+        /* ===== 封面区域 ===== */
+        .hero {
+            text-align: center; padding: 60px 20px 40px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 16px; margin-bottom: 40px; color: #fff;
+        }
+        .hero h1 { font-size: 42px; margin-bottom: 12px; }
+        .hero h1 span { color: #ffd700; }
+        .hero p { font-size: 16px; opacity: 0.85; max-width: 500px; margin: 0 auto; }
+
+        /* ===== 章节 ===== */
+        section { margin-bottom: 48px; }
+        section h2 {
+            font-size: 26px; color: #1a1a2e;
+            padding-bottom: 10px; border-bottom: 3px solid #1a73e8;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        section h2 .badge {
+            font-size: 12px; background: #1a73e8; color: #fff;
+            padding: 2px 10px; border-radius: 12px; font-weight: 400;
+        }
+        section h3 {
+            font-size: 18px; color: #2c3e50; margin: 24px 0 10px;
+        }
+        section p { margin-bottom: 12px; color: #444; }
+        section ul, section ol { margin: 8px 0 16px 24px; color: #444; }
+        section li { margin-bottom: 4px; }
+
+        /* ===== 提示框 ===== */
+        .tip {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0;
+        }
+        .tip::before { content: "💡 "; }
+        .warn {
+            background: #fff8e1; border-left: 4px solid #ffc107;
+            padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0;
+        }
+        .warn::before { content: "⚠️ "; }
+
+        /* ===== 代码 ===== */
+        code {
+            font-family: "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+            background: #eef0f5; padding: 2px 8px; border-radius: 4px;
+            font-size: 0.9em; color: #d63384;
+        }
+        pre {
+            background: #1e1e2e; color: #cdd6f4; padding: 16px 20px;
+            border-radius: 10px; overflow-x: auto; margin: 12px 0;
+            font-size: 14px; line-height: 1.7;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        pre code {
+            background: none; color: inherit; padding: 0; font-size: inherit;
+        }
+
+        /* ===== 代码高亮（手写简单版） ===== */
+        .hl-tag   { color: #89b4fa; }
+        .hl-attr  { color: #a6e3a1; }
+        .hl-str   { color: #f9e2af; }
+        .hl-cm    { color: #6c7086; font-style: italic; }
+        .hl-punc  { color: #bac2de; }
+
+        /* ===== 表格 ===== */
+        .table-wrap { overflow-x: auto; margin: 12px 0; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        thead { background: #1a1a2e; color: #fff; }
+        th { padding: 10px 16px; text-align: left; font-weight: 600; }
+        td { padding: 10px 16px; border-bottom: 1px solid #e8ecf1; color: #444; }
+        tbody tr:hover { background: #f8f9fc; }
+
+        /* ===== 交互示例 ===== */
+        .demo-box {
+            border: 2px dashed #d0d5dd; border-radius: 10px;
+            padding: 20px; margin: 12px 0; background: #fff;
+        }
+        .demo-box button {
+            padding: 6px 18px; background: #1a73e8; color: #fff;
+            border: none; border-radius: 6px; cursor: pointer; font-size: 14px;
+        }
+        .demo-box button:hover { background: #1557b0; }
+
+        /* ===== 底部 ===== */
+        footer {
+            text-align: center; padding: 24px 0; color: #999;
+            font-size: 13px; border-top: 1px solid #e8ecf1; margin-top: 40px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; padding: 24px 20px 60px; }
+            .hero h1 { font-size: 28px; }
+            .top-nav { padding: 0 16px; }
+        }
+
+        /* ===== 打印 ===== */
+        @media print {
+            .top-nav, .sidebar { display: none; }
+            .main { margin: 0; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== 导航栏 ==================== -->
+<nav class="top-nav">
+    <a href="#" class="logo">HTML<span>手册</span></a>
+    <a href="#basic">基础</a>
+    <a href="#tags">常用标签</a>
+    <a href="#form">表单</a>
+    <a href="#table">表格</a>
+    <a href="#media">多媒体</a>
+    <a href="#semantic">语义化</a>
+    <a href="#ref">参考</a>
+</nav>
+
+<!-- ==================== 侧边栏 ==================== -->
+<aside class="sidebar">
+    <h3>入门</h3>
+    <a href="#intro">什么是 HTML？</a>
+    <a href="#basic">文档结构</a>
+    <a href="#syntax">基本语法</a>
+    <a href="#comment">注释</a>
+
+    <h3>常用标签</h3>
+    <a href="#heading">标题 h1 ~ h6</a>
+    <a href="#text">文本标签</a>
+    <a href="#list">列表</a>
+    <a href="#link">超链接</a>
+    <a href="#image">图片</a>
+
+    <h3>进阶</h3>
+    <a href="#form">表单</a>
+    <a href="#table">表格</a>
+    <a href="#media">多媒体</a>
+    <a href="#semantic">语义化标签</a>
+
+    <h3>附录</h3>
+    <a href="#entity">字符实体</a>
+    <a href="#ref">推荐资源</a>
+</aside>
+
+<!-- ==================== 主内容 ==================== -->
+<div class="main">
+
+    <!-- ===== 封面 ===== -->
+    <div class="hero">
+        <h1>HTML <span>入门手册</span></h1>
+        <p>从零开始学习 HTML —— 网页的骨架与灵魂。适合所有零基础初学者。</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 第 1 章：什么是 HTML -->
+    <!-- ============================================================ -->
+    <section id="intro">
+        <h2>什么是 HTML？</h2>
+        <p>
+            <strong>HTML</strong> 的全称是 <strong>H</strong>yper<strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage（超文本标记语言）。
+            它不是编程语言，而是一种<strong>标记语言</strong>——通过"标签"告诉浏览器如何展示内容。
+        </p>
+        <ul>
+            <li><strong>超文本</strong>：可以包含文字、图片、视频、链接等</li>
+            <li><strong>标记</strong>：用 <code>&lt;tag&gt;</code> 这样的标签给内容做标记</li>
+            <li><strong>语言</strong>：有自己的一套规则和语法</li>
+        </ul>
+        <div class="tip">
+            你可以把 HTML 想象成盖房子的<strong>结构图纸</strong>——它决定哪里是墙、哪里是门窗、哪里是房间。而 CSS 是装修，JavaScript 是水电。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 2 章：文档结构 -->
+    <!-- ============================================================ -->
+    <section id="basic">
+        <h2>HTML 文档结构 <span class="badge">必知</span></h2>
+        <p>每个 HTML 页面都有固定的骨架结构。这是一个最小可用的 HTML 文件：</p>
+        <pre><code><span class="hl-cm">&lt;!-- index.html --&gt;</span>
+<span class="hl-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="hl-tag">&lt;html</span> <span class="hl-attr">lang</span>=<span class="hl-str">"zh-CN"</span><span class="hl-tag">&gt;</span>
+<span class="hl-tag">&lt;head&gt;</span>
+    <span class="hl-tag">&lt;meta</span> <span class="hl-attr">charset</span>=<span class="hl-str">"UTF-8"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;title&gt;</span>页面标题<span class="hl-tag">&lt;/title&gt;</span>
+<span class="hl-tag">&lt;/head&gt;</span>
+<span class="hl-tag">&lt;body&gt;</span>
+    <span class="hl-tag">&lt;h1&gt;</span>Hello, World!<span class="hl-tag">&lt;/h1&gt;</span>
+    <span class="hl-tag">&lt;p&gt;</span>这是我的第一个页面。<span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;/body&gt;</span>
+<span class="hl-tag">&lt;/html&gt;</span></code></pre>
+
+        <table>
+            <thead><tr><th>标签</th><th>作用</th></tr></thead>
+            <tbody>
+                <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>声明文档类型为 HTML5（必须写在第一行）</td></tr>
+                <tr><td><code>&lt;html&gt;</code></td><td>整个 HTML 文档的根元素</td></tr>
+                <tr><td><code>&lt;head&gt;</code></td><td>页面的元数据（标题、编码、样式等），用户不可见</td></tr>
+                <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>设置字符编码，支持中文</td></tr>
+                <tr><td><code>&lt;title&gt;</code></td><td>浏览器标签栏上显示的标题</td></tr>
+                <tr><td><code>&lt;body&gt;</code></td><td>页面可见内容的容器</td></tr>
+            </tbody>
+        </table>
+
+        <div class="warn">
+            一定要写 <code>&lt;!DOCTYPE html&gt;</code>！ 不写的话浏览器会以"怪异模式"渲染，导致页面错乱。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 3 章：基本语法 -->
+    <!-- ============================================================ -->
+    <section id="syntax">
+        <h2>基本语法</h2>
+        <h3>标签的两种形式</h3>
+        <table>
+            <thead><tr><th>类型</th><th>写法</th><th>示例</th></tr></thead>
+            <tbody>
+                <tr><td><strong>双标签</strong></td><td><code>&lt;开&gt;内容&lt;/关&gt;</code></td><td><code>&lt;p&gt;文字&lt;/p&gt;</code></td></tr>
+                <tr><td><strong>单标签（自闭合）</strong></td><td><code>&lt;标签&gt;</code> 或 <code>&lt;标签 /&gt;</code></td><td><code>&lt;br&gt;</code>、<code>&lt;img&gt;</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>属性</h3>
+        <p>标签可以通过<strong>属性</strong>来配置更多行为，写在开始标签里：</p>
+        <pre><code><span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"https://example.com"</span> <span class="hl-attr">target</span>=<span class="hl-str">"_blank"</span><span class="hl-tag">&gt;</span>点我打开新窗口<span class="hl-tag">&lt;/a&gt;</span></code></pre>
+        <p>其中 <code>href</code> 和 <code>target</code> 就是属性，格式是 <code>属性名="属性值"</code>。</p>
+
+        <h3>标签的嵌套</h3>
+        <p>标签可以嵌套，但必须<strong>正确闭合</strong>——先开的后关：</p>
+        <pre><code><span class="hl-cm">&lt;!-- ✅ 正确 --&gt;</span>
+<span class="hl-tag">&lt;div&gt;</span>
+    <span class="hl-tag">&lt;p&gt;</span>文字<span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;/div&gt;</span>
+
+<span class="hl-cm">&lt;!-- ❌ 错误：交叉嵌套 --&gt;</span>
+<span class="hl-tag">&lt;div&gt;</span>
+    <span class="hl-tag">&lt;p&gt;</span>文字<span class="hl-tag">&lt;/div&gt;</span>
+<span class="hl-tag">&lt;/p&gt;</span></code></pre>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 4 章：注释 -->
+    <!-- ============================================================ -->
+    <section id="comment">
+        <h2>注释</h2>
+        <p>注释不会显示在页面上，仅供开发者自己查看：</p>
+        <pre><code><span class="hl-cm">&lt;!-- 这是注释，用户看不到我 --&gt;</span>
+<span class="hl-cm">&lt;!--
+    多行注释也是可以的
+    可以写很多行
+--&gt;</span></code></pre>
+        <div class="tip">
+            注释可以用来暂时"禁用"某段代码，或给同事（包括未来的自己）写说明。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 5 章：标题 -->
+    <!-- ============================================================ -->
+    <section id="heading">
+        <h2>标题标签 h1 ~ h6</h2>
+        <p>HTML 提供了 6 级标题，<code>&lt;h1&gt;</code> 最大，<code>&lt;h6&gt;</code> 最小：</p>
+        <div class="demo-box">
+            <h1 style="margin:0 0 4px;font-size:28px;">h1. 一级标题</h1>
+            <h2 style="margin:0 0 4px;font-size:24px;">h2. 二级标题</h2>
+            <h3 style="margin:0 0 4px;font-size:20px;">h3. 三级标题</h3>
+            <h4 style="margin:0 0 4px;font-size:16px;">h4. 四级标题</h4>
+            <h5 style="margin:0 0 4px;font-size:14px;">h5. 五级标题</h5>
+            <h6 style="margin:0 0 4px;font-size:12px;">h6. 六级标题</h6>
+        </div>
+        <div class="warn">
+            每个页面最好只有<strong>一个</strong> <code>&lt;h1&gt;</code>，通常放页面标题或 logo。不要为了改变字号而滥用标题层级——那是 CSS 的事。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 6 章：文本标签 -->
+    <!-- ============================================================ -->
+    <section id="text">
+        <h2>文本标签</h2>
+        <table>
+            <thead><tr><th>标签</th><th>作用</th><th>效果</th></tr></thead>
+            <tbody>
+                <tr><td><code>&lt;p&gt;</code></td><td>段落</td><td>前后自动换行加间距</td></tr>
+                <tr><td><code>&lt;br&gt;</code></td><td>换行（单标签）</td><td>强制换行</td></tr>
+                <tr><td><code>&lt;hr&gt;</code></td><td>水平分割线（单标签）</td><td>画一条横线</td></tr>
+                <tr><td><code>&lt;strong&gt;</code></td><td>重要文字（加粗）</td><td><strong>加粗</strong></td></tr>
+                <tr><td><code>&lt;em&gt;</code></td><td>强调（斜体）</td><td><em>斜体</em></td></tr>
+                <tr><td><code>&lt;u&gt;</code></td><td>下划线</td><td><u>下划线</u></td></tr>
+                <tr><td><code>&lt;s&gt;</code></td><td>删除线</td><td><s>删除线</s></td></tr>
+                <tr><td><code>&lt;small&gt;</code></td><td>小号文字</td><td><small>小号文字</small></td></tr>
+                <tr><td><code>&lt;mark&gt;</code></td><td>高亮标记</td><td><mark>高亮</mark></td></tr>
+                <tr><td><code>&lt;pre&gt;</code></td><td>预格式文本</td><td>保留空格和换行</td></tr>
+                <tr><td><code>&lt;code&gt;</code></td><td>代码片段</td><td><code>等宽字体</code></td></tr>
+                <tr><td><code>&lt;blockquote&gt;</code></td><td>长引用（块级）</td><td>缩进显示</td></tr>
+            </tbody>
+        </table>
+
+        <h3>示例</h3>
+        <pre><code><span class="hl-tag">&lt;p&gt;</span>这是普通段落文字。<span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span>这是<strong>重要</strong>文字，这是<em>强调</em>文字。<span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;blockquote&gt;</span>
+    这是引用的内容，通常会缩进显示。
+<span class="hl-tag">&lt;/blockquote&gt;</span></code></pre>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 7 章：列表 -->
+    <!-- ============================================================ -->
+    <section id="list">
+        <h2>列表</h2>
+        <h3>无序列表 &lt;ul&gt;</h3>
+        <p>项目符号为圆点：</p>
+        <pre><code><span class="hl-tag">&lt;ul&gt;</span>
+    <span class="hl-tag">&lt;li&gt;</span>苹果<span class="hl-tag">&lt;/li&gt;</span>
+    <span class="hl-tag">&lt;li&gt;</span>香蕉<span class="hl-tag">&lt;/li&gt;</span>
+    <span class="hl-tag">&lt;li&gt;</span>橘子<span class="hl-tag">&lt;/li&gt;</span>
+<span class="hl-tag">&lt;/ul&gt;</span></code></pre>
+        <div class="demo-box">
+            <ul><li>苹果</li><li>香蕉</li><li>橘子</li></ul>
+        </div>
+
+        <h3>有序列表 &lt;ol&gt;</h3>
+        <p>带数字编号：</p>
+        <div class="demo-box">
+            <ol><li>第一步：打开编辑器</li><li>第二步：编写 HTML</li><li>第三步：保存为 .html 文件</li></ol>
+        </div>
+
+        <h3>自定义列表 &lt;dl&gt;</h3>
+        <p>用于术语-描述的场景：</p>
+        <pre><code><span class="hl-tag">&lt;dl&gt;</span>
+    <span class="hl-tag">&lt;dt&gt;</span>HTML<span class="hl-tag">&lt;/dt&gt;</span>
+    <span class="hl-tag">&lt;dd&gt;</span>超文本标记语言，网页的骨架<span class="hl-tag">&lt;/dd&gt;</span>
+    <span class="hl-tag">&lt;dt&gt;</span>CSS<span class="hl-tag">&lt;/dt&gt;</span>
+    <span class="hl-tag">&lt;dd&gt;</span>层叠样式表，负责网页的样式<span class="hl-tag">&lt;/dd&gt;</span>
+<span class="hl-tag">&lt;/dl&gt;</span></code></pre>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 8 章：超链接 -->
+    <!-- ============================================================ -->
+    <section id="link">
+        <h2>超链接 &lt;a&gt;</h2>
+        <p>超链接是互联网的基石，用 <code>&lt;a&gt;</code> 标签创建：</p>
+        <pre><code><span class="hl-cm">&lt;!-- 链接到外部网站 --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"https://www.baidu.com"</span><span class="hl-tag">&gt;</span>去百度<span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-cm">&lt;!-- 新窗口打开 --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"https://example.com"</span> <span class="hl-attr">target</span>=<span class="hl-str">"_blank"</span><span class="hl-tag">&gt;</span>新窗口打开<span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-cm">&lt;!-- 页面内锚点跳转 --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"#intro"</span><span class="hl-tag">&gt;</span>跳到"什么是HTML"章节<span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-cm">&lt;!-- 发邮件 --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"mailto:hello@example.com"</span><span class="hl-tag">&gt;</span>给我发邮件<span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-cm">&lt;!-- 打电话（手机端） --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"tel:13800138000"</span><span class="hl-tag">&gt;</span>打电话<span class="hl-tag">&lt;/a&gt;</span></code></pre>
+
+        <table>
+            <thead><tr><th>属性</th><th>说明</th><th>示例值</th></tr></thead>
+            <tbody>
+                <tr><td><code>href</code></td><td>链接目标 URL（必填）</td><td><code>"https://..."</code></td></tr>
+                <tr><td><code>target</code></td><td>在哪里打开</td><td><code>"_self"</code>（当前窗口）、<code>"_blank"</code>（新窗口）</td></tr>
+                <tr><td><code>title</code></td><td>鼠标悬停时显示的提示文字</td><td><code>"点击跳转"</code></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 9 章：图片 -->
+    <!-- ============================================================ -->
+    <section id="image">
+        <h2>图片 &lt;img&gt;</h2>
+        <p><code>&lt;img&gt;</code> 是单标签，用来显示图片：</p>
+        <pre><code><span class="hl-tag">&lt;img</span>
+    <span class="hl-attr">src</span>=<span class="hl-str">"images/photo.jpg"</span>
+    <span class="hl-attr">alt</span>=<span class="hl-str">"一张风景照片"</span>
+    <span class="hl-attr">width</span>=<span class="hl-str">"400"</span>
+    <span class="hl-attr">height</span>=<span class="hl-str">"300"</span>
+<span class="hl-tag">&gt;</span></code></pre>
+        <table>
+            <thead><tr><th>属性</th><th>说明</th><th>是否必填</th></tr></thead>
+            <tbody>
+                <tr><td><code>src</code></td><td>图片路径（本地或网络 URL）</td><td>是</td></tr>
+                <tr><td><code>alt</code></td><td>图片加载失败时的替代文本</td><td>强烈建议</td></tr>
+                <tr><td><code>width</code> / <code>height</code></td><td>宽高（像素或百分比）</td><td>否</td></tr>
+            </tbody>
+        </table>
+        <div class="tip">
+            <code>alt</code> 属性非常重要——它不仅能在图片加载失败时提供文字说明，还能被<strong>屏幕阅读器</strong>朗读给视障用户，同时有利于搜索引擎优化（SEO）。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 10 章：表单 -->
+    <!-- ============================================================ -->
+    <section id="form">
+        <h2>表单 &lt;form&gt;</h2>
+        <p>表单用于收集用户输入，是前后端交互的核心：</p>
+        <pre><code><span class="hl-tag">&lt;form</span> <span class="hl-attr">action</span>=<span class="hl-str">"/submit"</span> <span class="hl-attr">method</span>=<span class="hl-str">"post"</span><span class="hl-tag">&gt;</span>
+
+    <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-str">"username"</span><span class="hl-tag">&gt;</span>用户名：<span class="hl-tag">&lt;/label&gt;</span>
+    <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-str">"text"</span> <span class="hl-attr">id</span>=<span class="hl-str">"username"</span> <span class="hl-attr">name</span>=<span class="hl-str">"username"</span> <span class="hl-attr">required</span><span class="hl-tag">&gt;</span>
+
+    <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-str">"pwd"</span><span class="hl-tag">&gt;</span>密码：<span class="hl-tag">&lt;/label&gt;</span>
+    <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-str">"password"</span> <span class="hl-attr">id</span>=<span class="hl-str">"pwd"</span> <span class="hl-attr">name</span>=<span class="hl-str">"pwd"</span><span class="hl-tag">&gt;</span>
+
+    <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-str">"gender"</span><span class="hl-tag">&gt;</span>性别：<span class="hl-tag">&lt;/label&gt;</span>
+    <span class="hl-tag">&lt;select</span> <span class="hl-attr">id</span>=<span class="hl-str">"gender"</span> <span class="hl-attr">name</span>=<span class="hl-str">"gender"</span><span class="hl-tag">&gt;</span>
+        <span class="hl-tag">&lt;option</span> <span class="hl-attr">value</span>=<span class="hl-str">"male"</span><span class="hl-tag">&gt;</span>男<span class="hl-tag">&lt;/option&gt;</span>
+        <span class="hl-tag">&lt;option</span> <span class="hl-attr">value</span>=<span class="hl-str">"female"</span><span class="hl-tag">&gt;</span>女<span class="hl-tag">&lt;/option&gt;</span>
+    <span class="hl-tag">&lt;/select&gt;</span>
+
+    <span class="hl-tag">&lt;button</span> <span class="hl-attr">type</span>=<span class="hl-str">"submit"</span><span class="hl-tag">&gt;</span>注册<span class="hl-tag">&lt;/button&gt;</span>
+<span class="hl-tag">&lt;/form&gt;</span></code></pre>
+
+        <h3>常用输入类型</h3>
+        <table>
+            <thead><tr><th><code>type</code> 值</th><th>用途</th></tr></thead>
+            <tbody>
+                <tr><td><code>text</code></td><td>单行文本输入</td></tr>
+                <tr><td><code>password</code></td><td>密码输入（内容以圆点遮盖）</td></tr>
+                <tr><td><code>email</code></td><td>邮箱（浏览器会校验格式）</td></tr>
+                <tr><td><code>number</code></td><td>数字（可调上下箭头）</td></tr>
+                <tr><td><code>checkbox</code></td><td>复选框（多选）</td></tr>
+                <tr><td><code>radio</code></td><td>单选框</td></tr>
+                <tr><td><code>file</code></td><td>文件上传</td></tr>
+                <tr><td><code>date</code></td><td>日期选择器</td></tr>
+                <tr><td><code>color</code></td><td>颜色选择器</td></tr>
+                <tr><td><code>range</code></td><td>滑块</td></tr>
+                <tr><td><code>submit</code></td><td>提交按钮</td></tr>
+                <tr><td><code>reset</code></td><td>重置按钮</td></tr>
+            </tbody>
+        </table>
+
+        <h3>实际演示</h3>
+        <div class="demo-box">
+            <form onsubmit="alert('表单已提交（演示）'); return false;">
+                <label for="demoName">姓名：</label>
+                <input type="text" id="demoName" name="demoName" style="margin-right:16px;">
+                <label for="demoEmail">邮箱：</label>
+                <input type="email" id="demoEmail" name="demoEmail" style="margin-right:16px;">
+                <button type="submit">提交</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 11 章：表格 -->
+    <!-- ============================================================ -->
+    <section id="table">
+        <h2>表格 &lt;table&gt;</h2>
+        <p>表格由行（<code>&lt;tr&gt;</code>）和单元格（<code>&lt;td&gt;</code> / <code>&lt;th&gt;</code>）组成：</p>
+        <pre><code><span class="hl-tag">&lt;table&gt;</span>
+    <span class="hl-tag">&lt;thead&gt;</span>
+        <span class="hl-tag">&lt;tr&gt;</span>
+            <span class="hl-tag">&lt;th&gt;</span>姓名<span class="hl-tag">&lt;/th&gt;</span>
+            <span class="hl-tag">&lt;th&gt;</span>年龄<span class="hl-tag">&lt;/th&gt;</span>
+            <span class="hl-tag">&lt;th&gt;</span>城市<span class="hl-tag">&lt;/th&gt;</span>
+        <span class="hl-tag">&lt;/tr&gt;</span>
+    <span class="hl-tag">&lt;/thead&gt;</span>
+    <span class="hl-tag">&lt;tbody&gt;</span>
+        <span class="hl-tag">&lt;tr&gt;</span>
+            <span class="hl-tag">&lt;td&gt;</span>张三<span class="hl-tag">&lt;/td&gt;</span>
+            <span class="hl-tag">&lt;td&gt;</span>28<span class="hl-tag">&lt;/td&gt;</span>
+            <span class="hl-tag">&lt;td&gt;</span>北京<span class="hl-tag">&lt;/td&gt;</span>
+        <span class="hl-tag">&lt;/tr&gt;</span>
+        <span class="hl-tag">&lt;tr&gt;</span>
+            <span class="hl-tag">&lt;td&gt;</span>李四<span class="hl-tag">&lt;/td&gt;</span>
+            <span class="hl-tag">&lt;td&gt;</span>32<span class="hl-tag">&lt;/td&gt;</span>
+            <span class="hl-tag">&lt;td&gt;</span>上海<span class="hl-tag">&lt;/td&gt;</span>
+        <span class="hl-tag">&lt;/tr&gt;</span>
+    <span class="hl-tag">&lt;/tbody&gt;</span>
+<span class="hl-tag">&lt;/table&gt;</span></code></pre>
+
+        <div class="demo-box">
+            <table style="box-shadow:none; border:1px solid #ddd;">
+                <thead><tr><th>姓名</th><th>年龄</th><th>城市</th></tr></thead>
+                <tbody>
+                    <tr><td>张三</td><td>28</td><td>北京</td></tr>
+                    <tr><td>李四</td><td>32</td><td>上海</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>合并单元格用 <code>colspan</code>（跨列）和 <code>rowspan</code>（跨行）：</p>
+        <pre><code><span class="hl-tag">&lt;td</span> <span class="hl-attr">colspan</span>=<span class="hl-str">"2"</span><span class="hl-tag">&gt;</span>合并两列<span class="hl-tag">&lt;/td&gt;</span></code></pre>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 12 章：多媒体 -->
+    <!-- ============================================================ -->
+    <section id="media">
+        <h2>多媒体</h2>
+
+        <h3>视频 &lt;video&gt;</h3>
+        <pre><code><span class="hl-tag">&lt;video</span> <span class="hl-attr">src</span>=<span class="hl-str">"movie.mp4"</span> <span class="hl-attr">controls</span> <span class="hl-attr">width</span>=<span class="hl-str">"560"</span><span class="hl-tag">&gt;</span>
+    您的浏览器不支持视频播放。
+<span class="hl-tag">&lt;/video&gt;</span></code></pre>
+
+        <h3>音频 &lt;audio&gt;</h3>
+        <pre><code><span class="hl-tag">&lt;audio</span> <span class="hl-attr">src</span>=<span class="hl-str">"music.mp3"</span> <span class="hl-attr">controls</span><span class="hl-tag">&gt;</span>
+    您的浏览器不支持音频播放。
+<span class="hl-tag">&lt;/audio&gt;</span></code></pre>
+
+        <h3>嵌入页面 &lt;iframe&gt;</h3>
+        <pre><code><span class="hl-tag">&lt;iframe</span>
+    <span class="hl-attr">src</span>=<span class="hl-str">"https://www.bilibili.com"</span>
+    <span class="hl-attr">width</span>=<span class="hl-str">"560"</span>
+    <span class="hl-attr">height</span>=<span class="hl-str">"315"</span>
+    <span class="hl-attr">allowfullscreen</span>
+<span class="hl-tag">&gt;&lt;/iframe&gt;</span></code></pre>
+
+        <div class="tip">
+            <code>controls</code> 属性会显示播放/暂停、进度条等控件。不加的话用户无法操作播放，适合背景音乐等场景。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 13 章：语义化标签 -->
+    <!-- ============================================================ -->
+    <section id="semantic">
+        <h2>HTML5 语义化标签</h2>
+        <p>语义化标签让代码"见名知意"，对开发者、浏览器、搜索引擎都更友好：</p>
+        <pre><code><span class="hl-tag">&lt;header&gt;</span>   页面头部 / 文章头部
+<span class="hl-tag">&lt;nav&gt;</span>       导航栏
+<span class="hl-tag">&lt;main&gt;</span>     页面主体内容（每页只有一个）
+<span class="hl-tag">&lt;article&gt;</span>  独立文章 / 内容块
+<span class="hl-tag">&lt;section&gt;</span>  文档中的章节
+<span class="hl-tag">&lt;aside&gt;</span>    侧边栏 / 补充内容
+<span class="hl-tag">&lt;footer&gt;</span>   页面底部（版权、联系方式等）
+<span class="hl-tag">&lt;figure&gt;</span>   配图区域
+<span class="hl-tag">&lt;figcaption&gt;</span> 配图的说明文字</code></pre>
+
+        <div class="warn">
+            不要为了"语义化"而滥用——比如所有 <code>&lt;div&gt;</code> 都改成 <code>&lt;section&gt;</code>。合理使用即可，重点是<strong>结构清晰</strong>。
+        </div>
+
+        <h3>实际页面结构示例</h3>
+        <pre><code><span class="hl-tag">&lt;body&gt;</span>
+    <span class="hl-tag">&lt;header&gt;</span>
+        <span class="hl-tag">&lt;h1&gt;</span>我的博客<span class="hl-tag">&lt;/h1&gt;</span>
+        <span class="hl-tag">&lt;nav&gt;</span>
+            <span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"/"</span><span class="hl-tag">&gt;</span>首页<span class="hl-tag">&lt;/a&gt;</span>
+            <span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-str">"/about"</span><span class="hl-tag">&gt;</span>关于<span class="hl-tag">&lt;/a&gt;</span>
+        <span class="hl-tag">&lt;/nav&gt;</span>
+    <span class="hl-tag">&lt;/header&gt;</span>
+
+    <span class="hl-tag">&lt;main&gt;</span>
+        <span class="hl-tag">&lt;article&gt;</span>
+            <span class="hl-tag">&lt;h2&gt;</span>文章标题<span class="hl-tag">&lt;/h2&gt;</span>
+            <span class="hl-tag">&lt;p&gt;</span>文章内容...<span class="hl-tag">&lt;/p&gt;</span>
+        <span class="hl-tag">&lt;/article&gt;</span>
+        <span class="hl-tag">&lt;aside&gt;</span>
+            <span class="hl-tag">&lt;h3&gt;</span>关于作者<span class="hl-tag">&lt;/h3&gt;</span>
+        <span class="hl-tag">&lt;/aside&gt;</span>
+    <span class="hl-tag">&lt;/main&gt;</span>
+
+    <span class="hl-tag">&lt;footer&gt;</span>
+        <span class="hl-tag">&lt;p&gt;</span>&amp;copy; 2026 我的博客<span class="hl-tag">&lt;/p&gt;</span>
+    <span class="hl-tag">&lt;/footer&gt;</span>
+<span class="hl-tag">&lt;/body&gt;</span></code></pre>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 14 章：字符实体 -->
+    <!-- ============================================================ -->
+    <section id="entity">
+        <h2>常用字符实体</h2>
+        <p>有些字符在 HTML 中有特殊含义（如 <code>&lt;</code>、<code>&gt;</code>），需要写成"实体"形式才能正常显示：</p>
+        <table>
+            <thead><tr><th>显示结果</th><th>实体名称</th><th>实体编号</th></tr></thead>
+            <tbody>
+                <tr><td>&lt;</td><td><code>&amp;lt;</code></td><td><code>&amp;#60;</code></td></tr>
+                <tr><td>&gt;</td><td><code>&amp;gt;</code></td><td><code>&amp;#62;</code></td></tr>
+                <tr><td>&amp;</td><td><code>&amp;amp;</code></td><td><code>&amp;#38;</code></td></tr>
+                <tr><td>&quot;</td><td><code>&amp;quot;</code></td><td><code>&amp;#34;</code></td></tr>
+                <tr><td>&copy;</td><td><code>&amp;copy;</code></td><td><code>&amp;#169;</code></td></tr>
+                <tr><td>&reg;</td><td><code>&amp;reg;</code></td><td><code>&amp;#174;</code></td></tr>
+                <tr><td>&nbsp;（空格）</td><td><code>&amp;nbsp;</code></td><td><code>&amp;#160;</code></td></tr>
+            </tbody>
+        </table>
+        <div class="tip">
+            最常用的是 <code>&amp;lt;</code> 和 <code>&amp;gt;</code>：在代码块中展示 HTML 标签时必须用它，否则浏览器会把标签<strong>当成真的标签来解析</strong>。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 15 章：推荐资源 -->
+    <!-- ============================================================ -->
+    <section id="ref">
+        <h2>推荐学习资源</h2>
+        <ul>
+            <li><strong>MDN Web 文档</strong> — 最权威的 HTML/CSS/JS 参考手册，<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" target="_blank">developer.mozilla.org</a></li>
+            <li><strong>W3Schools</strong> — 适合初学者的交互式教程，<a href="https://www.w3schools.com/html/" target="_blank">w3schools.com</a></li>
+            <li><strong>菜鸟教程</strong> — 中文入门教程，<a href="https://www.runoob.com/html/html-tutorial.html" target="_blank">runoob.com</a></li>
+            <li><strong>HTML Validator</strong> — W3C 官方 HTML 校验工具，<a href="https://validator.w3.org/" target="_blank">validator.w3.org</a></li>
+        </ul>
+
+        <h3>给初学者的建议</h3>
+        <ol>
+            <li><strong>多动手写</strong>——打开记事本/VSCode，跟着教程敲代码，不要复制粘贴</li>
+            <li><strong>用开发者工具</strong>——在浏览器按 <kbd>F12</kbd> 查看任何网页的 HTML 结构</li>
+            <li><strong>先学 HTML 再学 CSS</strong>——骨架搭好再装修</li>
+            <li><strong>不要死记硬背</strong>——记住常用标签即可，生僻的随时查 MDN</li>
+            <li><strong>保持好奇</strong>——看到喜欢的网页，就用"查看源代码"研究它是怎么做的</li>
+        </ol>
+    </section>
+
+    <!-- ===== 底部 ===== -->
+    <footer>
+        <p>HTML 入门手册 &mdash; 用浏览器打开此文件即可阅读 &mdash; Made with ❤️</p>
+    </footer>
+
+</div>
+
+</body>
+</html>

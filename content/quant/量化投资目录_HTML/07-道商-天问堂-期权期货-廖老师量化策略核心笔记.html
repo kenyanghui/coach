@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>道商-天问堂｜期权期货·廖老师量化策略核心笔记 - AI道商·量化投资</title>
+
+<style>
+:root {
+  --bg: #faf9f7;
+  --card-bg: #ffffff;
+  --text: #2c2c2c;
+  --text-secondary: #666;
+  --border: #e8e4e0;
+  --accent: #8b4513;
+  --accent2: #b8860b;
+  --code-bg: #f4f2ee;
+  --tag-bg: #f0ebe3;
+  --hover: #f5f0eb;
+}
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.9;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 30px 24px;
+  font-size: 16px;
+}
+h1 { font-size: 1.8em; border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-top: 40px; color: #1a1a1a; }
+h2 { font-size: 1.4em; margin-top: 36px; padding-left: 8px; border-left: 4px solid var(--accent2); color: #2a2a2a; }
+h3 { font-size: 1.2em; margin-top: 28px; color: #3a3a3a; }
+h4 { font-size: 1.05em; margin-top: 22px; color: #4a4a4a; }
+p { margin: 14px 0; }
+blockquote {
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: #f5f0eb;
+  border-left: 4px solid var(--accent2);
+  border-radius: 0 8px 8px 0;
+  color: #555;
+}
+blockquote p { margin: 6px 0; }
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: #2d2d2d;
+  color: #f0f0f0;
+  padding: 16px 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.88em;
+  line-height: 1.6;
+}
+pre code { background: transparent; padding: 0; color: inherit; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.95em;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+}
+th {
+  background: #f0ebe3;
+  font-weight: 600;
+}
+tr:nth-child(even) { background: #faf8f5; }
+tr:hover { background: var(--hover); }
+ul, ol { padding-left: 24px; margin: 12px 0; }
+li { margin: 6px 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+img { max-width: 100%; border-radius: 6px; margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+a { color: #8b4513; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.nav-top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92em;
+}
+.nav-top a { color: var(--accent); }
+</style>
+
+</head>
+<body>
+<div class="nav-top">
+  <a href="index.html">← 返回目录</a>
+  <span>AI道商 · 量化投资目录</span>
+</div>
+<article>
+<h1>道商-天问堂｜期权期货·廖老师量化策略核心笔记</h1>
+<blockquote>
+<p><strong>来源：</strong> 廖老师量化期权期货交流（2026-03-15）
+<strong>整理日期：</strong> 2026-05-12
+<strong>归属：</strong> 道商三要素之「投资-天问堂」</p>
+</blockquote>
+<hr />
+<h2>一、道商视角：期权期货在三要素中的定位</h2>
+<p>道商总纲明确：<strong>投资是天问堂，是底气，不是主业。</strong></p>
+<blockquote>
+<p>"天问堂易经量化交易，是你修行精进的底气，让你能松弛、有光泽、不为五斗米折腰。"
+"量化模型的判断标准：它是为了让你心安定，而不是让你更忙。"</p>
+</blockquote>
+<p>期权期货量化交易属于道商三要素之「投资-天问堂」，其核心价值在于：
+- 稳定现金流，支撑培训（利他）和教练（忠义堂）深耕
+- 让心安定，不必为生存焦虑，有资本选择做对的事
+- 模型跑通后，打坐时不用惦记投资收益，这才是对的</p>
+<hr />
+<h2>二、基础知识：股票 vs 期货 vs 期权</h2>
+<h3>1. 股票</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方向</td>
+<td>只能买涨（做多）</td>
+</tr>
+<tr>
+<td>杠杆</td>
+<td>无杠杆，100块买100块的货</td>
+</tr>
+<tr>
+<td>涨跌停</td>
+<td>每天最多涨/跌10%</td>
+</tr>
+<tr>
+<td>最大亏损</td>
+<td>退市=归零，但不会欠钱</td>
+</tr>
+<tr>
+<td>核心特征</td>
+<td>用自己的钱赌一个方向，亏完为止</td>
+</tr>
+</tbody>
+</table>
+<h3>2. 期货</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本质</td>
+<td>借钱投资（融资融券概念），带杠杆</td>
+</tr>
+<tr>
+<td>举例</td>
+<td>一手棉花期货需10万，只投1万=借了9万</td>
+</tr>
+<tr>
+<td>方向</td>
+<td>可以做多（赌涨），也可以做空（赌跌）</td>
+</tr>
+<tr>
+<td>风险</td>
+<td>方向错误+连续涨跌停无法平仓=<strong>穿仓</strong>，需额外赔偿，可能倾家荡产</td>
+</tr>
+<tr>
+<td>历史案例</td>
+<td>中国银行原油宝事件，客户赔几千万</td>
+</tr>
+<tr>
+<td>结算方式</td>
+<td>每日结算（实时结账），账户没钱让补，不补就清仓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>廖老师态度：</strong> 不做期货，因为风险不可控</p>
+<h3>3. 期权（核心重点）</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本质</td>
+<td>类似"买保险"</td>
+</tr>
+<tr>
+<td>类比</td>
+<td>汽车险花1万，万一出事故几十万不用自己出</td>
+</tr>
+</tbody>
+</table>
+<p><strong>买方（廖老师只做这个）：风险有限，收益无限</strong>
+- 最多亏掉全部本金（权利金）
+- 收益没有天花板，几十上百倍都有可能
+- 类似买房交定金：房价涨了要，跌了定金不要了</p>
+<p><strong>卖方（坚决不做）：类似保险公司/赌场庄家</strong>
+- 胜率85%，稳定赚钱（<strong>这是陷阱</strong>）
+- 但遇到黑天鹅行情风险无限，可能倾家荡产
+- 常见骗局：忽悠老板投几百万做卖方，每月给十几万，碰到黑天鹅就赔死</p>
+<blockquote>
+<p><strong>廖老师原话：</strong> "我不做卖方，我只做买方。风险有底线。"</p>
+</blockquote>
+<hr />
+<h2>三、历史大行情案例</h2>
+<p>去年大牛股（2025年数据）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">品种</th>
+<th style="text-align: center;">涨幅</th>
+<th style="text-align: center;">时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">多晶硅</td>
+<td style="text-align: center;"><strong>258倍</strong></td>
+<td style="text-align: center;">1个月</td>
+</tr>
+<tr>
+<td style="text-align: center;">白银</td>
+<td style="text-align: center;"><strong>560倍</strong></td>
+<td style="text-align: center;">2个月</td>
+</tr>
+<tr>
+<td style="text-align: center;">碳酸锂</td>
+<td style="text-align: center;"><strong>200倍</strong></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">锡</td>
+<td style="text-align: center;"><strong>100倍</strong></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">铜</td>
+<td style="text-align: center;"><strong>100倍</strong></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">黄金</td>
+<td style="text-align: center;"><strong>100倍</strong></td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>策略测算（每个品种投1万，持有30天不动）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">品种</th>
+<th style="text-align: center;">收益</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">多晶硅</td>
+<td style="text-align: center;">280万</td>
+</tr>
+<tr>
+<td style="text-align: center;">白银</td>
+<td style="text-align: center;">560万</td>
+</tr>
+<tr>
+<td style="text-align: center;">碳酸锂</td>
+<td style="text-align: center;">200万</td>
+</tr>
+<tr>
+<td style="text-align: center;">铜/锡</td>
+<td style="text-align: center;">各100万</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>总投入5万 → 总收益超1000万</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、人性问题：为什么普通人拿不住大牛股？</h2>
+<h3>大牛股上涨特征</h3>
+<p>大牛股上涨过程中会不断洗盘，每次上涨后回调约一半：</p>
+<pre class="codehilite"><code>40 → 100 → 跌回60
+200 → 跌回110
+375 → 跌回220
+1100 → 跌回500
+2000 → 跌回1100
+最后到4750
+</code></pre>
+
+<h3>人性的考验</h3>
+<p>1万变20万（20倍）→ 又跌回10万
+到2000时已经50倍，更舍不得卖
+继续跌回一半 → 痛苦割肉</p>
+<p>赚10倍、20倍后归零，普通人根本受不了</p>
+<p><strong>廖老师自述：</strong></p>
+<blockquote>
+<p>"我去年真的有一个单赚了20多倍，最后都没要，还是变成零了。人性这个东西，解决的方法只有量化。"</p>
+</blockquote>
+<h3>窖藏酒理论（时间之窖）—— 核心纪律</h3>
+<blockquote>
+<p>"就像封酒藏在地窖，30天不准动，动了酒就不香了。"</p>
+</blockquote>
+<p><strong>策略规则：</strong>
+- 买入的必须是百倍龙头
+- 30天内不准操作，不准揭盖子
+- 其他标的不能碰，一年只操作5-6个
+- 每年约3-5个百倍龙头机会，每两个月买一个</p>
+<p><strong>为什么必须量化（机器执行）？</strong>
+- 机器没有赚钱/赔钱的概念
+- 赚一个亿对它没有影响
+- 量化才能克服人心，严格执行规则</p>
+<hr />
+<h2>五、全球主流交易方法</h2>
+<h3>方法一：突破边界法（追涨）</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>胜率</td>
+<td>只有10%</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>能抓到百倍大牛股、大龙头</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>容易假突破爆仓</td>
+</tr>
+<tr>
+<td>风险控制</td>
+<td>轻仓+以小博大</td>
+</tr>
+<tr>
+<td>代表人物</td>
+<td>利弗莫尔（个人资产曾达美国国库1/10）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>投1万亏得起，赚一次10倍够亏10次</p>
+</blockquote>
+<h3>方法二：突破回撤法</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>胜率</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>不追涨，等突破后回调洗盘再买入</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>安全性高</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>如果价格不回调，会错过大牛股</td>
+</tr>
+<tr>
+<td>代表人物</td>
+<td>K姐（粉丝3万，胜率90%）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>六、量化模型开发规则</h2>
+<h3>买点规则</h3>
+<ul>
+<li>红线蓝线交叉（蓝线从下到上，红线从上到下）</li>
+<li>价格跌到红线附近 = 买点出现</li>
+<li>红黄标注 = 庄家吃货</li>
+</ul>
+<h3>合约筛选条件</h3>
+<ul>
+<li>时间周期：10天到40天之内</li>
+<li>持仓量 ≥ 1000手</li>
+<li>选择现价三档的虚值合约</li>
+<li>用日线或120分钟线选股</li>
+</ul>
+<h3>卖出规则</h3>
+<ul>
+<li><strong>默认：</strong> 赚一倍自动平掉一半仓位（保本），剩下一半赚5-10倍全部卖出</li>
+<li><strong>备选：</strong> 赚一倍卖一半，剩下持有满30天，不管结果全部卖出</li>
+<li><strong>亏损处理：</strong> 买入后无论亏多少，30天内不准卖出（避免突发利好错过十倍收益）</li>
+</ul>
+<h3>风控规则（核心纪律）</h3>
+<ul>
+<li>单品种投入 ≤ 总资金的<strong>5%</strong></li>
+<li>同一板块（有色/化工/农产品等）只选一个品种</li>
+<li>模型胜率7-9成，严格执行可稳定盈利</li>
+</ul>
+<h3>AI接入要求</h3>
+<p>模型需接入AI，自动搜索当前品种最新信息，判断近期是否有重大利好或利空，辅助判断方向。</p>
+<h3>应用范围</h3>
+<ul>
+<li>当前国内期货品种85个，后续新增辣椒、马铃薯、咖啡、电力等，总数超100个</li>
+<li>模型还可用于商品期权、股指期权、股票期权</li>
+<li>未来对接美国股票期权（24小时全球交易）</li>
+</ul>
+<hr />
+<h2>七、仓位管理与心态金句</h2>
+<ul>
+<li>"富贵险中求，真正的高手都是敢追涨的"</li>
+<li>"1万我亏得起，赚一次10倍，够我亏10次了"</li>
+<li>"没有爆仓的心态，肯定搞不下去"</li>
+<li>"圈子才是最重要的"</li>
+<li>"一个人胜率只有30%，但亏钱拔腿就跑，赚钱不断加仓"</li>
+</ul>
+<hr />
+<h2>八、与道商体系的衔接</h2>
+<p>道商总纲对天问堂的定位："投资是底气，不是主业"</p>
+<p>模型跑通之后，应该是打坐时不用惦记投资收益。</p>
+<p><strong>期权买方本质和股权投资一致</strong>，都是风险有限、收益无限。</p>
+<p><strong>上海微电子案例验证这一逻辑：</strong>
+- 40亿估值没人要 → 110亿被抢 → 目标2000-3000亿
+- 投10万，50倍=500万
+- 本质就是期权买方的逻辑</p>
+<p>两三年时间，和修行一样需要<strong>"窖藏"</strong>——买入后不动，等时间发酵。</p>
+</article>
+</body>
+</html>

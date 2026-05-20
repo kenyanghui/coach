@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期权期货学习计划 - 进度跟踪表</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px 30px;
+  }
+  .header h1 { font-size: 1.8em; }
+  .header p { opacity: 0.8; font-size: 1em; margin-top: 6px; }
+  .header .badge {
+    display: inline-block;
+    background: #ff9800;
+    color: #1a1a2e;
+    padding: 3px 14px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 16px; }
+
+  /* ===== 总进度条 ===== */
+  .progress-overall {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .progress-overall h2 { font-size: 1.1em; color: #0f3460; margin-bottom: 14px; }
+  .bar-bg {
+    width: 100%;
+    height: 22px;
+    background: #e0e0e0;
+    border-radius: 11px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 11px;
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+    width: 0%;
+    transition: width 0.5s;
+  }
+  .bar-label {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    line-height: 22px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+  }
+  .milestone-dots {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #888;
+  }
+  .milestone-dots span { text-align: center; flex: 1; }
+
+  /* ===== 日历打卡 ===== */
+  .calendar-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .calendar-card h2 {
+    font-size: 1.1em;
+    color: #0f3460;
+    margin-bottom: 4px;
+  }
+  .calendar-card .sub {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  .month-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .month-label .month-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 1em;
+  }
+  .month-label .stats {
+    font-size: 0.85em;
+    color: #888;
+  }
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+  }
+  .day-header {
+    font-size: 0.75em;
+    color: #999;
+    padding: 4px 0;
+    font-weight: 600;
+  }
+  .day-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    border-radius: 6px;
+    background: #f5f5f5;
+    color: #ccc;
+    cursor: default;
+  }
+  .day-cell.empty { background: transparent; }
+  .day-cell.done {
+    background: #c8e6c9;
+    color: #2e7d32;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .day-cell.done::after { content: "✓"; }
+  .day-cell.miss {
+    background: #ffcdd2;
+    color: #c62828;
+    cursor: pointer;
+  }
+  .day-cell.miss::after { content: "✗"; }
+  .day-cell.today {
+    border: 2px solid #1565c0;
+    font-weight: 700;
+  }
+  .day-cell.future { background: #fafafa; color: #bbb; }
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 0.8em;
+    color: #555;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .legend-dot {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .legend-dot.green { background: #c8e6c9; }
+  .legend-dot.red { background: #ffcdd2; }
+  .legend-dot.gray { background: #f5f5f5; border: 1px solid #ddd; }
+
+  /* ===== 阶段卡片 ===== */
+  .phase {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 5px solid #0f3460;
+  }
+  .phase.phase-1 { border-left-color: #1565c0; }
+  .phase.phase-2 { border-left-color: #e65100; }
+  .phase.phase-3 { border-left-color: #43a047; }
+  .phase.phase-4 { border-left-color: #7b1fa2; }
+  .phase.phase-5 { border-left-color: #c62828; }
+
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .phase-header h2 {
+    font-size: 1.15em;
+    color: #0f3460;
+  }
+  .phase-header .time {
+    font-size: 0.85em;
+    color: #888;
+    background: #f5f5f5;
+    padding: 2px 12px;
+    border-radius: 10px;
+  }
+  .phase-header .goal-tag {
+    font-size: 0.8em;
+    padding: 3px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .goal-tag.blue { background: #e3f2fd; color: #1565c0; }
+  .goal-tag.orange { background: #fff3e0; color: #e65100; }
+  .goal-tag.green { background: #e8f5e9; color: #2e7d32; }
+  .goal-tag.purple { background: #f3e5f5; color: #7b1fa2; }
+  .goal-tag.red { background: #fce4ec; color: #c62828; }
+
+  .phase-desc {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 14px;
+  }
+
+  .task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 0.9em;
+  }
+  .task-table th {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid #e0e0e0;
+    color: #555;
+    font-weight: 600;
+    font-size: 0.85em;
+  }
+  .task-table td {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+  .task-table tr:last-child td { border-bottom: none; }
+  .task-table .num-col { width: 32px; text-align: center; color: #999; font-size: 0.85em; }
+  .task-table .check-col { width: 36px; text-align: center; }
+  .task-table .time-col { width: 60px; text-align: center; font-size: 0.8em; color: #888; }
+  .task-table .note-col { width: 140px; font-size: 0.8em; color: #888; }
+
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .check-box:hover { border-color: #43a047; }
+  .check-box.checked {
+    background: #43a047;
+    border-color: #43a047;
+    position: relative;
+  }
+  .check-box.checked::after {
+    content: "✓";
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    text-align: center;
+    line-height: 17px;
+  }
+  .task-text {
+    font-size: 0.9em;
+    color: #333;
+  }
+  .task-text.done {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+  .task-text .tag {
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 1px 8px;
+    border-radius: 8px;
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .tag-study { background: #e3f2fd; color: #1565c0; }
+  .tag-practice { background: #fff3e0; color: #e65100; }
+  .tag-test { background: #fce4ec; color: #c62828; }
+  .tag-tool { background: #f3e5f5; color: #7b1fa2; }
+  .tag-mind { background: #e8f5e9; color: #2e7d32; }
+
+  .phase-summary {
+    display: flex;
+    gap: 20px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85em;
+    color: #555;
+  }
+  .phase-summary-item strong { color: #333; }
+
+  .btn {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.85em;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+  }
+  .btn-primary { background: #1565c0; color: #fff; }
+  .btn-primary:hover { background: #0d47a1; }
+  .btn-success { background: #43a047; color: #fff; }
+  .btn-success:hover { background: #2e7d32; }
+  .btn-warning { background: #ff9800; color: #fff; }
+  .btn-warning:hover { background: #e65100; }
+
+  .note-area {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.8em;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 36px;
+  }
+  .note-area:focus { outline: none; border-color: #1565c0; }
+
+  .rules-box {
+    background: #fff8e1;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    border: 1px solid #ffe082;
+  }
+  .rules-box h3 {
+    font-size: 1em;
+    color: #e65100;
+    margin-bottom: 8px;
+  }
+  .rules-box li {
+    font-size: 0.9em;
+    color: #555;
+    margin: 4px 0 4px 18px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+    font-size: 0.85em;
+  }
+
+  /* 今日任务高亮 */
+  .today-highlight {
+    background: #e8f5e9;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    border: 1px solid #a5d6a7;
+  }
+  .today-highlight h3 {
+    font-size: 1em;
+    color: #2e7d32;
+    margin-bottom: 4px;
+  }
+  .today-highlight p {
+    font-size: 0.9em;
+    color: #555;
+  }
+
+  @media (max-width: 640px) {
+    .section { padding: 16px; }
+    .note-col { display: none; }
+    .task-table { font-size: 0.8em; }
+  }
+
+  /* 成果统计 */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 10px 0;
+  }
+  .stat-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+  .stat-card .num {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #0f3460;
+  }
+  .stat-card .label {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>期权期货学习计划 · 进度跟踪表</h1>
+  <p>每天进步一点点，26 周从小白到入门</p>
+  <span class="badge">开始日期：_______</span>
+</div>
+
+<div class="container">
+
+<!-- ===== 总进度 ===== -->
+<div class="progress-overall">
+  <h2>总完成进度</h2>
+  <div class="bar-bg">
+    <div class="bar-fill" id="mainBar" style="width:0%"></div>
+    <div class="bar-label" id="mainLabel">0 / 110 项</div>
+  </div>
+  <div class="milestone-dots">
+    <span>📖 理论学习</span>
+    <span>🖥️ 模拟盘</span>
+    <span>📊 实盘准备</span>
+    <span>💰 实盘初期</span>
+    <span>🔁 稳定执行</span>
+  </div>
+</div>
+
+<!-- ===== 数据统计 ===== -->
+<div class="stats-grid" id="statsGrid">
+  <div class="stat-card"><div class="num" id="statDone">0</div><div class="label">已完成任务</div></div>
+  <div class="stat-card"><div class="num" id="statRate">0%</div><div class="label">完成率</div></div>
+  <div class="stat-card"><div class="num" id="statStreak">0</div><div class="label">连续打卡(天)</div></div>
+  <div class="stat-card"><div class="num" id="statPhase">1</div><div class="label">当前阶段</div></div>
+</div>
+
+<!-- ===== 今日任务 ===== -->
+<div class="today-highlight" id="todayBox">
+  <h3>🎯 今天的任务</h3>
+  <p id="todayText">先完成 <strong>第一阶段</strong> 的任务。每天选 2-3 项，完成后打勾。</p>
+</div>
+
+<!-- ===== 打卡日历 ===== -->
+<div class="calendar-card">
+  <h2>每日打卡</h2>
+  <p class="sub">每天学习了就点一下，保持连续记录</p>
+  <div id="calendarContainer">
+    <div class="month-label">
+      <span class="month-name" id="monthName"></span>
+      <span class="stats" id="monthStats"></span>
+    </div>
+    <div class="days-grid" id="daysGrid"></div>
+  </div>
+  <div class="legend">
+    <span class="legend-item"><span class="legend-dot green"></span> 已打卡</span>
+    <span class="legend-item"><span class="legend-dot red"></span> 漏了</span>
+    <span class="legend-item"><span class="legend-dot gray"></span> 未到</span>
+  </div>
+</div>
+
+<!-- ===== 五阶段 ===== -->
+
+<!-- 阶段一：基础入门 -->
+<div class="phase phase-1">
+  <div class="phase-header">
+    <h2>📖 阶段一：基础入门</h2>
+    <span class="time">第 1-4 周 · 约 1 个月</span>
+    <span class="goal-tag blue">🎯 目标：看完26章，搞懂基础概念</span>
+  </div>
+  <div class="phase-desc">这个阶段不碰实盘，只看不买。任务是读完培训文件里全部 26 章内容，每个概念都能用自己的话解释。</div>
+
+  <table class="task-table" data-phase="1">
+    <tr><th class="check-col"></th><th>任务内容</th><th class="time-col">用时</th><th class="note-col">笔记/心得</th></tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第1章 K线是什么：看懂红涨绿跌<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第2章 日线 vs 120分钟线：理解两个周期<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">15min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第3章 实值/平值/虚值：搞懂三档合约<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第4章 突破回撤模型：理解"等车理论"<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第5-6章：完整流程 + 词条记忆<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第7章 80+品种：记住分类和热门TOP10<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第8-10章：交易时间/保证金/期货vs期权<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">25min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第11-13章：看盘操作 + 持仓量 + FAQ<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第14-18章：做多/做空/四价/缺口/支撑阻力/趋势<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第19-26章：止损止盈/仓位/合约代码/心理/模拟盘/复盘<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">用自己的话写一份"我学到了什么"总结（300字以上）<span class="tag tag-mind">巩固</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="总结..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">下载通达信期货版，熟悉界面布局<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+  </table>
+  <div class="phase-summary">
+    <span class="phase-summary-item">✅ 已完成：<strong id="p1done">0</strong> / 12</span>
+    <span class="phase-summary-item">📅 预计用时：<strong>约 5 小时</strong></span>
+    <span class="phase-summary-item">🏁 下一阶段门槛：<strong>完成 ≥ 10 项</strong></span>
+  </div>
+</div>
+
+<!-- 阶段二：模拟盘练手 -->
+<div class="phase phase-2">
+  <div class="phase-header">
+    <h2>🖥️ 阶段二：模拟盘练手</h2>
+    <span class="time">第 5-10 周 · 约 1.5 个月</span>
+    <span class="goal-tag orange">🎯 目标：模拟盘稳定盈利，养成纪律</span>
+  </div>
+  <div class="phase-desc">注册模拟账户，用虚拟资金实践模型。这个阶段重点是"执行纪律"而不是"赚多少钱"。每笔交易都要记录。</div>
+
+  <table class="task-table" data-phase="2">
+    <tr><th class="check-col"></th><th>任务内容</th><th class="time-col">用时</th><th class="note-col">笔记/心得</th></tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">注册模拟账户（通达信/文华均可），拿到虚拟资金<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第1周：只看不买，每天打开软件看盘15分钟，熟悉行情<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">每天15min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第2周：选1个品种（建议甲醇/螺纹钢），模拟开单3-5次<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">每天20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">练习在日线图上画出支撑位和阻力位<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">练习在120分钟图上找"突破回撤"买点<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第3周：严格执行模型信号，至少完成5笔模拟交易<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">每天20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">每笔交易记录买卖理由、入场时间、出场时间、盈亏<span class="tag tag-mind">复盘</span></span></td>
+      <td class="time-col">15min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第4周：复盘前三周的交易记录，写一份交易总结<span class="tag tag-mind">复盘</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">练习使用止损单和止盈单（模拟盘有这功能）<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">练习不同品种切换：选3个不同板块品种观察走势<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">做一次模拟盘"爆仓测试"：故意重仓抗单，观察心理变化<span class="tag tag-mind">心理</span></span></td>
+      <td class="time-col">15min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">模拟盘连续2周盈利，完成阶段目标✅<span class="tag tag-test">检验</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="结果..."></textarea></td>
+    </tr>
+  </table>
+  <div class="phase-summary">
+    <span class="phase-summary-item">✅ 已完成：<strong id="p2done">0</strong> / 12</span>
+    <span class="phase-summary-item">📅 预计用时：<strong>约 8 小时</strong></span>
+    <span class="phase-summary-item">🏁 下一阶段门槛：<strong>完成 ≥ 10 项 + 模拟盘2周盈利</strong></span>
+  </div>
+</div>
+
+<!-- 阶段三：实盘准备 -->
+<div class="phase phase-3">
+  <div class="phase-header">
+    <h2>📊 阶段三：实盘准备</h2>
+    <span class="time">第 11-14 周 · 约 1 个月</span>
+    <span class="goal-tag green">🎯 目标：开实盘账户，制定完整交易计划</span>
+  </div>
+  <div class="phase-desc">在转入实盘之前，做好全部准备工作。包括开户、资金规划、交易系统定型、风控规则确认。</div>
+
+  <table class="task-table" data-phase="3">
+    <tr><th class="check-col"></th><th>任务内容</th><th class="time-col">用时</th><th class="note-col">笔记/心得</th></tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">研究并选择一家期货公司开户（对比手续费、平台稳定性）<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">1h</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">完成期货账户开户流程（视频认证、银期签约等）<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">制定书面的"交易计划书"：选什么品种、多少资金、买卖规则<span class="tag tag-mind">计划</span></span></td>
+      <td class="time-col">45min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">制定风控规则：单笔最大亏损、总回撤上限、连续亏损怎么办<span class="tag tag-mind">风控</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">确定初始实盘资金（建议 5000-10000 元，亏完不再加）<span class="tag tag-test">决策</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="金额..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">在实盘账户入金前，再用模拟盘跑一遍完整交易计划<span class="tag tag-test">检验</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">学习期货交易软件的下单操作（限价单/市价单/止损单）<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">20min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">了解期货手续费结构（平今仓手续费等特殊规则）<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">15min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">给自己定一条铁律：实盘前三个月只做一个品种、只做多<span class="tag tag-mind">纪律</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="承诺..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">和一位有经验的朋友或老师聊一次，听听建议<span class="tag tag-mind">交流</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+  </table>
+  <div class="phase-summary">
+    <span class="phase-summary-item">✅ 已完成：<strong id="p3done">0</strong> / 10</span>
+    <span class="phase-summary-item">📅 预计用时：<strong>约 5 小时</strong></span>
+    <span class="phase-summary-item">🏁 下一阶段门槛：<strong>完成 ≥ 8 项 + 交易计划书定稿</strong></span>
+  </div>
+</div>
+
+<!-- 阶段四：实盘初期 -->
+<div class="phase phase-4">
+  <div class="phase-header">
+    <h2>💰 阶段四：实盘初期</h2>
+    <span class="time">第 15-20 周 · 约 1.5 个月</span>
+    <span class="goal-tag purple">🎯 目标：实盘不爆仓，严格执行计划</span>
+  </div>
+  <div class="phase-desc">注意：这个阶段的目标不是"赚钱"，而是"不亏钱+执行纪律"。实盘和模拟盘的心理压力完全不同，能稳住就是胜利。</div>
+
+  <table class="task-table" data-phase="4">
+    <tr><th class="check-col"></th><th>任务内容</th><th class="time-col">用时</th><th class="note-col">笔记/心得</th></tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">入金（建议 5000 元，约定"亏完不再加钱"）<span class="tag tag-test">资金</span></span></td>
+      <td class="time-col">10min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="金额..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第一周：只看不买，感受真实盘面的波动和心理变化<span class="tag tag-mind">心理</span></span></td>
+      <td class="time-col">每天15min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第一笔实盘交易：最小仓位（1手），严格按模型信号执行<span class="tag tag-practice">实践</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">每笔实盘交易前，写下行情的判断和计划（不要盘中临时决定）<span class="tag tag-mind">纪律</span></span></td>
+      <td class="time-col">10min/笔</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">每日收盘后做复盘，填写复盘清单（参考第26章）<span class="tag tag-mind">复盘</span></span></td>
+      <td class="time-col">每天10min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">每周统计盈亏和胜率，对比是否严格执行了交易计划<span class="tag tag-test">复盘</span></span></td>
+      <td class="time-col">20min/周</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="数据..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">第一个月结束后，写一份实盘总结（至少500字）<span class="tag tag-mind">复盘</span></span></td>
+      <td class="time-col">40min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="总结..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">如果第一个月亏完本金 → 回到模拟盘再练2周，重新来过<span class="tag tag-test">风控</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="结果..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">如果第一个月盈利 → 不要加仓！维持原资金量再跑一个月<span class="tag tag-mind">纪律</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="结果..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">完成实盘第二个月，账户仍为正收益 → 阶段目标达成✅<span class="tag tag-test">检验</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="结果..."></textarea></td>
+    </tr>
+  </table>
+  <div class="phase-summary">
+    <span class="phase-summary-item">✅ 已完成：<strong id="p4done">0</strong> / 10</span>
+    <span class="phase-summary-item">📅 预计用时：<strong>持续 2 个月</strong></span>
+    <span class="phase-summary-item">🏁 下一阶段门槛：<strong>完成 ≥ 8 项 + 实盘2个月正收益</strong></span>
+  </div>
+</div>
+
+<!-- 阶段五：稳定执行 -->
+<div class="phase phase-5">
+  <div class="phase-header">
+    <h2>🔁 阶段五：稳定执行</h2>
+    <span class="time">第 21-26 周 · 约 1.5 个月</span>
+    <span class="goal-tag red">🎯 目标：形成自己的交易系统，稳定输出</span>
+  </div>
+  <div class="phase-desc">前四个阶段走完，你已经是一个有纪律的交易者了。这个阶段是把一切固化下来，形成长期可持续的交易系统。</div>
+
+  <table class="task-table" data-phase="5">
+    <tr><th class="check-col"></th><th>任务内容</th><th class="time-col">用时</th><th class="note-col">笔记/心得</th></tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">整理前两个月的实盘交易记录，分析自己的胜率和盈亏比<span class="tag tag-mind">复盘</span></span></td>
+      <td class="time-col">1h</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="数据..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">总结自己最容易犯的错误，写成"错误清单"贴在桌面上<span class="tag tag-mind">复盘</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="清单..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">优化交易计划（根据前两个月的数据调整参数和规则）<span class="tag tag-mind">优化</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="调整..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">逐步扩展品种：在熟悉品种之外，加1个新品种观察<span class="tag tag-practice">扩展</span></span></td>
+      <td class="time-col">每天10min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="品种..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">学习基础的资金管理算法（凯利公式等，了解即可）<span class="tag tag-study">理论学习</span></span></td>
+      <td class="time-col">30min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">建立交易日志模板（Excel或Notion），每笔交易完整记录<span class="tag tag-tool">工具</span></span></td>
+      <td class="time-col">40min</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="模板..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">连续3个月实盘账户为正收益 → 可以考虑适度加仓（不超过总资金10%）<span class="tag tag-test">检验</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="结果..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">寻找一个交易圈子或社群，定期交流（不是跟单，是交流思路）<span class="tag tag-mind">交流</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="社群..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">写一份完整的"个人交易系统说明书"（别人看了也能执行那种）<span class="tag tag-mind">沉淀</span></span></td>
+      <td class="time-col">1h</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="心得..."></textarea></td>
+    </tr>
+    <tr>
+      <td class="check-col"><span class="check-box" onclick="toggleTask(this)"></span></td>
+      <td><span class="task-text">🎉 26周计划完成！给自己一个奖励（吃顿好的/s买个礼物）<span class="tag tag-mind">里程碑</span></span></td>
+      <td class="time-col">—</td>
+      <td class="note-col"><textarea class="note-area" rows="1" placeholder="奖励..."></textarea></td>
+    </tr>
+  </table>
+  <div class="phase-summary">
+    <span class="phase-summary-item">✅ 已完成：<strong id="p5done">0</strong> / 10</span>
+    <span class="phase-summary-item">📅 预计用时：<strong>约 5 小时</strong></span>
+    <span class="phase-summary-item">🏁 最终目标：<strong>形成自己的交易系统</strong></span>
+  </div>
+</div>
+
+<!-- ===== 核心规则 ===== -->
+<div class="rules-box">
+  <h3>📜 执行规则（请认真读一遍）</h3>
+  <ol>
+    <li><strong>不追求速度：</strong>每个阶段至少完成要求的项数再进入下一阶段，不要跳级</li>
+    <li><strong>每天至少 15 分钟：</strong>哪怕只是打开软件看一眼行情也行，保持手感</li>
+    <li><strong>打勾要诚实：</strong>没做完就不要打勾，骗自己没意义</li>
+    <li><strong>连续 3 天没打卡 → 反思原因</strong>，调整节奏而不是放弃</li>
+    <li><strong>实盘阶段如果亏完本金 → 回到模拟盘</strong>，这不是失败，是风控</li>
+    <li><strong>每周日晚上花 10 分钟</strong>回顾本周进度，规划下周任务</li>
+    <li><strong>不要和别人比</strong>，每个人的节奏不同。你只需要比昨天的自己进步一点点</li>
+  </ol>
+</div>
+
+<div class="footer">
+  <p>打开这个 HTML 文件，点击方框打勾，进度会自动统计</p>
+  <p>建议添加到浏览器书签，每天打开看一眼</p>
+</div>
+
+</div>
+
+<script>
+// ===== 进度统计 =====
+function updateAllStats() {
+  let total = 0, done = 0;
+  const phases = [1,2,3,4,5];
+  phases.forEach(p => {
+    const table = document.querySelector(`.task-table[data-phase="${p}"]`);
+    if (!table) return;
+    const boxes = table.querySelectorAll('.check-box');
+    const doneBoxes = table.querySelectorAll('.check-box.checked');
+    const count = boxes.length;
+    const doneCount = doneBoxes.length;
+    total += count;
+    done += doneCount;
+    const el = document.getElementById(`p${p}done`);
+    if (el) el.textContent = doneCount;
+  });
+
+  document.getElementById('statDone').textContent = done;
+  const rate = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('statRate').textContent = rate + '%';
+  document.getElementById('mainBar').style.width = rate + '%';
+  document.getElementById('mainLabel').textContent = `${done} / ${total} 项`;
+
+  // 当前阶段判断
+  let currentPhase = 1;
+  for (let p = 1; p <= 5; p++) {
+    const el = document.getElementById(`p${p}done`);
+    const val = parseInt(el ? el.textContent : '0');
+    const threshold = p <= 2 ? 10 : 8;
+    if (val >= threshold) currentPhase = p + 1;
+  }
+  if (currentPhase > 5) currentPhase = 5;
+  document.getElementById('statPhase').textContent = currentPhase;
+
+  // 今日任务
+  updateTodayTask(currentPhase);
+}
+
+function toggleTask(el) {
+  el.classList.toggle('checked');
+  const taskText = el.closest('tr').querySelector('.task-text');
+  if (taskText) taskText.classList.toggle('done');
+  updateAllStats();
+  saveState();
+}
+
+// ===== 今日任务提示 =====
+function updateTodayTask(phase) {
+  const el = document.getElementById('todayText');
+  const phaseNames = ['', '第一阶段：看完 26 章培训内容', '第二阶段：模拟盘练手', '第三阶段：实盘准备', '第四阶段：实盘初期', '第五阶段：稳定执行'];
+  const tips = [
+    '',
+    '先看完前面 6 章（K线 + 周期 + 三档 + 模型 + 流程），每天 2 章，3 天搞定。',
+    '打开模拟盘，选甲醇或螺纹钢，每天看盘 15 分钟。第一周只看不买。',
+    '今天先完成：选期货公司 + 制定交易计划书。这两项最重要。',
+    '入金后第一周只看不买！感受真实盘面的波动。第一笔单只做 1 手。',
+    '整理前两个月的交易记录，分析自己的胜率和盈亏比。这是最值钱的一步。'
+  ];
+  el.innerHTML = `当前在 <strong>${phaseNames[phase]}</strong>。${tips[phase]}`;
+}
+
+// ===== 日历打卡 =====
+function renderCalendar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const today = now.getDate();
+
+  const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('monthName').textContent = `${year}年 ${monthNames[month]}`;
+
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  // 从保存中读取打卡数据
+  const saved = JSON.parse(localStorage.getItem('studyCheckins') || '{}');
+  const key = `${year}-${month}`;
+  const monthData = saved[key] || {};
+
+  const grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+
+  // 星期标题
+  const headers = ['日','一','二','三','四','五','六'];
+  headers.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'day-header';
+    div.textContent = h;
+    grid.appendChild(div);
+  });
+
+  // 空白格
+  for (let i = 0; i < firstDay; i++) {
+    const div = document.createElement('div');
+    div.className = 'day-cell empty';
+    grid.appendChild(div);
+  }
+
+  let checkedCount = 0;
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const div = document.createElement('div');
+    div.className = 'day-cell';
+
+    const dateStr = String(d);
+    const record = monthData[dateStr];
+
+    if (d < today) {
+      // 过去的日期
+      if (record === true) {
+        div.classList.add('done');
+        checkedCount++;
+      } else if (record === false) {
+        // 没打卡标记为漏
+      } else {
+        // 未记录，默认为漏
+        div.classList.add('miss');
+      }
+    } else if (d === today) {
+      div.classList.add('today');
+      if (record === true) {
+        div.classList.add('done');
+        checkedCount++;
+      } else {
+        div.classList.add('future');
+      }
+    } else {
+      // 未来日期
+      div.classList.add('future');
+    }
+
+    div.textContent = d;
+    div.dataset.date = dateStr;
+
+    // 点今天可以打卡/取消
+    if (d <= today) {
+      div.style.cursor = 'pointer';
+      div.onclick = function() {
+        const ds = this.dataset.date;
+        const saved2 = JSON.parse(localStorage.getItem('studyCheckins') || '{}');
+        const k = `${year}-${month}`;
+        if (!saved2[k]) saved2[k] = {};
+        saved2[k][ds] = !saved2[k][ds];
+        localStorage.setItem('studyCheckins', JSON.stringify(saved2));
+        renderCalendar();
+        updateStreak();
+      };
+    }
+
+    grid.appendChild(div);
+  }
+
+  document.getElementById('monthStats').textContent = `✅ ${checkedCount}/${daysInMonth} 天`;
+}
+
+// ===== 连续打卡统计 =====
+function updateStreak() {
+  const saved = JSON.parse(localStorage.getItem('studyCheckins') || '{}');
+  const now = new Date();
+  let streak = 0;
+  for (let daysBack = 0; daysBack < 365; daysBack++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - daysBack);
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    const dateStr = String(d.getDate());
+    if (saved[key] && saved[key][dateStr] === true) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+  document.getElementById('statStreak').textContent = streak;
+}
+
+// ===== 保存/恢复任务状态 =====
+function saveState() {
+  const data = {};
+  document.querySelectorAll('.task-table').forEach(table => {
+    const phase = table.dataset.phase;
+    const boxes = table.querySelectorAll('.check-box');
+    data[phase] = [];
+    boxes.forEach(b => data[phase].push(b.classList.contains('checked')));
+    // 保存笔记
+    const notes = table.querySelectorAll('.note-area');
+    data[phase + '_notes'] = [];
+    notes.forEach(n => data[phase + '_notes'].push(n.value));
+  });
+  localStorage.setItem('studyProgress', JSON.stringify(data));
+}
+
+function loadState() {
+  const data = JSON.parse(localStorage.getItem('studyProgress') || '{}');
+  document.querySelectorAll('.task-table').forEach(table => {
+    const phase = table.dataset.phase;
+    const states = data[phase];
+    const notes = data[phase + '_notes'];
+    const boxes = table.querySelectorAll('.check-box');
+    const areas = table.querySelectorAll('.note-area');
+    if (states) {
+      boxes.forEach((b, i) => {
+        if (states[i]) {
+          b.classList.add('checked');
+          const taskText = b.closest('tr').querySelector('.task-text');
+          if (taskText) taskText.classList.add('done');
+        }
+      });
+    }
+    if (notes) {
+      areas.forEach((a, i) => {
+        if (notes[i]) a.value = notes[i];
+      });
+    }
+  });
+
+  // 监听笔记变化自动保存
+  document.querySelectorAll('.note-area').forEach(el => {
+    el.addEventListener('input', saveState);
+  });
+}
+
+// ===== 初始化 =====
+document.addEventListener('DOMContentLoaded', function() {
+  loadState();
+  updateAllStats();
+  renderCalendar();
+  updateStreak();
+});
+</script>
+
+</body>
+</html>

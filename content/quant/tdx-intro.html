@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通达信 入门手册 - Windows 版</title>
+    <style>
+        /* ===== 全局 ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.8;
+        }
+
+        /* ===== 导航栏 ===== */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(13, 17, 23, 0.97);
+            backdrop-filter: blur(8px);
+            padding: 0 24px;
+            height: 52px;
+            display: flex; align-items: center; gap: 20px;
+            border-bottom: 1px solid #30363d;
+        }
+        .top-nav .logo {
+            color: #ffd700; font-weight: 700; font-size: 18px;
+            text-decoration: none; white-space: nowrap;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .top-nav .logo small { color: #8b949e; font-weight: 400; font-size: 12px; }
+        .top-nav a {
+            color: #8b949e; text-decoration: none;
+            font-size: 13px; transition: color 0.2s;
+        }
+        .top-nav a:hover { color: #ffd700; }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar {
+            position: fixed; top: 52px; left: 0; bottom: 0; width: 220px;
+            background: #161b22; border-right: 1px solid #30363d;
+            overflow-y: auto; padding: 16px 0; z-index: 50;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        .sidebar h3 {
+            font-size: 11px; color: #8b949e; text-transform: uppercase;
+            letter-spacing: 1px; padding: 0 16px; margin: 16px 0 6px;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: block; padding: 5px 16px; font-size: 13px;
+            color: #8b949e; text-decoration: none; transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: #ffd700; background: rgba(255,215,0,0.06);
+            border-left-color: #ffd700;
+        }
+
+        /* ===== 主内容 ===== */
+        .main { margin-left: 220px; margin-top: 52px; padding: 36px 44px 80px; max-width: 960px; }
+
+        /* ===== 封面 ===== */
+        .hero {
+            text-align: center; padding: 56px 20px 40px;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1c2333 100%);
+            border-radius: 14px; margin-bottom: 36px;
+            border: 1px solid #30363d; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ""; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,215,0,0.03) 0%, transparent 50%);
+        }
+        .hero h1 { font-size: 38px; margin-bottom: 8px; position: relative; }
+        .hero h1 span { color: #ffd700; }
+        .hero .sub { color: #8b949e; font-size: 15px; position: relative; }
+        .hero .version {
+            display: inline-block; margin-top: 12px;
+            background: rgba(255,215,0,0.1); color: #ffd700;
+            padding: 4px 14px; border-radius: 20px; font-size: 12px;
+            border: 1px solid rgba(255,215,0,0.2); position: relative;
+        }
+
+        /* ===== 章节 ===== */
+        section { margin-bottom: 44px; }
+        section h2 {
+            font-size: 24px; color: #f0f6fc;
+            padding-bottom: 8px; border-bottom: 2px solid #ffd700;
+            margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+        }
+        section h2 .badge {
+            font-size: 11px; background: #ffd700; color: #0d1117;
+            padding: 1px 10px; border-radius: 10px; font-weight: 600;
+        }
+        section h3 {
+            font-size: 17px; color: #f0f6fc; margin: 22px 0 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        section h3 .arrow { color: #ffd700; }
+        section p { margin-bottom: 10px; color: #c9d1d9; font-size: 14px; }
+        section ul, section ol { margin: 6px 0 14px 22px; color: #c9d1d9; font-size: 14px; }
+        section li { margin-bottom: 4px; }
+
+        /* ===== 提示框 ===== */
+        .tip {
+            background: rgba(255,215,0,0.06); border-left: 3px solid #ffd700;
+            padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 14px 0;
+            font-size: 13px; color: #e6edf3;
+        }
+        .tip strong { color: #ffd700; }
+        .warn {
+            background: rgba(255,100,100,0.08); border-left: 3px solid #f85149;
+            padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 14px 0;
+            font-size: 13px; color: #e6edf3;
+        }
+        .warn strong { color: #f85149; }
+
+        /* ===== 代码 / 快捷键 ===== */
+        code, kbd {
+            font-family: "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+            background: #21262d; padding: 2px 7px; border-radius: 4px;
+            font-size: 0.88em; color: #ffa657;
+        }
+        kbd {
+            background: #21262d; border: 1px solid #30363d;
+            border-bottom: 2px solid #30363d; color: #e6edf3;
+            padding: 1px 6px; font-size: 12px;
+        }
+        pre {
+            background: #161b22; color: #c9d1d9; padding: 14px 18px;
+            border-radius: 8px; overflow-x: auto; margin: 10px 0;
+            font-size: 13px; line-height: 1.7;
+            border: 1px solid #30363d;
+        }
+        pre code {
+            background: none; color: inherit; padding: 0; font-size: inherit;
+        }
+
+        /* ===== 快捷键表格 ===== */
+        .table-wrap { overflow-x: auto; margin: 10px 0; border-radius: 8px; border: 1px solid #30363d; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #161b22; }
+        th { padding: 8px 14px; text-align: left; font-weight: 600; color: #ffd700; border-bottom: 1px solid #30363d; }
+        td { padding: 8px 14px; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+        tbody tr:hover { background: rgba(255,215,0,0.03); }
+
+        /* ===== 提示行（类似通达信底部提示） ===== */
+        .status-bar-info {
+            background: #161b22; border: 1px solid #30363d;
+            border-radius: 6px; padding: 8px 14px;
+            font-size: 12px; color: #8b949e; margin: 14px 0;
+            font-family: "Consolas", monospace;
+        }
+        .status-bar-info span { color: #ffd700; }
+
+        /* ===== 底部 ===== */
+        footer {
+            text-align: center; padding: 20px 0; color: #484f58;
+            font-size: 12px; border-top: 1px solid #21262d; margin-top: 36px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; padding: 24px 16px 60px; }
+            .hero h1 { font-size: 26px; }
+            .top-nav { padding: 0 12px; gap: 12px; }
+            .top-nav a { font-size: 12px; }
+        }
+
+        @media print {
+            .top-nav, .sidebar { display: none; }
+            .main { margin: 0; padding: 20px; }
+            body { background: #fff; color: #333; }
+            section h2 { border-bottom-color: #333; }
+            table { border-color: #ddd; }
+            td, th { border-color: #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== 导航栏 ==================== -->
+<nav class="top-nav">
+    <a href="#" class="logo">通达信 <small>入门手册</small></a>
+    <a href="#intro">简介</a>
+    <a href="#install">安装</a>
+    <a href="#interface">界面</a>
+    <a href="#basic">基本操作</a>
+    <a href="#hotkey">快捷键</a>
+    <a href="#chart">K线</a>
+    <a href="#indicator">指标</a>
+    <a href="#select">选股</a>
+    <a href="#trade">交易</a>
+</nav>
+
+<!-- ==================== 侧边栏 ==================== -->
+<aside class="sidebar">
+    <h3>入门</h3>
+    <a href="#intro">通达信是什么</a>
+    <a href="#install">下载与安装</a>
+    <a href="#first">首次启动设置</a>
+
+    <h3>界面与操作</h3>
+    <a href="#interface">界面布局</a>
+    <a href="#basic">基本操作</a>
+    <a href="#hotkey">常用快捷键</a>
+
+    <h3>看盘与分析</h3>
+    <a href="#chart">K线图</a>
+    <a href="#indicator">技术指标</a>
+    <a href="#fenbi">分时图</a>
+    <a href="#f10">F10 资料</a>
+
+    <h3>进阶功能</h3>
+    <a href="#select">条件选股</a>
+    <a href="#trade">交易下单</a>
+    <a href="#block">板块分析</a>
+    <a href="#custom">自选股</a>
+
+    <h3>附录</h3>
+    <a href="#faq">常见问题</a>
+</aside>
+
+<!-- ==================== 主内容 ==================== -->
+<div class="main">
+
+    <!-- ===== 封面 ===== -->
+    <div class="hero">
+        <h1>通达信 <span>入门手册</span></h1>
+        <p class="sub">Windows 版 · 从零开始学会用通达信看盘、分析、交易</p>
+        <span class="version">适用版本：v7.x / 金融终端 / 远航版</span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 第 1 章：通达信是什么 -->
+    <!-- ============================================================ -->
+    <section id="intro">
+        <h2>通达信是什么</h2>
+        <p><strong>通达信</strong>是国内最主流的股票行情与交易软件之一，由财富趋势科技公司开发。绝大多数券商都提供通达信定制版，覆盖沪深港美及期货、期权等多市场。</p>
+        <ul>
+            <li><strong>行情</strong> — 实时沪深 Level-2 行情、港股、美股、期货、外汇</li>
+            <li><strong>分析</strong> — K线、分时图、技术指标（MACD、KDJ、RSI 等上百种）</li>
+            <li><strong>选股</strong> — 条件选股、技术指标选股、基本面选股</li>
+            <li><strong>交易</strong> — 内置交易模块，支持多券商</li>
+            <li><strong>扩展</strong> — 支持公式编写、DLL 插件、自定义版面</li>
+        </ul>
+        <div class="tip">
+            <strong>一句话：</strong>通达信 = 看盘 + 分析 + 选股 + 交易，一站搞定。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 2 章：下载与安装 -->
+    <!-- ============================================================ -->
+    <section id="install">
+        <h2>下载与安装</h2>
+
+        <h3><span class="arrow">▸</span> 获取方式</h3>
+        <table>
+            <thead><tr><th>版本</th><th>特点</th><th>获取方式</th></tr></thead>
+            <tbody>
+                <tr><td><strong>券商定制版</strong></td><td>集成对应券商交易功能，最常用</td><td>券商官网下载（推荐）</td></tr>
+                <tr><td><strong>通达信金融终端</strong></td><td>官方通用版，功能最全</td><td>tdx.com.cn 官方下载</td></tr>
+                <tr><td><strong>通达信远航版</strong></td><td>界面更现代，适合新手</td><td>tdx.com.cn 官方下载</td></tr>
+            </tbody>
+        </table>
+
+        <h3><span class="arrow">▸</span> 安装步骤（Windows）</h3>
+        <ol>
+            <li>去券商官网或 <strong>tdx.com.cn</strong> 下载安装包（约 60~150 MB）</li>
+            <li>双击 <code>setup.exe</code>，一路点"下一步"</li>
+            <li>建议安装在 <strong>非系统盘</strong>（如 D:\tdx），避免重装系统丢失数据</li>
+            <li>安装完成后桌面出现图标，双击启动</li>
+        </ol>
+
+        <div class="warn">
+            <strong>注意：</strong>通达信依赖 Windows 系统字体。如果打开后界面文字乱码，请确保系统区域设置为"中文（简体，中国）"。
+        </div>
+
+        <div class="tip">
+            <strong>绿色版：</strong>部分券商提供"免安装版"，解压即可运行，适合放 U 盘随身携带。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 3 章：首次启动设置 -->
+    <!-- ============================================================ -->
+    <section id="first">
+        <h2>首次启动设置</h2>
+
+        <h3><span class="arrow">▸</span> 行情主站选择</h3>
+        <p>启动后会自动连接行情主站。如果连接慢，可以手动切换：</p>
+        <ol>
+            <li>菜单 <strong>行情 → 通讯设置</strong>（或按 <kbd>Ctrl</kbd>+<kbd>P</kbd>）</li>
+            <li>选中延迟最低的主站（绿色数字表示延迟 ms）</li>
+            <li>点击"确定"</li>
+        </ol>
+
+        <h3><span class="arrow">▸</span> 登录方式</h3>
+        <table>
+            <thead><tr><th>模式</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td><strong>免费行情</strong></td><td>无需账号，直接进入，行情延迟约 15 分钟</td></tr>
+                <tr><td><strong>Level-2 行情</strong></td><td>券商用户免费或有偿开通，十档行情、逐笔成交</td></tr>
+                <tr><td><strong>交易登录</strong></td><td>需券商资金账号 + 交易密码，用于买卖股票</td></tr>
+            </tbody>
+        </table>
+
+        <div class="tip">
+            <strong>建议：</strong>先使用免费行情熟悉界面，无需注册即可开始学习。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 4 章：界面布局 -->
+    <!-- ============================================================ -->
+    <section id="interface">
+        <h2>界面布局</h2>
+
+        <p>通达信默认界面分为以下几个核心区域：</p>
+
+        <table>
+            <thead><tr><th>区域</th><th>位置</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td><strong>菜单栏</strong></td><td>顶部</td><td>行情、分析、功能、公式、查看等菜单</td></tr>
+                <tr><td><strong>工具栏</strong></td><td>菜单下方</td><td>快速按钮：自选股、板块、报表、画线等</td></tr>
+                <tr><td><strong>行情列表</strong></td><td>左侧/主区</td><td>股票列表，显示代码、名称、最新价、涨幅等</td></tr>
+                <tr><td><strong>K线/分时图</strong></td><td>主区右侧</td><td>图形分析区域</td></tr>
+                <tr><td><strong>信息栏</strong></td><td>右侧/下方</td><td>成交明细、盘口、分价表等</td></tr>
+                <tr><td><strong>状态栏</strong></td><td>底部</td><td>连接状态、时间、指数涨跌</td></tr>
+                <tr><td><strong>底栏标签</strong></td><td>底部</td><td>A股、港股、板块、自选 等标签页切换</td></tr>
+            </tbody>
+        </table>
+
+        <div class="status-bar-info">
+            [状态栏示例] 已连接 &nbsp;|&nbsp; 上证 <span>+0.85%</span> &nbsp;|&nbsp; 深证 <span>+1.23%</span> &nbsp;|&nbsp; 创业板 <span>+1.67%</span>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 5 章：基本操作 -->
+    <!-- ============================================================ -->
+    <section id="basic">
+        <h2>基本操作</h2>
+
+        <h3><span class="arrow">▸</span> 查看股票行情</h3>
+        <ol>
+            <li>在键盘直接输入股票代码或拼音首字母（如 <kbd>600519</kbd> 或 <kbd>MT</kbd> 贵州茅台）</li>
+            <li>弹出智能搜索框，回车确认</li>
+            <li>进入该股票的分时图 / K线图</li>
+        </ol>
+
+        <h3><span class="arrow">▸</span> 切换视图</h3>
+        <table>
+            <thead><tr><th>按键</th><th>切换到的视图</th></tr></thead>
+            <tbody>
+                <tr><td><kbd>F5</kbd></td><td>分时图 ↔ K线图 切换</td></tr>
+                <tr><td><kbd>F8</kbd></td><td>K线分析周期切换（日线 → 周线 → 月线 → 季线 → 年线）</td></tr>
+                <tr><td><kbd>F10</kbd></td><td>公司基本面资料</td></tr>
+                <tr><td><kbd>F11</kbd></td><td>全屏模式</td></tr>
+            </tbody>
+        </table>
+
+        <h3><span class="arrow">▸</span> 添加自选股</h3>
+        <ul>
+            <li>在个股界面按 <kbd>Insert</kbd> 键 或 <kbd>Alt</kbd>+<kbd>Z</kbd></li>
+            <li>在行情列表右键 → 加入自选股</li>
+            <li>自选股列表快捷键：<kbd>F6</kbd></li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 查看大盘指数</h3>
+        <ul>
+            <li>上证指数：<kbd>03</kbd> + <kbd>Enter</kbd>（或输入 <kbd>000001</kbd>）</li>
+            <li>深证成指：<kbd>04</kbd> + <kbd>Enter</kbd></li>
+            <li>创业板指：<kbd>05</kbd> + <kbd>Enter</kbd></li>
+            <li>科创 50：<kbd>06</kbd> + <kbd>Enter</kbd></li>
+        </ul>
+
+        <div class="tip">
+            <strong>核心记忆：</strong><kbd>F5</kbd> 切分时/K线，<kbd>F6</kbd> 自选股，<kbd>F10</kbd> 看资料，<kbd>F12</kbd> 交易。这 4 个键覆盖 80% 的日常操作。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 6 章：常用快捷键 -->
+    <!-- ============================================================ -->
+    <section id="hotkey">
+        <h2>常用快捷键大全</h2>
+
+        <h3><span class="arrow">▸</span> 最常用（必记）</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th style="width:140px;">快捷键</th><th>功能</th></tr></thead>
+                <tbody>
+                    <tr><td><kbd>F3</kbd></td><td>上证指数</td></tr>
+                    <tr><td><kbd>F4</kbd></td><td>深证成指</td></tr>
+                    <tr><td><kbd>F5</kbd></td><td>分时图 / K线图 切换</td></tr>
+                    <tr><td><kbd>F6</kbd></td><td>自选股列表</td></tr>
+                    <tr><td><kbd>F8</kbd></td><td>切换分析周期</td></tr>
+                    <tr><td><kbd>F10</kbd></td><td>公司资料</td></tr>
+                    <tr><td><kbd>F12</kbd></td><td>打开交易下单</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3><span class="arrow">▸</span> 数字快捷（在任意界面输入数字后回车）</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th style="width:140px;">输入</th><th>功能</th></tr></thead>
+                <tbody>
+                    <tr><td><kbd>00</kbd> + <kbd>Enter</kbd></td><td>上证综指分时图</td></tr>
+                    <tr><td><kbd>03</kbd> + <kbd>Enter</kbd></td><td>上证指数</td></tr>
+                    <tr><td><kbd>04</kbd> + <kbd>Enter</kbd></td><td>深证成指</td></tr>
+                    <tr><td><kbd>05</kbd> + <kbd>Enter</kbd></td><td>创业板指</td></tr>
+                    <tr><td><kbd>06</kbd> + <kbd>Enter</kbd></td><td>科创 50</td></tr>
+                    <tr><td><kbd>07</kbd> + <kbd>Enter</kbd></td><td>中小板指</td></tr>
+                    <tr><td><kbd>60</kbd> + <kbd>Enter</kbd></td><td>沪深涨幅排名</td></tr>
+                    <tr><td><kbd>61</kbd> + <kbd>Enter</kbd></td><td>上海 A 股涨幅排名</td></tr>
+                    <tr><td><kbd>63</kbd> + <kbd>Enter</kbd></td><td>深圳 A 股涨幅排名</td></tr>
+                    <tr><td><kbd>67</kbd> + <kbd>Enter</kbd></td><td>创业板涨幅排名</td></tr>
+                    <tr><td><kbd>80</kbd> + <kbd>Enter</kbd></td><td>沪深综合排名</td></tr>
+                    <tr><td><kbd>81</kbd> + <kbd>Enter</kbd></td><td>上海 A 股综合排名</td></tr>
+                    <tr><td><kbd>83</kbd> + <kbd>Enter</kbd></td><td>深圳 A 股综合排名</td></tr>
+                    <tr><td><kbd>94</kbd> + <kbd>Enter</kbd></td><td>板块涨幅排名</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3><span class="arrow">▸</span> 分析操作</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th style="width:140px;">快捷键</th><th>功能</th></tr></thead>
+                <tbody>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>↓</kbd>/<kbd>↑</kbd></td><td>缩小 / 放大 K线</td></tr>
+                    <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>左右移动 K线（查看历史）</td></tr>
+                    <tr><td><kbd>Shift</kbd>+<kbd>←</kbd>/<kbd>→</kbd></td><td>快速移动</td></tr>
+                    <tr><td><kbd>Enter</kbd></td><td>K线图下确认 / 切换至分时</td></tr>
+                    <tr><td><kbd>Space</kbd></td><td>K线图叠加信息（成交量、MACD 等）</td></tr>
+                    <tr><td><kbd>/</kbd> 或 <kbd>*</kbd></td><td>切换技术指标（小键盘星号）</td></tr>
+                    <tr><td><kbd>Del</kbd></td><td>删除画线</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>系统设置</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td>标记（在 K线上做记号）</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tip">
+            <strong>学快捷键的方法：</strong>不要一次背完。先记 <kbd>F5</kbd> <kbd>F6</kbd> <kbd>F10</kbd> <kbd>F12</kbd> 和 <kbd>60</kbd> <kbd>67</kbd> <kbd>94</kbd>，用熟了再记其他的。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 7 章：K线图 -->
+    <!-- ============================================================ -->
+    <section id="chart">
+        <h2>K线图</h2>
+
+        <h3><span class="arrow">▸</span> 什么是 K 线</h3>
+        <p>K 线（蜡烛图）包含四个价格：<strong>开盘价、收盘价、最高价、最低价</strong>。</p>
+        <ul>
+            <li><strong>阳线（红色）</strong> — 收盘价 > 开盘价，表示上涨</li>
+            <li><strong>阴线（绿色/蓝色）</strong> — 收盘价 < 开盘价，表示下跌</li>
+            <li><strong>上影线</strong> — 最高价到实体的部分</li>
+            <li><strong>下影线</strong> — 最低价到实体的部分</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 分析周期</h3>
+        <p>按 <kbd>F8</kbd> 可以切换不同的 K 线周期：</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>周期</th><th>每根 K 线代表</th><th>适合看</th></tr></thead>
+                <tbody>
+                    <tr><td>1 分钟 / 5 分钟</td><td>1 分钟 / 5 分钟</td><td>超短线、日内交易</td></tr>
+                    <tr><td>15 分 / 30 分 / 60 分</td><td>15 / 30 / 60 分钟</td><td>短线</td></tr>
+                    <tr><td><strong>日线</strong></td><td>1 个交易日</td><td>中线、最常见</td></tr>
+                    <tr><td>周线</td><td>1 周</td><td>中线趋势</td></tr>
+                    <tr><td>月线</td><td>1 月</td><td>长线趋势</td></tr>
+                    <tr><td>季线 / 年线</td><td>1 季 / 1 年</td><td>超长线</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3><span class="arrow">▸</span> 多图组合</h3>
+        <p>默认界面是"K线图 + 成交量"上下组合。按 <kbd>Ctrl</kbd>+<kbd>2</kbd> ~ <kbd>9</kbd> 可以切换多种组合布局（如 2 图、3 图、4 图同时显示）：</p>
+        <ul>
+            <li><kbd>Ctrl</kbd>+<kbd>2</kbd> — K线 + 成交量</li>
+            <li><kbd>Ctrl</kbd>+<kbd>3</kbd> — K线 + 成交量 + MACD</li>
+            <li><kbd>Ctrl</kbd>+<kbd>4</kbd> — K线 + 成交量 + MACD + KDJ</li>
+        </ul>
+
+        <div class="tip">
+            <strong>十字光标：</strong>在 K线图上按 <kbd>↑</kbd>/<kbd>↓</kbd> 或 <kbd>←</kbd>/<kbd>→</kbd> 键会出现十字线，精确查看某一天的四个价格和成交量。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 8 章：技术指标 -->
+    <!-- ============================================================ -->
+    <section id="indicator">
+        <h2>常用技术指标</h2>
+        <p>在 K 线界面直接输入指标名称即可切换副图指标。以下是几个最常用的：</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th style="width:100px;">输入</th><th style="width:110px;">指标</th><th>说明</th></tr></thead>
+                <tbody>
+                    <tr><td><kbd>MACD</kbd></td><td>平滑异同平均</td><td>判断趋势方向与力度。金叉买入、死叉卖出（经典用法）</td></tr>
+                    <tr><td><kbd>KDJ</kbd></td><td>随机指标</td><td>超买（>80）超卖（<20）判断，适合震荡行情</td></tr>
+                    <tr><td><kbd>RSI</kbd></td><td>相对强弱指数</td><td>判断超买超卖，常用 6 日 / 12 日</td></tr>
+                    <tr><td><kbd>MA</kbd></td><td>移动平均线</td><td>默认 5 / 10 / 20 / 60 日均线。均线多头排列看涨</td></tr>
+                    <tr><td><kbd>BOLL</kbd></td><td>布林带</td><td>价格碰到上轨为超买，下轨为超卖</td></tr>
+                    <tr><td><kbd>VOL</kbd></td><td>成交量</td><td>价涨量增是健康，价涨量缩需警惕</td></tr>
+                    <tr><td><kbd>OBV</kbd></td><td>能量潮</td><td>量能累积指标，辅助判断主力动向</td></tr>
+                    <tr><td><kbd>WR</kbd></td><td>威廉指标</td><td>超买超卖反转指标</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="warn">
+            <strong>指标只是工具：</strong>没有任何指标能 100% 准确。建议同时看 2~3 个指标互相验证，并结合 K 线形态和成交量一起分析。
+        </div>
+
+        <h3><span class="arrow">▸</span> 调整指标参数</h3>
+        <ol>
+            <li>在 K 线图上选中指标（点击副图区域）</li>
+            <li>按 <kbd>Ctrl</kbd>+<kbd>D</kbd> 或右键 → 指标参数</li>
+            <li>修改参数（如 MACD 的 12、26、9）后点确定</li>
+        </ol>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 9 章：分时图 -->
+    <!-- ============================================================ -->
+    <section id="fenbi">
+        <h2>分时图</h2>
+        <p>分时图显示股票在<strong>当天交易时间内</strong>的价格走势。</p>
+
+        <h3><span class="arrow">▸</span> 分时图怎么看</h3>
+        <ul>
+            <li><strong>白线（黄线）</strong> — 股票实时成交价走势。上证白线是加权指数，黄线是不加权指数</li>
+            <li><strong>均线（黄色虚线）</strong> — 当天平均成交价格线</li>
+            <li><strong>下方柱状图</strong> — 成交量，红色为主动买，绿色为主动卖</li>
+            <li><strong>右侧盘口</strong> — 五档买卖挂单</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 分时图常用操作</h3>
+        <ul>
+            <li><kbd>Enter</kbd> — 分时图下按回车切换到 K 线</li>
+            <li><kbd>F5</kbd> — 分时 / K 线切换</li>
+            <li><kbd>Ctrl</kbd>+<kbd>4</kbd> — 四股分时同列（同时看 4 只股票的分时）</li>
+        </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 10 章：F10 资料 -->
+    <!-- ============================================================ -->
+    <section id="f10">
+        <h2>F10 公司资料</h2>
+        <p>在个股界面按 <kbd>F10</kbd> 键，可以查看该公司的<strong>基本面信息</strong>：</p>
+        <table>
+            <thead><tr><th>标签页</th><th>内容</th></tr></thead>
+            <tbody>
+                <tr><td><strong>最新动态</strong></td><td>近期公告、新闻、业绩快报</td></tr>
+                <tr><td><strong>公司概况</strong></td><td>公司简介、主营业务、所属行业</td></tr>
+                <tr><td><strong>财务分析</strong></td><td>营收、净利润、每股收益、净资产收益率等</td></tr>
+                <tr><td><strong>股东研究</strong></td><td>前十大股东、机构持仓变化</td></tr>
+                <tr><td><strong>股本结构</strong></td><td>总股本、流通股本、限售股解禁时间</td></tr>
+                <tr><td><strong>分红融资</strong></td><td>历史分红记录、融资情况</td></tr>
+                <tr><td><strong>行业对比</strong></td><td>与同行业公司的关键指标对比</td></tr>
+            </tbody>
+        </table>
+        <div class="tip">
+            <strong>用法：</strong>技术面选股 → F10 看基本面排雷。如果财务数据太差（如连续亏损、负债率过高），建议回避。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 11 章：条件选股 -->
+    <!-- ============================================================ -->
+    <section id="select">
+        <h2>条件选股</h2>
+        <p>通达信内置强大的选股器，可以通过技术指标、财务数据、市场特征等条件筛选股票。</p>
+
+        <h3><span class="arrow">▸</span> 打开方式</h3>
+        <ul>
+            <li>菜单 <strong>功能 → 选股器 → 条件选股</strong></li>
+            <li>或直接输入 <kbd>Ctrl</kbd>+<kbd>T</kbd></li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 常用的选股条件</h3>
+        <table>
+            <thead><tr><th>选股类型</th><th>示例条件</th></tr></thead>
+            <tbody>
+                <tr><td><strong>技术面</strong></td><td>MACD 金叉、KDJ 金叉、均线多头排列、放量突破</td></tr>
+                <tr><td><strong>基本面</strong></td><td>市盈率 < 20、净利润增长 > 30%、ROE > 15%</td></tr>
+                <tr><td><strong>量价</strong></td><td>涨幅 > 3% 且成交量放大 > 50%、创 20 日新高</td></tr>
+                <tr><td><strong>K线形态</strong></td><td>十字星、启明星、黄昏星、红三兵、三只乌鸦</td></tr>
+            </tbody>
+        </table>
+
+        <h3><span class="arrow">▸</span> 操作步骤</h3>
+        <ol>
+            <li>打开条件选股（<kbd>Ctrl</kbd>+<kbd>T</kbd>）</li>
+            <li>选择 <strong>选股公式</strong>（如 MACD 金叉）</li>
+            <li>设置 <strong>选股范围</strong>（沪深 A 股、自选股、板块等）</li>
+            <li>可勾选"时间段"限定历史范围</li>
+            <li>点击"执行选股"</li>
+        </ol>
+        <div class="tip">
+            <strong>高级用法：</strong>选股结果可"保存为板块"，方便后续持续跟踪。也可以点"全部条件"组合多个选股条件提高精度。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 12 章：交易下单 -->
+    <!-- ============================================================ -->
+    <section id="trade">
+        <h2>交易下单</h2>
+
+        <div class="warn">
+            <strong>风险提示：</strong>以下仅为操作说明，不构成任何投资建议。股市有风险，投资需谨慎。
+        </div>
+
+        <h3><span class="arrow">▸</span> 打开交易</h3>
+        <ul>
+            <li>按 <kbd>F12</kbd> 键</li>
+            <li>或工具栏点击"交易"图标</li>
+            <li>首次使用需输入券商账号、交易密码、通讯密码</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 买入股票</h3>
+        <ol>
+            <li>交易窗口 → <strong>买入</strong> 标签</li>
+            <li>输入股票代码，系统自动显示当前价</li>
+            <li>输入买入价格（或点"市价"以当前市价成交）</li>
+            <li>输入买入数量（100 股 = 1 手，A 股最小 1 手）</li>
+            <li>点击"买入下单"，确认</li>
+        </ol>
+
+        <h3><span class="arrow">▸</span> 卖出股票</h3>
+        <ol>
+            <li>交易窗口 → <strong>卖出</strong> 标签</li>
+            <li>双击持仓列表中的股票，自动填入</li>
+            <li>输入卖出价和数量</li>
+            <li>点击"卖出下单"</li>
+        </ol>
+
+        <h3><span class="arrow">▸</span> 撤单与查询</h3>
+        <ul>
+            <li><strong>撤单</strong> — 交易窗口 → 撤单标签，选择未成交的委托撤销</li>
+            <li><strong>持仓</strong> — 查看当前持股、成本价、盈亏</li>
+            <li><strong>成交</strong> — 查看当日/历史成交记录</li>
+            <li><strong>银证转账</strong> — 交易窗口 → 银证转账，资金从银行卡转入/转出</li>
+        </ul>
+
+        <div class="tip">
+            <strong>建议：</strong>新手先用"模拟交易"或小资金练习，熟悉界面后再投入真金白银。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 13 章：板块分析 -->
+    <!-- ============================================================ -->
+    <section id="block">
+        <h2>板块分析</h2>
+        <p>按行业、概念、地区查看板块的涨跌排名，是选方向的重要参考。</p>
+
+        <h3><span class="arrow">▸</span> 打开板块</h3>
+        <ul>
+            <li>输入 <kbd>94</kbd> + <kbd>Enter</kbd> — 板块涨幅排名</li>
+            <li>菜单 <strong>行情 → 板块分析</strong></li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 板块分析怎么看</h3>
+        <ul>
+            <li><strong>涨幅榜</strong> — 涨幅靠前的板块是当前市场热点</li>
+            <li><strong>领涨股</strong> — 每个板块中涨幅最大的股票，即"龙头"</li>
+            <li><strong>板块指数</strong> — 通达信给每个板块生成单独指数，支持 K 线分析</li>
+        </ul>
+
+        <div class="tip">
+            <strong>选股思路：</strong>先看板块热点（行业/概念），再从热点板块中选强势个股。顺势而为比逆势操作容易赚钱。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 14 章：自选股管理 -->
+    <!-- ============================================================ -->
+    <section id="custom">
+        <h2>自选股管理</h2>
+
+        <h3><span class="arrow">▸</span> 创建多个自选板块</h3>
+        <ol>
+            <li>按 <kbd>F6</kbd> 进入自选股界面</li>
+            <li>右键 → 自选股设置（或 <kbd>Ctrl</kbd>+<kbd>X</kbd>）</li>
+            <li>可新建多个自选板块（如"自选股"、"观察池"、"长线持仓"、"短线操作"）</li>
+        </ol>
+
+        <h3><span class="arrow">▸</span> 自选股排序</h3>
+        <p>在自选股列表点击表头即可排序：</p>
+        <ul>
+            <li>点击"涨幅" — 按涨幅从高到低排列</li>
+            <li>点击"最新价" — 按价格排列</li>
+            <li>点击"量比" — 按活跃度排列</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 自选股预警</h3>
+        <ul>
+            <li>右键股票 → 设置预警 → 可设置价格上破/下破、涨跌幅等条件</li>
+            <li>达到条件时通达信弹出提醒（需程序在后台运行）</li>
+        </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 15 章：常见问题 -->
+    <!-- ============================================================ -->
+    <section id="faq">
+        <h2>常见问题</h2>
+
+        <h3><span class="arrow">▸</span> Q：通达信提示"连接主站失败"怎么办？</h3>
+        <p>按 <kbd>Ctrl</kbd>+<kbd>P</kbd> 打开通讯设置，换个主站试试。如果是公司网络，可能被防火墙阻拦，尝试开启"使用代理"或换用手机热点。</p>
+
+        <h3><span class="arrow">▸</span> Q：K 线图不见了，只显示一条横线？</h3>
+        <p>可能是数据未下载。菜单 <strong>行情 → 盘后数据下载</strong>，勾选"日线数据"下载即可。</p>
+
+        <h3><span class="arrow">▸</span> Q：怎么恢复默认界面？</h3>
+        <p>菜单 <strong>查看 → 系统默认版面</strong> 或 <strong>查看 → 恢复系统默认</strong>。</p>
+
+        <h3><span class="arrow">▸</span> Q：怎么导出股票数据到 Excel？</h3>
+        <p>在行情列表右键 → 数据导出 → 选择导出格式（TXT / Excel），或按 <kbd>Ctrl</kbd>+<kbd>E</kbd>。</p>
+
+        <h3><span class="arrow">▸</span> Q：通达信能同时登录多个账号吗？</h3>
+        <p>可以。打开多个通达信程序（不同安装目录），分别登录不同账号。或者在同一个通达信中按 <kbd>F12</kbd> 切换交易账号。</p>
+
+        <h3><span class="arrow">▸</span> Q：怎么设置日线自动收盘？</h3>
+        <p>菜单 <strong>工具 → 自动收盘设置</strong>，勾选"收盘自动下载数据"，设置每天收盘后自动执行。</p>
+
+        <h3><span class="arrow">▸</span> Q：如何截取 K 线图？</h3>
+        <p>按 <kbd>Alt</kbd>+<kbd>F</kbd> （截图功能），选中区域后保存。或使用 Windows 自带 <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>。</p>
+    </section>
+
+    <!-- ===== 底部 ===== -->
+    <footer>
+        <p>通达信入门手册 &mdash; Windows 版 &mdash; 用浏览器打开此文件即可阅读</p>
+        <p style="margin-top:4px;">通达信官方网站：<a href="https://www.tdx.com.cn" style="color:#ffd700;" target="_blank">tdx.com.cn</a></p>
+    </footer>
+
+</div>
+
+</body>
+</html>

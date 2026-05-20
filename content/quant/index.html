@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 摆渡人 — 二代数智成长体系</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d48b;
+    --gold-dark: #8a7230;
+    --ink: #1a1a2e;
+    --ink-light: #2d2d44;
+    --paper: #f7f5f0;
+    --paper-dark: #ece8df;
+    --text: #1a1a2e;
+    --text-light: #5a5a72;
+    --sand: #eae3d4;
+    --deep-navy: #0f0f23;
+
+    /* pillar colors */
+    --soc: #2d8a5e;
+    --soc-light: #3cb878;
+    --biz: #b5443a;
+    --biz-light: #d45a4f;
+    --inv: #1a3a6e;
+    --inv-light: #2a5a9e;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Noto Serif SC', serif; font-weight: 700; line-height: 1.4; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, var(--deep-navy) 0%, var(--ink) 40%, var(--ink-light) 100%);
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 30%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 70%, rgba(45, 138, 94, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(26, 58, 110, 0.04) 0%, transparent 50%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 1100px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    color: #fff;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+  }
+
+  .hero h1 .gold { color: var(--gold); }
+
+  .hero h1 .divider-char {
+    color: rgba(255,255,255,0.15);
+    font-weight: 300;
+    margin: 0 0.3rem;
+  }
+
+  .hero-sub {
+    font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.3rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+  }
+
+  .hero-sub + .hero-sub {
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+    color: rgba(255,255,255,0.35);
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2.5rem auto;
+  }
+
+  .hero-quote {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    color: rgba(255,255,255,0.78);
+    font-weight: 600;
+    line-height: 1.9;
+    max-width: 750px;
+    margin: 0 auto;
+  }
+
+  .hero-quote .highlight { color: var(--gold-light); }
+
+  .hero-pillars {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .pillar-tag {
+    padding: 0.6rem 1.8rem;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+  }
+
+  .pillar-tag.soc { background: rgba(45, 138, 94, 0.15); color: #6dce9a; border: 1px solid rgba(45, 138, 94, 0.3); }
+  .pillar-tag.biz { background: rgba(181, 68, 58, 0.15); color: #e89288; border: 1px solid rgba(181, 68, 58, 0.3); }
+  .pillar-tag.inv { background: rgba(26, 58, 110, 0.2); color: #7aabdf; border: 1px solid rgba(26, 58, 110, 0.3); }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.2);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    animation: float 2.4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section { padding: 6rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.35em;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .section-tag.gold { color: var(--gold-dark); }
+  .section-tag.white { color: rgba(255,255,255,0.5); }
+
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+  }
+
+  .section-desc {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    max-width: 750px;
+    line-height: 2;
+  }
+
+  .section-desc.light { color: rgba(255,255,255,0.6); }
+
+  /* ===== ABOUT / POSITIONING ===== */
+  #about {
+    background: #fff;
+    position: relative;
+  }
+
+  #about::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 2rem;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 2;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-identity {
+    background: var(--paper);
+    padding: 2.5rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  .about-identity h3 {
+    font-size: 1.15rem;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .identity-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .identity-row:last-child { border-bottom: none; }
+
+  .identity-row .role { font-size: 0.82rem; color: var(--gold-dark); letter-spacing: 0.1em; min-width: 90px; font-weight: 500; }
+  .identity-row .value { font-size: 0.95rem; color: var(--text); }
+
+  .about-quote {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    line-height: 2;
+    padding: 2rem 0 0;
+    text-align: center;
+  }
+
+  .about-quote .gold-text { color: var(--gold-dark); font-weight: 700; }
+
+  /* ===== THREE PILLARS OVERVIEW ===== */
+  #pillars {
+    background: var(--paper);
+  }
+
+  .pillars-intro {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    color: var(--text-light);
+    line-height: 2;
+    margin: 2rem 0 3rem;
+    padding: 2rem;
+    background: #fff;
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .pillar-card {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pillar-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.06); }
+
+  .pillar-card-head {
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+  }
+
+  .pillar-card-head .pillar-num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    opacity: 0.07;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  .pillar-card-head .pillar-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .pillar-card-head h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .pillar-card-head .pillar-sub {
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  .pillar-card-head.soc { background: linear-gradient(135deg, rgba(45,138,94,0.06), rgba(45,138,94,0.02)); }
+  .pillar-card-head.soc h3 { color: var(--soc); }
+  .pillar-card-head.biz { background: linear-gradient(135deg, rgba(181,68,58,0.06), rgba(181,68,58,0.02)); }
+  .pillar-card-head.biz h3 { color: var(--biz); }
+  .pillar-card-head.inv { background: linear-gradient(135deg, rgba(26,58,110,0.06), rgba(26,58,110,0.02)); }
+  .pillar-card-head.inv h3 { color: var(--inv); }
+
+  .pillar-card-body { padding: 1.5rem 2rem 2rem; }
+
+  .pillar-card-body p {
+    font-size: 0.92rem;
+    color: var(--text-light);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+
+  .pillar-topics {
+    list-style: none;
+    padding: 0;
+  }
+
+  .pillar-topics li {
+    padding: 0.5rem 0;
+    font-size: 0.88rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+  }
+
+  .pillar-topics li:last-child { border-bottom: none; }
+
+  .pillar-topics li::before {
+    content: '▸';
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .pillar-card-foot {
+    padding: 1.2rem 2rem;
+    font-size: 0.82rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .pillar-card-foot.soc { background: var(--soc); color: #fff; }
+  .pillar-card-foot.biz { background: var(--biz); color: #fff; }
+  .pillar-card-foot.inv { background: var(--inv); color: #fff; }
+
+  /* ===== METHODOLOGY MAP ===== */
+  #methodology {
+    background: #fff;
+  }
+
+  .methodology-map {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin: 3rem 0 2rem;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .methodology-col {
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .methodology-col.soc { background: linear-gradient(180deg, rgba(45,138,94,0.04), transparent); }
+  .methodology-col.biz { background: linear-gradient(180deg, rgba(181,68,58,0.04), transparent); }
+  .methodology-col.inv { background: linear-gradient(180deg, rgba(26,58,110,0.04), transparent); }
+
+  .methodology-col .mm-icon { font-size: 2rem; margin-bottom: 0.8rem; display: block; }
+  .methodology-col h4 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .methodology-col .mm-label { font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 1rem; display: block; }
+  .methodology-col.soc h4 { color: var(--soc); }
+  .methodology-col.biz h4 { color: var(--biz); }
+  .methodology-col.inv h4 { color: var(--inv); }
+  .methodology-col.soc .mm-label { color: var(--soc); }
+  .methodology-col.biz .mm-label { color: var(--biz); }
+  .methodology-col.inv .mm-label { color: var(--inv); }
+
+  .methodology-col p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .methodology-col .mm-inner {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    padding: 1rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: 4px;
+    line-height: 1.7;
+  }
+
+  .mm-arrow-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    text-align: center;
+    padding: 0.8rem;
+    background: var(--paper);
+    font-size: 1.5rem;
+    color: var(--gold);
+    letter-spacing: 0.5em;
+  }
+
+  .methodology-summary {
+    font-family: 'Noto Serif SC', serif;
+    text-align: center;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    color: var(--ink);
+    line-height: 2;
+    padding: 2rem 0 0;
+    max-width: 750px;
+    margin: 0 auto;
+  }
+
+  .methodology-summary .gold { color: var(--gold-dark); font-weight: 700; }
+
+  /* ===== PILLAR DETAIL SECTIONS ===== */
+  .pillar-detail {
+    position: relative;
+  }
+
+  .pillar-detail#detail-social { background: linear-gradient(180deg, #f7f5f0, #fff); }
+  .pillar-detail#detail-business { background: linear-gradient(180deg, #fff, var(--paper)); }
+  .pillar-detail#detail-invest { background: #fff; }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    border-radius: 4px;
+  }
+
+  .detail-header.soc { background: rgba(45,138,94,0.04); border-left: 4px solid var(--soc); }
+  .detail-header.biz { background: rgba(181,68,58,0.04); border-left: 4px solid var(--biz); }
+  .detail-header.inv { background: rgba(26,58,110,0.04); border-left: 4px solid var(--inv); }
+
+  .detail-header .dh-icon { font-size: 2.5rem; flex-shrink: 0; }
+  .detail-header h3 { font-size: 1.5rem; }
+  .detail-header .dh-sub { font-size: 0.9rem; color: var(--text-light); font-weight: 400; display: block; margin-top: 0.2rem; }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .detail-card {
+    padding: 1.8rem 1.5rem;
+    background: var(--paper);
+    border-radius: 4px;
+    transition: box-shadow 0.3s;
+  }
+
+  .detail-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+
+  .detail-card h4 {
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .detail-card p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .detail-outcome {
+    padding: 2rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+
+  .detail-outcome.soc { background: rgba(45,138,94,0.04); border: 1px solid rgba(45,138,94,0.1); }
+  .detail-outcome.biz { background: rgba(181,68,58,0.04); border: 1px solid rgba(181,68,58,0.1); }
+  .detail-outcome.inv { background: rgba(26,58,110,0.04); border: 1px solid rgba(26,58,110,0.1); }
+
+  .detail-outcome h4 { font-size: 0.85rem; letter-spacing: 0.2em; margin-bottom: 0.8rem; text-transform: uppercase; }
+  .detail-outcome.soc h4 { color: var(--soc); }
+  .detail-outcome.biz h4 { color: var(--biz); }
+  .detail-outcome.inv h4 { color: var(--inv); }
+
+  .detail-outcome ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .detail-outcome li {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    padding: 0.3rem 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .detail-outcome li::before {
+    content: '✓';
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .detail-outcome.soc li::before { color: var(--soc); }
+  .detail-outcome.biz li::before { color: var(--biz); }
+  .detail-outcome.inv li::before { color: var(--inv); }
+
+  /* ===== INVEST DEEP DIVE (from prev version) ===== */
+  #quant-deep {
+    background: var(--paper);
+  }
+
+  .curriculum-intro {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    line-height: 2;
+    margin: 2rem 0 3rem;
+    padding: 2rem;
+    background: #fff;
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .tier { margin-bottom: 3rem; }
+
+  .tier-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tier-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .tier-icon.t1 { background: var(--ink); color: var(--gold); }
+  .tier-icon.t2 { background: var(--soc); color: #fff; }
+  .tier-icon.t3 { background: var(--biz); color: #fff; }
+
+  .tier-header h3 { font-size: 1.35rem; }
+  .tier-header .sub { font-size: 0.85rem; color: var(--text-light); font-weight: 400; margin-left: 0.5rem; }
+
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .tier-item {
+    background: #fff;
+    padding: 1.1rem 1.4rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: border-color 0.2s;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+
+  .tier-item:hover { border-color: var(--gold); }
+
+  .tier-item .marker { color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  .tier-item .label { font-size: 0.92rem; color: var(--text-light); line-height: 1.6; }
+  .tier-item .label strong { color: var(--text); }
+
+  /* ===== AI INTEGRATION ===== */
+  #ai-section {
+    background: linear-gradient(160deg, var(--ink) 0%, var(--deep-navy) 100%);
+    color: #fff;
+  }
+
+  #ai-section .section-tag { color: var(--gold-light); }
+  #ai-section .section-desc { color: rgba(255,255,255,0.6); }
+
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .ai-card {
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+
+  .ai-card:hover { border-color: rgba(201, 168, 76, 0.35); }
+
+  .ai-card h4 { color: var(--gold-light); font-size: 1.05rem; margin-bottom: 0.7rem; }
+  .ai-card p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.8; }
+
+  .ai-quote {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    text-align: center;
+    color: var(--gold-light);
+    font-weight: 700;
+    margin-top: 4rem;
+    padding: 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .ai-quote .sub {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.35);
+    margin-top: 1rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  /* ===== PROGRAM STRUCTURE ===== */
+  #structure {
+    background: #fff;
+  }
+
+  .structure-timeline {
+    position: relative;
+    margin-top: 3rem;
+    padding-left: 2rem;
+  }
+
+  .structure-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gold);
+    opacity: 0.25;
+  }
+
+  .tl-item {
+    position: relative;
+    padding: 0 0 3rem 2.5rem;
+  }
+
+  .tl-item:last-child { padding-bottom: 0; }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0.5rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid #fff;
+  }
+
+  .tl-item h4 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .tl-item .meta { font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.7rem; }
+  .tl-item p { font-size: 0.95rem; color: var(--text-light); line-height: 1.9; max-width: 650px; }
+
+  /* ===== TRANSPARENCY ===== */
+  #transparency {
+    background: var(--paper);
+    border-top: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .promise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+
+  .promise-card {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  }
+
+  .promise-card .p-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .promise-card h4 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .promise-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.8; }
+
+  .closing-statement {
+    font-family: 'Noto Serif SC', serif;
+    text-align: center;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--ink);
+    max-width: 750px;
+    margin: 3rem auto 0;
+    line-height: 2.2;
+    padding: 2.5rem;
+    border-top: 2px solid var(--gold);
+  }
+
+  .closing-statement .gold { color: var(--gold-dark); font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 3.5rem 2rem 3rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    line-height: 2;
+  }
+
+  footer .seal {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.3em;
+  }
+
+  footer .byline {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .pillars-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+    .methodology-map { grid-template-columns: 1fr; }
+    .mm-arrow-row { display: none; }
+    .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 4rem 1.5rem; }
+    .tier-grid, .ai-grid, .promise-grid { grid-template-columns: 1fr; }
+    .tier-header { flex-direction: column; text-align: center; gap: 0.5rem; }
+    .detail-header { flex-direction: column; text-align: center; }
+    .detail-outcome ul { grid-template-columns: 1fr; }
+    .pillars-intro, .curriculum-intro { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================== -->
+<!-- HERO -->
+<!-- ============================== -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">AI 摆渡人 · 二代数智成长体系</div>
+    <h1>
+      <span class="gold">社会创新</span><span class="divider-char"> · </span>
+      <span class="gold">商业创新</span><span class="divider-char"> · </span>
+      <span class="gold">量化投资</span>
+    </h1>
+    <p class="hero-sub">以 AI 为舟 · 以传承为锚 · 以修行为岸</p>
+    <p class="hero-sub">杨辉 · AI 摆渡人</p>
+    <div class="hero-divider"></div>
+    <p class="hero-quote">
+      "将 <span class="highlight">AI 青少年教育</span>、<span class="highlight">企二代传承</span> 与
+      <span class="highlight">AI 量化投资</span> 完全融合。<br>
+      为培养企二代设计的一套完整课程——<br>
+      由我亲自打造，亲自交付。"
+    </p>
+    <div class="hero-pillars">
+      <span class="pillar-tag soc">AI + 社会创新</span>
+      <span class="pillar-tag biz">AI + 商业创新</span>
+      <span class="pillar-tag inv">AI + 量化投资</span>
+    </div>
+  </div>
+  <div class="scroll-indicator">向下翻阅 · 了解完整体系</div>
+</section>
+
+<!-- ============================== -->
+<!-- ABOUT / POSITIONING -->
+<!-- ============================== -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-tag gold">定位</div>
+    <h2 class="section-title">AI 摆渡人</h2>
+
+    <div class="about-layout">
+      <div class="about-text">
+        <p>
+          我的背景横跨技术、商业与教育三界。前微软、惠普、北电工程师出身，
+          二十年企业咨询服务与科技创业经验，八年二代传承内创业协同探索。
+        </p>
+        <p>
+          正是这三条线的交汇，让我看到了一个独特的机会——<strong>用 AI 作为统合框架，
+          为企二代打造一套完整的数智成长体系</strong>。不仅仅是教技术，更是教思维、
+          教格局、教如何在这个时代守住家业并发扬光大。
+        </p>
+        <p>
+          最终，我通过培训课程教导这些年青人，实现了自己作为
+          <strong>AI 摆渡人</strong>的定位——把他们从迷茫渡到清晰，
+          从被动接班渡到主动创新，从未知渡到知行合一。
+        </p>
+      </div>
+
+      <div class="about-identity">
+        <h3>多重身份 · 同一使命</h3>
+        <div class="identity-row"><span class="role">教育者</span><span class="value">混沌学园 AI 创新领教</span></div>
+        <div class="identity-row"><span class="role">赋能者</span><span class="value">国际人工智能产业联盟首席生态官</span></div>
+        <div class="identity-row"><span class="role">创新官</span><span class="value">悦洋海外集团首席人工智能官</span></div>
+        <div class="identity-row"><span class="role">教练者</span><span class="value">AI 内创业加速器 · 二代教育传承教练</span></div>
+        <div class="identity-row"><span class="role">工程师</span><span class="value">前微软 · 惠普 · 北电 · 20 年企业咨询与科技创业</span></div>
+        <div class="identity-row"><span class="role">修行者</span><span class="value">8 年二代传承内创业协同探索 · AI 量化实战</span></div>
+      </div>
+    </div>
+
+    <div class="about-quote">
+      "归根结底，我通过培训课程的方式教导这些年青人，<br>
+      最终实现了自己作为 <span class="gold-text">AI 摆渡人</span> 的定位。"
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- THREE PILLARS OVERVIEW -->
+<!-- ============================== -->
+<section id="pillars">
+  <div class="section-inner">
+    <div class="section-tag gold">体系架构</div>
+    <h2 class="section-title">三大支柱 · 一个使命</h2>
+
+    <div class="pillars-intro">
+      这是一套专为企二代设计的完整成长体系。三个板块看似独立，实则互为支撑——
+      社会创新培养格局与责任感，商业创新解决实际经营问题，量化投资建立财富管理的基本功。
+      三者合一，才是 AI 时代企二代应有的完整能力结构。
+    </div>
+
+    <div class="pillars-grid">
+
+      <!-- PILLAR 1: Social Innovation -->
+      <div class="pillar-card">
+        <div class="pillar-card-head soc">
+          <span class="pillar-num">壹</span>
+          <span class="pillar-icon">🤝</span>
+          <h3>AI + 社会创新</h3>
+          <div class="pillar-sub">利他 · 公益 · 格局</div>
+        </div>
+        <div class="pillar-card-body">
+          <p>强调利他精神，支持大量公益性质的社会创新项目。让二代在创造社会价值的过程中，找到超越财富的人生使命。</p>
+          <ul class="pillar-topics">
+            <li>AI 赋能公益项目设计与运营</li>
+            <li>社会创新案例分析与社会企业模式</li>
+            <li>用数据思维衡量社会影响力</li>
+            <li>公益项目的 AI 工具链搭建</li>
+            <li>社会责任与家族传承的融合</li>
+          </ul>
+        </div>
+        <div class="pillar-card-foot soc">积功德 · 培养格局</div>
+      </div>
+
+      <!-- PILLAR 2: Business Innovation -->
+      <div class="pillar-card">
+        <div class="pillar-card-head biz">
+          <span class="pillar-num">贰</span>
+          <span class="pillar-icon">📈</span>
+          <h3>AI + 商业创新</h3>
+          <div class="pillar-sub">增长 · 获客 · 效率</div>
+        </div>
+        <div class="pillar-card-body">
+          <p>聚焦 AI 在营销、获客、运营等场景中对企业实际价值的提升。帮二代建立 AI 时代的商业思维与实战能力。</p>
+          <ul class="pillar-topics">
+            <li>AI 驱动的精准营销与客户洞察</li>
+            <li>自动化获客系统与转化优化</li>
+            <li>AI 内容生成与品牌策略</li>
+            <li>企业运营的 AI 效率革命</li>
+            <li>传统行业的 AI 转型路径设计</li>
+          </ul>
+        </div>
+        <div class="pillar-card-foot biz">解决实际问题 · 提升商业能力</div>
+      </div>
+
+      <!-- PILLAR 3: Quantitative Investment -->
+      <div class="pillar-card">
+        <div class="pillar-card-head inv">
+          <span class="pillar-num">叁</span>
+          <span class="pillar-icon">📊</span>
+          <h3>AI + 量化投资</h3>
+          <div class="pillar-sub">策略 · 风控 · 保底</div>
+        </div>
+        <div class="pillar-card-body">
+          <p>以量化交易与证券投资为核心，教二代用系统化的方式管理财富。这是给下一代的基本技能——用量化作为保底策略，守住自己家的底。</p>
+          <ul class="pillar-topics">
+            <li>量化思维与 Python 策略开发</li>
+            <li>期权期货策略实战</li>
+            <li>AI 辅助策略研究与回测</li>
+            <li>风险管理与资产配置</li>
+            <li>实盘跟练与全透明复盘</li>
+          </ul>
+        </div>
+        <div class="pillar-card-foot inv">守住家底 · 终身压仓</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- METHODOLOGY MAP -->
+<!-- ============================== -->
+<section id="methodology">
+  <div class="section-inner">
+    <div class="section-tag gold">方法图谱</div>
+    <h2 class="section-title">三柱协同 · 独家体系</h2>
+    <p class="section-desc">
+      三大板块不是孤立的课程模块，而是一个有机协同的方法论体系。
+      每个板块对应一种核心能力，三者共同构成企二代数智时代的能力底座。
+    </p>
+
+    <div class="methodology-map">
+      <div class="methodology-col soc">
+        <span class="mm-icon">🤝</span>
+        <h4>社会创新</h4>
+        <span class="mm-label">立 德</span>
+        <p>利他精神 · 社会责任感 · 格局视野</p>
+        <div class="mm-inner">"积功德，育格局"<br>培养有担当的下一代</div>
+      </div>
+      <div class="methodology-col biz">
+        <span class="mm-icon">📈</span>
+        <h4>商业创新</h4>
+        <span class="mm-label">立 业</span>
+        <p>增长思维 · 获客能力 · 效率提升</p>
+        <div class="mm-inner">"解决真问题"<br>创造可持续的商业价值</div>
+      </div>
+      <div class="methodology-col inv">
+        <span class="mm-icon">📊</span>
+        <h4>量化投资</h4>
+        <span class="mm-label">立 本</span>
+        <p>策略体系 · 风控纪律 · 财富管理</p>
+        <div class="mm-inner">"守住自己的底"<br>终身压仓的保底能力</div>
+      </div>
+    </div>
+
+    <div class="mm-arrow-row">▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶</div>
+
+    <div class="methodology-summary">
+      立德 → 立业 → 立本，三层递进，缺一不可。<br>
+      这就是我为企二代量身打造的 <span class="gold">AI 数智成长体系</span>——<br>
+      由 AI 摆渡人亲自交付的完整方法论。
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- DETAIL: SOCIAL INNOVATION -->
+<!-- ============================== -->
+<section class="pillar-detail" id="detail-social">
+  <div class="section-inner">
+
+    <div class="detail-header soc">
+      <span class="dh-icon">🤝</span>
+      <div>
+        <h3>AI + 社会创新 <span class="dh-sub">培养有格局的下一代</span></h3>
+      </div>
+    </div>
+
+    <p class="section-desc" style="margin-bottom:2rem;">
+      强调利他精神，支持大量公益性质的社会创新项目。
+      让二代在创造社会价值的过程中找到超越财富的人生使命，
+      在服务社会中建立真正的影响力。
+    </p>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h4>公益项目设计</h4>
+        <p>学习如何用 AI 工具设计和运营公益项目——从需求洞察到效果评估，用技术放大社会影响力。</p>
+      </div>
+      <div class="detail-card">
+        <h4>社会企业模式</h4>
+        <p>探索可持续的社会企业商业模式。公益不是只靠捐款，而是用商业手段解决社会问题。</p>
+      </div>
+      <div class="detail-card">
+        <h4>影响力衡量</h4>
+        <p>用数据和 AI 衡量社会影响力。从定性到定量，让每一份善意产生可衡量的社会价值。</p>
+      </div>
+      <div class="detail-card">
+        <h4>家族传承融合</h4>
+        <p>将家族企业的社会责任感融入二代教育。让传承不仅是财富交接，更是价值观的延续。</p>
+      </div>
+    </div>
+
+    <div class="detail-outcome soc">
+      <h4>板块产出</h4>
+      <ul>
+        <li>每人完成一个社会创新项目方案</li>
+        <li>掌握 AI 驱动的公益运营工具链</li>
+        <li>建立社会影响力评估框架</li>
+        <li>形成个人公益实践计划</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- DETAIL: BUSINESS INNOVATION -->
+<!-- ============================== -->
+<section class="pillar-detail" id="detail-business">
+  <div class="section-inner">
+
+    <div class="detail-header biz">
+      <span class="dh-icon">📈</span>
+      <div>
+        <h3>AI + 商业创新 <span class="dh-sub">能实战的企二代</span></h3>
+      </div>
+    </div>
+
+    <p class="section-desc" style="margin-bottom:2rem;">
+      聚焦 AI 在营销、获客、运营等场景中对企业实际价值的提升。
+      帮二代建立 AI 时代商业思维，把 AI 转化为真实的生产力和竞争力。
+    </p>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h4>AI 精准营销</h4>
+        <p>客户洞察、人群画像、个性化推荐——用 AI 让每一分营销预算产生最大回报。</p>
+      </div>
+      <div class="detail-card">
+        <h4>自动化获客</h4>
+        <p>搭建 AI 驱动的自动化获客系统。从内容生成到渠道投放，全链路智能化。</p>
+      </div>
+      <div class="detail-card">
+        <h4>运营效率革命</h4>
+        <p>AI 客服、智能文档、自动化流程——用 AI 降低运营成本，释放人力去做更有价值的事。</p>
+      </div>
+      <div class="detail-card">
+        <h4>传统行业转型</h4>
+        <p>针对家族企业所在行业，设计 AI 转型路径图。从诊断到落地，给出可执行的方案。</p>
+      </div>
+    </div>
+
+    <div class="detail-outcome biz">
+      <h4>板块产出</h4>
+      <ul>
+        <li>一份完整的 AI 商业创新方案</li>
+        <li>可复用的 AI 营销/获客模板</li>
+        <li>家族企业的 AI 转型路线图</li>
+        <li>AI 工具链的实操能力</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- DETAIL: QUANTITATIVE INVESTMENT -->
+<!-- ============================== -->
+<section class="pillar-detail" id="detail-invest">
+  <div class="section-inner">
+
+    <div class="detail-header inv">
+      <span class="dh-icon">📊</span>
+      <div>
+        <h3>AI + 量化投资 <span class="dh-sub">守住家底的终身技能</span></h3>
+      </div>
+    </div>
+
+    <p class="section-desc" style="margin-bottom:2rem;">
+      这是给下一代的基本技能——如何用量化交易作为保底策略，确保稳定收入，守住自己家的底。
+      AI 结合证券投资，是一个绝佳的"借假修真"过程，离钱最近的教育，能快速呈现真实反馈。
+    </p>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h4>量化思维训练</h4>
+        <p>概率统计、时间序列、随机过程——用数学理解市场的不确定性，建立系统化的决策框架。</p>
+      </div>
+      <div class="detail-card">
+        <h4>策略开发实战</h4>
+        <p>从趋势跟踪到期权组合，亲手写出策略、跑回测、迭代优化。规则明确，纪律自生。</p>
+      </div>
+      <div class="detail-card">
+        <h4>全透明实盘</h4>
+        <p>导师实盘交易数据全部公开。每笔交易可追溯，每次盈亏可复盘。数据全透明，不代客理财。</p>
+      </div>
+      <div class="detail-card">
+        <h4>风险管理体系</h4>
+        <p>凯利公式、最大回撤控制、仓位管理、尾部风险对冲——先学会不亏钱，再学赚钱。</p>
+      </div>
+    </div>
+
+    <div class="detail-outcome inv">
+      <h4>板块产出</h4>
+      <ul>
+        <li>每人一套可回测的量化策略</li>
+        <li>实盘跟练经验与交易日志</li>
+        <li>完整的风险管理体系认知</li>
+        <li>终身受用的财富管理基本功</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- QUANT DEEP DIVE (3-TIER CURRICULUM) -->
+<!-- ============================== -->
+<section id="quant-deep">
+  <div class="section-inner">
+    <div class="section-tag gold">量化投资 · 课程体系</div>
+    <h2 class="section-title">量化修习三阶</h2>
+
+    <div class="curriculum-intro">
+      每个商科孩子都应具备量化交易的基本能力。AI 结合证券投资是一个绝佳的"借假修真"过程——
+      它离钱近，能快速呈现结果，无论盈亏都是最真实的教育反馈。市场是假的，盈亏是暂时的，
+      但面对盈亏时你的恐惧与贪婪——是真的。
+    </div>
+
+    <!-- Tier 1 -->
+    <div class="tier">
+      <div class="tier-header">
+        <div class="tier-icon t1">壹</div>
+        <h3>基础阶 · 量化思维 <span class="sub">8 周</span></h3>
+      </div>
+      <div class="tier-grid">
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>概率统计</strong> — 分布、期望、方差与市场的不确定性</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>Python 入门</strong> — Pandas、NumPy、数据可视化</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>金融基础</strong> — K 线、成交量、波动率、期权期货结构</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>回测框架</strong> — 策略回测的陷阱与正确方法</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>风险管理</strong> — 凯利公式、最大回撤、仓位管理</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>AI 辅助</strong> — 用大模型辅助策略研究与代码编写</span></div>
+      </div>
+    </div>
+
+    <!-- Tier 2 -->
+    <div class="tier">
+      <div class="tier-header">
+        <div class="tier-icon t2">贰</div>
+        <h3>进阶阶 · 策略实战 <span class="sub">12 周</span></h3>
+      </div>
+      <div class="tier-grid">
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>趋势策略</strong> — 均线系统、动量因子、通道突破</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>统计套利</strong> — 配对交易、均值回归、协整关系</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>期权策略</strong> — 波动率交易、期权组合、Delta 中性</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>期货策略</strong> — 跨期套利、趋势追踪、资金管理</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>策略组合</strong> — 多策略组合、低相关性资产配置</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>AI 增强</strong> — 机器学习特征工程、信号生成与评价</span></div>
+      </div>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="tier">
+      <div class="tier-header">
+        <div class="tier-icon t3">叁</div>
+        <h3>高阶阶 · 修习之路 <span class="sub">持续陪伴</span></h3>
+      </div>
+      <div class="tier-grid">
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>实盘跟练</strong> — 小资金实盘操作，亲历盈亏</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>交易心理</strong> — 贪婪、恐惧、纪律——在市场中看见自己</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>策略迭代</strong> — 持续优化自己的策略，建立个人体系</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>家族传承</strong> — 如何用量化思维管理家族资产</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>公开复盘</strong> — 全部交易数据透明，一起复盘成长</span></div>
+        <div class="tier-item"><span class="marker">▸</span><span class="label"><strong>终身网络</strong> — 结业不结束，持续的策略伙伴社群</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- AI INTEGRATION -->
+<!-- ============================== -->
+<section id="ai-section">
+  <div class="section-inner">
+    <div class="section-tag white">AI 融合</div>
+    <h2 class="section-title">AI 贯穿三柱</h2>
+    <p class="section-desc light">
+      在三大板块中，AI 不是被动的工具，而是主动的基础设施。
+      从社会创新到商业实战再到量化投资，AI 贯穿所有的教学与实践环节，
+      让孩子在真实场景中学会使用 AI、驾驭 AI、与 AI 协作。
+    </p>
+
+    <div class="ai-grid">
+      <div class="ai-card">
+        <h4>社会创新中的 AI</h4>
+        <p>用 AI 分析社会需求、设计公益项目、量化影响力。让有限的资源创造最大的社会价值。</p>
+      </div>
+      <div class="ai-card">
+        <h4>商业创新中的 AI</h4>
+        <p>AI 驱动的营销获客系统、智能运营、内容生成。把 AI 转化为企业的核心竞争力。</p>
+      </div>
+      <div class="ai-card">
+        <h4>量化投资中的 AI</h4>
+        <p>用大模型辅助策略研发，用机器学习做信号发现。让 AI 成为交易者的超级助手。</p>
+      </div>
+      <div class="ai-card">
+        <h4>贯穿始终的 AI 素养</h4>
+        <p>提示工程、AI 工具链、AI 伦理判断。不论未来从事什么，AI 素养是下一代的基本能力。</p>
+      </div>
+    </div>
+
+    <div class="ai-quote">
+      "借假修真"
+      <span class="sub">市场是假的，盈亏是暂时的。但面对盈亏时你的恐惧与贪婪——是真的。<br>
+      社会创新表面是利他，但修的是自己的格局与担当。<br>
+      商业创新表面是赚钱，但修的是创造真实价值的能力。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- PROGRAM STRUCTURE -->
+<!-- ============================== -->
+<section id="structure">
+  <div class="section-inner">
+    <div class="section-tag gold">项目架构</div>
+    <h2 class="section-title">如何运行</h2>
+    <p class="section-desc">
+      一个持续陪伴的二代数智成长体系，而非一次性课程。从筛选到终身陪伴，
+      每个环节都经过精心设计。
+    </p>
+
+    <div class="structure-timeline">
+      <div class="tl-item">
+        <h4>招募与筛选</h4>
+        <div class="meta">每年两期 · 小班制 · 每期不超过 12 人</div>
+        <p>面向高净值家庭的二代子女，年龄 16-22 岁。不考核基础，但考核意愿——真正对成长和创造价值有兴趣的孩子才能坚持下来。</p>
+      </div>
+      <div class="tl-item">
+        <h4>三柱系统修习</h4>
+        <div class="meta">三大板块递进式学习，持续约 24-36 周系统训练</div>
+        <p>社会创新（培养格局）→ 商业创新（建立能力）→ 量化投资（守住家底）。每个板块包含理论课、实战项目与复盘会。每周都有交付和反馈。</p>
+      </div>
+      <div class="tl-item">
+        <h4>实战与输出</h4>
+        <div class="meta">每个板块均有可交付的实战成果</div>
+        <p>社会创新项目方案、AI 商业转型路线图、可运行的量化策略——孩子离开时带走的是真实的能力和作品，而不是一本笔记。</p>
+      </div>
+      <div class="tl-item">
+        <h4>终身陪伴网络</h4>
+        <div class="meta">结业不结束</div>
+        <p>结业后进入二代策略伙伴社群。持续的策略共享、联合研究、社会创新项目合作、家族资产管理交流。这不仅仅是一门课，而是一生的伙伴关系。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- TRANSPARENCY & CLOSING -->
+<!-- ============================== -->
+<section id="transparency">
+  <div class="section-inner">
+    <div class="section-tag gold">承诺</div>
+    <h2 class="section-title">全透明 · 不代客理财</h2>
+    <p class="section-desc">
+      我只交付策略与认知，不碰任何一笔别人的资金。每一笔交易数据、每一个策略逻辑、
+      每一次复盘记录——全部公开。信任来自透明，而非承诺。
+    </p>
+
+    <div class="promise-grid">
+      <div class="promise-card">
+        <span class="p-icon">📊</span>
+        <h4>数据全透明</h4>
+        <p>导师实盘交易数据实时共享，历史回测报告完整可查。不隐藏、不美化。</p>
+      </div>
+      <div class="promise-card">
+        <span class="p-icon">🔓</span>
+        <h4>策略全开放</h4>
+        <p>所有策略代码、逻辑文档、参数设置全部开放。孩子和家长自己可以验证、复现。</p>
+      </div>
+      <div class="promise-card">
+        <span class="p-icon">🛡️</span>
+        <h4>资金自身掌控</h4>
+        <p>每个人的资金在自己的账户中，自己执行决策。我只输出策略与信号，不碰资金。</p>
+      </div>
+      <div class="promise-card">
+        <span class="p-icon">🔄</span>
+        <h4>盈亏共担真相</h4>
+        <p>导师实盘也在跑同样的策略。赚了一起赚，亏了一起亏。没有利益错位，只有真实的同行。</p>
+      </div>
+    </div>
+
+    <div class="closing-statement">
+      教育是积功德的。<br>
+      证券投资与量化收益的回报，<br>
+      也足以算作一种功德——<span class="gold">上天自会回馈</span>。<br><br>
+      这也是一个修行者的基本素养。
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- FOOTER -->
+<!-- ============================== -->
+<footer>
+  <div class="seal">AI 摆渡人 · 二代数智成长体系</div>
+  <p class="byline">杨辉</p>
+  <p>以 AI 为舟 · 以传承为锚 · 以修行为岸</p>
+  <p style="margin-top:1.5rem; font-size:0.75rem;">
+    社会创新 · 商业创新 · 量化投资
+  </p>
+</footer>
+
+</body>
+</html>

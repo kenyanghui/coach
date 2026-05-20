@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小白也能懂的量化战法分析 — 道商·天问堂系列策略深度拆解</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    background: '#0f0f14',
+    primaryColor: '#1e1e28',
+    primaryTextColor: '#e4e4ec',
+    primaryBorderColor: '#2a2a3a',
+    lineColor: '#c4a86a',
+    secondaryColor: '#2a1e1e',
+    tertiaryColor: '#1e2a1e',
+    clusterBkg: '#18181e',
+    clusterBorder: '#2a2a3a',
+    nodeBorder: '#c4a86a',
+    nodeTextColor: '#e4e4ec',
+    edgeLabelBackground: '#0f0f14',
+    edgeLabelColor: '#c4a86a',
+    fontFamily: '-apple-system, "PingFang SC", "Microsoft YaHei", sans-serif'
+  }
+});
+</script>
+<style>
+  :root {
+    --bg: #0f0f14;
+    --bg-card: #18181e;
+    --bg-card-alt: #1e1e28;
+    --border: #2a2a3a;
+    --text: #e4e4ec;
+    --text-muted: #8888a0;
+    --accent: #c4a86a;
+    --accent-dim: #8a7a50;
+    --red: #d45a5a;
+    --green: #5a9a7a;
+    --gold: #e8c86a;
+    --blue: #5a8ac8;
+    --purple: #8a6ac8;
+    --orange: #d48a3a;
+    --quote-bg: #1a1a28;
+    --quote-border: #c4a86a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.9;
+    font-size: 16px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    padding: 100px 24px 60px;
+    text-align: center;
+    background: linear-gradient(180deg, #1a1a2e 0%, var(--bg) 100%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(196,168,106,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero .badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .hero .subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+  .hero .divider-line {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 28px auto 0;
+    opacity: 0.4;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Section ── */
+  section { padding: 56px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    color: var(--gold);
+  }
+  h2 .subhead {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  h3 {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 28px 0 10px;
+    color: var(--accent);
+  }
+
+  p { margin-bottom: 14px; }
+
+  /* ── Card ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .card .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .card p { font-size: 14px; margin-bottom: 0; color: var(--text-muted); }
+
+  /* ── Callout boxes ── */
+  .callout {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-radius: 12px;
+    position: relative;
+  }
+  .callout .label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .callout p { font-size: 15px; margin-bottom: 0; }
+
+  .callout.tldr {
+    background: linear-gradient(135deg, rgba(196,168,106,0.08) 0%, rgba(232,200,106,0.03) 100%);
+    border: 1px solid rgba(196,168,106,0.2);
+  }
+  .callout.tldr .label { color: var(--accent); }
+
+  .callout.warn {
+    background: linear-gradient(135deg, rgba(212,90,90,0.07) 0%, transparent 100%);
+    border: 1px solid rgba(212,90,90,0.2);
+  }
+  .callout.warn .label { color: var(--red); }
+
+  .callout.info {
+    background: linear-gradient(135deg, rgba(90,138,200,0.07) 0%, transparent 100%);
+    border: 1px solid rgba(90,138,200,0.2);
+  }
+  .callout.info .label { color: var(--blue); }
+
+  .callout.success {
+    background: linear-gradient(135deg, rgba(90,154,122,0.07) 0%, transparent 100%);
+    border: 1px solid rgba(90,154,122,0.2);
+  }
+  .callout.success .label { color: var(--green); }
+
+  /* ── 小白翻译 box ── */
+  .beginner-box {
+    margin: 20px 0 28px;
+    padding: 16px 20px;
+    background: rgba(196,168,106,0.05);
+    border: 1px dashed var(--accent-dim);
+    border-radius: 10px;
+    text-align: center;
+  }
+  .beginner-box .label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-dim);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .beginner-box p {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0;
+  }
+
+  /* ── Mermaid wrapper ── */
+  .mermaid-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .mermaid-box .mermaid-caption {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* ── Chart wrapper ── */
+  .chart-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .chart-box .chart-caption {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* ── SVG wrapper ── */
+  .svg-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .svg-box .svg-caption {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* ── Pull quote ── */
+  .pull-quote {
+    margin: 32px 0;
+    padding: 28px 32px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--gold);
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+
+  /* ── Glossary list ── */
+  .glossary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  @media (max-width: 640px) { .glossary { grid-template-columns: 1fr; } }
+  .glossary-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .glossary-item .term {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .glossary-item .def {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── Comparison table ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 20px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  @media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-grid .side {
+    padding: 18px 20px;
+  }
+  .compare-grid .side:first-child {
+    background: rgba(90,138,200,0.04);
+  }
+  .compare-grid .side:last-child {
+    background: rgba(212,90,90,0.04);
+  }
+  .compare-grid .side-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .compare-grid .side:first-child .side-label { color: var(--blue); }
+  .compare-grid .side:last-child .side-label { color: var(--red); }
+  .compare-grid .side p { font-size: 14px; margin-bottom: 0; }
+
+  /* ── Numbered list ── */
+  .num-list { list-style: none; margin: 14px 0; }
+  .num-list li {
+    position: relative;
+    padding: 10px 0 10px 40px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+  .num-list li:last-child { border-bottom: none; }
+  .num-list li .num {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 40px 0 56px;
+  }
+  .toc .toc-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .toc a {
+    display: block;
+    padding: 7px 0;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+    transition: color 0.2s;
+  }
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: var(--accent); }
+
+  /* ── hl ── */
+  .hl-a { color: var(--accent); }
+  .hl-g { color: var(--gold); }
+  .hl-r { color: var(--red); }
+  .hl-gr { color: var(--green); }
+  .hl-b { color: var(--blue); }
+  .hl-p { color: var(--purple); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    opacity: 0.5;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 28px; }
+    .hero { padding: 72px 20px 48px; }
+    .pull-quote { font-size: 16px; padding: 20px 16px; }
+    section { padding: 40px 0; }
+    h2 { font-size: 22px; }
+    .mermaid-box { padding: 12px; }
+  }
+
+  .inline-code {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.9em;
+    color: var(--accent);
+    background: rgba(196,168,106,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* result cards for section 8 */
+  .result-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  @media (max-width: 640px) { .result-cards { grid-template-columns: 1fr; } }
+  .result-card {
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+  .result-card .r-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .result-card .r-prob { font-size: 13px; margin-bottom: 6px; }
+  .result-card p { font-size: 13px; margin-bottom: 0; }
+  .result-card.good {
+    background: rgba(90,154,122,0.08);
+    border: 1px solid rgba(90,154,122,0.25);
+  }
+  .result-card.good .r-title { color: var(--green); }
+  .result-card.mid {
+    background: rgba(212,138,58,0.08);
+    border: 1px solid rgba(212,138,58,0.25);
+  }
+  .result-card.mid .r-title { color: var(--orange); }
+  .result-card.bad {
+    background: rgba(212,90,90,0.08);
+    border: 1px solid rgba(212,90,90,0.25);
+  }
+  .result-card.bad .r-title { color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- HERO -->
+<!-- ============================================================ -->
+<div class="hero">
+  <div class="badge">道商 · 天问堂</div>
+  <h1>小白也能懂的量化战法分析</h1>
+  <p class="subtitle">道商-天问堂系列策略深度拆解<br>用最白话的方式，看懂这套赚百倍的策略到底靠不靠谱</p>
+  <div class="divider-line"></div>
+</div>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- TOC -->
+<!-- ============================================================ -->
+<div class="toc">
+  <div class="toc-title">目 录</div>
+  <a href="#s1">一、这套战法到底在说什么？</a>
+  <a href="#s2">二、"投资不是主业"——算出来的数字吓死人</a>
+  <a href="#s3">三、"趋势是情绪"——市场到底是谁在控制？</a>
+  <a href="#s4">四、"洞藏酒"——30天不准动，这合理吗？</a>
+  <a href="#s5">五、"赚了20倍没卖"——为什么人会做这种事？</a>
+  <a href="#s6">六、"夏虫不可语冰"——这句话到底对不对？</a>
+  <a href="#s7">七、"大钱是坐着等来的"——利弗莫尔的悲剧</a>
+  <a href="#s8">八、风险到底有多大？（用数字说话）</a>
+  <a href="#s9">九、总结——这套策略到底能不能用？</a>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 1 -->
+<!-- ============================================================ -->
+<section id="s1">
+<h2>一、这套战法到底在说什么？<span class="subhead">用买菜大妈都能听懂的话，三分钟搞懂</span></h2>
+
+<p>想象一下：你听说有一种"中奖率特别高的彩票"——不是每期都中，但只要中了，就是翻几百倍的那种。这，就是这套策略在讲的。</p>
+
+<p>当然，他们不叫它"彩票"。他们叫它<span class="hl-g">"百倍龙王"</span>：一年会出现3-5次的超级行情，一次就能让你赚100倍以上。听起来像不像是天上掉馅饼？别急，往下看。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>一年有3-5次大行情，抓住一次就能赚大钱。这套策略就是教你怎么抓、怎么拿住。</p>
+</div>
+
+<h3>先搞懂这几个词，后面就不懵了</h3>
+
+<div class="glossary">
+  <div class="glossary-item">
+    <div class="term">百倍龙王 🐉</div>
+    <div class="def">一年中暴涨100倍以上的超级行情。比如2025年的多晶硅期权涨了258倍，白银期权涨了560倍。</div>
+  </div>
+  <div class="glossary-item">
+    <div class="term">洞藏酒 🍶</div>
+    <div class="def">核心策略——买了之后锁仓30天，不准动。就像把酒埋地窖里，不到日子不能挖出来。</div>
+  </div>
+  <div class="glossary-item">
+    <div class="term">将死不死 💀</div>
+    <div class="def">做多（赌涨）的策略。看着股票要死了（跌了），结果没死又涨了，这时候买入。</div>
+  </div>
+  <div class="glossary-item">
+    <div class="term">将金不金 💰</div>
+    <div class="def">做空（赌跌）的策略。看着要涨了但没涨，反而跌了，这时候做空。</div>
+  </div>
+</div>
+
+<h3>整个策略就是这四步</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart LR
+    A["🎯 选股<br/>只选百倍龙王"]
+    B["💵 买入<br/>突破回撤买点"]
+    C["⏳ 持有<br/>洞藏酒30天"]
+    D["🏆 卖出<br/>赚一倍卖一半"]
+
+    A --> B --> C --> D
+
+    style A fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style B fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style C fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style D fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图1：战法四步走——看起来简单，但每一步都有讲究</div>
+</div>
+
+<h3>这套策略是怎么赚钱的？算笔账给你看</h3>
+
+<p>假设你有 <span class="hl-g">5万块</span> 本金，分成5份，每份1万。每次拿1万去买一个"百倍龙王"，持有30天。按2025年的行情算：5万块 <span class="hl-r">变成 1158万</span>。</p>
+
+<p>看到这个数字，你是不是心跳加速了？别急——这是理想情况。现实中，大部分人别说1158万，连5万块都会亏光。为什么？因为<span class="hl-a">人性</span>。后面几节会详细说。</p>
+
+<div class="callout warn">
+  <div class="label">注意</div>
+  <p>这个1158万的数字是用2025年已经发生的行情倒推的。但"已经发生"不等于"以后还会发生"。就像有人中了彩票告诉你"买这张也能中"，那是刻舟求剑。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2 -->
+<!-- ============================================================ -->
+<section id="s2">
+<h2>二、作者说"投资不是主业"——但算出来的数字吓死人<span class="subhead">嘴上说不要，身体很诚实</span></h2>
+
+<p>这套策略的创始人说了一句很有意思的话：<span class="hl-g">"投资是天问堂，是底气，不是主业。"</span></p>
+
+<p>翻译成人话就是：投资赚钱不是主要目的，只是让你生活有底气的工具。真正重要的是"利他"（帮助别人）和"教练"（带徒弟）。</p>
+
+<p>但你看看上面那个数字——5万变1158万。如果这都"不是主业"，那这个世界上99%的人都在干什么？这就像一个游戏主播说"打游戏只是娱乐"，然后每天打12小时、月入百万。你信吗？</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>嘴上说"赚钱不是最重要的"，但算出来的收益是几百倍。这种矛盾本身就是个大问题。</p>
+</div>
+
+<h3>三要素的关系</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart TD
+    subgraph 道商三要素
+        A["🎓 培训（利他）<br/>帮助别人"]
+        B["💹 投资（天问堂）<br/>提供底气"]
+        C["👨‍🏫 教练（忠义堂）<br/>带徒弟"]
+    end
+
+    B -->|"💰 提供资金"| A
+    B -->|"💰 提供资金"| C
+    A -.->|"🤝 吸引学员"| C
+    C -.->|"👥 带来客户"| B
+
+    style A fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style B fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style C fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图2：道商三要素——投资被定位成"工具"，不是"目的"</div>
+</div>
+
+<h3>嘴上说的 vs 实际做的</h3>
+
+<p>下面这个天平，左边是"嘴上说的"，右边是"实际做的"。你看看哪边更重：</p>
+
+<div class="svg-box">
+<svg width="520" height="280" viewBox="0 0 520 280">
+  <!-- 天平底座 -->
+  <line x1="60" y1="230" x2="460" y2="230" stroke="#2a2a3a" stroke-width="3"/>
+  <polygon points="250,230 240,260 260,260" fill="#2a2a3a"/>
+  <line x1="260" y1="80" x2="260" y2="230" stroke="#c4a86a" stroke-width="3" stroke-linecap="round"/>
+  <!-- 横梁 -->
+  <line x1="100" y1="80" x2="420" y2="80" stroke="#c4a86a" stroke-width="4" stroke-linecap="round"/>
+  <!-- 圆支点 -->
+  <circle cx="260" cy="80" r="8" fill="none" stroke="#c4a86a" stroke-width="2"/>
+  <!-- 左边绳子 -->
+  <line x1="130" y1="80" x2="130" y2="120" stroke="#8888a0" stroke-width="2"/>
+  <!-- 右边绳子 -->
+  <line x1="390" y1="80" x2="390" y2="120" stroke="#8888a0" stroke-width="2"/>
+  <!-- 左侧天平盘（升高） -->
+  <rect x="80" y="120" width="100" height="14" rx="4" fill="#5a8ac8" opacity="0.6"/>
+  <!-- 右侧天平盘（降低） -->
+  <rect x="340" y="120" width="100" height="14" rx="4" fill="#d45a5a" opacity="0.6"/>
+  <!-- 左倾斜 -->
+  <line x1="100" y1="80" x2="130" y2="70" stroke="#c4a86a" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  <line x1="420" y1="80" x2="390" y2="90" stroke="#c4a86a" stroke-width="4" stroke-linecap="round" opacity="0.3"/>
+  <!-- 左边内容 -->
+  <text x="130" y="105" text-anchor="middle" fill="#8888a0" font-size="11">嘴上说的</text>
+  <text x="130" y="155" text-anchor="middle" fill="#5a8ac8" font-size="14" font-weight="bold">"不是主业"</text>
+  <text x="130" y="175" text-anchor="middle" fill="#5a8ac8" font-size="13">"只是底气"</text>
+  <text x="130" y="195" text-anchor="middle" fill="#5a8ac8" font-size="13">"修行精进"</text>
+  <!-- 右边内容 -->
+  <text x="390" y="105" text-anchor="middle" fill="#8888a0" font-size="11">实际做的</text>
+  <text x="390" y="155" text-anchor="middle" fill="#d45a5a" font-size="14" font-weight="bold">目标：1158万</text>
+  <text x="390" y="175" text-anchor="middle" fill="#d45a5a" font-size="13">年化200倍+</text>
+  <text x="390" y="195" text-anchor="middle" fill="#d45a5a" font-size="13">锁仓30天</text>
+  <!-- 箭头 -->
+  <text x="260" y="200" text-anchor="middle" fill="#8888a0" font-size="12">严重不匹配</text>
+  <text x="260" y="220" text-anchor="middle" fill="#d45a5a" font-size="16">⚖️ ❗</text>
+</svg>
+<div class="svg-caption">图3：嘴上说"不是主业"，实际行动却是追逐百倍收益——天平严重倾斜</div>
+</div>
+
+<h3>为什么会有这种矛盾？</h3>
+
+<p>答案其实很简单：<span class="hl-a">这套策略本质上是"寻宝"思维，不是"理财"思维。</span></p>
+
+<p>真正的理财是细水长流——年化10%-15%就已经很优秀了。而百倍收益是<span class="hl-r">寻宝</span>——你要找到那个一年涨100倍的东西。这完全不是一种东西。</p>
+
+<p>如果你真的是想"有点底气"（不被钱困扰），一个年化15%的稳健策略就够了。追求百倍收益，说明你心里其实想要的是：<span class="hl-g">暴富</span>。承认这一点，比说"我只是为了修行"要诚实得多。</p>
+
+<div class="callout info">
+  <div class="label">关键问题</div>
+  <p>这不一定是在骗人——可能连作者自己都没意识到这个矛盾。但作为读者，你要看清楚：这是一套"寻找暴富机会"的策略，不是什么"修行工具"。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3 -->
+<!-- ============================================================ -->
+<section id="s3">
+<h2>三、"趋势是情绪"——市场到底是谁在控制？<span class="subhead">价格不是由价值决定的？那是由什么决定的？</span></h2>
+
+<p>先讲个故事：你家门口的菜市场，猪肉突然涨价了。你觉得是因为猪变少了吗？不一定。可能是大家都听说"猪肉要涨价了"，于是都去抢购——结果猪肉真的涨价了。这就是<span class="hl-g">情绪推动价格</span>。</p>
+
+<p>这套策略的核心观点就是：<span class="hl-a">市场不是由"价值"决定的，而是由"情绪"决定的。</span></p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>股票涨不涨，不是看这家公司赚不赚钱，而是看大家觉得它会不会涨。市场就是一个巨大的"情绪放大器"。</p>
+</div>
+
+<h3>两种世界观，你信哪种？</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart LR
+    subgraph 普通人想法
+        A1["📊 公司赚钱"] --> A2["💰 股价上涨"]
+        A2 --> A3["🤑 大家赚钱"]
+    end
+
+    subgraph 这套策略的想法
+        B1["😱 大家觉得要涨"] --> B2["📈 大家一起买"]
+        B2 --> B3["🚀 价格飞涨"]
+        B3 --> B4["✅ 预言实现"]
+    end
+
+    style A1 fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+    style A2 fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+    style A3 fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+    style B1 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style B2 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style B3 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style B4 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图4：两种世界观——左边是教科书讲的，右边是这套策略信的</div>
+</div>
+
+<h3>情绪波动 vs 价格：它们到底是什么关系？</h3>
+
+<p>下面是模拟的"情绪-价格"关系图。你可以看到：<span class="hl-a">情绪走在价格前面</span>。不是价格变了导致情绪变，而是情绪变了导致价格变。</p>
+
+<div class="svg-box">
+<svg width="600" height="260" viewBox="0 0 600 260">
+  <!-- 背景网格 -->
+  <line x1="60" y1="40" x2="60" y2="220" stroke="#1e1e28" stroke-width="1"/>
+  <line x1="60" y1="220" x2="560" y2="220" stroke="#2a2a3a" stroke-width="1"/>
+  <line x1="60" y1="130" x2="560" y2="130" stroke="#1e1e28" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- 情绪曲线（虚线，先走） -->
+  <polyline points="60,180 100,170 140,120 180,90 220,70 260,60 300,55 340,65 380,90 420,130 460,170 500,190 540,200"
+            fill="none" stroke="#d45a5a" stroke-width="2.5" stroke-dasharray="6,3"/>
+
+  <!-- 价格曲线（实线，跟随情绪） -->
+  <polyline points="60,190 100,185 140,155 180,130 220,105 260,85 300,75 340,80 380,105 420,140 460,175 500,195 540,205"
+            fill="none" stroke="#5a8ac8" stroke-width="3"/>
+
+  <!-- 图例 -->
+  <rect x="380" y="20" width="16" height="3" rx="2" fill="#d45a5a" stroke-dasharray="4,2"/>
+  <text x="404" y="26" fill="#d45a5a" font-size="11">情绪（先动）</text>
+  <rect x="490" y="20" width="16" height="3" rx="2" fill="#5a8ac8"/>
+  <text x="514" y="26" fill="#5a8ac8" font-size="11">价格（跟随）</text>
+
+  <!-- 标注 -->
+  <text x="60" y="30" fill="#8888a0" font-size="11">高</text>
+  <text x="60" y="235" fill="#8888a0" font-size="11">低</text>
+  <text x="55" y="128" fill="#8888a0" font-size="10">中</text>
+  <text x="520" y="235" fill="#8888a0" font-size="10">时间 →</text>
+
+  <!-- 箭头标注 -->
+  <line x1="290" y1="72" x2="290" y2="50" stroke="#c4a86a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="294" y="46" fill="#c4a86a" font-size="10">情绪先涨</text>
+  <line x1="290" y1="78" x2="340" y2="78" stroke="#c4a86a" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <polygon points="0,0 6,3 0,6" fill="#c4a86a"/>
+    </marker>
+  </defs>
+
+  <!-- 阶段标注 -->
+  <text x="100" y="245" fill="#8888a0" font-size="9">冷静期</text>
+  <text x="200" y="245" fill="#d45a5a" font-size="9">升温期</text>
+  <text x="300" y="245" fill="#c4a86a" font-size="9">高潮期 🔥</text>
+  <text x="440" y="245" fill="#5a8ac8" font-size="9">退潮期</text>
+</svg>
+<div class="svg-caption">图5：红色虚线是情绪，蓝色实线是价格。情绪走在前面，价格在后面追。</div>
+</div>
+
+<h3>那"庄家"又是什么？</h3>
+
+<p>这套策略反复提到一个词——<span class="hl-g">"庄家"</span>。简单说，庄家就是"有钱的大户"，他们可以操控价格，制造波动，把散户甩下车，然后自己赚钱。</p>
+
+<p>策略的核心假设是：<span class="hl-a">你能找到"庄家成本线"</span>——也就是庄家买入的平均价格。跌到这条线附近，就是最好的买入时机，因为庄家不会让自己亏钱。</p>
+
+<p>听起来很有道理对吧？但这里有个大问题：<span class="hl-r">你怎么知道哪条线是"庄家成本线"？</span> 策略说看<span class="inline-code">92日均线</span>。但均线只是过去价格的平均数，跟庄家成本没有必然关系。这就像说"全班平均分是80分，所以你同桌一定考了80分"——这逻辑不对。</p>
+
+<div class="callout warn">
+  <div class="label">留个心眼</div>
+  <p>"庄家"这个概念让市场变得"有人情味"了——好像市场背后有个人在操控，你只要读懂他的心思就能赚钱。但真实的市场经济不是这样的。把市场拟人化，会让你产生"我能看懂庄家"的错觉。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4 -->
+<!-- ============================================================ -->
+<section id="s4">
+<h2>四、"洞藏酒"——30天不准动，这合理吗？<span class="subhead">一个很美的比喻，但可能完全用错了地方</span></h2>
+
+<p>"洞藏酒"是这套策略最核心的策略——<span class="hl-g">买了之后锁仓30天，不准动。</span></p>
+
+<p>比喻是这样的：你把酒埋在地窖里，30天内不能挖出来，否则酒就不香了。交易也一样：买了百倍龙王之后，30天内不能卖，不管涨跌都不动，否则就赚不到大钱。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>买进去之后，把自己"绑起来"30天，不准操作。听起来很有纪律性，但问题是：酒放30天一定变好喝，期权放30天可能变零。</p>
+</div>
+
+<h3>"窖藏"的完整过程</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+timeline
+    title 洞藏酒30天完整流程
+    第0-5天 : 买入百倍龙王 : 设置30天锁仓
+    第6-10天 : 价格可能下跌 : 庄家洗盘阶段 : 不准卖！
+    第11-15天 : 价格开始回升 : 情绪升温
+    第16-25天 : 主升浪到来 : 可能已翻几倍 : 仍然不准卖！
+    第26-30天 : 接近尾声 : 第30天强制卖出
+</div>
+<div class="mermaid-caption">图6：洞藏酒30天流程——看起来很美，但问题在下面</div>
+</div>
+
+<h3>酒窖 vs 期权：一个致命的类比错误</h3>
+
+<div class="svg-box">
+<svg width="600" height="350" viewBox="0 0 600 350">
+  <!-- 标题 -->
+  <text x="300" y="30" text-anchor="middle" fill="#c4a86a" font-size="15" font-weight="bold">酒窖 vs 期权：完全不同的逻辑</text>
+
+  <!-- 左右分割线 -->
+  <line x1="300" y1="50" x2="300" y2="310" stroke="#2a2a3a" stroke-width="2" stroke-dasharray="4,4"/>
+
+  <!-- 左侧：酒 -->
+  <rect x="30" y="50" width="240" height="20" rx="4" fill="#5a9a7a" opacity="0.3"/>
+  <text x="150" y="65" text-anchor="middle" fill="#5a9a7a" font-size="13" font-weight="bold">🍷 酒窖</text>
+
+  <!-- 酒坛 -->
+  <ellipse cx="150" cy="130" rx="60" ry="50" fill="#5a9a7a" opacity="0.12" stroke="#5a9a7a" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <rect x="105" y="95" width="90" height="25" rx="4" fill="#5a9a7a" opacity="0.2"/>
+  <text x="150" y="113" text-anchor="middle" fill="#5a9a7a" font-size="12">酒坛</text>
+
+  <!-- 酒的过程 -->
+  <text x="150" y="175" text-anchor="middle" fill="#8888a0" font-size="11">第1天 → 第30天</text>
+  <text x="150" y="198" text-anchor="middle" fill="#5a9a7a" font-size="13" font-weight="bold">✅ 越来越好喝</text>
+  <text x="150" y="218" text-anchor="middle" fill="#5a9a7a" font-size="12">确定性：100%</text>
+  <text x="150" y="238" text-anchor="middle" fill="#8888a0" font-size="11">化学反应一定会发生</text>
+
+  <!-- 酒精图标 -->
+  <text x="150" y="270" text-anchor="middle" fill="#5a9a7a" font-size="28">🍶</text>
+
+  <!-- 右侧：期权 -->
+  <rect x="330" y="50" width="240" height="20" rx="4" fill="#d45a5a" opacity="0.3"/>
+  <text x="450" y="65" text-anchor="middle" fill="#d45a5a" font-size="13" font-weight="bold">📄 期权</text>
+
+  <!-- 期权合约 -->
+  <rect x="380" y="95" width="140" height="60" rx="6" fill="#d45a5a" opacity="0.08" stroke="#d45a5a" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <text x="450" y="120" text-anchor="middle" fill="#d45a5a" font-size="11">期权合约</text>
+  <text x="450" y="140" text-anchor="middle" fill="#8888a0" font-size="10">到期日：第30天</text>
+
+  <!-- 期权的过程 -->
+  <text x="450" y="175" text-anchor="middle" fill="#8888a0" font-size="11">第1天 → 第30天</text>
+  <text x="450" y="198" text-anchor="middle" fill="#d45a5a" font-size="13" font-weight="bold">❌ 可能变零</text>
+  <text x="450" y="218" text-anchor="middle" fill="#d45a5a" font-size="12">不确定性：极高</text>
+  <text x="450" y="238" text-anchor="middle" fill="#8888a0" font-size="11">时间每天都在"吃掉"价值</text>
+
+  <!-- 归零图示 -->
+  <text x="450" y="265" text-anchor="middle" fill="#8888a0" font-size="10">第30天可能 →</text>
+  <text x="450" y="285" text-anchor="middle" fill="#d45a5a" font-size="22">💸</text>
+
+  <!-- 底部结论 -->
+  <rect x="100" y="310" width="400" height="30" rx="6" fill="#1e1e28" stroke="#c4a86a" stroke-width="1" opacity="0.8"/>
+  <text x="300" y="330" text-anchor="middle" fill="#c4a86a" font-size="12">把酒和时间的不确定性画等号，是一个危险的逻辑跳跃</text>
+</svg>
+<div class="svg-caption">图7：左边是确定性（酒一定会变好），右边是不确定性（期权可能变零）——这不是类比，是偷换概念</div>
+</div>
+
+<h3>期权的时间价值：每过一天都在"烧钱"</h3>
+
+<p>期权有个特点叫<span class="hl-g">"时间价值衰减"</span>（Theta衰减）。简单说：你买的期权每天都在"贬值"，即使价格不动。越临近到期日，贬值越快。这就像一块冰放在太阳底下——不管用不用，它都在融化。</p>
+
+<p>下面这张图用数据说话：</p>
+
+<div class="chart-box">
+<canvas id="thetaChart" width="700" height="360"></canvas>
+<div class="chart-caption">图8：期权时间价值衰减曲线——越靠近到期日，价值消失得越快。这不是"酒越陈越香"，是"冰越放越小"。</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    var ctx = document.getElementById('thetaChart').getContext('2d');
+    var days = Array.from({length: 31}, (_, i) => i);
+    var values = days.map(d => {
+      if (d === 0) return 100;
+      // Theta decay accelerates near expiry
+      var remaining = 30 - d;
+      return Math.round(100 * Math.pow(remaining / 30, 1.5) * 10) / 10;
+    });
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: days.map(d => d + '天'),
+        datasets: [{
+          label: '期权价值（初始=100）',
+          data: values,
+          borderColor: '#d45a5a',
+          backgroundColor: 'rgba(212,90,90,0.08)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          pointBackgroundColor: '#d45a5a'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: '#8888a0', font: { size: 12 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return '价值: ' + ctx.raw + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: '持有天数', color: '#8888a0', font: { size: 11 } },
+            ticks: { color: '#8888a0', maxTicksLimit: 10 }
+          },
+          y: {
+            title: { display: true, text: '剩余价值（%）', color: '#8888a0', font: { size: 11 } },
+            ticks: { color: '#8888a0', callback: function(v) { return v + '%'; } },
+            min: 0
+          }
+        }
+      }
+    });
+  }, 500);
+});
+</script>
+
+<p>看到了吗？到第30天，如果不涨，你的期权价值直接归零。这不是"酒没酿好"的问题，是"酒全洒了"的问题。</p>
+
+<div class="callout warn">
+  <div class="label">关键问题</div>
+  <p>洞藏酒的类比有一个结构性的错误：酒放30天一定变好（化学反应是确定的），但期权放30天大概率归零（时间价值衰减是确定的）。你不是在"酿酒"，你是在"赌行情必须在30天内出现"。这不是纪律，这是赌博。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5 -->
+<!-- ============================================================ -->
+<section id="s5">
+<h2>五、"赚了20倍没卖，最后归零"——为什么人会做这种事？<span class="subhead">行为金融学用大白话解释你的"手贱"</span></h2>
+
+<p>廖老师自己讲过一个故事：他有一次买了一个品种，赚了<span class="hl-g">20倍</span>，但没卖，最后跌回零。连他自己——一个做量化的人——都拿不住。</p>
+
+<p>你可能会想："20倍都不卖，疯了吗？" 但如果你真的处在那个位置，你大概率也会做同样的事。为什么？因为<span class="hl-a">你的大脑不是为交易设计的</span>。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>人的大脑有"bug"——亏钱比赚钱痛两倍，所以亏了不肯割肉，赚了又贪心想赚更多。最后的结果就是：赚了没跑，亏了死扛，两头都亏。</p>
+</div>
+
+<h3>交易者的心理过山车</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart TD
+    A["😊 发现机会<br/>情绪：兴奋"]
+    B["😰 买入之后<br/>情绪：紧张"]
+    C["😱 价格下跌<br/>情绪：恐惧"]
+    D["🤔 要不要跑？<br/>情绪：纠结"]
+    E["😌 价格回升<br/>情绪：放松"]
+    F["😏 开始赚钱<br/>情绪：得意"]
+    G["😃 赚了5倍<br/>情绪：狂喜"]
+    H["🤨 想卖又不敢<br/>情绪：纠结"]
+    I["😨 价格回调<br/>情绪：后悔"]
+    J["😭 回到原点<br/>情绪：绝望"]
+
+    A --> B --> C --> D
+    D -->|"😤 死扛"| E
+    D -->|"😮‍💨 割肉"| J
+    E --> F --> G --> H
+    H -->|"😠 再等等"| I
+    I -->|"😫 还不卖"| J
+    I -->|"😤 这次不跑"| G
+
+    style A fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style G fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style J fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图9：交易者的心理过山车——每一个节点都可能做出错误决策</div>
+</div>
+
+<h3>损失厌恶：亏100块的痛 ≈ 赚200块的快乐</h3>
+
+<p>心理学家发现了一个规律：<span class="hl-g">损失带来的痛苦，大约是同等收益带来的快乐的2-2.5倍。</span></p>
+
+<p>这就解释了为什么：</p>
+<ul>
+  <li>你赚了20倍不卖——因为你觉得"还能涨更多"，卖掉就等于"损失了未来的收益"</li>
+  <li>你亏了不割肉——因为割肉就等于"确定亏损"，而死扛还有"回本的希望"</li>
+</ul>
+
+<p>下面这张图很直观：</p>
+
+<div class="svg-box">
+<svg width="500" height="300" viewBox="0 0 500 300">
+  <!-- 坐标轴 -->
+  <line x1="250" y1="30" x2="250" y2="260" stroke="#2a2a3a" stroke-width="2"/>
+  <line x1="50" y1="150" x2="450" y2="150" stroke="#2a2a3a" stroke-width="2"/>
+
+  <!-- 轴标注 -->
+  <text x="255" y="35" fill="#8888a0" font-size="11">情感强度</text>
+  <text x="240" y="148" fill="#8888a0" font-size="10">0</text>
+  <text x="440" y="148" fill="#8888a0" font-size="10">收益 →</text>
+  <text x="50" y="148" fill="#8888a0" font-size="10">← 损失</text>
+
+  <!-- 快乐曲线（右侧，较缓） -->
+  <path d="M 250,150 Q 300,120 350,100 Q 400,80 440,65"
+        fill="none" stroke="#5a9a7a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 痛苦曲线（左侧，更陡） -->
+  <path d="M 250,150 Q 200,100 150,50 Q 100,10 60,-10"
+        fill="none" stroke="#d45a5a" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 标注点 -->
+  <circle cx="350" cy="100" r="4" fill="#5a9a7a"/>
+  <text x="355" y="93" fill="#5a9a7a" font-size="11">赚100的快乐 😊</text>
+
+  <circle cx="150" cy="50" r="4" fill="#d45a5a"/>
+  <text x="30" y="42" fill="#d45a5a" font-size="11">亏100的痛苦 😫（两倍长）</text>
+
+  <!-- 等距标注 -->
+  <line x1="250" y1="175" x2="350" y2="175" stroke="#5a9a7a" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="300" y="195" text-anchor="middle" fill="#5a9a7a" font-size="10">收益100</text>
+
+  <line x1="150" y1="175" x2="250" y2="175" stroke="#d45a5a" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="200" y="195" text-anchor="middle" fill="#d45a5a" font-size="10">损失100</text>
+
+  <!-- 箭头标注 -->
+  <text x="300" y="230" text-anchor="middle" fill="#5a9a7a" font-size="11">快乐 ↑ 但平缓</text>
+  <text x="200" y="250" text-anchor="middle" fill="#d45a5a" font-size="11">痛苦 ↑ 而且陡峭</text>
+
+  <!-- 底部结论 -->
+  <rect x="100" y="270" width="300" height="24" rx="4" fill="#1e1e28" stroke="#c4a86a" stroke-width="1" opacity="0.8"/>
+  <text x="250" y="287" text-anchor="middle" fill="#c4a86a" font-size="11">亏钱的痛感 = 赚钱快感的 2 倍</text>
+</svg>
+<div class="svg-caption">图10：绿色是"赚钱的快乐"，红色是"亏钱的痛苦"。痛苦曲线比快乐曲线陡峭一倍——这就是"损失厌恶"</div>
+</div>
+
+<h3>那"量化"到底是什么？</h3>
+
+<p>这套策略说：解决办法是<span class="hl-g">量化</span>——让机器代替人做决策。</p>
+
+<p>量化不是什么黑科技。用最白话的话说：<span class="hl-a">量化就是一个帮你"管住手"的机器人。</span></p>
+
+<p>你把规则告诉它：<span class="inline-code">如果A条件满足，就买入；持有30天；到期自动卖出。</span> 然后它就严格执行，不管你今天心情好不好、昨晚睡没睡好、老婆跟没跟你吵架。机器没有情感，所以不会被情感左右。</p>
+
+<p>但这里有个关键问题：<span class="hl-r">机器可以帮你执行，但机器不能帮你决定"该不该信这个策略"。</span> 当策略连续亏了5次，你还能不能坚持执行？这个决定，只能由你来做。</p>
+
+<div class="callout info">
+  <div class="label">一句话真相</div>
+  <p>量化解决的是"管住手"的问题，解决不了"策略本身好不好"的问题。先把策略搞清楚了，再用机器去执行它。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6 -->
+<!-- ============================================================ -->
+<section id="s6">
+<h2>六、"夏虫不可语冰"——这句话到底对不对？<span class="subhead">一个古老的智慧，但可能被人拿来忽悠你</span></h2>
+
+<p>"夏虫不可语冰"出自《庄子》。用大白话说就是：<span class="hl-g">夏天的虫子活不到冬天，你跟它说"冰"是什么，它根本理解不了——因为它没见过。</span></p>
+
+<p>这套策略用这句话来比喻：<span class="hl-a">没拿过大趋势的人，你跟他讲"百倍龙王"，他听不懂。他总觉得赚个10%就该跑了。</span></p>
+
+<p>这个说法有道理吗？<span class="hl-gr">有道理。</span> 但它也可能被滥用。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>"你没见过，所以你不信"——这句话可以让你保持开放心态，也可以被人用来让你闭嘴别质疑。关键是要分辨：是真的我见识不够，还是这件事本身就不靠谱？</p>
+</div>
+
+<h3>认知层次金字塔</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart TD
+    subgraph 顶层["🏔️ 顶层：真正拿过大趋势的人"]
+        T1["见过百倍龙王"]
+        T2["知道怎么拿住"]
+        T3["心态稳定"]
+    end
+
+    subgraph 中层["🌄 中层：见过一些行情的人"]
+        M1["赚过几倍"]
+        M2["但拿不住更大的"]
+        M3["开始反思"]
+    end
+
+    subgraph 底层["🌱 底层：没见过大行情的人"]
+        B1["每天盯盘"]
+        B2["赚一点就跑"]
+        B3["亏了就死扛"]
+    end
+
+    B1 --> M1 --> T1
+    B2 --> M2 --> T2
+    B3 --> M3 --> T3
+
+    style T1 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style T2 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style T3 fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style M1 fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+    style M2 fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+    style M3 fill:#1e1e28,stroke:#5a8ac8,color:#e4e4ec
+    style B1 fill:#1e1e28,stroke:#8888a0,color:#e4e4ec
+    style B2 fill:#1e1e28,stroke:#8888a0,color:#e4e4ec
+    style B3 fill:#1e1e28,stroke:#8888a0,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图11：认知层次金字塔——你在哪一层？</div>
+</div>
+
+<h3>你的"知识边界"</h3>
+
+<p>每个人都有自己的"知识边界"——你知道的东西，只是你"知道自己知道"的一小部分。</p>
+
+<div class="svg-box">
+<svg width="480" height="320" viewBox="0 0 480 320">
+  <!-- 大圆：未知的世界 -->
+  <circle cx="240" cy="165" r="130" fill="none" stroke="#2a2a3a" stroke-width="1.5"/>
+  <text x="240" y="45" text-anchor="middle" fill="#8888a0" font-size="11">所有你不知道的东西</text>
+
+  <!-- 中等圆：知道自己不知道 -->
+  <circle cx="240" cy="165" r="85" fill="none" stroke="#5a8ac8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="350" y="105" text-anchor="middle" fill="#5a8ac8" font-size="10">知道自己不知道</text>
+
+  <!-- 小圆：知道的 -->
+  <circle cx="240" cy="165" r="45" fill="#c4a86a" opacity="0.1" stroke="#c4a86a" stroke-width="2"/>
+  <text x="240" y="165" text-anchor="middle" fill="#c4a86a" font-size="12" font-weight="bold">你知道的</text>
+  <text x="240" y="183" text-anchor="middle" fill="#8888a0" font-size="10">（很小）</text>
+
+  <!-- 标注线 -->
+  <line x1="285" y1="120" x2="330" y2="105" stroke="#5a8ac8" stroke-width="1"/>
+
+  <!-- 边缘标注 -->
+  <text x="150" y="260" text-anchor="middle" fill="#8888a0" font-size="10">不知道自己不知道</text>
+  <text x="150" y="275" text-anchor="middle" fill="#8888a0" font-size="9">（"无知"的区域）</text>
+
+  <!-- "夏虫不可语冰"就发生在这里 -->
+  <path d="M 240,120 Q 300,130 360,160" fill="none" stroke="#d45a5a" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="368" y="158" fill="#d45a5a" font-size="10">"夏虫不可语冰"</text>
+  <text x="368" y="173" fill="#d45a5a" font-size="9">就发生在这里</text>
+</svg>
+<div class="svg-caption">图12：知识边界——你知道的（中间金色小圆）远远小于你不知道的。但要警惕的是：有人会用"你不知道"来让你相信"他知道"。</div>
+</div>
+
+<h3>你是"真的懂了"还是"被忽悠了"？</h3>
+
+<p>下面这个流程图帮你判断：</p>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart TD
+    Q1["🤔 你质疑这套策略"]
+    Q2["对方的回应是？"]
+
+    Q1 --> Q2
+
+    Q2 -->|"给我看数据、回测结果"| A["✅ 这是正经讨论<br/>你遇到了专业的人"]
+    Q2 -->|"你层次不够/夏虫不可语冰"| B["⚠️ 小心！<br/>这可能是在忽悠你"]
+    Q2 -->|"核心内容不公开/付费才能看"| C["🚩 危险！<br/>这可能是一个收割陷阱"]
+    Q2 -->|"我理解你的顾虑，让我解释"| D["👍 这是健康交流<br/>对方有底气面对质疑"]
+
+    style A fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style B fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+    style C fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+    style D fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图13：判断流程图——你是在和专业人士交流，还是在被PUA？</div>
+</div>
+
+<div class="callout warn">
+  <div class="label">关键提醒</div>
+  <p>"夏虫不可语冰"这句话本身没错——人的认知确实受限于经验。但在交易策略的讨论中，这句话很容易变成一个"堵嘴工具"：你质疑 → 对方说你层次不够 → 你闭嘴了。真正的专家不怕你问问题，只有忽悠你的人才会用"你不懂"来回避问题。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7 -->
+<!-- ============================================================ -->
+<section id="s7">
+<h2>七、"大钱是坐着等来的"——利弗莫尔的悲剧<span class="subhead">一个被引用最多、但被误解最深的名言</span></h2>
+
+<p>利弗莫尔（Jesse Livermore）是交易界的一个传奇人物。他在1929年美国大萧条时做空股市，赚了1亿美元——相当于当时美国国库的十分之一。他说过一句名言：<span class="hl-g">"大钱不是靠交易赚来的，是坐着等来的。"</span></p>
+
+<p>这套策略反复引用这句话，来证明"洞藏酒30天不动"的正确性。但利弗莫尔的故事还有后半段——而且是非常悲惨的后半段。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>"坐着等"是对的。但利弗莫尔最后破产自杀了——说明光"坐着等"还不够。他引用的这个人，自己都没能靠这个方法善终。</p>
+</div>
+
+<h3>利弗莫尔的一生：大起大落的悲剧</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+timeline
+    title 利弗莫尔的人生轨迹
+    1877 : 出生贫困家庭
+    1890s : 第一次投机成功 : 赚到第一桶金
+    1907 : 做空股市大赚 : 成为百万富翁
+    1908 : 做多棉花期货 : 第一次破产
+    1915 : 再次崛起 : 还清债务
+    1929 : 做空大萧条 : 赚1亿美元
+    1930s : 连续亏损 : 再次破产
+    1940 : 在酒店洗手间 : 开枪自杀
+</div>
+<div class="mermaid-caption">图14：利弗莫尔的人生：大赚→破产→大赚→破产→自杀。这不是成功的模板，是悲剧的警示。</div>
+</div>
+
+<p>你有没有注意到一个规律？<span class="hl-r">大赚 → 破产 → 大赚 → 破产 → 自杀。</span> 他不是不会赚钱，他是一而再再而三地"赚了又亏光"。</p>
+
+<p>这说明什么？说明他的问题 <span class="hl-a">不是"拿不住"</span>，而是<span class="hl-r">"拿住之后不知道什么时候该放手"</span>。这才是真正的问题！</p>
+
+<h3>"坐着等" vs "瞎操作"</h3>
+
+<div class="svg-box">
+<svg width="520" height="300" viewBox="0 0 520 300">
+  <!-- 左侧：坐着等 -->
+  <rect x="20" y="20" width="220" height="260" rx="12" fill="#1e1e28" stroke="#5a9a7a" stroke-width="1.5"/>
+  <text x="130" y="55" text-anchor="middle" fill="#5a9a7a" font-size="15" font-weight="bold">🧘 坐着等</text>
+
+  <!-- 人形（坐着） -->
+  <circle cx="130" cy="110" r="15" fill="#5a9a7a" opacity="0.3"/>
+  <path d="M 115,125 Q 130,140 145,125" fill="none" stroke="#5a9a7a" stroke-width="2" stroke-linecap="round"/>
+  <rect x="105" y="125" width="50" height="30" rx="4" fill="#5a9a7a" opacity="0.15"/>
+
+  <!-- 稳步上涨 -->
+  <path d="M 50,230 Q 80,210 110,220 Q 140,200 170,180 Q 200,160 220,140"
+        fill="none" stroke="#5a9a7a" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="130" y="265" text-anchor="middle" fill="#5a9a7a" font-size="12" font-weight="bold">✅ 利润稳步增长</text>
+  <text x="130" y="282" text-anchor="middle" fill="#8888a0" font-size="10">前提：选对了方向</text>
+
+  <!-- 右侧：瞎操作 -->
+  <rect x="280" y="20" width="220" height="260" rx="12" fill="#1e1e28" stroke="#d45a5a" stroke-width="1.5"/>
+  <text x="390" y="55" text-anchor="middle" fill="#d45a5a" font-size="15" font-weight="bold">🏃 瞎操作</text>
+
+  <!-- 各种箭头 -->
+  <circle cx="390" cy="110" r="15" fill="#d45a5a" opacity="0.3"/>
+  <path d="M 375,125 Q 390,115 405,125" fill="none" stroke="#d45a5a" stroke-width="2"/>
+
+  <!-- 上下翻飞的价格 -->
+  <path d="M 310,210 Q 330,140 350,220 Q 370,130 390,210 Q 410,140 430,200 Q 450,170 480,190"
+        fill="none" stroke="#d45a5a" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- 交易标记 -->
+  <circle cx="330" cy="140" r="3" fill="#d45a5a"/>
+  <text x="320" y="135" fill="#d45a5a" font-size="9">买</text>
+  <circle cx="370" cy="130" r="3" fill="#d45a5a"/>
+  <text x="360" y="125" fill="#d45a5a" font-size="9">买</text>
+  <circle cx="430" cy="200" r="3" fill="#d45a5a"/>
+  <text x="438" y="205" fill="#d45a5a" font-size="9">卖</text>
+  <circle cx="410" cy="140" r="3" fill="#d45a5a"/>
+  <text x="400" y="135" fill="#d45a5a" font-size="9">卖</text>
+
+  <text x="390" y="265" text-anchor="middle" fill="#d45a5a" font-size="12" font-weight="bold">❌ 利润在手续费中蒸发</text>
+  <text x="390" y="282" text-anchor="middle" fill="#8888a0" font-size="10">越操作越亏</text>
+</svg>
+<div class="svg-caption">图15：左边是"坐着等"——方向对了，利润自然来。右边是"瞎操作"——越动越亏。</div>
+</div>
+
+<h3>"无为"到底是什么意思？</h3>
+
+<p>这套策略用"无为"（道家思想）来解释"坐着等"。但"无为"不是什么都不做，是<span class="hl-g">"做对的事，然后别乱动"</span>。</p>
+
+<p>用一个种地的例子你就懂了：</p>
+
+<p>你种了一颗种子。正确的做法是：<span class="hl-gr">浇水、施肥、然后等它长大。</span> 你不能每天都把种子挖出来看看它长没长——那不是"有为"，那是"有病"。</p>
+
+<p>但反过来，如果你把种子种在了沙漠里（选错了标的），那你"无为"的结果就是啥也长不出来。<span class="hl-r">"无为"的前提是"选对了"。</span></p>
+
+<div class="callout info">
+  <div class="label">真相</div>
+  <p>"大钱是坐着等来的"这句话的正确用法是：先做大量的研究和分析，找到一个大概率正确的方向，然后坐着等。而不是：随便买一个，然后告诉自己"我在无为"。坐着等的背后，是大量的"有为"准备工作。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 8 -->
+<!-- ============================================================ -->
+<section id="s8">
+<h2>八、风险到底有多大？（用数字说话）<span class="subhead">别光看"赚了能翻100倍"，看看"亏了会怎样"</span></h2>
+
+<p>前面都在说"赚了能翻多少倍"，现在我们来算算另一面——<span class="hl-r">亏了会怎样。</span></p>
+
+<p>假设你用这套策略做10次交易，每次投入1万块。胜率是30%（已经很乐观了——虚值期权的胜率通常不到20%）。每次赚的时候平均翻3倍，亏的时候亏完本金。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>这套策略本质上是一个"胜率低、赔率高"的赌博。10次里可能亏7次，但只要抓住一次大的就能回本。问题是：你能熬到"大的"出现吗？</p>
+</div>
+
+<h3>模拟10次交易的结果</h3>
+
+<div class="chart-box">
+<canvas id="simChart" width="700" height="360"></canvas>
+<div class="chart-caption">图16：10次交易模拟——红色是亏损，绿色是盈利。你能看出问题在哪里吗？</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    // 模拟10次交易
+    var trades = [
+      { n: 1, result: '亏', amount: -1 },   // -1万
+      { n: 2, result: '亏', amount: -1 },   // -1万
+      { n: 3, result: '赚', amount: 3 },    // +3万
+      { n: 4, result: '亏', amount: -1 },   // -1万
+      { n: 5, result: '亏', amount: -1 },   // -1万
+      { n: 6, result: '赚', amount: 2 },    // +2万
+      { n: 7, result: '亏', amount: -1 },   // -1万
+      { n: 8, result: '亏', amount: -1 },   // -1万
+      { n: 9, result: '赚', amount: 5 },    // +5万
+      { n: 10, result: '亏', amount: -1 }   // -1万
+    ];
+
+    var cumulative = 0;
+    var labels = trades.map(t => '第' + t.n + '次');
+    var amounts = trades.map(t => t.amount);
+    var cumData = trades.map(function(t) {
+      cumulative += t.amount;
+      return cumulative;
+    });
+    var colors = trades.map(t => t.result === '赚' ? 'rgba(90,154,122,0.8)' : 'rgba(212,90,90,0.8)');
+
+    var ctx2 = document.getElementById('simChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '单次盈亏（万）',
+          data: amounts,
+          backgroundColor: colors,
+          borderColor: colors.map(function(c) { return c.replace('0.8', '1'); }),
+          borderWidth: 1,
+          order: 2
+        }, {
+          label: '累计资金（万）',
+          data: cumData,
+          type: 'line',
+          borderColor: '#c4a86a',
+          backgroundColor: 'rgba(196,168,106,0.08)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#c4a86a',
+          pointBorderColor: '#c4a86a',
+          order: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: '#8888a0', font: { size: 12 } }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#8888a0' }
+          },
+          y: {
+            title: { display: true, text: '盈亏（万元）', color: '#8888a0', font: { size: 11 } },
+            ticks: { color: '#8888a0', callback: function(v) { return v + '万'; } }
+          }
+        }
+      }
+    });
+  }, 800);
+});
+</script>
+
+<p>注意看金色线（累计资金）。10次下来，虽然亏了7次，但因为3次盈利的幅度够大，最终总账还是赚的。这就是"低胜率、高赔率"策略的逻辑——<span class="hl-a">关键在于你能不能扛过那7次亏损。</span></p>
+
+<h3>决策树：拿10万做这个策略，会发生什么？</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart TD
+    START["💰 你有10万本金<br/>分成10份，每份1万"]
+
+    START --> S1["🎲 第一次交易"]
+    S1 -->|"❌ 亏（70%）"| S2["剩余9万<br/>🎲 第二次交易"]
+    S1 -->|"✅ 赚（30%）"| S1W["+ 1-5万<br/>继续"]
+
+    S2 -->|"❌ 亏"| S3["剩余8万<br/>🎲 第三次"]
+    S2 -->|"✅ 赚"| S2W["资金回升"]
+
+    S3 -->|"❌ 亏"| S4["剩余7万<br/>🎲 第四次"]
+    S3 -->|"✅ 赚"| S3W
+
+    S4 -->|"❌ 连续亏4次"| WARN["⚠️ 你只剩下6万<br/>亏了40%了！<br/>你还敢继续吗？"]
+
+    style START fill:#1e1e28,stroke:#c4a86a,color:#e4e4ec
+    style WARN fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图17：10万本金做10次交易——关键问题是：连续亏4次后，你还敢继续吗？</div>
+</div>
+
+<h3>三种可能的结果</h3>
+
+<div class="result-cards">
+  <div class="result-card good">
+    <div class="r-title">好的结果</div>
+    <div class="r-prob">概率：约 15-20%</div>
+    <p>抓到一次大的百倍龙王，一次回本并大赚。10万变100万+。但这需要运气和耐心。</p>
+  </div>
+  <div class="result-card mid">
+    <div class="r-title">中等结果</div>
+    <div class="r-prob">概率：约 50-60%</div>
+    <p>赚了一些小行情，亏了一些。最终结果可能是小赚或小亏。一年下来收益率平平。</p>
+  </div>
+  <div class="result-card bad">
+    <div class="r-title">坏的结果</div>
+    <div class="r-prob">概率：约 20-30%</div>
+    <p>连续亏损导致本金大幅缩水。或者在"觉得下次一定能中"的赌徒心态下加仓，最终爆仓。</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <div class="label">最残酷的事实</div>
+  <p>这套策略最大的风险不是单次亏完，而是"连续亏损后的心态崩溃"。当你亏了4次、5次、6次之后，你还能坚持执行策略吗？大概率不能——你会在行情到来之前放弃，或者在最不该加仓的时候加仓。策略本身可能没错，但你的心理承受力才是真正的瓶颈。</p>
+</div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 9 -->
+<!-- ============================================================ -->
+<section id="s9">
+<h2>九、总结——这套策略到底能不能用？<span class="subhead">不吹不黑，客观地说说优缺点</span></h2>
+
+<p>好了，前面说了那么多，最后来做个总结。这套策略不是一无是处，也不是万能的。咱们分两部分看：<span class="hl-gr">什么是有用的</span>，<span class="hl-r">什么是危险的</span>。</p>
+
+<div class="beginner-box">
+  <div class="label">小白翻译</div>
+  <p>好的部分是"控制仓位、管住手"。坏的部分是"拿一个简单的均线系统，包装成能稳赚百倍的神秘战法"。</p>
+</div>
+
+<h3>优缺点对比</h3>
+
+<div class="mermaid-box">
+<div class="mermaid">
+flowchart LR
+    subgraph 优点["✅ 可用的部分"]
+        A1["轻仓操作<br/>每次只投亏得起的钱"]
+        A2["规则明确<br/>买、持有、卖都有规则"]
+        A3["管住手<br/>用规则约束人性"]
+        A4["分批止盈<br/>赚一倍卖一半"]
+    end
+
+    subgraph 缺点["❌ 危险的部分"]
+        B1["虚假类比<br/>洞藏酒不等于期权"]
+        B2["胜率被美化<br/>忽略连续亏损的可能"]
+        B3["庄家叙事<br/>把随机性拟人化"]
+        B4["神秘主义<br/>用'层次不够'堵嘴"]
+    end
+
+    style A1 fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style A2 fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style A3 fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style A4 fill:#1e1e28,stroke:#5a9a7a,color:#e4e4ec
+    style B1 fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+    style B2 fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+    style B3 fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+    style B4 fill:#1e1e28,stroke:#d45a5a,color:#e4e4ec
+</div>
+<div class="mermaid-caption">图18：优点 vs 缺点——有用的部分是一些通用的风控原则，危险的部分是那些"包装成智慧的忽悠"</div>
+</div>
+
+<h3>红绿灯判断系统</h3>
+
+<div class="svg-box">
+<svg width="360" height="460" viewBox="0 0 360 460">
+  <!-- 灯柱 -->
+  <rect x="155" y="30" width="50" height="400" rx="12" fill="#1e1e28" stroke="#2a2a3a" stroke-width="2"/>
+
+  <!-- 红灯 -->
+  <circle cx="180" cy="100" r="35" fill="none" stroke="#d45a5a" stroke-width="3" opacity="0.3"/>
+  <circle cx="180" cy="100" r="28" fill="#d45a5a" opacity="0.15"/>
+  <circle cx="180" cy="100" r="22" fill="#d45a5a" opacity="0.5"/>
+  <circle cx="180" cy="100" r="14" fill="#d45a5a" opacity="0.8"/>
+  <text x="180" y="106" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">✗</text>
+
+  <text x="240" y="105" fill="#d45a5a" font-size="13" font-weight="bold">绝对不能碰的情况</text>
+  <text x="240" y="125" fill="#8888a0" font-size="10">❌ 借钱 / 贷款来做</text>
+  <text x="240" y="142" fill="#8888a0" font-size="10">❌ 把全部身家投进去</text>
+  <text x="240" y="159" fill="#8888a0" font-size="10">❌ 相信"庄家"的说法</text>
+  <text x="240" y="176" fill="#8888a0" font-size="10">❌ 用"修行"安慰亏损</text>
+
+  <!-- 黄灯 -->
+  <circle cx="180" cy="210" r="35" fill="none" stroke="#e8c86a" stroke-width="3" opacity="0.3"/>
+  <circle cx="180" cy="210" r="28" fill="#e8c86a" opacity="0.15"/>
+  <circle cx="180" cy="210" r="22" fill="#e8c86a" opacity="0.5"/>
+  <circle cx="180" cy="210" r="14" fill="#e8c86a" opacity="0.8"/>
+  <text x="180" y="216" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">▲</text>
+
+  <text x="240" y="215" fill="#e8c86a" font-size="13" font-weight="bold">可以试试的情况</text>
+  <text x="240" y="235" fill="#8888a0" font-size="10">✅ 拿亏得起的钱（5%以内）</text>
+  <text x="240" y="252" fill="#8888a0" font-size="10">✅ 有量化工具辅助执行</text>
+  <text x="240" y="269" fill="#8888a0" font-size="10">✅ 做好了亏光的心理准备</text>
+  <text x="240" y="286" fill="#8888a0" font-size="10">✅ 出现连续亏损时能停手</text>
+
+  <!-- 绿灯 -->
+  <circle cx="180" cy="320" r="35" fill="none" stroke="#5a9a7a" stroke-width="3" opacity="0.3"/>
+  <circle cx="180" cy="320" r="28" fill="#5a9a7a" opacity="0.15"/>
+  <circle cx="180" cy="320" r="22" fill="#5a9a7a" opacity="0.5"/>
+  <circle cx="180" cy="320" r="14" fill="#5a9a7a" opacity="0.8"/>
+  <text x="180" y="326" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">●</text>
+
+  <text x="240" y="325" fill="#5a9a7a" font-size="13" font-weight="bold">可用的核心原则</text>
+  <text x="240" y="345" fill="#8888a0" font-size="10">💚 轻仓：每次只投很小比例</text>
+  <text x="240" y="362" fill="#8888a0" font-size="10">💚 规则明确：有清晰的买卖点</text>
+  <text x="240" y="379" fill="#8888a0" font-size="10">💚 管住手：用系统代替情绪</text>
+  <text x="240" y="396" fill="#8888a0" font-size="10">💚 分批止盈：赚了慢慢卖</text>
+</svg>
+<div class="svg-caption">图19：红绿灯判断系统——红色是禁区，黄色是谨慎区域，绿色是可用的通用原则</div>
+</div>
+
+<h3>最终建议</h3>
+
+<div class="callout success">
+  <div class="label">可以用的部分</div>
+  <p>1. <strong>轻仓原则</strong>：每次只投入总资金的5%以内，这是对的。<br>
+     2. <strong>规则化执行</strong>：给交易制定明确的规则，避免情绪化操作，这也是对的。<br>
+     3. <strong>分批止盈</strong>：赚了先卖一部分落袋为安，剩下的再拿一拿，这个思路是对的。<br>
+     4. <strong>长期思维</strong>：不追求每天赚钱，追求大周期的趋势，这个方向是对的。</p>
+</div>
+
+<div class="callout warn">
+  <div class="label">绝对不能信的部分</div>
+  <p>1. <strong>"庄家成本线"</strong>：均线就是均线，不是什么庄家成本线。这是故事，不是事实。<br>
+     2. <strong>"每年稳定3-5次百倍龙王"</strong>：过去发生过不代表未来一定发生。这是选择性记忆。<br>
+     3. <strong>"夏虫不可语冰"</strong>：这句话可以被用来让你闭嘴。真正的好策略不怕质疑。<br>
+     4. <strong>"投资不是主业" + 百倍收益</strong>：这前后矛盾。看清楚自己要的是什么：是"有点底气的稳健理财"，还是"寻找暴富机会"？</p>
+</div>
+
+<div class="pull-quote">
+  这套策略最有价值的部分，不是"百倍龙王"的神话，<br>而是"轻仓、规则化执行、管住手"这三个朴素的真理。<br>剥开那些花哨的包装，核心建议其实非常普通——<br>而这恰恰说明：真正有用的东西，不需要包装。
+</div>
+
+<p style="text-align: center; color: var(--text-muted); margin-top: 32px; font-size: 14px;">
+  <strong>用简单的话来说：</strong>吃鱼身的智慧是有用的，但"龙王"的故事是危险的。<br>
+  控制仓位、制定规则、严格执行——做到这三点，你不需要百倍龙王也能赚钱。<br>
+  但如果有人告诉你"只要信了就能暴富"——不管他说得多好听，都请转身离开。
+</p>
+
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  道商-天问堂 · 量化战法白话分析 &nbsp;|&nbsp; 不构成投资建议 &nbsp;|&nbsp; 独立思考，远离忽悠
+</footer>
+
+</body>
+</html>

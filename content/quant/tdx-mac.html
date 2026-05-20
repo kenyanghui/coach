@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通达信 入门手册 - Mac 版</title>
+    <style>
+        /* ===== 全局 ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, "PingFang SC", "Helvetica Neue", "SF Pro Display", Arial, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.8;
+        }
+
+        /* ===== 导航栏 ===== */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0 28px;
+            height: 50px;
+            display: flex; align-items: center; gap: 24px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+        .top-nav .logo {
+            color: #1d1d1f; font-weight: 700; font-size: 16px;
+            text-decoration: none; white-space: nowrap;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .top-nav .logo .mac-dot {
+            display: inline-block; width: 12px; height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9500, #ff6b35);
+            margin-right: 4px;
+        }
+        .top-nav a {
+            color: #86868b; text-decoration: none;
+            font-size: 13px; transition: color 0.2s;
+        }
+        .top-nav a:hover { color: #1d1d1f; }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar {
+            position: fixed; top: 50px; left: 0; bottom: 0; width: 220px;
+            background: #fff; border-right: 1px solid rgba(0,0,0,0.06);
+            overflow-y: auto; padding: 16px 0; z-index: 50;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 4px; }
+        .sidebar h3 {
+            font-size: 11px; color: #86868b; text-transform: uppercase;
+            letter-spacing: 0.5px; padding: 0 18px; margin: 16px 0 6px;
+            font-weight: 600;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: block; padding: 5px 18px; font-size: 13px;
+            color: #515154; text-decoration: none; transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: #0071e3; background: rgba(0,113,227,0.04);
+            border-left-color: #0071e3;
+        }
+
+        /* ===== 主内容 ===== */
+        .main { margin-left: 220px; margin-top: 50px; padding: 36px 48px 80px; max-width: 940px; }
+
+        /* ===== 封面（Mac 风格） ===== */
+        .hero {
+            text-align: center; padding: 56px 20px 44px;
+            background: linear-gradient(180deg, #f5f5f7 0%, #fff 100%);
+            border-radius: 16px; margin-bottom: 36px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .hero .mac-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #e8e8ed; padding: 4px 14px;
+            border-radius: 20px; font-size: 12px; color: #515154;
+            margin-bottom: 16px; font-weight: 500;
+        }
+        .hero .mac-badge::before {
+            content: ""; font-size: 16px;
+        }
+        .hero h1 {
+            font-size: 40px; font-weight: 700; margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .hero h1 span { color: #0071e3; }
+        .hero .sub { color: #86868b; font-size: 16px; max-width: 480px; margin: 0 auto; }
+        .hero .version {
+            display: inline-block; margin-top: 14px;
+            background: #fff; color: #515154;
+            padding: 4px 16px; border-radius: 20px; font-size: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        /* ===== 章节 ===== */
+        section { margin-bottom: 44px; }
+        section h2 {
+            font-size: 24px; font-weight: 700; color: #1d1d1f;
+            padding-bottom: 8px; border-bottom: 2px solid #0071e3;
+            margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+        }
+        section h2 .badge {
+            font-size: 11px; background: #0071e3; color: #fff;
+            padding: 1px 10px; border-radius: 10px; font-weight: 500;
+        }
+        section h3 {
+            font-size: 17px; font-weight: 600; color: #1d1d1f;
+            margin: 22px 0 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        section h3 .arrow { color: #0071e3; font-weight: 300; }
+        section p { margin-bottom: 10px; color: #515154; font-size: 14px; }
+        section ul, section ol { margin: 6px 0 14px 22px; color: #515154; font-size: 14px; }
+        section li { margin-bottom: 4px; }
+
+        /* ===== 提示框 ===== */
+        .tip {
+            background: #f0f7ff; border-left: 3px solid #0071e3;
+            padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 14px 0;
+            font-size: 13px; color: #1d1d1f;
+        }
+        .tip strong { color: #0071e3; }
+        .warn {
+            background: #fff5f5; border-left: 3px solid #ff3b30;
+            padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 14px 0;
+            font-size: 13px; color: #1d1d1f;
+        }
+        .warn strong { color: #ff3b30; }
+        .info-mac {
+            background: #f5f5f7; border-radius: 10px;
+            padding: 14px 18px; margin: 14px 0;
+            font-size: 13px; color: #515154;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .info-mac strong { color: #1d1d1f; }
+
+        /* ===== 代码 / 快捷键 ===== */
+        code, kbd {
+            font-family: "SF Mono", "JetBrains Mono", "Cascadia Code", "Menlo", monospace;
+            background: #f5f5f7; padding: 2px 8px; border-radius: 5px;
+            font-size: 0.88em; color: #d63384;
+        }
+        kbd {
+            background: #f5f5f7; border: 1px solid #d2d2d7;
+            border-bottom: 2px solid #a1a1a6; color: #1d1d1f;
+            padding: 1px 7px; font-size: 12px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+        }
+        pre {
+            background: #1d1d1f; color: #f5f5f7; padding: 14px 18px;
+            border-radius: 10px; overflow-x: auto; margin: 10px 0;
+            font-size: 13px; line-height: 1.7;
+        }
+        pre code {
+            background: none; color: inherit; padding: 0; font-size: inherit;
+        }
+        /* 代码高亮 */
+        .hl-kw  { color: #ff7b72; }
+        .hl-str { color: #a5d6ff; }
+        .hl-cm  { color: #8b949e; font-style: italic; }
+        .hl-path { color: #79c0ff; }
+
+        /* ===== 方案卡片 ===== */
+        .plan-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px; margin: 14px 0;
+        }
+        .plan-card {
+            background: #fff; border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 12px; padding: 18px;
+            transition: all 0.2s;
+        }
+        .plan-card:hover { border-color: #0071e3; box-shadow: 0 2px 12px rgba(0,113,227,0.08); }
+        .plan-card .icon { font-size: 24px; margin-bottom: 6px; }
+        .plan-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .plan-card p { font-size: 12px; color: #86868b; margin-bottom: 4px; }
+        .plan-card .tag {
+            display: inline-block; font-size: 11px; padding: 1px 10px;
+            border-radius: 10px; font-weight: 500;
+        }
+        .tag-rec   { background: #e8f5e9; color: #2e7d32; }
+        .tag-ok    { background: #fff8e1; color: #e65100; }
+        .tag-good  { background: #e3f2fd; color: #1565c0; }
+        .tag-warn  { background: #fce4ec; color: #c62828; }
+
+        @media (max-width: 640px) {
+            .plan-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== 快捷键表格 ===== */
+        .table-wrap { overflow-x: auto; margin: 10px 0; border-radius: 10px; border: 1px solid rgba(0,0,0,0.06); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #f5f5f7; }
+        th { padding: 8px 14px; text-align: left; font-weight: 600; color: #1d1d1f; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        td { padding: 8px 14px; border-bottom: 1px solid rgba(0,0,0,0.04); color: #515154; }
+        tbody tr:hover { background: #fafafa; }
+
+        /* ===== 底部 ===== */
+        footer {
+            text-align: center; padding: 24px 0; color: #86868b;
+            font-size: 12px; border-top: 1px solid rgba(0,0,0,0.06);
+            margin-top: 40px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; padding: 24px 18px 60px; }
+            .hero h1 { font-size: 28px; }
+            .top-nav { padding: 0 14px; gap: 14px; }
+            .top-nav a { font-size: 12px; }
+            .plan-grid { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+            .top-nav, .sidebar { display: none; }
+            .main { margin: 0; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== 导航栏 ==================== -->
+<nav class="top-nav">
+    <a href="#" class="logo"><span class="mac-dot"></span>通达信 <span style="font-weight:400;color:#86868b;font-size:13px;">Mac 版</span></a>
+    <a href="#intro">概览</a>
+    <a href="#install">安装方案</a>
+    <a href="#pd">Parallels</a>
+    <a href="#mac-native">Mac 原生版</a>
+    <a href="#vmware">VMware</a>
+    <a href="#crossover">CrossOver</a>
+    <a href="#tips">使用技巧</a>
+</nav>
+
+<!-- ==================== 侧边栏 ==================== -->
+<aside class="sidebar">
+    <h3>入门</h3>
+    <a href="#intro">Mac 用通达信总览</a>
+    <a href="#install">四大方案对比</a>
+    <a href="#choose">我该选哪个方案？</a>
+
+    <h3>方案详解</h3>
+    <a href="#pd">Parallels Desktop（推荐）</a>
+    <a href="#mac-native">通达信 Mac 原生版</a>
+    <a href="#vmware">VMware Fusion（免费）</a>
+    <a href="#crossover">CrossOver</a>
+    <a href="#bootcamp">Boot Camp（Intel Mac）</a>
+    <a href="#other">其他方案</a>
+
+    <h3>使用技巧</h3>
+    <a href="#tips">Mac 上的操作技巧</a>
+    <a href="#shortcut">快捷键对照</a>
+    <a href="#data">数据与存储</a>
+
+    <h3>常见问题</h3>
+    <a href="#faq">FAQ</a>
+</aside>
+
+<!-- ==================== 主内容 ==================== -->
+<div class="main">
+
+    <!-- ===== 封面 ===== -->
+    <div class="hero">
+        <div class="mac-badge">Mac 专属指南</div>
+        <h1>通达信 <span>入门手册</span></h1>
+        <p class="sub">在 Mac 电脑上安装和使用通达信的完整指南 —— M 芯片 & Intel 全适配</p>
+        <span class="version">支持 macOS Sonoma / Sequoia · Apple Silicon & Intel</span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 第 1 章：概述 -->
+    <!-- ============================================================ -->
+    <section id="intro">
+        <h2>Mac 用通达信总览</h2>
+        <p>通达信是 Windows 平台的软件，<strong>没有官方 Mac 版本</strong>（只有功能阉割的"金融终端 Mac 版"）。如果你想在 Mac 上获得完整的通达信体验，需要用一些"曲线救国"的方案。</p>
+
+        <div class="info-mac">
+            <strong>核心问题：</strong>M 芯片（M1/M2/M3/M4）的 Mac <strong>不能</strong>安装 Windows 双系统（Boot Camp 仅支持 Intel Mac）。
+            所以 M 芯片用户必须靠虚拟机或兼容层。
+        </div>
+
+        <p>目前主流方案有四种，各有优劣：</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 2 章：方案对比 -->
+    <!-- ============================================================ -->
+    <section id="install">
+        <h2>四大方案对比</h2>
+
+        <div class="plan-grid">
+            <div class="plan-card">
+                <div class="icon">🟦</div>
+                <h4>Parallels Desktop</h4>
+                <p>在 Mac 上运行 Windows 虚拟机，性能最好</p>
+                <span class="tag tag-rec">最推荐</span>
+            </div>
+            <div class="plan-card">
+                <div class="icon">🍏</div>
+                <h4>通达信 Mac 原生版</h4>
+                <p>官方推出的 Mac 版，但功能不全</p>
+                <span class="tag tag-ok">简单看盘可用</span>
+            </div>
+            <div class="plan-card">
+                <div class="icon">🟢</div>
+                <h4>VMware Fusion</h4>
+                <p>免费虚拟机，性能接近 Parallels</p>
+                <span class="tag tag-good">免费方案</span>
+            </div>
+            <div class="plan-card">
+                <div class="icon">🍷</div>
+                <h4>CrossOver</h4>
+                <p>兼容层运行 Windows 程序，不需 Windows 授权</p>
+                <span class="tag tag-warn">兼容性一般</span>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>方案</th><th>费用</th><th>功能完整度</th><th>性能</th><th>适合人群</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Parallels Desktop</strong></td><td>付费（约 ¥500/年）</td><td>⭐⭐⭐⭐⭐ 100%</td><td>⭐⭐⭐⭐⭐</td><td>主力用户、交易频繁</td></tr>
+                    <tr><td><strong>通达信 Mac 版</strong></td><td>免费</td><td>⭐⭐ 约 40%</td><td>⭐⭐⭐⭐</td><td>只看盘不交易</td></tr>
+                    <tr><td><strong>VMware Fusion</strong></td><td>免费（个人版）</td><td>⭐⭐⭐⭐⭐ 100%</td><td>⭐⭐⭐⭐</td><td>不想花钱的用户</td></tr>
+                    <tr><td><strong>CrossOver</strong></td><td>付费（约 ¥200）</td><td>⭐⭐⭐ 约 70%</td><td>⭐⭐⭐</td><td>轻度使用、不想装 Windows</td></tr>
+                    <tr><td><strong>Boot Camp</strong></td><td>免费</td><td>⭐⭐⭐⭐⭐ 100%</td><td>⭐⭐⭐⭐⭐</td><td>Intel Mac 用户（需重启）</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 3 章：我该选哪个 -->
+    <!-- ============================================================ -->
+    <section id="choose">
+        <h2>我该选哪个方案？</h2>
+
+        <ul>
+            <li><strong>M 芯片 + 需要完整功能 + 愿意付费</strong> → <a href="#pd" style="color:#0071e3;">Parallels Desktop</a> (最佳体验)</li>
+            <li><strong>M 芯片 + 完整功能 + 不想花钱</strong> → <a href="#vmware" style="color:#0071e3;">VMware Fusion</a> (免费够用)</li>
+            <li><strong>只看盘、不交易、不装虚拟机</strong> → <a href="#mac-native" style="color:#0071e3;">通达信 Mac 原生版</a> (最简单)</li>
+            <li><strong>Intel Mac + 追求极致性能</strong> → <a href="#bootcamp" style="color:#0071e3;">Boot Camp</a> (原生 Windows)</li>
+            <li><strong>不想装 Windows、轻度使用</strong> → <a href="#crossover" style="color:#0071e3;">CrossOver</a></li>
+        </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 4 章：Parallels Desktop（最推荐） -->
+    <!-- ============================================================ -->
+    <section id="pd">
+        <h2>方案一：Parallels Desktop <span class="badge">最推荐</span></h2>
+
+        <h3><span class="arrow">▸</span> 为什么推荐</h3>
+        <p>Parallels 是在 Mac 上运行 Windows 体验最好的虚拟机软件。它的 <strong>融合模式 (Coherence Mode)</strong> 能让 Windows 程序直接显示在 Mac 桌面上，就像原生应用一样。</p>
+
+        <h3><span class="arrow">▸</span> 安装步骤</h3>
+        <ol>
+            <li><strong>下载 Parallels Desktop</strong> — 官网 parallels.com 下载（支持 14 天免费试用）</li>
+            <li><strong>安装 Windows</strong> — 启动 Parallels，它会引导你自动下载并安装 Windows 11（自动处理，约 20~30 分钟）</li>
+            <li><strong>下载通达信</strong> — 在虚拟机里打开浏览器，去券商官网或 tdx.com.cn 下载 Windows 版通达信</li>
+            <li><strong>安装通达信</strong> — 正常安装，和在 Windows 电脑上一样</li>
+            <li><strong>开启融合模式</strong> — 点击 Parallels 菜单 <strong>「查看 → 进入融合」</strong>，通达信窗口就会脱离虚拟机界面直接出现在 Dock 和桌面上</li>
+        </ol>
+
+        <div class="tip">
+            <strong>融合模式的效果：</strong>通达信的窗口会出现在 Mac 桌面上，Dock 栏会有它的图标，你甚至可以用 <kbd>Cmd</kbd>+<kbd>Tab</kbd> 切换它。除了界面还是 Windows 风格，使用体验和原生 Mac 应用几乎没区别。
+        </div>
+
+        <h3><span class="arrow">▸</span> 关键设置优化</h3>
+        <ul>
+            <li><strong>内存分配：</strong>给虚拟机分配 4GB~8GB 内存（Parallels 会自动推荐合适的值）</li>
+            <li><strong>CPU 核心：</strong>分配 2~4 个核心（M 芯片性能足够）</li>
+            <li><strong>共享文件夹：</strong>设置 Mac 的「下载」或「桌面」文件夹共享给 Windows，方便导数据</li>
+            <li><strong>自动启动：</strong>可设置 Mac 开机时自动启动 Parallels 和通达信</li>
+        </ul>
+
+        <div class="warn">
+            <strong>注意：</strong>Parallels 是付费软件。订阅版约 ¥500/年（含免费升级），也有买断版但较贵。建议先试用 14 天确认满足需求再购买。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 5 章：通达信 Mac 原生版 -->
+    <!-- ============================================================ -->
+    <section id="mac-native">
+        <h2>方案二：通达信 Mac 原生版</h2>
+
+        <p>通达信官方有一个 <strong>Mac 版金融终端</strong>，可以直接在 macOS 上运行，不需要虚拟机。</p>
+
+        <h3><span class="arrow">▸</span> 优点</h3>
+        <ul>
+            <li>不需要安装 Windows，不需要虚拟机，最省事</li>
+            <li>原生 Mac 应用，功耗低、不发热</li>
+            <li>免费使用</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 缺点</h3>
+        <ul>
+            <li><strong>功能不全：</strong>缺少很多 Windows 版的核心功能</li>
+            <li>不支持公式编写、DLL 插件</li>
+            <li>不支持自定义版面</li>
+            <li>部分技术指标缺失</li>
+            <li>更新频率低，版本落后</li>
+            <li>部分券商不支持 Mac 版交易</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 下载与安装</h3>
+        <ol>
+            <li>打开浏览器访问 <strong>tdx.com.cn</strong> 或搜索"通达信 Mac 版"</li>
+            <li>下载 <code>.dmg</code> 安装包</li>
+            <li>双击打开，将通达信拖入「应用程序」文件夹</li>
+            <li>首次打开如果提示"无法验证开发者"，去 <strong>系统设置 → 隐私与安全性</strong>，点击"仍要打开"</li>
+        </ol>
+
+        <div class="tip">
+            <strong>适合场景：</strong>如果你只需要看看 K 线、分时图、自选股，不涉及复杂分析和交易，Mac 原生版完全够用。它就像一个"简化版通达信"。
+        </div>
+
+        <div class="info-mac">
+            <strong>券商定制 Mac 版：</strong>部分券商（如中信、华泰、招商证券等）会提供自己的 Mac 版交易终端，功能比官方通用 Mac 版更完整，建议优先用券商提供的版本。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 6 章：VMware Fusion（免费） -->
+    <!-- ============================================================ -->
+    <section id="vmware">
+        <h2>方案三：VMware Fusion <span class="badge">免费</span></h2>
+
+        <p>VMware Fusion 是 Parallels 的主要竞争对手。从 2024 年起，VMware Fusion 对个人用户<strong>免费提供</strong>。</p>
+
+        <h3><span class="arrow">▸</span> 安装步骤</h3>
+        <ol>
+            <li><strong>下载 VMware Fusion</strong> — 访问 <strong>support.broadcom.com</strong> 注册个人账号下载 VMware Fusion Pro（免费）</li>
+            <li><strong>获取 Windows</strong> — 你需要自己准备 Windows 11 ARM 版镜像（可从微软官网下载）</li>
+            <li><strong>创建虚拟机</strong> — 拖入 Windows 镜像文件，按向导完成安装</li>
+            <li><strong>安装通达信</strong> — 在虚拟机中正常下载安装</li>
+        </ol>
+
+        <h3><span class="arrow">▸</span> 与 Parallels 的对比</h3>
+        <table>
+            <thead><tr><th>对比项</th><th>VMware Fusion</th><th>Parallels Desktop</th></tr></thead>
+            <tbody>
+                <tr><td><strong>价格</strong></td><td><strong>免费</strong></td><td>约 ¥500/年</td></tr>
+                <tr><td><strong>性能</strong></td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr>
+                <tr><td><strong>融合模式</strong></td><td>有（Unity 模式）</td><td>有（Coherence 模式）</td></tr>
+                <tr><td><strong>易用性</strong></td><td>需要一定配置</td><td>开箱即用</td></tr>
+                <tr><td><strong>Windows 集成</strong></td><td>较基础</td><td>深度集成</td></tr>
+            </tbody>
+        </table>
+
+        <div class="tip">
+            <strong>总结：</strong>VMware Fusion 免费且性能足够，适合愿意花点时间配置的用户。如果你不想折腾，Parallels 更省心。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 7 章：CrossOver -->
+    <!-- ============================================================ -->
+    <section id="crossover">
+        <h2>方案四：CrossOver</h2>
+
+        <p>CrossOver 不是虚拟机，而是一个<strong>兼容层</strong>——它让 Windows 程序直接在 macOS 上运行，不需要安装 Windows 系统。</p>
+
+        <h3><span class="arrow">▸</span> 优点</h3>
+        <ul>
+            <li>不需要 Windows 授权</li>
+            <li>不需要完整的 Windows 系统，省磁盘空间（仅需 2~3GB）</li>
+            <li>程序启动快，没有 Windows 启动过程</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 缺点</h3>
+        <ul>
+            <li>兼容性不确定——不是所有 Windows 程序都能正常运行</li>
+            <li>通达信的部分功能可能有问题（尤其是交易模块）</li>
+            <li>性能不如虚拟机</li>
+            <li>出现问题难以排查</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 安装步骤</h3>
+        <ol>
+            <li>在 <strong>codeweavers.com</strong> 购买并下载 CrossOver（约 ¥200，有 14 天试用）</li>
+            <li>打开 CrossOver，点击「安装 Windows 软件」</li>
+            <li>搜索通达信（或直接选择"安装未列出的应用程序"）</li>
+            <li>浏览选择通达信的安装包 <code>setup.exe</code></li>
+            <li>按提示完成安装，然后从 CrossOver 的 Bottle 中启动通达信</li>
+        </ol>
+
+        <div class="warn">
+            <strong>注意：</strong>CrossOver 运行通达信的体验因版本而异。建议先用试用版测试你的券商版本是否正常工作，再决定是否购买。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 8 章：Boot Camp（Intel Mac） -->
+    <!-- ============================================================ -->
+    <section id="bootcamp">
+        <h2>方案五：Boot Camp（仅 Intel Mac）</h2>
+
+        <p>如果你的 Mac 是 <strong>Intel 芯片</strong>（2020 年之前机型），可以使用苹果自带的启动转换助理安装 Windows 双系统。</p>
+
+        <h3><span class="arrow">▸</span> 安装步骤</h3>
+        <ol>
+            <li>打开「应用程序 → 实用工具 → <strong>启动转换助理</strong>」</li>
+            <li>设置 Windows 分区大小（建议至少 80GB，通达信加数据可能占用不少空间）</li>
+            <li>插入 Windows 10/11 USB 安装盘（或选择 ISO 文件）</li>
+            <li>按提示重启并安装 Windows</li>
+            <li>安装完成后，在 Windows 中安装通达信</li>
+        </ol>
+
+        <div class="info-mac">
+            <strong>切换系统：</strong>开机长按 <kbd>Option</kbd>（⌥）键选择启动盘，或在系统设置中设置默认启动系统。
+        </div>
+
+        <div class="tip">
+            <strong>特点：</strong>Boot Camp 是<strong>完整的 Windows 系统</strong>，通达信 100% 功能可用，性能最佳。缺点是需要重启切换系统，无法和 macOS 应用同时使用。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 9 章：其他方案 -->
+    <!-- ============================================================ -->
+    <section id="other">
+        <h2>其他方案</h2>
+
+        <h3><span class="arrow">▸</span> 云电脑方案</h3>
+        <p>如果你完全不想在本地装任何东西，也可以使用云电脑：</p>
+        <ul>
+            <li><strong>华为云桌面 / 阿里云无影</strong> — 远程连接一个 Windows 云桌面</li>
+            <li>在云桌面里安装通达信，通过浏览器或客户端访问</li>
+            <li>优点：不占用 Mac 资源，随时随地可用</li>
+            <li>缺点：依赖网络，有延迟，月费约 ¥50~100</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> Wine 手动方案</h3>
+        <p>通过 Homebrew 安装 Wine，手动配置 Windows 兼容层。适合有技术基础的用户：</p>
+        <pre><code><span class="hl-cm"># 安装 Wine（通过 Homebrew）</span>
+<span class="hl-kw">brew install</span> --cask wine-stable
+
+<span class="hl-cm"># 运行通达信安装程序</span>
+<span class="hl-kw">wine</span> tdx_installer.exe</code></pre>
+        <p>但这个方案配置复杂，稳定性无法保证。</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 10 章：Mac 上的操作技巧 -->
+    <!-- ============================================================ -->
+    <section id="tips">
+        <h2>Mac 上的操作技巧</h2>
+
+        <h3><span class="arrow">▸</span> 键盘映射</h3>
+        <p>Mac 键盘和 Windows 键盘的按键对应关系：</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Windows</th><th>Mac（Parallels 默认）</th><th>说明</th></tr></thead>
+                <tbody>
+                    <tr><td><kbd>Ctrl</kbd></td><td><kbd>⌘ Cmd</kbd></td><td>大部分快捷键自动映射</td></tr>
+                    <tr><td><kbd>Alt</kbd></td><td><kbd>⌥ Option</kbd></td><td>通达信中 Alt 快捷键可以直接用 Option</td></tr>
+                    <tr><td><kbd>F5</kbd></td><td><kbd>Fn</kbd>+<kbd>F5</kbd> 或 <kbd>⌘</kbd>+<kbd>5</kbd></td><td>Mac 默认 F 键是功能键，需按 Fn</td></tr>
+                    <tr><td><kbd>Delete</kbd></td><td><kbd>⌫ Backspace</kbd></td><td>等价</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td><kbd>⌘</kbd>+<kbd>P</kbd></td><td>通讯设置</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tip">
+            <strong>优化建议：</strong>在 Parallels 设置中可自定义键盘映射。建议把 <kbd>⌘</kbd> 映射为 <kbd>Ctrl</kbd>，这样通达信的 <kbd>Ctrl</kbd>+<kbd>D</kbd>、<kbd>Ctrl</kbd>+<kbd>T</kbd> 等快捷键直接用 <kbd>⌘</kbd> 操作。
+        </div>
+
+        <h3><span class="arrow">▸</span> 浏览器打开还是桌面端？</h3>
+        <p>Mac 原生版和 Windows 虚拟机版共用同一个<strong>数据文件夹</strong>概念：</p>
+        <ul>
+            <li><strong>自选股同步：</strong>在虚拟机中设置好自选股，导出配置文件，导入到 Mac 版。或使用通达信的云同步功能</li>
+            <li><strong>自定义公式：</strong>Windows 版编写的公式无法直接在 Mac 版使用（Mac 版不支持公式管理）</li>
+        </ul>
+
+        <h3><span class="arrow">▸</span> 窗口管理</h3>
+        <ul>
+            <li><strong>Parallels 融合模式：</strong>通达信窗口独立存在，可拖拽到任意桌面</li>
+            <li><strong>Mac 分屏：</strong>可以把通达信放在一侧，Safari/Chrome 放在另一侧看资讯</li>
+            <li><strong>Mission Control：</strong>给通达信分配独立桌面，用 <kbd>⌃ Ctrl</kbd>+<kbd>←</kbd>/<kbd>→</kbd> 快速切换</li>
+        </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 11 章：快捷键对照 -->
+    <!-- ============================================================ -->
+    <section id="shortcut">
+        <h2>快捷键对照</h2>
+        <p>以下是在 Mac+虚拟机环境下通达信的常用快捷键（以 Parallels 默认映射为准）：</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>功能</th><th>Windows</th><th>Mac（Parallels）</th></tr></thead>
+                <tbody>
+                    <tr><td>上证指数</td><td><kbd>F3</kbd></td><td><kbd>Fn</kbd>+<kbd>F3</kbd></td></tr>
+                    <tr><td>深证成指</td><td><kbd>F4</kbd></td><td><kbd>Fn</kbd>+<kbd>F4</kbd></td></tr>
+                    <tr><td>分时/K线切换</td><td><kbd>F5</kbd></td><td><kbd>Fn</kbd>+<kbd>F5</kbd></td></tr>
+                    <tr><td>自选股</td><td><kbd>F6</kbd></td><td><kbd>Fn</kbd>+<kbd>F6</kbd></td></tr>
+                    <tr><td>公司资料</td><td><kbd>F10</kbd></td><td><kbd>Fn</kbd>+<kbd>F10</kbd></td></tr>
+                    <tr><td>交易下单</td><td><kbd>F12</kbd></td><td><kbd>Fn</kbd>+<kbd>F12</kbd></td></tr>
+                    <tr><td>系统设置</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td><kbd>⌘ Cmd</kbd>+<kbd>D</kbd></td></tr>
+                    <tr><td>条件选股</td><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td><kbd>⌘ Cmd</kbd>+<kbd>T</kbd></td></tr>
+                    <tr><td>通讯设置</td><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td><kbd>⌘ Cmd</kbd>+<kbd>P</kbd></td></tr>
+                    <tr><td>数据导出</td><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td><kbd>⌘ Cmd</kbd>+<kbd>E</kbd></td></tr>
+                    <tr><td>添加自选</td><td><kbd>Alt</kbd>+<kbd>Z</kbd></td><td><kbd>⌥ Option</kbd>+<kbd>Z</kbd></td></tr>
+                    <tr><td>股票搜索</td><td>直接输入代码或拼音</td><td>直接输入（切换到英文输入法）</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tip">
+            <strong>Mac 功能键设置：</strong>如果你希望按 <kbd>F5</kbd> 直接触发 F5（而不是调节屏幕亮度），去 <strong>系统设置 → 键盘 → 键盘快捷键 → 功能键</strong>，把 Parallels 应用添加到列表即可。
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 12 章：数据与存储 -->
+    <!-- ============================================================ -->
+    <section id="data">
+        <h2>数据与存储</h2>
+
+        <h3><span class="arrow">▸</span> 各方案磁盘占用</h3>
+        <table>
+            <thead><tr><th>方案</th><th>预计占用空间</th></tr></thead>
+            <tbody>
+                <tr><td>Parallels + Windows 11 + 通达信</td><td>约 35~60 GB（含日线数据）</td></tr>
+                <tr><td>VMware + Windows 11 + 通达信</td><td>约 35~60 GB</td></tr>
+                <tr><td>CrossOver + 通达信</td><td>约 2~5 GB</td></tr>
+                <tr><td>通达信 Mac 原生版</td><td>约 500 MB ~ 2 GB</td></tr>
+                <tr><td>云电脑</td><td>0（数据在云端）</td></tr>
+            </tbody>
+        </table>
+
+        <h3><span class="arrow">▸</span> 数据下载</h3>
+        <p>无论哪种方案，在 Windows 虚拟机中操作时：</p>
+        <ol>
+            <li>打开通达信，菜单 <strong>行情 → 盘后数据下载</strong></li>
+            <li>勾选需要的市场（沪深）和数据类型（日线、一分钟线、分时图等）</li>
+            <li>点击"开始下载"</li>
+        </ol>
+        <p>Mac 原生版同样支持盘后数据下载，位置相同。</p>
+
+        <h3><span class="arrow">▸</span> 数据共享（虚拟机 ↔ Mac）</h3>
+        <ul>
+            <li><strong>Parallels：</strong>自动共享 Mac 的「桌面」「文档」「下载」文件夹</li>
+            <li><strong>VMware：</strong>设置共享文件夹，路径通常在 <code>/mnt/hgfs/</code></li>
+            <li><strong>导出数据：</strong>在通达信中按 <kbd>⌘ Cmd</kbd>+<kbd>E</kbd> 导出 Excel，文件直接保存到 Mac 桌面</li>
+        </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 第 13 章：常见问题 -->
+    <!-- ============================================================ -->
+    <section id="faq">
+        <h2>常见问题</h2>
+
+        <h3><span class="arrow">▸</span> Q：M1/M2/M3 Mac 能用 Parallels 吗？</h3>
+        <p>可以。Parallels 完全支持 M 芯片，会自动下载 <strong>Windows 11 ARM 版</strong>。ARM 版 Windows 可以运行 x86 程序（通过微软的 Prism 转译），通达信运行流畅。</p>
+
+        <h3><span class="arrow">▸</span> Q：M 芯片 Mac 用虚拟机，通达信会卡吗？</h3>
+        <p>不会。M1/M2/M3/M4 的性能跑 Windows 虚拟机绰绰有余。通达信又不是大型 3D 游戏，日常看盘、切换 K 线、条件选股都<strong>非常流畅</strong>。</p>
+
+        <h3><span class="arrow">▸</span> Q：虚拟机里上网和交易安全吗？</h3>
+        <p>安全。虚拟机中的 Windows 和 Mac 共享网络，和普通 Windows 电脑一样。建议在虚拟机中也安装杀毒软件（Windows Defender 即可），不要下载不明软件。</p>
+
+        <h3><span class="arrow">▸</span> Q：Mac 原生版能交易吗？</h3>
+        <p>部分券商支持，部分不支持。需要去你的券商官网查看是否提供 Mac 版交易终端。如果不支持，交易功能会显示"未开通"或直接没有交易入口。</p>
+
+        <h3><span class="arrow">▸</span> Q：Parallels 融合模式切换不畅怎么办？</h3>
+        <p>尝试在 Parallels 设置中关闭"显示 Windows 开始菜单"选项。如果融合模式下通达信窗口显示异常（如工具栏图标太小），可以在 Windows 中调整显示缩放为 125% 或 150%。</p>
+
+        <h3><span class="arrow">▸</span> Q：数据很大，快没空间了？</h3>
+        <p>虚拟机磁盘可以压缩。在 Parallels 中：<strong>操作 → 压缩虚拟机</strong>。或者清理 Windows 中的临时文件（磁盘清理工具）。日线数据一般只保留最近 3~5 年即可。</p>
+
+        <h3><span class="arrow">▸</span> Q：Mac 原生版某个功能没有，我该怎么办？</h3>
+        <p>Mac 原生版功能有限是正常的。如果你确实需要某个缺失的功能（如自定义公式、特定指标），就只能用虚拟机方案了。</p>
+
+        <h3><span class="arrow">▸</span> Q：Intel Mac 用 Boot Camp 还是 Parallels？</h3>
+        <p><strong>需要频繁使用通达信：</strong>Boot Camp（性能最好，但每次要重启）<br>
+        <strong>需要同时用 Mac 和通达信：</strong>Parallels（不用重启，可融合模式同时使用）</p>
+    </section>
+
+    <!-- ===== 底部 ===== -->
+    <footer>
+        <p>通达信入门手册 &mdash; Mac 版 &mdash; 用浏览器打开此文件即可阅读</p>
+        <p style="margin-top:4px;">通达信官网：<a href="https://www.tdx.com.cn" style="color:#0071e3;" target="_blank">tdx.com.cn</a></p>
+    </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>少年商学院 - 12 节课学会投资</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f5f0ff;
+    color: #333;
+    line-height: 1.7;
+  }
+
+  /* ===== 头部 ===== */
+  .hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "💰📈🏦📊🪙";
+    position: absolute;
+    top: 10px; left: 0; right: 0;
+    font-size: 60px;
+    opacity: 0.1;
+    letter-spacing: 30px;
+    text-align: center;
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 2.4em;
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 span { color: #ffd54f; }
+  .hero p {
+    font-size: 1.1em;
+    opacity: 0.9;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .badge-group {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .badge {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+  /* ===== 模块概览 ===== */
+  .module-overview {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .module-overview h2 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .module-chip {
+    background: #f8f6ff;
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: 0.3s;
+    cursor: default;
+  }
+  .module-chip:hover { border-color: #667eea; transform: translateY(-2px); }
+  .module-chip .emoji { font-size: 1.8em; }
+  .module-chip .name { font-size: 0.8em; font-weight: 600; color: #333; margin-top: 4px; }
+  .module-chip .count { font-size: 0.7em; color: #999; }
+
+  /* ===== 课程卡片 ===== */
+  .lesson {
+    background: #fff;
+    border-radius: 16px;
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .lesson-header {
+    padding: 24px 28px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    user-select: none;
+  }
+  .lesson-header .left { flex: 1; }
+  .lesson-header .module-tag {
+    display: inline-block;
+    font-size: 0.7em;
+    padding: 2px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .mod1 { background: #e3f2fd; color: #1565c0; }
+  .mod2 { background: #e8f5e9; color: #2e7d32; }
+  .mod3 { background: #fff3e0; color: #e65100; }
+  .mod4 { background: #fce4ec; color: #c62828; }
+  .mod5 { background: #f3e5f5; color: #7b1fa2; }
+  .mod6 { background: #e0f2f1; color: #00695c; }
+
+  .lesson-header h3 {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 2px;
+  }
+  .lesson-header .toggle-icon {
+    font-size: 1.4em;
+    color: #bbb;
+    transition: 0.3s;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .lesson-header .toggle-icon.open { transform: rotate(180deg); }
+
+  .lesson-body {
+    padding: 0 28px 24px;
+    display: none;
+  }
+  .lesson-body.open { display: block; }
+
+  .lesson-body .story {
+    background: #fffde7;
+    border-left: 4px solid #ffc107;
+    padding: 14px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 10px 0 16px;
+    font-size: 0.92em;
+    color: #555;
+  }
+  .lesson-body .story strong { color: #f57c00; }
+
+  .knowledge-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .knowledge-point {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid #eee;
+  }
+  .knowledge-point .icon { font-size: 1.3em; }
+  .knowledge-point .title {
+    font-weight: 600;
+    font-size: 0.9em;
+    margin: 4px 0 2px;
+    color: #333;
+  }
+  .knowledge-point .desc {
+    font-size: 0.82em;
+    color: #666;
+  }
+
+  .task-box {
+    background: linear-gradient(135deg, #f0f4ff, #fce4ec);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .task-box .task-title {
+    font-weight: 700;
+    font-size: 0.95em;
+    color: #333;
+    margin-bottom: 6px;
+  }
+  .task-box .task-title .icon { margin-right: 6px; }
+  .task-box .task-desc {
+    font-size: 0.88em;
+    color: #555;
+  }
+  .task-box .task-input {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 50px;
+    transition: 0.2s;
+    background: #fff;
+  }
+  .task-box .task-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+  }
+
+  .chart-box {
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 12px 0;
+    text-align: center;
+  }
+  .chart-box svg { max-width: 100%; height: auto; }
+  .chart-box .caption {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 6px;
+  }
+
+  .quote-box {
+    background: #e8f5e9;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    text-align: center;
+    font-style: italic;
+    color: #2e7d32;
+    font-size: 0.92em;
+  }
+
+  .tip-bubble {
+    display: inline-block;
+    background: #fff3e0;
+    color: #e65100;
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-size: 0.78em;
+    font-weight: 600;
+  }
+
+  table.simple {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.88em;
+  }
+  table.simple th {
+    background: #667eea;
+    color: #fff;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  table.simple td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  table.simple tr:last-child td { border-bottom: none; }
+
+  /* ===== 勋章墙 ===== */
+  .badge-wall {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .badge-wall h2 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px;
+  }
+  .badge-item {
+    text-align: center;
+    padding: 12px 6px;
+    border-radius: 12px;
+    background: #f5f5f5;
+    opacity: 0.4;
+    transition: 0.3s;
+  }
+  .badge-item.unlocked {
+    background: #fff8e1;
+    opacity: 1;
+    border: 2px solid #ffc107;
+  }
+  .badge-item .bicon { font-size: 2em; }
+  .badge-item .bname { font-size: 0.7em; color: #666; margin-top: 2px; }
+  .badge-item.unlocked .bname { color: #e65100; font-weight: 600; }
+
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.6em; }
+    .lesson-header { padding: 18px 18px 14px; }
+    .lesson-body { padding: 0 18px 18px; }
+    .knowledge-points { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>少年商学院</h1>
+  <p>12 节课 · 学会让钱为你工作</p>
+  <div class="badge-group">
+    <span class="badge">适合 12-18 岁</span>
+    <span class="badge">零基础也能学</span>
+    <span class="badge">每节 20 分钟</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ===== 课程概览 ===== -->
+<div class="module-overview">
+  <h2>📚 6 个模块 · 12 节课</h2>
+  <div class="module-grid">
+    <div class="module-chip"><div class="emoji">💰</div><div class="name">认识钱</div><div class="count">第1-2课</div></div>
+    <div class="module-chip"><div class="emoji">🏪</div><div class="name">看懂公司</div><div class="count">第3-4课</div></div>
+    <div class="module-chip"><div class="emoji">📈</div><div class="name">股票入门</div><div class="count">第5-7课</div></div>
+    <div class="module-chip"><div class="emoji">🏛️</div><div class="name">认识市场</div><div class="count">第8-9课</div></div>
+    <div class="module-chip"><div class="emoji">🧺</div><div class="name">基金理财</div><div class="count">第10-11课</div></div>
+    <div class="module-chip"><div class="emoji">🎮</div><div class="name">模拟实战</div><div class="count">第12课</div></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 模块一：认识钱 -->
+<!-- ================================================================ -->
+
+<!-- 第1课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod1">模块一 · 认识钱</span>
+      <h3>第1课：钱到底是什么？</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>小明的爸爸开了一家奶茶店。小明问："爸爸，一杯奶茶卖 25 块钱，为什么客人愿意付钱？"爸爸说："因为客人渴了，我们的奶茶好喝，这就是<strong>价值</strong>。钱就是用来交换价值的工具。"
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🪙</div>
+        <div class="title">钱不是目的</div>
+        <div class="desc">钱本身没有价值，它能换到的东西才有价值。钱是工具，不是目标。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">👷</div>
+        <div class="title">钱的来源</div>
+        <div class="desc">所有钱都来自于"创造价值"。你帮别人解决了问题，别人就愿意付钱给你。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🐖</div>
+        <div class="title">储蓄 vs 消费</div>
+        <div class="desc">把钱花掉 = 消费（东西用完就没了）。把钱存起来 = 为未来准备。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 160" width="640" height="160">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">钱的流动：你帮别人 → 别人付你钱 → 你用钱买你需要的东西</text>
+        <rect x="80" y="45" width="130" height="55" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="145" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">你创造价值</text>
+        <text x="145" y="90" text-anchor="middle" font-size="11" fill="#555">帮别人解决问题</text>
+        <text x="220" y="75" font-size="22" fill="#999">→</text>
+        <rect x="250" y="45" width="130" height="55" rx="12" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+        <text x="315" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">别人付钱给你</text>
+        <text x="315" y="90" text-anchor="middle" font-size="11" fill="#555">收入</text>
+        <text x="390" y="75" font-size="22" fill="#999">→</text>
+        <rect x="420" y="45" width="150" height="55" rx="12" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="495" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">你用钱买东西</text>
+        <text x="495" y="90" text-anchor="middle" font-size="11" fill="#555">消费 / 投资</text>
+        <text x="320" y="140" text-anchor="middle" font-size="11" fill="#888">钱的本质是"价值的凭证"——你为别人创造了多少价值，就能换回多少价值</text>
+      </svg>
+      <div class="caption">▲ 钱是中间工具，价值才是根本</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：我的价值清单</div>
+      <div class="task-desc">写出 3 件你能够为别人创造价值的事情（可以是你会的技能、能帮的忙）。思考：如果这些事变成"生意"，怎么收费？</div>
+      <textarea class="task-input" rows="2" placeholder="例：我会做PPT，可以帮同学做课堂展示PPT，收费20元/次..."></textarea>
+    </div>
+
+    <div class="quote-box">"如果你找不到一种方法在睡觉时赚钱，那么你将工作到死。" — 沃伦·巴菲特</div>
+  </div>
+</div>
+
+<!-- 第2课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod1">模块一 · 认识钱</span>
+      <h3>第2课：会存钱的人，时间会成为你的朋友</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>假设你从 15 岁开始，每天存 10 块钱。到 65 岁，你存了多少钱？答案是 18.25 万。但如果这 10 块钱不是放在抽屉里，而是拿去投资（每年 8% 收益），50 年后会变成 <strong>超过 200 万</strong>。这就是<strong>复利</strong>的力量。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">⏰</div>
+        <div class="title">时间是最强的武器</div>
+        <div class="desc">投资越早开始，时间站在你这边。20岁开始存和30岁开始存，最后差好几倍。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📈</div>
+        <div class="title">复利 = 利滚利</div>
+        <div class="desc">你的收益产生的收益，再产生收益……就像雪球越滚越大。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🎯</div>
+        <div class="title">先存钱，再花钱</div>
+        <div class="desc">拿到钱先存一部分，剩下的再花。这个习惯比存多少更重要。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 190" width="640" height="190">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">同样的钱，存银行 vs 投资，30年后差多少？</text>
+        <!-- 存银行 -->
+        <rect x="40" y="35" width="250" height="70" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="165" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">🏦 存银行（1% 利息）</text>
+        <text x="165" y="80" text-anchor="middle" font-size="18" fill="#333" font-weight="bold">约 35 万</text>
+        <text x="165" y="97" text-anchor="middle" font-size="11" fill="#888">本金 10 万 → 30 年后 13.5 万</text>
+
+        <!-- 箭头 -->
+        <text x="320" y="72" text-anchor="middle" font-size="24" fill="#999">vs</text>
+
+        <!-- 投资 -->
+        <rect x="350" y="35" width="250" height="70" rx="10" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+        <text x="475" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">📈 投资（8% 年收益）</text>
+        <text x="475" y="80" text-anchor="middle" font-size="18" fill="#333" font-weight="bold">约 100 万</text>
+        <text x="475" y="97" text-anchor="middle" font-size="11" fill="#888">本金 10 万 → 30 年后 100 万</text>
+
+        <!-- 说明 -->
+        <rect x="40" y="120" width="560" height="55" rx="8" fill="#fff8e1" stroke="#ffc107" stroke-width="1.5"/>
+        <text x="320" y="142" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">复利公式（不用算，理解概念就行）</text>
+        <text x="320" y="162" text-anchor="middle" font-size="12" fill="#555">最终金额 = 本金 × (1 + 收益率) ^ 年数</text>
+        <text x="320" y="175" text-anchor="middle" font-size="11" fill="#888">收益率只要高一点点，长期结果天差地别</text>
+      </svg>
+      <div class="caption">▲ 复利的关键：收益率 + 时间</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：算算你的"复利故事"</div>
+      <div class="task-desc">假设你现在有 5000 元压岁钱，从今年开始每年再存 2000 元。如果年收益 10%，到你 30 岁时会有多少钱？（不会算没关系，查一下"复利计算器"试试，或者直接问AI帮你算）</div>
+      <textarea class="task-input" rows="2" placeholder="把你的计算结果或感想写在这里："></textarea>
+    </div>
+
+    <div class="quote-box">"复利是世界第八大奇迹。理解它的人赚到它，不理解的人付出代价。" — 传说中爱因斯坦说的</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 模块二：看懂公司 -->
+<!-- ================================================================ -->
+
+<!-- 第3课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod2">模块二 · 看懂公司</span>
+      <h3>第3课：公司是怎么赚钱的？（用奶茶店举例）</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>你开了一家奶茶店"小富奶茶"。一杯卖 25 元，一天卖 100 杯，一天收入 2500 元。但是！奶茶原料每杯 8 元，房租一天 500 元，员工工资一天 600 元。算下来：一天到底赚多少钱？
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">💰</div>
+        <div class="title">收入</div>
+        <div class="desc">卖东西收到的所有钱。奶茶店一天卖 100 杯 × 25 元 = 2500 元。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📉</div>
+        <div class="title">成本</div>
+        <div class="desc">为了卖东西花出去的钱。原料 + 房租 + 工资 = 1900 元/天。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📊</div>
+        <div class="title">利润</div>
+        <div class="desc">收入 - 成本 = 赚的钱。2500 - 1900 = <strong>600 元/天</strong>。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 160" width="640" height="160">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">小富奶茶店一天的收入支出</text>
+        <!-- 收入 -->
+        <rect x="40" y="40" width="250" height="40" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="165" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">收入：2500 元</text>
+        <!-- 箭头向下 -->
+        <text x="315" y="60" text-anchor="middle" font-size="12" fill="#999">减去</text>
+        <text x="315" y="75" text-anchor="middle" font-size="12" fill="#999">↓</text>
+        <!-- 成本 -->
+        <rect x="350" y="35" width="250" height="50" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+        <text x="475" y="55" text-anchor="middle" font-size="12" fill="#c62828">成本：原料 800 + 房租 500 + 工资 600</text>
+        <text x="475" y="72" text-anchor="middle" font-size="11" fill="#888">= 1900 元</text>
+        <!-- 结果 -->
+        <rect x="140" y="105" width="360" height="40" rx="10" fill="#fff8e1" stroke="#ff9800" stroke-width="2"/>
+        <text x="320" y="131" text-anchor="middle" font-size="15" font-weight="bold" fill="#e65100">利润 = 2500 - 1900 = 600 元/天 ✅</text>
+      </svg>
+      <div class="caption">▲ 好公司的秘密：收入大，成本小，利润高</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：设计你的小生意</div>
+      <div class="task-desc">你想开什么店？（奶茶店/文具店/游戏工作室/其他？）写出你的：①卖什么 ②定价多少 ③每天成本多少 ④每天能赚多少利润</div>
+      <textarea class="task-input" rows="2" placeholder="我想开______，卖______，定价______元，每天成本约______元，预计每天利润______元"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- 第4课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod2">模块二 · 看懂公司</span>
+      <h3>第4课：好公司和差公司怎么区分？</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>你家附近有两家火锅店。A 店天天排长队，老板说要开分店了。B 店没什么人，天天打折促销。如果你要投资其中一家，你选哪个？答案很明显。投资股票就是选"好公司"。
+    </div>
+
+    <table class="simple">
+      <tr><th>好公司的特征</th><th>差公司的特征</th></tr>
+      <tr><td>✅ 很多人想买它的产品</td><td>❌ 要靠打折促销才能卖掉</td></tr>
+      <tr><td>✅ 成本控制得好，利润高</td><td>❌ 赚的钱都被成本吃掉了</td></tr>
+      <tr><td>✅ 有护城河（别人竞争不过）</td><td>❌ 谁都能做，没有特色</td></tr>
+      <tr><td>✅ 老板靠谱，团队厉害</td><td>❌ 老板只管自己赚钱</td></tr>
+      <tr><td>✅ 每年赚的钱越来越多</td><td>❌ 今年赚明年亏，不稳定</td></tr>
+    </table>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 140" width="640" height="140">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">怎么判断一家公司好不好？三步法</text>
+        <rect x="30" y="40" width="170" height="60" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="115" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">① 看产品</text>
+        <text x="115" y="82" text-anchor="middle" font-size="11" fill="#555">你愿意买吗？为什么？</text>
+        <text x="210" y="68" font-size="18" fill="#999">→</text>
+        <rect x="235" y="40" width="170" height="60" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="320" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">② 看财报</text>
+        <text x="320" y="82" text-anchor="middle" font-size="11" fill="#555">赚钱吗？赚得多吗？</text>
+        <text x="415" y="68" font-size="18" fill="#999">→</text>
+        <rect x="440" y="40" width="170" height="60" rx="10" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+        <text x="525" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">③ 看竞争</text>
+        <text x="525" y="82" text-anchor="middle" font-size="11" fill="#555">别人打得过它吗？</text>
+        <text x="320" y="125" text-anchor="middle" font-size="11" fill="#888">三个问题都回答"是" → 大概率是好公司</text>
+      </svg>
+      <div class="caption">▲ 三步筛选法：产品 → 财报 → 竞争</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：分析你喜欢的品牌</div>
+      <div class="task-desc">选一个你喜欢的品牌（耐克/苹果/喜茶/迪士尼……），用上面的三步法分析一下：①它的产品为什么好 ②它赚不赚钱 ③别人为什么竞争不过它</div>
+      <textarea class="task-input" rows="2" placeholder="我选的品牌是______。分析："></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 模块三：股票入门 -->
+<!-- ================================================================ -->
+
+<!-- 第5课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod3">模块三 · 股票入门</span>
+      <h3>第5课：股票 = 公司的"小碎片"</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>小富奶茶店生意很好，想开分店，但需要 100 万。老板没有这么多钱。怎么办？他把公司切成 1 万份"小碎片"，每份 100 元，卖给愿意投资的人。你买了 100 份（花了 1 万元），你就拥有了小富奶茶店 1% 的股份。如果公司赚钱了，分红的 1% 归你。这就是<strong>股票</strong>。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🧩</div>
+        <div class="title">股票 = 所有权</div>
+        <div class="desc">买一张股票，你就是这家公司的"小老板"。公司赚钱你分钱，公司亏钱你承担。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">💵</div>
+        <div class="title">赚钱方式一：分红</div>
+        <div class="desc">公司赚了钱，按你持有的股份分给你现金。就像奶茶店年底分红。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📈</div>
+        <div class="title">赚钱方式二：涨价</div>
+        <div class="desc">公司越做越好，别人想买你的股份就要出更高的价。你可以在交易所卖给其他人。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 130" width="640" height="130">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">把公司想象成一个生日蛋糕</text>
+        <!-- 蛋糕 -->
+        <rect x="220" y="35" width="160" height="55" rx="8" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+        <text x="300" y="55" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">🎂 公司 = 整个蛋糕</text>
+        <text x="300" y="75" text-anchor="middle" font-size="11" fill="#555">切成很多小块</text>
+        <text x="300" y="90" text-anchor="middle" font-size="11" fill="#555">每一小块 = 1 股股票</text>
+        <!-- 切分 -->
+        <text x="180" y="68" font-size="18" fill="#999">🔪</text>
+        <text x="420" y="68" font-size="18" fill="#999">🔪</text>
+        <!-- 说明 -->
+        <text x="320" y="120" text-anchor="middle" font-size="11" fill="#888">买股票 = 买下蛋糕的一小块，成为公司的"半个主人"</text>
+      </svg>
+      <div class="caption">▲ 股票就是公司的所有权凭证</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：编写你的"招股说明书"</div>
+      <div class="task-desc">假设你的"小生意"（上一课设计的）要开分店需要融资。写一段话向投资人介绍：①你的生意是什么 ②为什么能赚钱 ③你需要多少钱 ④愿意分多少股份给投资人</div>
+      <textarea class="task-input" rows="2" placeholder="各位投资人好，我的______项目……"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- 第6课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod3">模块三 · 股票入门</span>
+      <h3>第6课：为什么股价会涨跌？</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>小富奶茶店生意越来越好，大家觉得它明年能赚更多钱。原来 100 元一股，现在有人愿意出 120 元买。因为每个人都想买，但卖的人少，价格就涨上去了。反过来，如果大家觉得奶茶店不行了，都想卖，价格就跌了。就是这么简单。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">⚖️</div>
+        <div class="title">供求关系</div>
+        <div class="desc">买的人多 + 卖的人少 = 涨价。卖的人多 + 买的人少 = 跌价。和任何商品一样。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🔮</div>
+        <div class="title">预期决定价格</div>
+        <div class="desc">股价不是反映"现在"公司值多少钱，而是反映"大家觉得未来"它值多少钱。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📰</div>
+        <div class="title">消息影响预期</div>
+        <div class="desc">好消息（新产品大卖）→ 预期变好 → 涨。坏消息（老板被抓）→ 预期变差 → 跌。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 160" width="640" height="160">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">股价涨跌的简单逻辑</text>
+        <!-- 上涨 -->
+        <rect x="30" y="40" width="270" height="50" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="165" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">📈 涨：好消息 → 更多人想买</text>
+        <text x="165" y="80" text-anchor="middle" font-size="11" fill="#555">供不应求 → 价格被推高</text>
+        <!-- 下跌 -->
+        <rect x="340" y="40" width="270" height="50" rx="10" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+        <text x="475" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">📉 跌：坏消息 → 更多人想卖</text>
+        <text x="475" y="80" text-anchor="middle" font-size="11" fill="#555">供过于求 → 价格被压低</text>
+        <!-- 关键 -->
+        <rect x="30" y="105" width="580" height="45" rx="8" fill="#fff8e1" stroke="#ffc107" stroke-width="1.5"/>
+        <text x="320" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">⚠ 股价短期像投票机（情绪），长期像称重机（价值）</text>
+        <text x="320" y="142" text-anchor="middle" font-size="10" fill="#888">短期涨跌靠情绪和消息，长期涨跌靠公司到底赚不赚钱</text>
+      </svg>
+      <div class="caption">▲ 短期看情绪，长期看价值</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：猜猜股价会怎么走？</div>
+      <div class="task-desc">苹果公司发布了一款革命性的新产品，全世界都觉得它会大卖。你觉得苹果股价会涨还是跌？为什么？反过来，如果新产品卖得很差，股价又会怎么走？</div>
+      <textarea class="task-input" rows="2" placeholder="我的分析："></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- 第7课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod3">模块三 · 股票入门</span>
+      <h3>第7课：投资 vs 投机（你是股东还是赌徒？）</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>两个人买了小富奶茶店的股票。A 每天盯着股价看，涨了 5% 就卖掉，跌了 3% 就吓得割肉。B 每个月去看奶茶店排不排队，半年看一次财报，连续持有 3 年。谁更可能赚钱？答案是 B。因为 A 在<strong>投机</strong>（赌短期价格），B 在<strong>投资</strong>（买好公司一起成长）。
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 170" width="640" height="170">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">投资 vs 投机</text>
+        <!-- 投资 -->
+        <rect x="20" y="35" width="280" height="80" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2.5"/>
+        <text x="160" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">💎 投资</text>
+        <text x="35" y="80" font-size="11" fill="#333">✅ 看好公司，长期持有</text>
+        <text x="35" y="97" font-size="11" fill="#333">✅ 关注公司赚不赚钱</text>
+        <text x="35" y="114" font-size="11" fill="#333">✅ 越跌越买（公司没变差）</text>
+
+        <!-- 投机 -->
+        <rect x="340" y="35" width="280" height="80" rx="10" fill="#fce4ec" stroke="#e53935" stroke-width="2.5"/>
+        <text x="480" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#c62828">🎲 投机</text>
+        <text x="355" y="80" font-size="11" fill="#333">❌ 想快速赚钱，频繁买卖</text>
+        <text x="355" y="97" font-size="11" fill="#333">❌ 关注价格涨跌</text>
+        <text x="355" y="114" font-size="11" fill="#333">❌ 追涨杀跌，容易亏钱</text>
+
+        <rect x="20" y="130" width="600" height="33" rx="8" fill="#fff8e1" stroke="#ffc107" stroke-width="1"/>
+        <text x="320" y="152" text-anchor="middle" font-size="12" fill="#e65100">记住：你买的是"公司的一部分"，不是"一个代码"</text>
+      </svg>
+      <div class="caption">▲ 投资和投机，从心态上就完全不同</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：判断是投资还是投机？</div>
+      <div class="task-desc">以下哪种行为是投资，哪种是投机？①小明听说某股票明天要涨，赶紧买入 ②小红研究了某公司3年财报，觉得很好就买了打算持有5年 ③小刚看到股票跌了10%，吓坏了立刻卖掉 ④小丽每月定投500元买指数基金</div>
+      <textarea class="task-input" rows="2" placeholder="我的答案：①____ ②____ ③____ ④____"></textarea>
+    </div>
+
+    <div class="quote-box">"股市是一个将财富从没耐心的人转移到有耐心的人的工具。" — 沃伦·巴菲特</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 模块四：认识市场 -->
+<!-- ================================================================ -->
+
+<!-- 第8课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod4">模块四 · 认识市场</span>
+      <h3>第8课：证券交易所 = 超级菜市场</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>如果朋友想买你的奶茶店股份，你得一个个找人问，很麻烦。证券交易所就是帮你"撮合"的地方——想买股票的人在这里买，想卖的人在这里卖。中国的交易所有两个：<strong>上海交易所</strong>（主板大公司）和<strong>深圳交易所</strong>（中小公司/创业板）。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🏛️</div>
+        <div class="title">交易所的角色</div>
+        <div class="desc">就像菜市场一样，提供一个地方让买卖双方交易。交易所保证交易公平、信息透明。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📊</div>
+        <div class="title">指数是什么？</div>
+        <div class="desc">沪深300 = 中国最大的300家公司股价综合。涨了说明大公司在涨，跌了说明整体不行。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🕐</div>
+        <div class="title">交易时间</div>
+        <div class="desc">周一到周五，上午 9:30-11:30，下午 13:00-15:00。其他时间不开门。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 130" width="640" height="130">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">交易所就像菜市场</text>
+        <rect x="30" y="40" width="160" height="50" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="110" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">🥬 菜市场</text>
+        <text x="110" y="78" text-anchor="middle" font-size="11" fill="#555">你买菜，菜农卖菜</text>
+        <text x="200" y="62" font-size="18" fill="#999">→</text>
+        <rect x="230" y="40" width="180" height="50" rx="8" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+        <text x="320" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">🏛️ 证券交易所</text>
+        <text x="320" y="78" text-anchor="middle" font-size="11" fill="#555">你买股票，别人卖股票</text>
+        <text x="420" y="62" font-size="18" fill="#999">→</text>
+        <rect x="450" y="40" width="160" height="50" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="530" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">📱 交易软件</text>
+        <text x="530" y="78" text-anchor="middle" font-size="11" fill="#555">手机上就能下单</text>
+        <text x="320" y="115" text-anchor="middle" font-size="11" fill="#888">交易所不决定价格，价格由买卖双方决定</text>
+      </svg>
+      <div class="caption">▲ 交易所就是"股票版菜市场"</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：查查沪深300</div>
+      <div class="task-desc">打开手机股票软件或搜索"沪深300指数"，看看今天它是涨还是跌？再查查最近一年它是涨了还是跌了？（没有手机就问爸爸妈妈或等下次看）</div>
+      <textarea class="task-input" rows="2" placeholder="今天我查到的沪深300是______，涨了/跌了______%。近一年______。"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- 第9课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod4">模块四 · 认识市场</span>
+      <h3>第9课：风险第一（永远不要亏大钱）</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>小明有 1 万元压岁钱，全部买了一只股票。结果跌了 20%，只剩 8000 元。他必须等股票涨 25% 才能回本。如果跌了 50%，就要涨 100%（翻倍）才能回本！这就是为什么：<strong>保护本金比赚钱更重要</strong>。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🛡️</div>
+        <div class="title">不要把所有钱买同一个东西</div>
+        <div class="desc">分散投资！如果买 5 只不同行业的股票，一只跌了还有其他四只。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">✂️</div>
+        <div class="title">设定止损线</div>
+        <div class="desc">提前想好"如果跌了 10% 就走"，严格执行。不要幻想"会涨回来的"。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🧊</div>
+        <div class="title">不要借钱投资</div>
+        <div class="desc">用自己闲钱投资。借钱投资如果亏了，你欠的钱还在，压力会扭曲判断力。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 140" width="640" height="140">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">亏多少 = 需要赚多少才能回本</text>
+        <rect x="30" y="40" width="120" height="45" rx="6" fill="#c8e6c9" stroke="#43a047" stroke-width="1.5"/>
+        <text x="90" y="62" text-anchor="middle" font-size="12" fill="#2e7d32">亏 10%</text>
+        <text x="90" y="78" text-anchor="middle" font-size="11" fill="#555">需赚 11%</text>
+        <rect x="170" y="40" width="120" height="45" rx="6" fill="#fff8e1" stroke="#ff9800" stroke-width="1.5"/>
+        <text x="230" y="62" text-anchor="middle" font-size="12" fill="#e65100">亏 20%</text>
+        <text x="230" y="78" text-anchor="middle" font-size="11" fill="#555">需赚 25%</text>
+        <rect x="310" y="40" width="120" height="45" rx="6" fill="#ffccbc" stroke="#ff5722" stroke-width="1.5"/>
+        <text x="370" y="62" text-anchor="middle" font-size="12" fill="#d84315">亏 30%</text>
+        <text x="370" y="78" text-anchor="middle" font-size="11" fill="#555">需赚 43%</text>
+        <rect x="450" y="40" width="165" height="45" rx="6" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+        <text x="532" y="62" text-anchor="middle" font-size="12" fill="#c62828">亏 50%</text>
+        <text x="532" y="78" text-anchor="middle" font-size="11" fill="#c62828">需赚 100%（翻倍）</text>
+        <rect x="30" y="100" width="585" height="35" rx="8" fill="#fff8e1" stroke="#ffc107" stroke-width="1"/>
+        <text x="322" y="123" text-anchor="middle" font-size="12" fill="#e65100">亏得越少，回本越容易。所以：保护本金 = 第一条规则</text>
+      </svg>
+      <div class="caption">▲ 亏得越多，翻身的难度越大</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：设计你的"风险防护罩"</div>
+      <div class="task-desc">假设你有 1 万元可以投资，请写出你的风险管理计划：①最多买几只不同的股票 ②每只最多投多少钱 ③亏多少就卖掉 ④如果所有股票都跌了怎么办</div>
+      <textarea class="task-input" rows="2" placeholder="我的风险管理计划："></textarea>
+    </div>
+    <div class="quote-box">"投资第一原则：不要亏钱。第二原则：记住第一条。" — 沃伦·巴菲特</div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 模块五：基金理财 -->
+<!-- ================================================================ -->
+
+<!-- 第10课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod5">模块五 · 基金理财</span>
+      <h3>第10课：基金 = 把钱交给专业的人</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>你想投资股票，但不知道买哪个好，也没时间天天研究。怎么办？把钱交给一个叫"基金经理"的专业人士，他和他的团队帮你研究、帮你买。你只需要付一点点管理费。这就是<strong>基金</strong>。你买一份基金 = 同时买了一篮子股票。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🧺</div>
+        <div class="title">基金 = 一篮子</div>
+        <div class="desc">一只基金可能买了 50 家不同公司的股票，分散风险。一家跌了不影响整体。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🔄</div>
+        <div class="title">定投 = 定时定额买</div>
+        <div class="desc">每月固定日期投固定金额。跌的时候多买份额，涨的时候少买。长期下来成本平均。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📋</div>
+        <div class="title">指数基金</div>
+        <div class="desc">"不挑股票，直接买整个市场"。比如沪深300指数基金 = 把中国最大的300家公司都买一点。巴菲特推荐普通人买指数基金。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 200" width="640" height="200">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">定投：跌时多买，涨时少买，成本自然降低</text>
+        <!-- 价格波动线 -->
+        <path d="M40,160 Q100,140 160,90 Q220,40 280,100 Q340,160 400,80 Q460,30 520,70 Q580,110 610,130" stroke="#1565c0" stroke-width="2.5" fill="none"/>
+        <text x="320" y="52" text-anchor="middle" font-size="11" fill="#1565c0">价格波动</text>
+        <!-- 固定金额 -->
+        <text x="50" y="185" font-size="11" fill="#e65100">每次投 500 元</text>
+        <text x="50" y="198" font-size="10" fill="#888">价格高 → 买到份额少</text>
+        <text x="350" y="185" font-size="11" fill="#e65100">价格低 → 买到份额多</text>
+        <text x="350" y="198" font-size="10" fill="#888">长期平均成本降低</text>
+        <!-- 说明 -->
+        <rect x="30" y="105" width="580" height="35" rx="8" fill="#fff8e1" stroke="#ffc107" stroke-width="1"/>
+        <text x="320" y="127" text-anchor="middle" font-size="11" fill="#e65100">定投最大的好处：不用猜什么时候是低点，长期坚持就好</text>
+      </svg>
+      <div class="caption">▲ 定投 = 用时间换空间</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：定投计划书</div>
+      <div class="task-desc">假设你每个月有 200 元零花钱可以投资。请设计一个定投计划：①买什么基金 ②每月几号投 ③投多少钱 ④准备坚持多久</div>
+      <textarea class="task-input" rows="2" placeholder="我的定投计划："></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- 第11课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod5">模块五 · 基金理财</span>
+      <h3>第11课：资产配置（别把所有鸡蛋放一个篮子）</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 小故事：</strong>你奶奶把所有积蓄都存银行，利息很低。你叔叔把所有钱都买了股票，亏了很多。你妈妈把钱分成了几份：一部分存银行（安全），一部分买债券（稳健），一部分买股票基金（成长），还买了保险（保障）。谁的理财方式最聪明？是妈妈——因为她在不同资产之间做了<strong>配置</strong>。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🏦</div>
+        <div class="title">安全资产</div>
+        <div class="desc">银行存款、货币基金。不会亏，但收益低。用来放"急用的钱"。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📜</div>
+        <div class="title">稳健资产</div>
+        <div class="desc">债券、债券基金。风险较低，收益比存款高。用来放"保本的钱"。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🚀</div>
+        <div class="title">成长资产</div>
+        <div class="desc">股票、股票基金。风险高，长期收益也高。用来放"增值的钱"。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 170" width="640" height="170">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">根据不同年龄做资产配置</text>
+        <!-- 年轻人 -->
+        <rect x="20" y="40" width="60" height="110" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+        <rect x="20" y="40" width="60" height="22" rx="4" fill="#fce4ec" stroke="#e53935" stroke-width="1"/>
+        <text x="50" y="55" text-anchor="middle" font-size="9" fill="#c62828">股票</text>
+        <rect x="20" y="62" width="60" height="16" rx="4" fill="#fff3e0" stroke="#ff9800" stroke-width="1"/>
+        <text x="50" y="73" text-anchor="middle" font-size="9" fill="#e65100">债券</text>
+        <rect x="20" y="78" width="60" height="72" rx="4" fill="#e8f5e9" stroke="#43a047" stroke-width="1"/>
+        <text x="50" y="118" text-anchor="middle" font-size="9" fill="#2e7d32">存款</text>
+        <text x="50" y="155" text-anchor="middle" font-size="10" fill="#333">20岁</text>
+        <text x="50" y="167" text-anchor="middle" font-size="8" fill="#888">激进型</text>
+
+        <!-- 中年人 -->
+        <rect x="120" y="40" width="60" height="110" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+        <rect x="120" y="40" width="60" height="40" rx="4" fill="#fce4ec" stroke="#e53935" stroke-width="1"/>
+        <text x="150" y="65" text-anchor="middle" font-size="9" fill="#c62828">股票</text>
+        <rect x="120" y="80" width="60" height="30" rx="4" fill="#fff3e0" stroke="#ff9800" stroke-width="1"/>
+        <text x="150" y="100" text-anchor="middle" font-size="9" fill="#e65100">债券</text>
+        <rect x="120" y="110" width="60" height="40" rx="4" fill="#e8f5e9" stroke="#43a047" stroke-width="1"/>
+        <text x="150" y="134" text-anchor="middle" font-size="9" fill="#2e7d32">存款</text>
+        <text x="150" y="155" text-anchor="middle" font-size="10" fill="#333">40岁</text>
+        <text x="150" y="167" text-anchor="middle" font-size="8" fill="#888">平衡型</text>
+
+        <!-- 老年人 -->
+        <rect x="220" y="40" width="60" height="110" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+        <rect x="220" y="40" width="60" height="16" rx="4" fill="#fce4ec" stroke="#e53935" stroke-width="1"/>
+        <text x="250" y="52" text-anchor="middle" font-size="9" fill="#c62828">股票</text>
+        <rect x="220" y="56" width="60" height="22" rx="4" fill="#fff3e0" stroke="#ff9800" stroke-width="1"/>
+        <text x="250" y="72" text-anchor="middle" font-size="9" fill="#e65100">债券</text>
+        <rect x="220" y="78" width="60" height="72" rx="4" fill="#e8f5e9" stroke="#43a047" stroke-width="1"/>
+        <text x="250" y="118" text-anchor="middle" font-size="9" fill="#2e7d32">存款</text>
+        <text x="250" y="155" text-anchor="middle" font-size="10" fill="#333">60岁</text>
+        <text x="250" y="167" text-anchor="middle" font-size="8" fill="#888">保守型</text>
+
+        <!-- 年轻人的配置建议 -->
+        <rect x="310" y="40" width="310" height="120" rx="10" fill="#f3e5f5" stroke="#9c27b0" stroke-width="1.5"/>
+        <text x="465" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">给年轻人的建议</text>
+        <text x="325" y="85" font-size="11" fill="#333">✅ 因为年轻，亏了有时间赚回来</text>
+        <text x="325" y="105" font-size="11" fill="#333">✅ 可以多配股票（70-80%）</text>
+        <text x="325" y="125" font-size="11" fill="#333">✅ 定投指数基金是最简单的开始</text>
+        <text x="325" y="145" font-size="11" fill="#333">✅ 千万不要借钱投资！</text>
+      </svg>
+      <div class="caption">▲ 年龄越小，风险承受能力越强，可多配股票</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>互动任务：设计你的资产配置</div>
+      <div class="task-desc">假设你现在有 1 万元存款，请设计你的资产配置：①多少存银行（安全）②多少买债券（稳健）③多少买股票基金（成长）并写出为什么这样分配。</div>
+      <textarea class="task-input" rows="2" placeholder="我的资产配置：银行____元，债券____元，股票基金____元。理由是："></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 模块六：模拟实战 -->
+<!-- ================================================================ -->
+
+<!-- 第12课 -->
+<div class="lesson">
+  <div class="lesson-header" onclick="toggleLesson(this)">
+    <div class="left">
+      <span class="module-tag mod6">模块六 · 模拟实战</span>
+      <h3>第12课：模拟投资 + 结业展示</h3>
+    </div>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="lesson-body">
+    <div class="story">
+      <strong>📖 最后一课了！</strong>前面 11 课学到的知识，现在要真正用起来。我们不用真钱，而是做一次完整的<strong>模拟投资</strong>。你会选一个"假想公司"做分析，决定是否投资，然后跟踪一个月，最后展示你的投资成果。
+    </div>
+
+    <div class="knowledge-points">
+      <div class="knowledge-point">
+        <div class="icon">🎯</div>
+        <div class="title">任务目标</div>
+        <div class="desc">选择一家你感兴趣的公司，完成从分析到决策再到复盘的全过程。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">📝</div>
+        <div class="title">交付成果</div>
+        <div class="desc">一份"投资分析报告"，包含：公司介绍、产品分析、财务判断、投资决定、跟踪记录。</div>
+      </div>
+      <div class="knowledge-point">
+        <div class="icon">🎤</div>
+        <div class="title">展示分享</div>
+        <div class="desc">把你的分析报告讲给家人听（或录成视频）。能讲清楚 = 真正学会了。</div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 640 200" width="640" height="200">
+        <text x="320" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">模拟投资 4 步走</text>
+        <!-- 步骤1 -->
+        <rect x="20" y="40" width="130" height="70" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+        <text x="85" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">① 选公司</text>
+        <text x="85" y="82" text-anchor="middle" font-size="10" fill="#555">选你喜欢的品牌</text>
+        <text x="85" y="96" text-anchor="middle" font-size="10" fill="#555">如：苹果、茅台、美团</text>
+        <text x="155" y="75" font-size="16" fill="#999">→</text>
+        <!-- 步骤2 -->
+        <rect x="175" y="40" width="130" height="70" rx="10" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="240" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">② 做分析</text>
+        <text x="240" y="82" text-anchor="middle" font-size="10" fill="#555">用三步法分析</text>
+        <text x="240" y="96" text-anchor="middle" font-size="10" fill="#555">产品→财报→竞争</text>
+        <text x="310" y="75" font-size="16" fill="#999">→</text>
+        <!-- 步骤3 -->
+        <rect x="330" y="40" width="130" height="70" rx="10" fill="#fff3e0" stroke="#ff9800" stroke-width="2"/>
+        <text x="395" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">③ 做决定</text>
+        <text x="395" y="82" text-anchor="middle" font-size="10" fill="#555">模拟买入 100 股</text>
+        <text x="395" y="96" text-anchor="middle" font-size="10" fill="#555">记录买入理由</text>
+        <text x="465" y="75" font-size="16" fill="#999">→</text>
+        <!-- 步骤4 -->
+        <rect x="490" y="40" width="130" height="70" rx="10" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+        <text x="555" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">④ 写报告</text>
+        <text x="555" y="82" text-anchor="middle" font-size="10" fill="#555">跟踪一个月</text>
+        <text x="555" y="96" text-anchor="middle" font-size="10" fill="#555">总结学到的经验</text>
+
+        <rect x="20" y="130" width="600" height="60" rx="10" fill="#fff8e1" stroke="#ffc107" stroke-width="1.5"/>
+        <text x="320" y="152" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">投资分析报告模板</text>
+        <text x="35" y="175" font-size="11" fill="#555">公司名称：______  买入价格：______  买入数量：______</text>
+        <text x="35" y="190" font-size="11" fill="#555">买入理由（产品/财报/竞争）：______  一个月后收盘价：______  盈亏：______</text>
+      </svg>
+      <div class="caption">▲ 完成这 4 步，你就真正掌握了投资的基本方法</div>
+    </div>
+
+    <div class="task-box">
+      <div class="task-title"><span class="icon">✏️</span>最终任务：完成你的第一份投资分析报告</div>
+      <div class="task-desc">选一家你感兴趣的公司，完成以下内容：<br>
+      ① 公司名字和主营业务是什么？<br>
+      ② 它的产品你用过吗？你觉得好不好？为什么？<br>
+      ③ 它赚钱吗？你怎么判断的？<br>
+      ④ 有人和它竞争吗？它的优势在哪里？<br>
+      ⑤ 你会投资它吗？为什么？<br>
+      <strong>完成后，讲给爸爸妈妈听！</strong></div>
+      <textarea class="task-input" rows="4" placeholder="我的投资分析报告："></textarea>
+    </div>
+
+    <div class="quote-box">🎉 恭喜你完成了全部 12 节课！你已经掌握了基本的财务知识和投资理念。记住：投资是一辈子的修行，保持好奇，保持耐心。</div>
+  </div>
+</div>
+
+<!-- ===== 勋章墙 ===== -->
+<div class="badge-wall">
+  <h2>🏆 勋章墙（学完一课点亮一个）</h2>
+  <div class="badge-grid">
+    <div class="badge-item" id="badge1"><div class="bicon">💰</div><div class="bname">认识金钱</div></div>
+    <div class="badge-item" id="badge2"><div class="bicon">⏰</div><div class="bname">复利思维</div></div>
+    <div class="badge-item" id="badge3"><div class="bicon">🧋</div><div class="bname">看懂生意</div></div>
+    <div class="badge-item" id="badge4"><div class="bicon">🔍</div><div class="bname">火眼金睛</div></div>
+    <div class="badge-item" id="badge5"><div class="bicon">🧩</div><div class="bname">股票达人</div></div>
+    <div class="badge-item" id="badge6"><div class="bicon">📈</div><div class="bname">涨跌大师</div></div>
+    <div class="badge-item" id="badge7"><div class="bicon">💎</div><div class="bname">价值投资</div></div>
+    <div class="badge-item" id="badge8"><div class="bicon">🏛️</div><div class="bname">市场通</div></div>
+    <div class="badge-item" id="badge9"><div class="bicon">🛡️</div><div class="bname">风险卫士</div></div>
+    <div class="badge-item" id="badge10"><div class="bicon">🧺</div><div class="bname">基金达人</div></div>
+    <div class="badge-item" id="badge11"><div class="bicon">🥚</div><div class="bname">配置高手</div></div>
+    <div class="badge-item" id="badge12"><div class="bicon">🎓</div><div class="bname">毕业啦</div></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>少年商学院 · 12 节课学会投资</p>
+  <p>每节课约 20 分钟，适合 12-18 岁零基础学习</p>
+  <p style="margin-top:6px;">学完后打开 <a href="学习进度跟踪表.html" style="color:#667eea;text-decoration:none;">进度跟踪表</a> 记录学习进度</p>
+</div>
+
+</div>
+
+<script>
+// 折叠展开
+function toggleLesson(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.toggle-icon');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  icon.classList.toggle('open');
+
+  // 记录展开状态到 localStorage
+  const allLessons = document.querySelectorAll('.lesson');
+  let idx = 0;
+  document.querySelectorAll('.lesson').forEach((l, i) => {
+    if (l.querySelector('.lesson-header') === header) idx = i;
+  });
+  const key = 'lesson_open_' + idx;
+  localStorage.setItem(key, isOpen ? '0' : '1');
+}
+
+// 勋章自动解锁
+function updateBadges() {
+  // 检测每个 lesson-body 里的 textarea 有没有内容
+  document.querySelectorAll('.lesson').forEach((lesson, idx) => {
+    const textareas = lesson.querySelectorAll('.task-input');
+    let hasContent = false;
+    textareas.forEach(ta => {
+      if (ta.value.trim().length > 5) hasContent = true;
+    });
+    const badge = document.getElementById('badge' + (idx + 1));
+    if (badge) {
+      // 如果内容写了或者手动点过解锁
+      const unlocked = localStorage.getItem('badge_' + (idx + 1));
+      if (hasContent || unlocked === '1') {
+        badge.classList.add('unlocked');
+        localStorage.setItem('badge_' + (idx + 1), '1');
+      }
+    }
+  });
+}
+
+// 自动保存任务输入
+function setupAutoSave() {
+  document.querySelectorAll('.task-input').forEach((input, idx) => {
+    // 恢复保存的内容
+    const saved = localStorage.getItem('task_' + idx);
+    if (saved) input.value = saved;
+
+    // 自动保存
+    input.addEventListener('input', function() {
+      localStorage.setItem('task_' + idx, this.value);
+      updateBadges();
+    });
+  });
+}
+
+// 恢复课程展开状态
+function restoreLessonState() {
+  document.querySelectorAll('.lesson').forEach((lesson, idx) => {
+    const key = 'lesson_open_' + idx;
+    const state = localStorage.getItem(key);
+    if (state === '1') {
+      const body = lesson.querySelector('.lesson-body');
+      const icon = lesson.querySelector('.toggle-icon');
+      if (body) body.classList.add('open');
+      if (icon) icon.classList.add('open');
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  restoreLessonState();
+  setupAutoSave();
+  updateBadges();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通达信青少年投资课程 — 印刷版教材</title>
+    <style>
+        /* ========== 印刷优化核心样式 ========== */
+        @page {
+            size: A4;
+            margin: 20mm 18mm 22mm 18mm;
+            @bottom-center { content: counter(page); font-size: 9pt; color: #888; font-family: "PingFang SC","Microsoft YaHei",sans-serif; }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Source Han Sans", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.75;
+            color: #1a1a1a;
+            background: #fff;
+        }
+
+        /* ===== 封面 ===== */
+        .cover {
+            page-break-after: always;
+            text-align: center;
+            padding: 80mm 30mm 40mm 30mm;
+            background: linear-gradient(160deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+            color: #fff;
+            position: relative;
+            height: 100%;
+        }
+        .cover::after {
+            content: "";
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(255,215,0,0.05) 0%, transparent 60%);
+        }
+        .cover h1 {
+            font-size: 32pt; font-weight: 700; letter-spacing: 2px;
+            position: relative; z-index: 1;
+        }
+        .cover h1 span { color: #ffd700; }
+        .cover .subtitle {
+            font-size: 13pt; color: rgba(255,255,255,0.75);
+            margin-top: 12px; position: relative; z-index: 1;
+        }
+        .cover .meta {
+            margin-top: 40px; font-size: 10pt; color: rgba(255,255,255,0.6);
+            line-height: 2; position: relative; z-index: 1;
+        }
+        .cover .meta strong { color: #ffd700; font-weight: 600; }
+        .cover .version {
+            position: absolute; bottom: 30mm; left: 0; right: 0;
+            font-size: 9pt; color: rgba(255,255,255,0.35);
+            z-index: 1;
+        }
+
+        /* ===== 目录 ===== */
+        .toc-page { page-break-after: always; }
+        .toc-page h2 {
+            font-size: 18pt; color: #1a1a2e;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 6px; margin-bottom: 16px;
+        }
+        .toc-list { list-style: none; }
+        .toc-list li { padding: 3px 0; border-bottom: 1px dotted #ddd; font-size: 10pt; }
+        .toc-list li a { color: #1a1a2e; text-decoration: none; }
+        .toc-list .l1 { font-weight: 600; font-size: 11pt; margin-top: 8px; }
+        .toc-list .l2 { padding-left: 20px; }
+        .toc-list .l3 { padding-left: 36px; font-size: 9.5pt; color: #555; }
+
+        /* ===== 篇章页 ===== */
+        .part-page {
+            page-break-before: always;
+            page-break-after: always;
+            text-align: center; padding: 60mm 30mm;
+        }
+        .part-page .part-num {
+            font-size: 48pt; font-weight: 700; color: #ffd700;
+            font-family: "Georgia", serif;
+        }
+        .part-page h2 { font-size: 22pt; color: #1a1a2e; margin-top: 8px; }
+        .part-page p { font-size: 10pt; color: #666; margin-top: 6px; }
+
+        /* ===== 章节标题 ===== */
+        .chapter {
+            page-break-before: always;
+            margin-top: 0;
+        }
+        .chapter h2 {
+            font-size: 16pt; color: #1a1a2e;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 4px; margin-bottom: 12px;
+        }
+        .chapter h3 {
+            font-size: 13pt; color: #2c3e50;
+            margin: 16px 0 6px;
+        }
+        .chapter h4 {
+            font-size: 11pt; color: #1a73e8;
+            margin: 12px 0 4px;
+        }
+
+        .chapter p { margin-bottom: 6px; font-size: 10.5pt; }
+        .chapter ul, .chapter ol { margin: 4px 0 8px 18px; }
+        .chapter li { margin-bottom: 2px; font-size: 10pt; }
+
+        /* ===== 课程卡片 ===== */
+        .session {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin: 10px 0;
+            page-break-inside: avoid;
+            border-left: 4px solid #ffd700;
+        }
+        .session h4 { font-size: 11.5pt; color: #1a1a2e; margin-bottom: 2px; }
+        .session .meta { font-size: 9pt; color: #888; margin-bottom: 4px; }
+        .session .meta .tag {
+            display: inline-block; padding: 1px 8px; border-radius: 3px;
+            font-size: 8.5pt; font-weight: 600; margin-right: 3px;
+        }
+        .tag-lecture { background: #e3f2fd; color: #1565c0; }
+        .tag-practice { background: #e8f5e9; color: #2e7d32; }
+        .tag-project { background: #f3e5f5; color: #6a1b9a; }
+        .tag-exam { background: #fff8e1; color: #e65100; }
+
+        /* ===== 表格 ===== */
+        table {
+            width: 100%; border-collapse: collapse;
+            margin: 8px 0; font-size: 9.5pt;
+        }
+        thead { background: #1a1a2e; color: #fff; }
+        th { padding: 6px 10px; text-align: left; font-weight: 600; }
+        td { padding: 6px 10px; border-bottom: 1px solid #ddd; }
+        tbody tr:nth-child(even) { background: #f8f9fc; }
+
+        /* ===== 提示 ===== */
+        .note, .warn, .tip {
+            padding: 6px 12px; margin: 8px 0; font-size: 9.5pt;
+            border-radius: 4px; page-break-inside: avoid;
+        }
+        .note { background: #eef2ff; border-left: 4px solid #6366f1; }
+        .warn { background: #fff8e1; border-left: 4px solid #ffc107; }
+        .tip { background: #e8f5e9; border-left: 4px solid #4caf50; }
+
+        .highlight-box {
+            background: #f0f6ff; border: 1px solid #cce0ff;
+            border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+            page-break-inside: avoid;
+        }
+        .highlight-box h4 { color: #1a73e8; margin-bottom: 2px; }
+
+        /* ===== 考核表 ===== */
+        .card-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            margin: 8px 0;
+        }
+        .card {
+            border: 1px solid #ddd; border-radius: 6px;
+            padding: 10px 12px; page-break-inside: avoid;
+        }
+        .card h4 { font-size: 11pt; margin-bottom: 2px; }
+        .card ul { margin: 2px 0 0 14px; }
+        .card li { font-size: 9.5pt; }
+
+        /* ===== 路线图 ===== */
+        .roadmap-item {
+            display: flex; gap: 12px; margin-bottom: 6px;
+            page-break-inside: avoid;
+        }
+        .roadmap-marker { width: 24px; flex-shrink: 0; font-size: 16pt; text-align: center; }
+        .roadmap-content {
+            border: 1px solid #eee; border-radius: 6px;
+            padding: 8px 12px; flex: 1;
+        }
+        .roadmap-content h4 { font-size: 10.5pt; margin-bottom: 1px; }
+        .roadmap-content p { font-size: 9.5pt; }
+
+        /* ===== 页脚信息 ===== */
+        .footer-note {
+            text-align: center; padding: 20px 0; margin-top: 30px;
+            font-size: 9pt; color: #999; border-top: 1px solid #ddd;
+        }
+
+        /* ===== 打印控制 ===== */
+        @media print {
+            .cover { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .part-page { background: #f8f9fc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            thead { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-lecture { background: #e3f2fd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-practice { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-project { background: #f3e5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tag-exam { background: #fff8e1 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .note { background: #eef2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .warn { background: #fff8e1 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tip { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .highlight-box { background: #f0f6ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            a { color: inherit; text-decoration: none; }
+        }
+
+        @media screen {
+            body {
+                max-width: 210mm;
+                margin: 0 auto;
+                padding: 20px;
+                background: #f5f5f5;
+            }
+            .cover { border-radius: 8px; margin: 20px 0; }
+            .part-page { border-radius: 8px; margin: 20px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== 封面 ==================== -->
+<div class="cover">
+    <h1>通达信 <span>青少年投资课程</span></h1>
+    <p class="subtitle">面向青少年与企业二代的金融素养与投资实战培训教材</p>
+    <div class="meta">
+        <strong>四阶递进</strong> &nbsp;·&nbsp; L1 少年金融启蒙<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L2 投资分析入门<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L3 实战交易训练<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L4 量化与资产管理<br><br>
+        总计 <strong>88 课时</strong> · 20 模块 · 适合 12~22 岁
+    </div>
+    <div class="version">
+        课程版本 v1.0 &nbsp;·&nbsp; 2026 年 5 月
+    </div>
+</div>
+
+<!-- ==================== 目录 ==================== -->
+<div class="toc-page">
+    <h2>目 录</h2>
+    <ul class="toc-list">
+        <li class="l1"><a href="#p1">第一篇 · L1 少年金融启蒙</a></li>
+        <li class="l2"><a href="#s1-1">L1-01 钱是什么？</a></li>
+        <li class="l2"><a href="#s1-2">L1-02 储蓄 vs 投资</a></li>
+        <li class="l2"><a href="#s1-3">L1-03 什么是股票</a></li>
+        <li class="l2"><a href="#s1-4">L1-04 认识 K 线</a></li>
+        <li class="l2"><a href="#s1-5">L1-05 什么是公司</a></li>
+        <li class="l2"><a href="#s1-6">L1-06 市场是什么</a></li>
+        <li class="l2"><a href="#s1-7">L1-07 我的投资组合</a></li>
+        <li class="l2"><a href="#s1-8">L1-08 投资报告会</a></li>
+
+        <li class="l1"><a href="#p2">第二篇 · L2 投资分析入门</a></li>
+        <li class="l2"><a href="#s2-1">L2-01 通达信高手之路</a></li>
+        <li class="l2"><a href="#s2-2">L2-02 K 线语言</a></li>
+        <li class="l2"><a href="#s2-3">L2-03 技术指标入门</a></li>
+        <li class="l2"><a href="#s2-4">L2-04 基本面分析入门</a></li>
+        <li class="l2"><a href="#s2-5">L2-05 条件选股实战</a></li>
+        <li class="l2"><a href="#s2-6">L2-06 行业分析入门</a></li>
+        <li class="l2"><a href="#s2-7">L2-07 模拟交易大赛</a></li>
+        <li class="l2"><a href="#s2-8">L2-08 投资分析报告</a></li>
+
+        <li class="l1"><a href="#p3">第三篇 · L3 实战交易训练</a></li>
+        <li class="l2"><a href="#s3-1">L3-01 市场微观结构</a></li>
+        <li class="l2"><a href="#s3-2">L3-02 通达信公式编写入门</a></li>
+        <li class="l2"><a href="#s3-3">L3-03 交易心理学</a></li>
+        <li class="l2"><a href="#s3-4">L3-04 风险管理</a></li>
+        <li class="l2"><a href="#s3-5">L3-05 期权期货入门</a></li>
+        <li class="l2"><a href="#s3-6">L3-06 量化思维入门</a></li>
+        <li class="l2"><a href="#s3-7">L3-07 资产配置</a></li>
+        <li class="l2"><a href="#s3-8">L3-08 综合项目</a></li>
+
+        <li class="l1"><a href="#p4">第四篇 · L4 量化与资产管理</a></li>
+        <li class="l2"><a href="#s4-1">L4-01 量化交易平台实战</a></li>
+        <li class="l2"><a href="#s4-2">L4-02 从通达信信号到自动交易</a></li>
+        <li class="l2"><a href="#s4-3">L4-03 策略回测与评估</a></li>
+        <li class="l2"><a href="#s4-4">L4-04 量化风控体系</a></li>
+        <li class="l2"><a href="#s4-5">L4-05 行业竞争分析</a></li>
+        <li class="l2"><a href="#s4-6">L4-06 企业财务与资产配置</a></li>
+        <li class="l2"><a href="#s4-7">L4-07 金融科技前沿</a></li>
+        <li class="l2"><a href="#s4-8">L4-08 毕业项目</a></li>
+
+        <li class="l1"><a href="#p5">第五篇 · 考核与认证</a></li>
+
+        <li class="l1"><a href="#p6">第六篇 · 教学实施指南</a></li>
+    </ul>
+</div>
+
+<!-- ======================================================================= -->
+<!-- 第一篇 L1 -->
+<!-- ======================================================================= -->
+<div class="part-page" id="p1">
+    <div class="part-num">L1</div>
+    <h2>少年金融启蒙</h2>
+    <p>适合 12~16 岁 · 16 课时 · 8 次课 × 2 小时</p>
+    <p style="color:#888;">建立兴趣 · 正确金钱观 · 通达信初体验</p>
+</div>
+
+<div class="chapter">
+    <h2>L1 课程概述</h2>
+    <p><strong>目标学员：</strong>12~16 岁，零基础。不需要任何金融或编程知识。</p>
+    <p><strong>教学理念：</strong>兴趣引导为主，游戏化、体验式学习。70% 实操 + 30% 理论。</p>
+    <p><strong>通达信知识体系对应：</strong>第一篇 1.1~1.5（通达信是什么、安装、界面、基本操作）。</p>
+    <p><strong>L1 通关条件：</strong>完成投资组合报告 + 通达信基础操作测试（开机、搜股票、看K线、看F10）。</p>
+    <div class="warn"><strong>重要：</strong>L1 阶段绝对不鼓励真实投资。所有交易均为模拟。本金永久损失的风险意识从第一课开始强调。</div>
+</div>
+
+<!-- L1-01 -->
+<div class="chapter" id="s1-1">
+    <h2>L1-01 钱是什么？</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> 2 课时</div>
+    </div>
+    <h3>核心问题</h3>
+    <ul>
+        <li>钱从哪里来？为什么一张纸可以买到东西？</li>
+        <li>通货膨胀是什么——今天的 100 元和 10 年前的 100 元为什么不一样？</li>
+        <li>银行在中间扮演什么角色？</li>
+    </ul>
+    <h3>课堂活动</h3>
+    <ul>
+        <li>小组讨论："如果你有 100 万，你会怎么做？"</li>
+        <li>观看通胀模拟动画，感受货币购买力的变化</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>安装通达信（Windows/Mac 根据实际情况选择）</li>
+        <li>认识界面——菜单栏、行情列表、K线图、状态栏</li>
+        <li>搜索自己知道的公司名称（茅台、腾讯、阿里、苹果）</li>
+    </ul>
+</div>
+
+<!-- L1-02 -->
+<div class="chapter" id="s1-2">
+    <h2>L1-02 储蓄 vs 投资</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 2 课时</div>
+    </div>
+    <h3>核心概念</h3>
+    <ul>
+        <li>利息：把钱存银行，银行为什么要给你利息？</li>
+        <li>复利："利滚利"的力量——爱因斯坦说过复利是世界第八大奇迹</li>
+        <li>风险与收益：为什么存款利息低，股票可能赚更多也可能亏？</li>
+    </ul>
+    <h3>课堂活动</h3>
+    <ul>
+        <li>复利计算器实验——每个月存 100 元，年化收益 5%，到 60 岁是多少？</li>
+        <li>对比：存银行 vs 买基金 vs 买股票的 20 年差异</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>打开基金板块，浏览货币基金、债券基金、股票基金的分类</li>
+        <li>观察不同类型基金的历史收益差异</li>
+    </ul>
+</div>
+
+<!-- L1-03 -->
+<div class="chapter" id="s1-3">
+    <h2>L1-03 什么是股票？</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 2 课时</div>
+    </div>
+    <h3>核心概念</h3>
+    <ul>
+        <li>股票是公司的所有权凭证——买股票就是当股东</li>
+        <li>股东的权利：分红、投票、公司赚钱你受益</li>
+        <li>股价为什么会波动？</li>
+    </ul>
+    <h3>课堂活动</h3>
+    <ul>
+        <li>"开一家奶茶店"模拟游戏：全班出资开店 → 分股份 → 每月分红 → 有人想买你的股份</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>搜索 10 家知名公司添加到自选股</li>
+        <li>观察它们的股价和公司全称</li>
+    </ul>
+</div>
+
+<!-- L1-04 -->
+<div class="chapter" id="s1-4">
+    <h2>L1-04 认识 K 线</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 2 课时</div>
+    </div>
+    <h3>核心概念</h3>
+    <ul>
+        <li>K 线的四个价格：开盘价、收盘价、最高价、最低价</li>
+        <li>阳线（红色）= 收盘价 > 开盘价 = 上涨</li>
+        <li>阴线（绿色/蓝色）= 收盘价 < 开盘价 = 下跌</li>
+        <li>上影线、下影线、实体</li>
+    </ul>
+    <h3>课堂活动</h3>
+    <ul>
+        <li>每组发一张股票的月度股价数据表，手动画 K 线图</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>用 <kbd>F5</kbd> 在分时图和 K 线图之间切换</li>
+        <li>用 <kbd>←</kbd> <kbd>→</kbd> 方向键查看历史 K 线</li>
+        <li>找一根很长的阳线和一根很长的阴线</li>
+    </ul>
+</div>
+
+<!-- L1-05 -->
+<div class="chapter" id="s1-5">
+    <h2>L1-05 什么是公司？</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 2 课时</div>
+    </div>
+    <h3>核心概念</h3>
+    <ul>
+        <li>上市公司做什么——营收、利润、员工人数</li>
+        <li>最简单的公司画像：靠什么赚钱？赚钱吗？</li>
+    </ul>
+    <h3>课堂活动</h3>
+    <ul>
+        <li>选一家熟悉的公司（苹果/麦当劳/伊利/华为），上网查它的业务</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>按 <kbd>F10</kbd> 看公司资料</li>
+        <li>找到"公司概况"和"主营业务"——它靠什么赚钱？</li>
+    </ul>
+</div>
+
+<!-- L1-06 -->
+<div class="chapter" id="s1-6">
+    <h2>L1-06 市场是什么？</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 2 课时</div>
+    </div>
+    <h3>核心概念</h3>
+    <ul>
+        <li>上证指数、深证成指是什么——不是一只股票，是一篮子股票的平均</li>
+        <li>"大盘涨了"是什么意思？</li>
+        <li>牛市 vs 熊市</li>
+    </ul>
+    <h3>课堂活动</h3>
+    <ul>
+        <li>模拟市场游戏：每组代表一个公司，全班交易形成股价</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>输入 <kbd>03</kbd>+<kbd>Enter</kbd> 看上证指数</li>
+        <li>输入 <kbd>60</kbd>+<kbd>Enter</kbd> 看沪深涨幅排名</li>
+        <li>输入 <kbd>94</kbd>+<kbd>Enter</kbd> 看板块涨幅排名</li>
+    </ul>
+</div>
+
+<!-- L1-07 -->
+<div class="chapter" id="s1-7">
+    <h2>L1-07 我的投资组合</h2>
+    <div class="session" style="border-color:#50c878;">
+        <div class="meta"><span class="tag tag-practice">实操</span> + <span class="tag tag-project">项目</span> 2 课时</div>
+    </div>
+    <h3>任务</h3>
+    <ul>
+        <li>虚拟 10 万元资金</li>
+        <li>选择 3~5 只股票构建投资组合</li>
+        <li>每选一只股票必须写出"为什么选它"（至少 50 字）</li>
+    </ul>
+    <h3>通达信任务</h3>
+    <ul>
+        <li>建立自选板块"我的组合"</li>
+        <li>对每只股票设置价格预警</li>
+    </ul>
+</div>
+
+<!-- L1-08 -->
+<div class="chapter" id="s1-8">
+    <h2>L1-08 投资报告会</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-project">项目</span> + <span class="tag tag-exam">考核</span> 2 课时</div>
+    </div>
+    <h3>产出要求</h3>
+    <ul>
+        <li>3 分钟演讲——"我的投资组合和理由"</li>
+    </ul>
+    <h3>考核标准</h3>
+    <ul>
+        <li>逻辑清晰（40%）</li>
+        <li>表达流畅（30%）</li>
+        <li>有反思——如果跌了，你学到了什么（30%）</li>
+        <li><strong>注意：不考核收益率</strong></li>
+    </ul>
+    <h3>L1 通关条件</h3>
+    <ul>
+        <li>完成投资组合报告</li>
+        <li>通达信基础操作测试（开机登录、搜股票、看 K 线、看 F10、加自选）</li>
+    </ul>
+</div>
+
+
+<!-- ======================================================================= -->
+<!-- 第二篇 L2 -->
+<!-- ======================================================================= -->
+<div class="part-page" id="p2">
+    <div class="part-num">L2</div>
+    <h2>投资分析入门</h2>
+    <p>适合 14~18 岁 · 24 课时 · 8 次课 × 3 小时</p>
+    <p style="color:#888;">掌握通达信分析工具 · 看懂技术与基本面</p>
+</div>
+
+<div class="chapter">
+    <h2>L2 课程概述</h2>
+    <p><strong>目标学员：</strong>14~18 岁，已完成 L1 或具备同等基础。</p>
+    <p><strong>教学理念：</strong>技术面和基本面并重。不鼓励"炒短线"，每笔模拟交易持仓不少于 3 天。强调"逻辑比结果重要"。</p>
+    <p><strong>通达信知识体系对应：</strong>第一篇 1.6~1.12 + 第二篇（快捷键、K线、指标、选股、行业分析）。</p>
+    <p><strong>L2 通关条件：</strong>分析报告 ≥ 70 分 + 操作考试 ≥ 80 分。</p>
+</div>
+
+<!-- L2-01 -->
+<div class="chapter" id="s2-1">
+    <h2>L2-01 通达信高手之路</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>快捷键强化训练、界面自定义、自选股管理、板块分类、条件预警设置。</p>
+    <p><strong>知识体系对应：</strong>第一篇 1.4~1.6（界面布局、基本操作、快捷键大全）。</p>
+    <p><strong>课堂活动：</strong>快捷键计时赛——老师报功能，学生用最快速度操作。每正确完成一项得 1 分。</p>
+    <p><strong>课后练习：</strong>将快捷键表打印出来贴在电脑旁，每天练习 5 分钟。</p>
+</div>
+
+<!-- L2-02 -->
+<div class="chapter" id="s2-2">
+    <h2>L2-02 K 线语言</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>经典 K 线组合形态——十字星（多空平衡）、启明星（底部反转）、黄昏星（顶部反转）、红三兵（持续上涨）、三只乌鸦（持续下跌）、锤子线、吊颈线。</p>
+    <p><strong>知识体系对应：</strong>第一篇 1.7（K线图）。</p>
+    <p><strong>课堂活动：</strong>"K 线猜谜"——只看 K 线形态猜后续涨跌，然后揭晓真实走势，分析对错原因。</p>
+    <div class="warn"><strong>关键认知：</strong>K 线形态是概率，不是预言。同样的形态在牛市中成功率更高，在熊市中更低。</div>
+</div>
+
+<!-- L2-03 -->
+<div class="chapter" id="s2-3">
+    <h2>L2-03 技术指标入门</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>MA（移动平均线：5日/10日/20日/60日）、MACD（趋势判断）、KDJ（超买超卖）、RSI（相对强弱）、VOL（成交量）。</p>
+    <p><strong>知识体系对应：</strong>第一篇 1.8（技术指标）+ 第二篇 2.2（通达信指标评分9.8）。</p>
+    <p><strong>练习：</strong>每人在通达信调出 MACD + KDJ，在历史 K 线上找"金叉"（买入信号）和"死叉"（卖出信号）的例子。</p>
+    <div class="warn"><strong>重点强调：</strong>指标不是预测未来的水晶球，而是描述过去的统计工具。没有任何指标能 100% 准确。建议 2~3 个指标互相验证。</div>
+</div>
+
+<!-- L2-04 -->
+<div class="chapter" id="s2-4">
+    <h2>L2-04 基本面分析入门</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>F10 资料详解——财务数据（营收、净利润、增长率）、盈利能力（ROE、毛利率）、股东结构（前十大股东、机构持仓）、分红融资（历史分红记录）。</p>
+    <p><strong>知识体系对应：</strong>第一篇 1.10（F10资料）。</p>
+    <p><strong>课堂活动：</strong>对比两家同行业公司（如茅台 vs 五粮液，宁德时代 vs 比亚迪）。谁的财务更健康？谁的生意更赚钱？</p>
+</div>
+
+<!-- L2-05 -->
+<div class="chapter" id="s2-5">
+    <h2>L2-05 条件选股实战</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>用通达信条件选股器筛选股票。多条件组合（技术面+基本面+量价）。选股结果保存为板块。</p>
+    <p><strong>知识体系对应：</strong>第一篇 1.11（条件选股）。</p>
+    <p><strong>课堂挑战：</strong>"选出市盈率 &lt; 20、净利润增长 &gt; 20%、MACD 金叉的股票"——看谁选出的结果最合理，并解释为什么选这些。</p>
+</div>
+
+<!-- L2-06 -->
+<div class="chapter" id="s2-6">
+    <h2>L2-06 行业分析入门</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>行业分类标准、板块轮动逻辑、热点识别方法。为什么有些板块涨有些跌？产业链分析入门。</p>
+    <p><strong>知识体系对应：</strong>第二篇全（行业分析 + 四强对比 + 为什么行业选通达信）。</p>
+    <p><strong>练习：</strong>用 <kbd>94</kbd>+<kbd>Enter</kbd> 看今日板块涨幅排名。选一个领涨板块，分析上涨原因，找出板块内涨幅最大的 3 只股票（龙头股）。</p>
+</div>
+
+<!-- L2-07 -->
+<div class="chapter" id="s2-7">
+    <h2>L2-07 模拟交易大赛</h2>
+    <div class="session" style="border-color:#50c878;">
+        <div class="meta"><span class="tag tag-practice">实操</span> + <span class="tag tag-project">项目</span> 3 课时</div>
+    </div>
+    <p><strong>规则：</strong>虚拟 50 万资金，模拟交易 4 周（本课为启动 + 复盘）。</p>
+    <p><strong>要求：</strong>每笔交易必须写分析逻辑（技术面理由 + 基本面理由）。每日收盘后记录持仓。</p>
+    <p><strong>复盘方法：</strong>每周一次小组复盘——你的交易有逻辑吗？哪里做对了？哪里错了？</p>
+</div>
+
+<!-- L2-08 -->
+<div class="chapter" id="s2-8">
+    <h2>L2-08 投资分析报告 + 认证考试</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-project">项目</span> + <span class="tag tag-exam">考核</span> 3 课时</div>
+    </div>
+    <p><strong>产出：</strong>一份完整的个股分析报告（2000 字以上），包含：行业分析、公司基本面分析、技术面分析、投资结论与风险提示。</p>
+    <p><strong>考核项目：</strong></p>
+    <ul>
+        <li>通达信操作技能考试（30 分钟）</li>
+        <li>分析报告答辩（每人 15 分钟）</li>
+    </ul>
+    <p><strong>L2 通关条件：</strong>分析报告 ≥ 70 分 + 操作考试 ≥ 80 分。</p>
+</div>
+
+
+<!-- ======================================================================= -->
+<!-- 第三篇 L3 -->
+<!-- ======================================================================= -->
+<div class="part-page" id="p3">
+    <div class="part-num">L3</div>
+    <h2>实战交易训练</h2>
+    <p>适合 16~22 岁 · 24 课时 · 8 次课 × 3 小时</p>
+    <p style="color:#888;">深入理解市场运行规律 · 建立个人交易系统</p>
+</div>
+
+<div class="chapter">
+    <h2>L3 课程概述</h2>
+    <p><strong>目标学员：</strong>16~22 岁，已完成 L2 或具备同等基础。</p>
+    <p><strong>教学理念：</strong>从"知道"到"做到"。强化纪律性，建立系统化的交易方法论。</p>
+    <p><strong>通达信知识体系对应：</strong>第二篇全 + 第三篇 3.1~3.3（行业对比、量化平台概览）。</p>
+    <p><strong>L3 通关条件：</strong>个人投资系统白皮书 ≥ 75 分 + 答辩通过。</p>
+</div>
+
+<!-- L3-01 ~ L3-08 使用更紧凑的格式，节略篇幅但保留完整结构 -->
+<div class="chapter" id="s3-1">
+    <h2>L3-01 市场微观结构</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>交易所运作机制（集合竞价 vs 连续竞价）、订单类型（限价单/市价单/止损单）、盘口五档买卖挂单解读、Level-2 行情的十档和逐笔成交。通达信盘口实战观察。</p>
+</div>
+
+<div class="chapter" id="s3-2">
+    <h2>L3-02 通达信公式编写入门</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>通达信公式语言基础——变量定义、内置函数（EMA、CROSS、MA 等）、条件判断（IF/AND/OR）。编写第一个自定义指标和选股公式。</p>
+    <p><strong>练习：</strong>编写"5 日均线上穿 20 日均线"的选股公式，跑出结果并验证。</p>
+</div>
+
+<div class="chapter" id="s3-3">
+    <h2>L3-03 交易心理学</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>行为金融学校心概念：恐惧与贪婪、锚定效应、确认偏误、损失厌恶（亏 100 的痛苦 > 赚 100 的快乐）、处置效应（卖盈持亏）。</p>
+    <p><strong>活动：</strong>"交易心理实验"——在模拟环境中体验大涨、大跌、踏空、卖飞的心理感受。回看自己在 L2 的模拟交易记录，分析哪些决策是情绪驱动的。</p>
+</div>
+
+<div class="chapter" id="s3-4">
+    <h2>L3-04 风险管理</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>仓位管理（单品种仓位上限 / 总仓位上限）、止损止盈设置方法、最大回撤概念、夏普比率（收益/风险）、凯利公式入门（最优下注比例）。</p>
+    <p><strong>练习：</strong>设计一套自己的交易风控规则（如：单笔止损 -5%、总仓位不超过 70%、单品种不超过 20%）。</p>
+</div>
+
+<div class="chapter" id="s3-5">
+    <h2>L3-05 期权期货入门</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>期货基础（远期合约、标准化、保证金、逐日盯市、交割）、期权基础（看涨/看跌、权利金、行权价、到期日）。通达信中查看期货和期权行情。</p>
+    <div class="warn"><strong>安全提示：</strong>期权期货有杠杆，风险远大于股票。本课仅为认知教育，不鼓励实盘操作。</div>
+</div>
+
+<div class="chapter" id="s3-6">
+    <h2>L3-06 量化思维入门</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>什么是量化交易（用规则代替直觉）、回测的概念（用历史数据检验策略）、为什么需要规则化的交易系统（纪律性、可复制、可改进）。</p>
+    <p><strong>活动：</strong>手工回测一个简单规则——"5 日均线上穿 20 日均线买入，下穿卖出"，用 Excel 计算过去一年的收益、胜率、最大回撤。</p>
+</div>
+
+<div class="chapter" id="s3-7">
+    <h2>L3-07 资产配置</h2>
+    <div class="session" style="border-color:#4a9eff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>核心资产类别（股票、债券、商品、现金、不动产）、经典的 60/40 组合、相关性分散的原理、不同经济周期下的资产表现。</p>
+    <p><strong>练习：</strong>为一位"拥有 1000 万可投资资产的企业主"设计资产配置方案，写出配置比例和理由。</p>
+</div>
+
+<div class="chapter" id="s3-8">
+    <h2>L3-08 综合项目 + 认证</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-project">项目</span> + <span class="tag tag-exam">考核</span> 3 课时</div>
+    </div>
+    <p><strong>产出：</strong>一份《个人投资系统白皮书》——你的交易规则、选股逻辑、风控规则、资产配置逻辑、复盘方法论。</p>
+    <p><strong>答辩：</strong>30 分钟 presentation + Q&A。评委包括导师和企业家校友。</p>
+    <p><strong>L3 通关条件：</strong>白皮书 ≥ 75 分 + 答辩通过。</p>
+</div>
+
+
+<!-- ======================================================================= -->
+<!-- 第四篇 L4 -->
+<!-- ======================================================================= -->
+<div class="part-page" id="p4">
+    <div class="part-num">L4</div>
+    <h2>量化与资产管理</h2>
+    <p>适合 18~22 岁 / 企业二代 · 24 课时 · 8 次课 × 3 小时</p>
+    <p style="color:#888;">掌握量化思维 · 理解现代资产配置 · 为接班做准备</p>
+</div>
+
+<div class="chapter">
+    <h2>L4 课程概述</h2>
+    <p><strong>目标学员：</strong>18~22 岁 / 企业二代，已完成 L3 或具备同等基础。</p>
+    <p><strong>教学理念：</strong>从投资者视角升级到管理者视角。将投资能力与家族企业资产管理相结合。</p>
+    <p><strong>通达信知识体系对应：</strong>第三篇全（量化交易、系统架构、风控、竞争分析）。</p>
+    <p><strong>L4 通关条件：</strong>答辩通过，获<strong>通达信认证 Analyst</strong> 证书。</p>
+</div>
+
+<div class="chapter" id="s4-1">
+    <h2>L4-01 量化交易平台实战</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>量化交易生态概览（QMT vs PTrade vs 自建）、miniQMT 安装配置、Python 基础速通（面向量化场景：变量、列表、字典、循环、函数）。</p>
+    <p><strong>练习：</strong>用 xtquant 获取实时行情数据，打印到控制台。</p>
+</div>
+
+<div class="chapter" id="s4-2">
+    <h2>L4-02 从通达信信号到自动交易</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>完整链路：通达信条件预警输出 → JSON Lines 信号文件 → Python 文件监控 → 信号解析 → 风控前置校验 → xttrader.passorder() 自动下单。</p>
+    <p><strong>练习：</strong>跑通完整的"通达信→miniQMT"本地链路（模拟盘验证）。</p>
+</div>
+
+<div class="chapter" id="s4-3">
+    <h2>L4-03 策略回测与评估</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>回测框架搭建、过拟合识别（参数过多=拟合历史而非预测未来）、样本外测试（留一部分数据做验证）、绩效评价指标（夏普比率、卡玛比率、胜率、盈亏比、最大回撤）。</p>
+    <p><strong>练习：</strong>对一个简单均线策略做回测，计算全部绩效指标并撰写回测报告。</p>
+</div>
+
+<div class="chapter" id="s4-4">
+    <h2>L4-04 量化风控体系</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-practice">实操</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>三层风控防线（前置校验→委托拦截→柜台风控）、资金管理参数（单笔上限/总仓位上限/频率上限）、熔断机制（日内亏损 X% 自动停盘）、黑天鹅应对（极端行情下的保护措施）。</p>
+    <p><strong>练习：</strong>为 L4-02 的策略编写完整的 Python 风控模块，包含仓位计算、频率控制和熔断逻辑。</p>
+</div>
+
+<div class="chapter" id="s4-5">
+    <h2>L4-05 行业竞争分析</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-project">项目</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>量化行业格局（T1 幻方/九坤 vs T2 中型私募 vs T3 个人）、差距量化（延迟/研发/数据/资金）、个人/小团队的真实优势（零研发成本/小资金灵活性/决策速度/合规自由度）、利基市场策略。</p>
+    <p><strong>讨论：</strong>"如果我是管理 1 亿资金的量化基金经理，我的竞争策略是什么？"</p>
+</div>
+
+<div class="chapter" id="s4-6">
+    <h2>L4-06 企业财务与资产配置</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> + <span class="tag tag-project">项目</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>企业资金管理（经营性现金流 vs 投资性现金流）、流动性规划（备用金/短期投资/长期投资分层）、闲置资金投资策略、家族资产配置（不动产+金融资产+实业+现金）。</p>
+    <p><strong>案例：</strong>某实业企业年利润 5000 万，如何规划"产业 + 投资"的双轮驱动？</p>
+    <p><strong>练习：</strong>设计一份家族资产配置方案（含不动产、金融资产、实业、现金的比例和理由）。</p>
+</div>
+
+<div class="chapter" id="s4-7">
+    <h2>L4-07 金融科技前沿</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-lecture">讲授</span> 3 课时</div>
+    </div>
+    <p><strong>内容：</strong>AI 在投资中的应用（自然语言处理读财报、图像识别看图表、机器学习做预测）、金融大模型介绍（同花顺问财、东方财富妙想）、信创与国产替代趋势（通达信在信创中的先发优势）、监管政策对量化交易的影响。</p>
+    <p><strong>讨论：</strong>"AI 会取代基金经理吗？什么是 AI 做不到的？"</p>
+</div>
+
+<div class="chapter" id="s4-8">
+    <h2>L4-08 毕业项目 + 认证</h2>
+    <div class="session" style="border-color:#a87dff;">
+        <div class="meta"><span class="tag tag-project">项目</span> + <span class="tag tag-exam">考核</span> 3 课时</div>
+    </div>
+    <p><strong>产出：</strong>一份完整的《量化投资策略 + 资产配置方案》报告。</p>
+    <p><strong>要求：</strong></p>
+    <ul>
+        <li>策略部分：策略逻辑、回测结果、风控规则、Python 代码</li>
+        <li>配置部分：家族资产配置方案（以企业二代身份撰写）、配置逻辑和预期收益</li>
+    </ul>
+    <p><strong>答辩：</strong>45 分钟 presentation，面向导师团 + 企业家评委。</p>
+    <p><strong>L4 通关条件：</strong>答辩通过，获得<strong>通达信认证 Analyst</strong> 证书。</p>
+</div>
+
+
+<!-- ======================================================================= -->
+<!-- 第五篇 考核 -->
+<!-- ======================================================================= -->
+<div class="part-page" id="p5">
+    <div class="part-num">V</div>
+    <h2>考核与认证</h2>
+</div>
+
+<div class="chapter">
+    <h2>考核体系</h2>
+
+    <h3>评估方式</h3>
+    <table>
+        <thead><tr><th>类型</th><th>占比</th><th>说明</th></tr></thead>
+        <tbody>
+            <tr><td>课堂参与</td><td>20%</td><td>出勤、讨论、小组合作质量</td></tr>
+            <tr><td>平时作业</td><td>30%</td><td>每节课后通达信操作练习 + 简短反思</td></tr>
+            <tr><td>阶段项目</td><td>30%</td><td>各级别产出（投资组合/分析报告/策略白皮书/量化方案）</td></tr>
+            <tr><td>期末答辩</td><td>20%</td><td>面向导师团的 presentation + Q&A</td></tr>
+        </tbody>
+    </table>
+
+    <h3>通达信操作技能考核标准</h3>
+    <table>
+        <thead><tr><th>级别</th><th>考核项目</th><th>要求</th></tr></thead>
+        <tbody>
+            <tr><td><strong>L1</strong></td><td>基础操作</td><td>开机登录、搜索股票、看K线、看F10、加自选</td></tr>
+            <tr><td><strong>L2</strong></td><td>分析工具</td><td>快捷键、条件选股、板块分析、指标切换、数据导出</td></tr>
+            <tr><td><strong>L3</strong></td><td>公式与交易</td><td>编写选股公式、设置预警、Level-2盘口解读</td></tr>
+            <tr><td><strong>L4</strong></td><td>量化系统</td><td>通达信→miniQMT链路搭建、Python策略、风控配置</td></tr>
+        </tbody>
+    </table>
+
+    <h3>认证体系</h3>
+    <div class="card-grid">
+        <div class="card" style="border-top:3px solid #ffd700;">
+            <h4 style="color:#d4a830;">🏆 通达信认证 Analyst</h4>
+            <p>L1~L4 全通关后获得。认证内容：通达信全功能使用 + 投资分析框架 + 量化基础。形式：纸质证书 + 数字徽章。</p>
+        </div>
+        <div class="card" style="border-top:3px solid #4a9eff;">
+            <h4 style="color:#4a9eff;">📜 单级结业证明</h4>
+            <p>每个级别通过后可获得。记录该级别掌握的技能清单，可作为综合素质评价材料提交。</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ======================================================================= -->
+<!-- 第六篇 教学实施 -->
+<!-- ======================================================================= -->
+<div class="part-page" id="p6">
+    <div class="part-num">VI</div>
+    <h2>教学实施指南</h2>
+</div>
+
+<div class="chapter">
+    <h2>教学实施指南</h2>
+
+    <h3>师资建议</h3>
+    <table>
+        <thead><tr><th>级别</th><th>推荐师资</th><th>说明</th></tr></thead>
+        <tbody>
+            <tr><td><strong>L1</strong></td><td>金融教育工作者 / 财商教练</td><td>不需要深厚交易经验，重在引导和互动能力</td></tr>
+            <tr><td><strong>L2</strong></td><td>券商分析师 / 投资顾问</td><td>需要通达信使用经验和基本投研能力</td></tr>
+            <tr><td><strong>L3</strong></td><td>私募基金经理 / 资深交易员</td><td>需要真实的投资经验和完善的交易方法论</td></tr>
+            <tr><td><strong>L4</strong></td><td>量化工程师 / 基金经理</td><td>需要 Python 编程能力和量化系统实战经验</td></tr>
+        </tbody>
+    </table>
+
+    <h3>课程实施参数</h3>
+    <div class="card-grid">
+        <div class="card">
+            <h4>班级规模</h4>
+            <p>建议每班不超过 20 人。企业二代班不超过 12 人。确保每人一台电脑实操。</p>
+        </div>
+        <div class="card">
+            <h4>授课形式</h4>
+            <p>线下为主 + 线上社群。每周一次线下课，社群每日推送市场简讯和讨论话题。</p>
+        </div>
+        <div class="card">
+            <h4>参考学费</h4>
+            <p>L1: ¥3,800 / L2: ¥6,800 / L3: ¥9,800 / L4: ¥12,800。全套打包 ¥28,000。</p>
+        </div>
+        <div class="card">
+            <h4>企业二代定制</h4>
+            <p>可增加一对一辅导（4 次×1h），由资深基金经理/企业家导师针对性指导。</p>
+        </div>
+    </div>
+
+    <h3>配套教材</h3>
+    <table>
+        <thead><tr><th>资源</th><th>用途</th><th>对应课程</th></tr></thead>
+        <tbody>
+            <tr><td>通达信知识体系.html</td><td>核心教材，课前预习 + 课后查阅</td><td>L1~L4 全部</td></tr>
+            <tr><td>通达信入门手册（Win+Mac）</td><td>操作速查，课堂练习参考</td><td>L1~L2</td></tr>
+            <tr><td>通达信横向对比分析.html</td><td>行业分析案例，讨论材料</td><td>L2~L3</td></tr>
+            <tr><td>量化交易技术方案.html</td><td>量化系统技术参考</td><td>L4</td></tr>
+            <tr><td>量化交易竞争差异分析.html</td><td>行业认知与职业规划讨论</td><td>L3~L4</td></tr>
+        </tbody>
+    </table>
+
+    <h3>学员成长路径</h3>
+    <div class="roadmap-item">
+        <div class="roadmap-marker">🌱</div>
+        <div class="roadmap-content">
+            <h4>L1 少年金融启蒙</h4>
+            <p>建立了正确的金钱观，会使用通达信看行情。</p>
+        </div>
+    </div>
+    <div class="roadmap-item">
+        <div class="roadmap-marker">🌿</div>
+        <div class="roadmap-content">
+            <h4>L2 投资分析入门</h4>
+            <p>熟练使用通达信，能写投资分析报告。</p>
+        </div>
+    </div>
+    <div class="roadmap-item">
+        <div class="roadmap-marker">🌳</div>
+        <div class="roadmap-content">
+            <h4>L3 实战交易训练</h4>
+            <p>建立了交易系统，理解风险管理，会写通达信公式。</p>
+        </div>
+    </div>
+    <div class="roadmap-item">
+        <div class="roadmap-marker">🏆</div>
+        <div class="roadmap-content">
+            <h4>L4 量化与资产管理</h4>
+            <p>掌握量化交易，能设计资产配置方案。获认证 Analyst。</p>
+        </div>
+    </div>
+    <div class="roadmap-item">
+        <div class="roadmap-marker">🎯</div>
+        <div class="roadmap-content">
+            <h4>毕业去向</h4>
+            <p>继续深造（金融/金融工程）· 职业起点（券商/私募实习）· 接班准备（家族办公室轮岗）</p>
+        </div>
+    </div>
+</div>
+
+<div class="footer-note">
+    <p>通达信青少年投资课程 — 印刷版教材 v1.0</p>
+    <p>基于通达信知识体系开发 · 面向青少年与企业二代的金融素养与投资实战培训</p>
+    <p style="margin-top:4px;font-size:8pt;">课程版本 2026 年 5 月 · 全套 88 课时 · 20 模块 · 四阶递进</p>
+</div>
+
+</body>
+</html>
