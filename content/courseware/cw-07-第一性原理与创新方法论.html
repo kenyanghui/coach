@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件07 · 第一性原理与创新方法论 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header { background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%); color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden; }
+.cw-header::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.10) 0%,transparent 50%), radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.06) 0%,transparent 50%); pointer-events:none; }
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge { display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20); color:#f6c842; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px; }
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#9b7fff,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px); border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap; }
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#7c5cfc; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #7c5cfc; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#7c5cfc; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective { background:#eaf2f8; border-left:4px solid #2e86c1; border-radius:10px; padding:16px 20px; margin:14px 0; }
+.objective strong { color:#1a5276; }
+.key-concept { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media(max-width:680px){ .key-concept { grid-template-columns:1fr; } }
+.key-item { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #7c5cfc; }
+.key-item .label { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:2px; }
+.key-item .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.key-item .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.callout.orange { background:#fdf3e8; border-left:4px solid #e67e22; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.cw-footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.cw-footer a { color:#7c5cfc; text-decoration:none; }
+.quote { font-style:italic; background:#f8f9fa; border-radius:12px; padding:18px 22px; margin:14px 0; border:1px solid #eef0f2; }
+.quote .author { font-style:normal; font-size:12px; color:#888; margin-top:6px; }
+.flow-step { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin:14px 0; }
+.flow-item { text-align:center; padding:14px 8px; background:#f8f9fa; border-radius:10px; border:1px solid #eef0f2; }
+.flow-item .step { font-size:11px; color:#999; letter-spacing:1px; }
+.flow-item .title { font-weight:700; font-size:14px; margin:4px 0; }
+.flow-item .desc { font-size:12px; color:#888; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课件 · 07</div>
+  <h1>第一性原理 <span>& 创新方法论</span></h1>
+  <div class="sub">公理化思维 · 边界创新 · 逆向决策 · 从亚里士多德到伊隆·马斯克的思维进化</div>
+  <div class="meta">基于知识库：first-principles-skill · 7节完整课件 · 适合创新思维训练</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#s1">什么是第一性原理</a>
+  <a href="#s2">公理化思维</a>
+  <a href="#s3">边界创新</a>
+  <a href="#s4">逆向决策</a>
+  <a href="#s5">思维模型重组</a>
+  <a href="#s6">马斯克实践</a>
+  <a href="#s7">你的创新飞轮</a>
+</nav>
+
+<div class="container">
+
+<!-- S1 -->
+<div class="slide" id="s1">
+  <h2><span class="num">1</span>什么是第一性原理？</h2>
+  <div class="objective"><strong>学习目标：</strong>理解第一性原理的本质——追溯到问题最基本的真相，然后重新推理</div>
+
+  <div class="quote">
+    "第一性原理是用物理学的角度看世界。不要用类比的方式思考，而是把事物分解到最基本的真理，然后从那里开始推理。"
+    <div class="author">—— 伊隆·马斯克</div>
+  </div>
+
+  <h3>第一性原理 vs 类比思维</h3>
+  <table>
+    <tr><th>维度</th><th>类比思维</th><th>第一性原理</th></tr>
+    <tr><td>思考方式</td><td>别人怎么做→我也怎么做</td><td>这件事的本质是什么→应该怎么做</td></tr>
+    <tr><td>创新程度</td><td>渐进式改进</td><td>颠覆式突破</td></tr>
+    <tr><td>风险</td><td>低风险，但容易陷入同质化</td><td>高风险，但可能带来指数级突破</td></tr>
+    <tr><td>适用场景</td><td>稳定市场、成熟行业</td><td>变革期、新赛道、困境反转</td></tr>
+    <tr><td>例子</td><td>"手机就应该长这样"</td><td>"手机的本质是通讯工具"</td></tr>
+  </table>
+
+  <div class="callout blue">
+    <strong>核心洞察：</strong>第一性原理不是"正确的答案"，而是一种"正确的提问方式"。它的力量不在于给出答案，而在于打破思维定势。
+  </div>
+
+  <h3>为什么要学习第一性原理？</h3>
+  <ul>
+    <li><strong>打破路径依赖：</strong>过往的经验往往成为未来的牢笼</li>
+    <li><strong>发现真正的问题：</strong>大多数人在解决"伪问题"</li>
+    <li><strong>创造指数级价值：</strong>渐进式改进只能带来线性增长，第一性原理才能带来指数突破</li>
+    <li><strong>建立独立思考能力：</strong>不盲从权威和主流观点</li>
+  </ul>
+</div>
+
+<!-- S2 -->
+<div class="slide" id="s2">
+  <h2><span class="num">2</span>公理化思维 · 从欧几里得到爱因斯坦</h2>
+  <div class="objective"><strong>学习目标：</strong>学习公理化思维——从少量不证自明的公理出发，推导出整个知识体系</div>
+
+  <p>公理化思维是第一性原理的源头。从欧几里得几何到牛顿力学，从斯宾诺莎伦理学到爱因斯坦相对论——最伟大的思想体系都建立在公理之上。</p>
+
+  <h3>公理化思维三步骤</h3>
+  <div class="flow-step">
+    <div class="flow-item" style="border-left:4px solid #e74c3c;">
+      <div class="step">STEP 1</div>
+      <div class="title">找到公理</div>
+      <div class="desc">识别不证自明的基本真理</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;">
+      <div class="step">STEP 2</div>
+      <div class="title">逻辑推导</div>
+      <div class="desc">从公理出发进行严密推理</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;">
+      <div class="step">STEP 3</div>
+      <div class="title">构建体系</div>
+      <div class="desc">形成完整的知识或决策框架</div>
+    </div>
+  </div>
+
+  <h3>历史案例</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="title">欧几里得几何</div>
+      <div class="desc">5条公理 → 465条定理 → 2000+年沿用。从五个不言自明的公理，推导出整个几何学体系。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">牛顿力学</div>
+      <div class="desc">三大运动定律 + 万有引力 → 经典物理学的完整大厦。解释了从苹果落地到行星轨道的全部现象。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">爱因斯坦相对论</div>
+      <div class="desc">两条公理（光速不变+相对性原理） → 狭义相对论 → E=mc²。颠覆了牛顿的绝对时空观。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="title">笛卡尔"我思故我在"</div>
+      <div class="desc">彻底怀疑一切 → "我在怀疑"这件事不可怀疑 → "我思故我在"作为哲学第一公理 → 构建整个近代哲学体系。</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>商业应用：</strong>企业的"公理"是什么？<br>
+    段永平的"本分"、亚马逊的"客户至上"、苹果的"极致简洁"——它们都是企业的公理。一切战略决策都应该从这些公理推导出来。
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="slide" id="s3">
+  <h2><span class="num">3</span>边界创新 · 打破认知框</h2>
+  <div class="objective"><strong>学习目标：</strong>学会识别和打破认知边界，在限制中找到创新突破</div>
+
+  <p>熊彼特的"创造性破坏"和克里斯坦森的"颠覆式创新"都指出：真正的创新往往来自边界之外。</p>
+
+  <h3>四种创新路径</h3>
+  <table>
+    <tr><th>路径</th><th>本质</th><th>代表理论</th><th>例子</th></tr>
+    <tr><td>组合创新</td><td>已有元素的重新组合</td><td>熊彼特创新理论</td><td>iPhone = 手机+iPod+互联网</td></tr>
+    <tr><td>颠覆式创新</td><td>从低端或新市场切入</td><td>克里斯坦森</td><td>Netflix颠覆Blockbuster</td></tr>
+    <tr><td>跨越式创新</td><td>跳过中间步骤直达目标</td><td>第一性原理</td><td>SpaceX跳过NASA路径</td></tr>
+    <tr><td>逆向创新</td><td>从反面思考问题</td><td>查理·芒格</td><td>先想"如何失败"</td></tr>
+  </table>
+
+  <h3>如何发现认知边界？</h3>
+  <ul>
+    <li><strong>问"为什么"五遍：</strong>丰田生产法的经典方法，不断追问直到触及本质</li>
+    <li><strong>找隐含假设：</strong>我们默认了什么？这个默认一定对吗？</li>
+    <li><strong>换框架思考：</strong>经济学家怎么看？物理学家怎么看？艺术家怎么看？</li>
+    <li><strong>反例法：</strong>如果相反的情况是对的，会怎样？</li>
+  </ul>
+
+  <div class="callout purple">
+    <strong>练习：</strong>选择一个你熟悉的行业或产品，列出5个"理所当然"的假设，然后每个都尝试打破它。比如：<br>
+    教育必须去学校？学习必须按年龄分班？考试是唯一评价方式？
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="slide" id="s4">
+  <h2><span class="num">4</span>逆向决策 · 先想失败再找路径</h2>
+  <div class="objective"><strong>学习目标：</strong>掌握逆向思维在决策中的应用——"想死才能活"</div>
+
+  <div class="quote">
+    "反过来想，总是反过来想。"——查理·芒格<br>
+    "我只想知道我将来会死在什么地方，这样我就可以永远不去那里。"——查理·芒格
+  </div>
+
+  <h3>逆向决策的步骤</h3>
+  <div class="flow-step">
+    <div class="flow-item" style="border-left:4px solid #e74c3c;">
+      <div class="step">STEP 1</div>
+      <div class="title">设定失败</div>
+      <div class="desc">假设项目/决策已经失败</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;">
+      <div class="step">STEP 2</div>
+      <div class="title">分析原因</div>
+      <div class="desc">写出所有可能的失败原因</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;">
+      <div class="step">STEP 3</div>
+      <div class="title">预防措施</div>
+      <div class="desc">针对每个原因制定预防方案</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #f6c842;">
+      <div class="step">STEP 4</div>
+      <div class="title">正向复盘</div>
+      <div class="desc">重新回到正向决策轨道</div>
+    </div>
+  </div>
+
+  <h3>商业中的逆向决策应用</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="title">定价策略</div>
+      <div class="desc">不做"怎么定价最赚钱"，而做"怎么定价会亏死"——反向找出价格底线和客户接受度的平衡点。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">产品设计</div>
+      <div class="desc">不好用→分析哪些设计会导致用户流失→反向优化。逆向用户旅程地图。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">投资决策</div>
+      <div class="desc">不找"如何赚钱"，先找"哪些情况会亏钱"——排除法比直接寻找更有效。巴菲特"不要亏钱"正是逆向思维。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="title">战略规划</div>
+      <div class="desc">Premortem（预验尸）——假设公司3年后倒闭，原因是什么？比传统SWOT分析更深刻。</div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="slide" id="s5">
+  <h2><span class="num">5</span>思维模型重组 · 跨学科智慧</h2>
+  <div class="objective"><strong>学习目标：</strong>学习如何从不同学科提取思维模型，组合成创新的决策框架</div>
+
+  <p>查理·芒格说："如果你只有一把锤子，你看所有问题都像钉子。" 真正的创新来自跨学科思维模型的交叉。</p>
+
+  <h3>核心思维模型库</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="label">物理学</div>
+      <div class="title">临界点/复利效应</div>
+      <div class="desc">系统达到某个阈值后发生质变。商业中的"引爆点"——用户增长、品牌传播、组织变革。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="label">生物学</div>
+      <div class="title">进化论/适应度</div>
+      <div class="desc">适者生存而非强者生存。企业需要不断适应环境变化，快速迭代。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="label">经济学</div>
+      <div class="title">边际效益/机会成本</div>
+      <div class="desc">每一个选择都有机会成本。资源应该投入到边际效益最高的地方。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="label">哲学</div>
+      <div class="title">奥卡姆剃刀</div>
+      <div class="desc">如无必要，勿增实体。最简单的解决方案往往是最好的。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#7c5cfc;">
+      <div class="label">统计学</div>
+      <div class="title">贝叶斯更新</div>
+      <div class="desc">随着新信息不断修正先验信念。用概率思维做决策。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#00c8c8;">
+      <div class="label">系统论</div>
+      <div class="title">反馈循环</div>
+      <div class="desc">正反馈加速增长，负反馈维持稳定。理解系统的杠杆点。</div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <strong>重组方法：</strong>选择一个商业问题，尝试用3个不同学科的思维模型去分析。你会发现，单一学科只能看到问题的某个侧面，跨学科才能看到全貌。
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="slide" id="s6">
+  <h2><span class="num">6</span>马斯克的实践 · 第一性原理的极致应用</h2>
+  <div class="objective"><strong>学习目标：</strong>通过马斯克的真实案例，理解第一性原理在商业中的实践方法</div>
+
+  <h3>SpaceX：火箭成本降低90%</h3>
+  <p>传统思维：一枚火箭造价数亿美元 → 火箭很贵 → 发射成本就是高</p>
+  <p>马斯克的思考：</p>
+  <ol>
+    <li><strong>分解到基本要素：</strong>火箭的原材料的价值是多少？铝、铜、钛、合金——原材料成本只有火箭价格的2%。</li>
+    <li><strong>重新构建：</strong>为什么我们不自己制造？为什么火箭只能发射一次（可回收）？</li>
+    <li><strong>结果：</strong>猎鹰9号发射成本从竞争对手的4亿美元降到6200万美元，可重复使用进一步降低。</li>
+  </ol>
+
+  <h3>Tesla：电池成本降低80%</h3>
+  <p>传统思维：电池组很贵（每千瓦时600美元）→ 电动车就是贵 → 政府补贴才有市场</p>
+  <p>马斯克的思考：</p>
+  <ol>
+    <li><strong>分解到基本要素：</strong>电池的材料是什么——碳、镍、铝、高分子聚合物。伦敦金属交易所的现货价格是多少？</li>
+    <li><strong>发现真相：</strong>这些材料的总成本只有每千瓦时80美元</li>
+    <li><strong>行动：</strong>建立超级工厂（Gigafactory）自产电池，规模效应大幅降低成本</li>
+  </ol>
+
+  <div class="callout gold">
+    <strong>启示：</strong>马斯克的每一个颠覆性创新都不是"灵光一现"，而是系统性地应用第一性原理的结果。他不断问同一个问题：这件事的物理本质是什么？不依赖任何已有的假设。
+  </div>
+
+  <h3>第一性原理在AI时代的应用</h3>
+  <ul>
+    <li><strong>AI教育的本质？</strong>不是"用AI教"，而是"培养AI时代的思维能力"</li>
+    <li><strong>企业传承的本质？</strong>不是"交接权力"，而是"建立可持续的创造系统"</li>
+    <li><strong>商业的本质？</strong>不是"赚钱"，而是"创造价值并建立价值交换的可持续系统"</li>
+  </ul>
+</div>
+
+<!-- S7 -->
+<div class="slide" id="s7">
+  <h2><span class="num">7</span>你的创新飞轮 · 从理论到实践</h2>
+  <div class="objective"><strong>学习目标：</strong>构建自己的第一性原理思维系统，形成持续创新的飞轮</div>
+
+  <h3>第一性原理实践四步法</h3>
+  <div class="flow-step">
+    <div class="flow-item" style="border-left:4px solid #7c5cfc;background:#f0e6f6;">
+      <div class="step">01 · 识别</div>
+      <div class="title">找出隐含假设</div>
+      <div class="desc">什么是"大家都默认"的？</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;background:#eaf2f8;">
+      <div class="step">02 · 分解</div>
+      <div class="title">追问到基本要素</div>
+      <div class="desc">这件事最底层的真理是什么？</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;background:#e8f8f0;">
+      <div class="step">03 · 重组</div>
+      <div class="title">从基本要素重新构建</div>
+      <div class="desc">如果不考虑现有方案，我会怎么做？</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #f6c842;background:#fef9e7;">
+      <div class="step">04 · 验证</div>
+      <div class="title">快速试错迭代</div>
+      <div class="desc">我的推理在现实中成立吗？</div>
+    </div>
+  </div>
+
+  <h3>创新飞轮</h3>
+  <div class="diagram">
+<pre>             ┌─────────────────────────┐
+             │     第一性原理追问       │
+             │  （破除假设→找到本质）    │
+             └───────────┬─────────────┘
+                         ↓
+             ┌─────────────────────────┐
+  ┌─────────→│      创新方案生成        │
+  │          │  （公理→推导→构建）      │
+  │          └───────────┬─────────────┘
+  │                      ↓
+  │          ┌─────────────────────────┐
+  │          │     快速验证迭代         │
+  │          │  （MVP→反馈→修正）       │
+  │          └───────────┬─────────────┘
+  │                      ↓
+  │          ┌─────────────────────────┐
+  │          │      经验沉淀            │
+  │          │  （失败→洞察→新公理）     │
+  │          └───────────┬─────────────┘
+  │                      │
+  └──────────────────────┘
+        （反馈循环，持续加速）</pre>
+  </div>
+
+  <div class="callout purple">
+    <strong>终极思考：</strong>你今天的业务/创业/学习，有哪些"理所当然"的假设可能是错的？<br>
+    试着用第一性原理问自己：<br>
+    ① 如果从头开始，我会怎么做？<br>
+    ② 限制我的到底是外部条件，还是我的思维框架？<br>
+    ③ 我敢不敢接受一个"所有人都觉得不可能"的答案？
+  </div>
+</div>
+
+</div>
+
+<div class="cw-footer">
+  <p>AI商科课件 · 基于first-principles-skill知识库生成</p>
+  <p><a href="../index.html">返回教练首页</a> · <a href="../../index.html#courseware">返回课件列表</a></p>
+  <p style="font-size:12px;color:#ccc;">杨辉 Ken Yang · © 2026</p>
+</div>
+
+</body>
+</html>

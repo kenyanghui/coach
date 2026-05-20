@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件08 · 国学智慧与商业决策 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header { background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%); color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden; }
+.cw-header::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.10) 0%,transparent 50%), radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.06) 0%,transparent 50%); pointer-events:none; }
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge { display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20); color:#f6c842; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px; }
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#9b7fff,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px); border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap; }
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#7c5cfc; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #d4a017; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#d4a017; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective { background:#fef9e7; border-left:4px solid #d4a017; border-radius:10px; padding:16px 20px; margin:14px 0; }
+.objective strong { color:#7d5e0a; }
+.key-concept { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media(max-width:680px){ .key-concept { grid-template-columns:1fr; } }
+.key-item { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #d4a017; }
+.key-item .label { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:2px; }
+.key-item .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.key-item .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.gold { background:#fef9e7; border-left:4px solid #d4a017; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.callout.orange { background:#fdf3e8; border-left:4px solid #e67e22; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.cw-footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.cw-footer a { color:#d4a017; text-decoration:none; }
+.quote { font-style:italic; background:#fef9e7; border-radius:12px; padding:18px 22px; margin:14px 0; border:1px solid #f5eddc; }
+.quote .author { font-style:normal; font-size:12px; color:#888; margin-top:6px; }
+.flow-step { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin:14px 0; }
+.flow-item { text-align:center; padding:14px 8px; background:#f8f9fa; border-radius:10px; border:1px solid #eef0f2; }
+.flow-item .step { font-size:11px; color:#999; letter-spacing:1px; }
+.flow-item .title { font-weight:700; font-size:14px; margin:4px 0; }
+.flow-item .desc { font-size:12px; color:#888; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课件 · 08</div>
+  <h1>国学智慧 <span>& 商业决策</span></h1>
+  <div class="sub">易经变易思维 · 孙子兵法战略 · 庄子无用之用 · 道法自然的管理哲学</div>
+  <div class="meta">基于知识库：book2startup(易经/庄子/孙子兵法/菜根谭) · 7节完整课件 · 适合道商修行者</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#s1">道商总纲</a>
+  <a href="#s2">易经变易</a>
+  <a href="#s3">孙子兵法</a>
+  <a href="#s4">庄子智慧</a>
+  <a href="#s5">菜根谭</a>
+  <a href="#s6">五经融合</a>
+  <a href="#s7">道商实践</a>
+</nav>
+
+<div class="container">
+
+<!-- S1 -->
+<div class="slide" id="s1">
+  <h2><span class="num">1</span>道商总纲 · 国学与商业的融合</h2>
+  <div class="objective"><strong>学习目标：</strong>建立"国学×商道"的思维框架，理解东方智慧在商业中的应用价值</div>
+
+  <div class="quote">
+    "道商者，以道御商。以商载道，道商合一。敬天爱人，上善若水，共振创造。"
+    <div class="author">—— 道商修行理念</div>
+  </div>
+
+  <h3>国学五经的商业智慧图谱</h3>
+  <table>
+    <tr><th>经典</th><th>核心思想</th><th>商业应用</th></tr>
+    <tr><td>《易经》</td><td>变易·简易·不易；阴阳平衡；时位应对</td><td>战略节奏、组织变革、风险管理</td></tr>
+    <tr><td>《孙子兵法》</td><td>知己知彼、避实击虚、不战而屈人之兵</td><td>竞争战略、市场定位、资源调配</td></tr>
+    <tr><td>《庄子》</td><td>无用之用、逍遥游、齐物论</td><td>创新思维、领导力、格局视野</td></tr>
+    <tr><td>《菜根谭》</td><td>淡泊明志、方圆并用、宠辱不惊</td><td>企业文化、个人修养、危机管理</td></tr>
+  </table>
+
+  <h3>道商修行六阶段</h3>
+  <div class="flow-step">
+    <div class="flow-item" style="border-left:4px solid #e74c3c;">
+      <div class="step">T1</div>
+      <div class="title">筑基</div>
+      <div class="desc">建立认知框架</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #e67e22;">
+      <div class="step">T2</div>
+      <div class="title">炼心</div>
+      <div class="desc">内观自省觉察</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #f6c842;">
+      <div class="step">T3</div>
+      <div class="title">化气</div>
+      <div class="desc">能量转化运用</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;">
+      <div class="step">T4</div>
+      <div class="title">还虚</div>
+      <div class="desc">无我利他共振</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;">
+      <div class="step">T5</div>
+      <div class="title">合道</div>
+      <div class="desc">天人合一道法</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #7c5cfc;">
+      <div class="step">T6</div>
+      <div class="title">行愿</div>
+      <div class="desc">普济利他自觉</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>心光哲学连接：</strong>道商修行与心光四营一脉相承。爱智营（Why/哲学地基）→ 爱创营（What/AI创造）→ 爱习营（How/公益普惠）→ 爱信营（Who/超越自我），正对应道商修行的渐次进阶。
+  </div>
+</div>
+
+<!-- S2 -->
+<div class="slide" id="s2">
+  <h2><span class="num">2</span>易经 · 变易与决策智慧</h2>
+  <div class="objective"><strong>学习目标：</strong>掌握易经"时位应对"思维，用于商业决策和战略规划</div>
+
+  <p>《易经》的核心智慧：<strong>变易</strong>（一切皆变）、<strong>简易</strong>（大道至简）、<strong>不易</strong>（规律不变）。三原则构成完整的商业决策世界观。</p>
+
+  <h3>易经商业决策框架</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="label">时（TIMING）</div>
+      <div class="title">时机的判断</div>
+      <div class="desc">"时"是易经最重要的概念。什么时候该进？什么时候该退？乾卦六爻从"潜龙勿用"到"亢龙有悔"，完整描述了时机的把握。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="label">位（POSITION）</div>
+      <div class="title">位置的认知</div>
+      <div class="desc">知道自己在哪里，才能知道该做什么。初爻"潜龙"代表还在积累阶段；五爻"飞龙"代表达到了巅峰。每个位置有对应的行为逻辑。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="label">应（RESPONSE）</div>
+      <div class="title">应对的策略</div>
+      <div class="desc">阴阳爻的"应"关系代表了关联互动。商业中没有孤立的决策，每个选择都在与他人的选择互动中产生结果。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#d4a017;">
+      <div class="label">中（BALANCE）</div>
+      <div class="title">中道的智慧</div>
+      <div class="desc">"中"不是平均主义，而是找到最合适的度。过犹不及，物极必反。商业决策中的中庸之道：不偏激、不失衡。</div>
+    </div>
+  </div>
+
+  <div class="diagram">
+<pre>                       乾卦六爻 × 商业阶段
+        ┌─────────────────────────────────────────┐
+        │  上九 · 亢龙有悔  →  鼎盛后警惕衰退   │
+        │  九五 · 飞龙在天  →  巅峰期全力发展   │
+        │  九四 · 或跃在渊  →  突破期谨慎决策   │
+        │  九三 · 终日乾乾  →  成长期持续奋斗   │
+        │  九二 · 见龙在田  →  起步期崭露头角   │
+        │  初九 · 潜龙勿用  →  潜伏期积累实力   │
+        └─────────────────────────────────────────┘</pre>
+  </div>
+
+  <div class="callout orange">
+    <strong>实战应用：</strong>评估你当前的项目/企业在"乾卦六爻"的哪个位置？不同位置对应的策略完全不同。在"潜龙"阶段做"飞龙"的事，是很多企业失败的根本原因。
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="slide" id="s3">
+  <h2><span class="num">3</span>孙子兵法 · 不战而胜的竞争战略</h2>
+  <div class="objective"><strong>学习目标：</strong>将孙子兵法的战略思想应用于商业竞争</div>
+
+  <div class="quote">
+    "是故百战百胜，非善之善者也；不战而屈人之兵，善之善者也。故上兵伐谋，其次伐交，其次伐兵，其下攻城。"
+    <div class="author">——《孙子兵法·谋攻篇》</div>
+  </div>
+
+  <h3>孙子兵法五事 · 商业战略模型</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="title">道（使命愿景）</div>
+      <div class="desc">"道者，令民与上同意也。" 上下同欲者胜。企业使命是否让全员认同？消费者是否认同品牌价值观？</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">天（时机趋势）</div>
+      <div class="desc">"天者，阴阳、寒暑、时制也。" 宏观大势、技术周期、政策窗口。踩对节奏事半功倍。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">地（市场定位）</div>
+      <div class="desc">"地者，远近、险易、广狭、死生也。" 市场规模、竞争格局、差异化空间。选择战场和定位。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#d4a017;">
+      <div class="title">将（团队领导）</div>
+      <div class="desc">"将者，智、信、仁、勇、严也。" 五德兼备。领导者素质决定团队上限。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#7c5cfc;">
+      <div class="title">法（组织制度）</div>
+      <div class="desc">"法者，曲制、官道、主用也。" 组织架构、流程制度、资源配置。执行力的根本保障。</div>
+    </div>
+  </div>
+
+  <h3>避实击虚 · 竞争策略</h3>
+  <ul>
+    <li><strong>实者：</strong>竞争对手的优势领域——不正面硬碰，寻找他的盲点和弱点</li>
+    <li><strong>虚者：</strong>对手忽视的市场空白或用户需求——集中力量打击</li>
+    <li><strong>以正合，以奇胜：</strong>正面战场稳住阵脚，出奇兵突破。OPPO以线下渠道为"正"，以闪充技术为"奇"</li>
+  </ul>
+
+  <div class="callout gold">
+    <strong>二代传承的"兵法"：</strong>二代接班的"知己"——知道自己的优势和局限；"知彼"——了解父辈企业和行业的深层逻辑；"避实击虚"——不在父辈擅长的领域硬比，而在AI、数字化等新领域建立自己的优势。
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="slide" id="s4">
+  <h2><span class="num">4</span>庄子 · 无用之用的创新思维</h2>
+  <div class="objective"><strong>学习目标：</strong>从庄子哲学中汲取创新和领导力的智慧</div>
+
+  <div class="quote">
+    "人皆知有用之用，而莫知无用之用也。"<br>
+    "且夫水之积也不厚，则其负大舟也无力。覆杯水于坳堂之上，则芥为之舟；置杯焉则胶，水浅而舟大也。"
+    <div class="author">——《庄子·逍遥游》</div>
+  </div>
+
+  <h3>庄子智慧 × 商业创新</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#7c5cfc;">
+      <div class="label">无用之用</div>
+      <div class="title">创新的"无用期"</div>
+      <div class="desc">很多突破性创新在诞生时被认为是"无用的"。GPS最初是军事用途、AI最初是学术研究。给创新留出"无用"的空间和时间。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="label">逍遥游</div>
+      <div class="title">格局与视野</div>
+      <div class="desc">"鲲鹏展翅九万里"——站得高才能看得远。企业家的格局决定了企业的上限。不要陷入日常琐碎的"麻雀之争"。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="label">庖丁解牛</div>
+      <div class="title">专注的力量</div>
+      <div class="desc">"以无厚入有间，恢恢乎其于游刃必有余地。" 找到事物的"间隙"——即价值空间。专业到极致，就能游刃有余。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#d4a017;">
+      <div class="label">齐物论</div>
+      <div class="title">多元视角</div>
+      <div class="desc">"物无非彼，物无非是。" 每个视角都有其局限性。做决策时，尝试从客户、员工、合作伙伴、竞争对手、社会的多维度看问题。</div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <strong>AI时代的"无用之用"：</strong>当所有人都在讨论AI的"有用"（提高效率、降低成本）时，真正能带来突破的是思考AI的"无用"——那些短期看不到商业价值但可能改变底层逻辑的方向。这正是"道商"的思维特质。
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="slide" id="s5">
+  <h2><span class="num">5</span>菜根谭 · 修身与领导力</h2>
+  <div class="objective"><strong>学习目标：</strong>从菜根谭学习修身养性与领导力的融合之道</div>
+
+  <p>《菜根谭》是明代洪应明所著的处世哲学经典。"菜根"喻为平淡中品味人生真味。融合儒释道三家智慧，是企业家精神修炼的绝佳指南。</p>
+
+  <h3>企业家修身要义</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="title">宠辱不惊</div>
+      <div class="desc">"宠辱不惊，闲看庭前花开花落；去留无意，漫随天外云卷云舒。" 成功时不骄不躁，挫折时不怨不馁。保持平常心是企业家最难得的品质。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">方圆并用</div>
+      <div class="desc">"处治世宜方，处乱世宜圆。" 该坚守的原则要"方"（本分、诚信），该灵活的地方要"圆"（策略、方法）。刚柔并济是成熟领导者的标志。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">静中观心</div>
+      <div class="desc">"静中观心，真妄毕见。" 定期让自己安静下来，反思决策的出发点和内在动机。AI时代信息过载，"静"的能力更加珍贵。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#d4a017;">
+      <div class="title">逆境砺行</div>
+      <div class="desc">"横逆困穷，是锻炼豪杰的一副炉锤。" 企业和个人的成长往往来自困难的磨砺。不经历风雨的企业，根基是不牢固的。</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>二代传承的特殊价值：</strong>对企二代而言，菜根谭的"嚼得菜根，百事可做"特别重要——从基层做起、从吃苦开始、从小事积累。不要因为家庭条件优越就跳过了这些必要的成长阶段。
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="slide" id="s6">
+  <h2><span class="num">6</span>五经融合 · 国学商业决策系统</h2>
+  <div class="objective"><strong>学习目标：</strong>将五经智慧整合为可操作的商业决策框架</div>
+
+  <h3>国学商业决策矩阵</h3>
+  <table>
+    <tr><th>决策场景</th><th>主要经典</th><th>核心问题</th><th>决策框架</th></tr>
+    <tr><td>战略规划</td><td>易经 + 孙子</td><td>时机到了吗？战场选对了吗？</td><td>时位应对 + 五事七计</td></tr>
+    <tr><td>竞争策略</td><td>孙子兵法</td><td>对手的虚实是什么？</td><td>避实击虚 + 以正合以奇胜</td></tr>
+    <tr><td>创新突破</td><td>庄子 + 易经</td><td>什么约束是"无用"的？</td><td>无用之用 + 穷则变变则通</td></tr>
+    <tr><td>危机管理</td><td>菜根谭 + 易经</td><td>如何在逆境中保持？</td><td>宠辱不惊 + 潜龙勿用</td></tr>
+    <tr><td>领导力修炼</td><td>菜根谭 + 庄子</td><td>我的修为够吗？</td><td>静中观心 + 逍遥游格局</td></tr>
+    <tr><td>组织管理</td><td>孙子 + 菜根谭</td><td>团队是否"上下同欲"？</td><td>道+法+将 + 方圆并用</td></tr>
+  </table>
+
+  <h3>道商决策三问</h3>
+  <div class="callout purple">
+    <strong>每次重大决策前，问自己三个问题：</strong><br>
+    ① <strong>合道吗？</strong>（易经）——这个决策符合天时、地利、人和的大势吗？<br>
+    ② <strong>合法吗？</strong>（孙子）——我有胜算吗？我的资源和能力匹配吗？<br>
+    ③ <strong>合心吗？</strong>（庄子/菜根谭）——这个决策让我内心安宁吗？它符合我的价值观吗？
+  </div>
+</div>
+
+<!-- S7 -->
+<div class="slide" id="s7">
+  <h2><span class="num">7</span>道商实践 · 从经典到行动</h2>
+  <div class="objective"><strong>学习目标：</strong>将国学智慧转化为日常可操作的习惯和行动</div>
+
+  <h3>道商日常修行</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left:4px solid #e74c3c;">
+      <div class="title">晨起 · 读经</div>
+      <div class="desc">每日15分钟读经典（易经/老子/庄子/菜根谭），与古人对话，涵养心性。</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;">
+      <div class="title">日中 · 问易</div>
+      <div class="desc">每遇重大决策，用易经"时位应对"框架自问：现在是什么时机？我在什么位置？</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;">
+      <div class="title">夜省 · 静坐</div>
+      <div class="desc">睡前10分钟静坐复盘：今天做得合道吗？有哪些地方可以做得更好？</div>
+    </div>
+  </div>
+
+  <h3>道商在AI时代的独特价值</h3>
+  <ul>
+    <li><strong>AI是"术"，道商是"道"：</strong>术可以快速学习，道需要终身修行。AI越发达，"道"的价值越凸显。</li>
+    <li><strong>AI加速变易，易经提供定力：</strong>技术变化越快，越需要不易的规律作为锚点。国学提供了这样的"不变"根基。</li>
+    <li><strong>孙子兵法 × AI竞争：</strong>AI降低了竞争门槛，但"知己知彼""不战而屈人之兵"的战略思想在AI时代更加重要。</li>
+    <li><strong>庄子 × AI创新：</strong>AI最擅长的是"有用"（效率优化），而人类最需要发展的是"无用"（创造、审美、意义）。</li>
+  </ul>
+
+  <div class="diagram">
+<pre>             ┌────────────────────────────┐
+             │     道商 · 修行实践飞轮      │
+             ├────────────────────────────┤
+             │  读经 → 明理 → 修行 → 证悟  │
+             │   ↓       ↓       ↓      ↓  │
+             │ 认知升级  决策优化  能量提升  境界突破 │
+             │                                  │
+             │  商业实践 ←─────────────────  │
+             └────────────────────────────┘</pre>
+  </div>
+
+  <div class="callout gold">
+    <strong>最后的话：</strong>道商不是故弄玄虚，而是让商业回归人的本质。在AI技术飞速发展的今天，国学智慧提供了"以不变应万变"的底层操作系统。<br><br>
+    <strong>知行合一：</strong>从今天开始，选择一个你最喜欢的经典（易经/孙子/庄子/菜根谭），每天读一小段，坚持21天。看看你的决策质量会发生什么变化。
+  </div>
+</div>
+
+</div>
+
+<div class="cw-footer">
+  <p>AI商科课件 · 基于book2startup知识库(易经/孙子/庄子/菜根谭)生成</p>
+  <p><a href="../index.html">返回教练首页</a> · <a href="../../index.html#courseware">返回课件列表</a></p>
+  <p style="font-size:12px;color:#ccc;">杨辉 Ken Yang · © 2026 · 道商修行者</p>
+</div>
+
+</body>
+</html>

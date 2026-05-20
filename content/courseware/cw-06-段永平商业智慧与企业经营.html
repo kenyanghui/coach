@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件06 · 段永平商业智慧与企业经营 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header { background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%); color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden; }
+.cw-header::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.10) 0%,transparent 50%), radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.06) 0%,transparent 50%); pointer-events:none; }
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge { display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20); color:#f6c842; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px; }
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#9b7fff,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px); border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap; }
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#7c5cfc; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #7c5cfc; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#7c5cfc; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective { background:#eaf2f8; border-left:4px solid #2e86c1; border-radius:10px; padding:16px 20px; margin:14px 0; }
+.objective strong { color:#1a5276; }
+.key-concept { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media(max-width:680px){ .key-concept { grid-template-columns:1fr; } }
+.key-item { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #7c5cfc; }
+.key-item .label { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:2px; }
+.key-item .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.key-item .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.callout.orange { background:#fdf3e8; border-left:4px solid #e67e22; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.cw-footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.cw-footer a { color:#7c5cfc; text-decoration:none; }
+.quote { font-style:italic; background:#f8f9fa; border-radius:12px; padding:18px 22px; margin:14px 0; border:1px solid #eef0f2; }
+.quote .author { font-style:normal; font-size:12px; color:#888; margin-top:6px; }
+.flow-step { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:14px 0; }
+.flow-item { text-align:center; padding:14px 8px; background:#f8f9fa; border-radius:10px; border:1px solid #eef0f2; }
+.flow-item .step { font-size:11px; color:#999; letter-spacing:1px; }
+.flow-item .title { font-weight:700; font-size:14px; margin:4px 0; }
+.flow-item .desc { font-size:12px; color:#888; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课件 · 06</div>
+  <h1>段永平商业智慧 <span>& 企业经营</span></h1>
+  <div class="sub">本分哲学 · 敢为天下后 · 消费者导向 · 从步步高到OPPO/vivo的实战智慧</div>
+  <div class="meta">基于知识库：duan-yongping-skill · 7节完整课件 · 适合企业二代/创业者</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#s1">本分哲学</a>
+  <a href="#s2">敢为天下后</a>
+  <a href="#s3">消费者导向</a>
+  <a href="#s4">商业逻辑</a>
+  <a href="#s5">投资逻辑</a>
+  <a href="#s6">组织管理</a>
+  <a href="#s7">实战案例</a>
+</nav>
+
+<div class="container">
+
+<!-- S1 -->
+<div class="slide" id="s1">
+  <h2><span class="num">1</span>本分哲学 · 段永平的商业思想根基</h2>
+  <div class="objective"><strong>学习目标：</strong>理解段永平"本分"哲学的核心内涵及其在商业决策中的指导作用</div>
+  <p>段永平，小霸王/步步高创始人，OPPO/vivo/拼多多背后的投资人。他的商业思想以"本分"为核心，跨越了从实业到投资的完整商业周期。</p>
+
+  <h3>什么是"本分"？</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left:4px solid #7c5cfc;">
+      <div class="title">做对的事</div>
+      <div class="desc">把对的事情做对。优先判断"什么事是对的"，再研究"怎么把事情做对"</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;">
+      <div class="title">平常心</div>
+      <div class="desc">回归事物的本质，不被外界干扰。做企业不是为了一时风光，而是为了长久的生存和发展</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;">
+      <div class="title">不为</div>
+      <div class="desc">知道什么不做比知道什么做更重要。不赚不该赚的钱，不做不该做的事</div>
+    </div>
+  </div>
+
+  <div class="callout purple">
+    <strong>核心金句：</strong>"本分就是做对的事情，把事情做对。" 不本分的人以为占了便宜，其实吃了大亏。<br>
+    "企业最基本的本分就是把产品做好。"——段永平
+  </div>
+
+  <h3>本分的三个层次</h3>
+  <table>
+    <tr><th>层次</th><th>内涵</th><th>商业应用</th></tr>
+    <tr><td>对用户</td><td>提供可信赖的产品和服务</td><td>产品为王，品质是生命线</td></tr>
+    <tr><td>对合作伙伴</td><td>诚实守信，利益共享</td><td>渠道共赢，长期合作</td></tr>
+    <tr><td>对自己</td><td>知道自己能做什么、不能做什么</td><td>聚焦核心能力，不盲目扩张</td></tr>
+  </table>
+</div>
+
+<!-- S2 -->
+<div class="slide" id="s2">
+  <h2><span class="num">2</span>敢为天下后 · 后发制人的竞争战略</h2>
+  <div class="objective"><strong>学习目标：</strong>掌握"敢为天下后"的战略逻辑及其适用边界</div>
+  <p>段永平最著名的战略思想之一："敢为天下后"。与传统的"先发优势"思维相反，他强调在成熟市场中找到差异化切入机会。</p>
+
+  <div class="callout gold">
+    <strong>核心逻辑：</strong>"先发"可能意味着"先死"。很多先发者因为市场尚未成熟而耗尽资源。后发者可以观察市场、学习经验、优化产品、在恰当的时机切入。
+  </div>
+
+  <h3>后发优势的四个维度</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="title">市场验证</div>
+      <div class="desc">先发者已经验证了市场需求。后发者无需再承担"教育市场"的成本，可以直接进入已被验证的市场。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">产品优化</div>
+      <div class="desc">可以看到先发产品的不足，做出更好的产品。OPPO/vivo就是在智能手机红海中靠差异化胜出的典型。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">成本优势</div>
+      <div class="desc">等待技术成熟、供应链完善后进入，可以大幅降低成本。不承担早期的技术试错成本。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="title">节奏掌控</div>
+      <div class="desc">后发者可以控制自己的节奏，不必被资本和市场压力推着走。步步高进入VCD市场时就是最好的例子。</div>
+    </div>
+  </div>
+
+  <h3>"后发"的前提条件</h3>
+  <p>敢为天下后≠永远跟在别人后面。它需要三个前提：</p>
+  <ol>
+    <li><strong>足够的能力</strong> — 有实力做出比先发者更好的产品</li>
+    <li><strong>足够的耐心</strong> — 等待最佳时机，不急于求成</li>
+    <li><strong>足够的差异化</strong> — 不是简单的模仿，而是找到独特的价值定位</li>
+  </ol>
+</div>
+
+<!-- S3 -->
+<div class="slide" id="s3">
+  <h2><span class="num">3</span>消费者导向 · 产品为王</h2>
+  <div class="objective"><strong>学习目标：</strong>理解段永平"消费者导向"的产品观，建立以用户为中心的商业思维</div>
+
+  <p>段永平反复强调："消费者导向是通往成功的唯一路径。" 他批评很多企业实际上是"竞争者导向"——整天盯着竞争对手，而不是关注消费者。</p>
+
+  <div class="callout blue">
+    <strong>消费者导向 vs 竞争者导向：</strong><br>
+    <strong>消费者导向：</strong>问消费者需要什么 → 做出好产品 → 自然超越对手<br>
+    <strong>竞争者导向：</strong>看对手在做什么 → 模仿或对抗 → 迷失方向
+  </div>
+
+  <h3>产品为王的三个信条</h3>
+  <div class="grid-3">
+    <div class="flow-item" style="border-left:4px solid #e74c3c;">
+      <div class="step">01</div>
+      <div class="title">好产品是最大的营销</div>
+      <div class="desc">产品不好，营销越强死得越快。步步高的成功不是靠广告，而是靠产品本身的口碑。</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #2e86c1;">
+      <div class="step">02</div>
+      <div class="title">品质是生命线</div>
+      <div class="desc">"质量不是检验出来的，是做出来的。" 每一道工序都要对品质负责。</div>
+    </div>
+    <div class="flow-item" style="border-left:4px solid #27ae60;">
+      <div class="step">03</div>
+      <div class="title">聚焦才能极致</div>
+      <div class="desc">不要试图满足所有人的所有需求。聚焦一个领域，做到极致，就是最大的竞争力。</div>
+    </div>
+  </div>
+
+  <div class="quote">
+    "我们做企业，不是为了打败谁，而是为了给消费者创造价值。你把消费者服务好了，赚钱是顺带的。"
+    <div class="author">—— 段永平</div>
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="slide" id="s4">
+  <h2><span class="num">4</span>商业逻辑 · 好生意与好企业</h2>
+  <div class="objective"><strong>学习目标：</strong>学会用段永平的框架判断什么是一门"好生意"</div>
+
+  <h3>好生意的标准</h3>
+  <p>段永平认为，判断一门生意好不好，要看它是否具备以下特征：</p>
+  <table>
+    <tr><th>特征</th><th>说明</th><th>例子</th></tr>
+    <tr><td>护城河</td><td>竞争对手难以复制的优势</td><td>品牌、网络效应、规模优势</td></tr>
+    <tr><td>可重复消费</td><td>用户会持续购买</td><td>消费品 > 耐用品 > 项目制</td></tr>
+    <tr><td>好的商业模式</td><td>赚钱不太难，有定价权</td><td>苹果的生态绑定</td></tr>
+    <tr><td>好的企业文化</td><td>本分、消费者导向</td><td>步步高体系</td></tr>
+    <tr><td>好的价格</td><td>以合理的价格买入</td><td>安全边际</td></tr>
+  </table>
+
+  <h3>商业模式分析框架</h3>
+  <div class="flow-step">
+    <div class="flow-item"><div class="step">STEP 1</div><div class="title">看生意</div><div class="desc">是否好生意？</div></div>
+    <div class="flow-item"><div class="step">STEP 2</div><div class="title">看企业</div><div class="desc">是否有竞争力？</div></div>
+    <div class="flow-item"><div class="step">STEP 3</div><div class="title">看人</div><div class="desc">管理层是否靠谱？</div></div>
+    <div class="flow-item"><div class="step">STEP 4</div><div class="title">看价格</div><div class="desc">是否足够便宜？</div></div>
+  </div>
+
+  <div class="callout green">
+    <strong>实践问题：</strong>如果你现在要创业或投资一个项目，用这四个步骤分析一下，它是不是一门"好生意"？
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="slide" id="s5">
+  <h2><span class="num">5</span>投资逻辑 · 价值投资的中国实践</h2>
+  <div class="objective"><strong>学习目标：</strong>理解段永平的投资哲学及其与巴菲特价值投资的异同</div>
+
+  <p>段永平被誉为"中国最像巴菲特的人"。他2001年投资网易获利100+倍，后续投资苹果、茅台、腾讯等均获巨大成功。</p>
+
+  <h3>段永平投资原则</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="title">买股票就是买公司</div>
+      <div class="desc">以企业所有者的视角看投资。不关心短期股价波动，只关心企业长期价值。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">不懂不做</div>
+      <div class="desc">只投资自己理解的生意。看不懂的商业模式，再便宜也不买。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">安全边际</div>
+      <div class="desc">好公司还要有好价格。留出足够的安全垫，应对不确定性。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="title">集中投资</div>
+      <div class="desc">找到少数几个确定性的机会，重仓投入。分散是对不确定的妥协。</div>
+    </div>
+  </div>
+
+  <h3>段永平 vs 巴菲特</h3>
+  <table>
+    <tr><th>维度</th><th>段永平</th><th>巴菲特</th></tr>
+    <tr><td>核心思想</td><td>本分+平常心</td><td>护城河+安全边际</td></tr>
+    <tr><td>投资领域</td><td>科技+消费</td><td>消费+金融</td></tr>
+    <tr><td>实业背景</td><td>有成功创业经验</td><td>无直接实业经验</td></tr>
+    <tr><td>特色</td><td>强调"不为"</td><td>强调"长期持有"</td></tr>
+    <tr><td>共同点</td><td colspan="2">价值投资、长期主义、独立思考</td></tr>
+  </table>
+
+  <div class="quote">
+    "我投资的标准很简单：第一，我懂这个生意；第二，这个生意有好的商业模式；第三，管理层值得信任。三个条件缺一不可。"
+    <div class="author">—— 段永平</div>
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="slide" id="s6">
+  <h2><span class="num">6</span>组织管理 · 人才培养与激励机制</h2>
+  <div class="objective"><strong>学习目标：</strong>学习段永平的人才观和组织管理方法</div>
+
+  <h3>组织管理的核心原则</h3>
+  <div class="grid-2">
+    <div class="key-item" style="border-left-color:#7c5cfc;">
+      <div class="title">分钱的艺术</div>
+      <div class="desc">"钱是越多分越多。" 段永平在步步高推行全员持股和利润分享，充分激发员工的主人翁意识。OPPO/vivo的股权结构就是这一思想的产物。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="title">信任与授权</div>
+      <div class="desc">"用对人、放对权。" 找到对的人，给他足够的空间。段永平很早就退居幕后，将企业交给陈明永（OPPO）、沈炜（vivo）等人。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="title">赛马机制</div>
+      <div class="desc">内部竞争激发活力。不同团队可以在同一领域探索不同方向，最后用市场检验结果。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="title">企业文化落地</div>
+      <div class="desc">本分文化不是口号，而是制度。从招人、考核到晋升，每一个环节都体现"本分"和"消费者导向"。</div>
+    </div>
+  </div>
+
+  <h3>段永平的用人哲学</h3>
+  <ul>
+    <li><strong>人品第一：</strong>"能力可以培养，人品很难改变。" 选人先看价值观是否匹配。</li>
+    <li><strong>内部培养：</strong>OPPO/vivo的核心管理层几乎都是内部成长起来的，保持文化的一贯性。</li>
+    <li><strong>无为而治：</strong>创始人退居二线，让年轻人有成长空间。真正的领导力是让团队在没有你的时候也能运转。</li>
+  </ul>
+
+  <div class="callout gold">
+    <strong>给企业二代的启示：</strong>段永平的传承模式值得学习——他不是把企业"交给"后代，而是建立了一套不依赖个人的组织体系和激励机制。二代传承的核心不是"接班"，而是"继业"。
+  </div>
+</div>
+
+<!-- S7 -->
+<div class="slide" id="s7">
+  <h2><span class="num">7</span>实战案例 · 从步步高到OPPO/vivo</h2>
+  <div class="objective"><strong>学习目标：</strong>通过案例分析，将段永平的商业思想应用于实际场景</div>
+
+  <h3>案例一：步步高无绳电话</h3>
+  <p>1990年代末，无绳电话市场已是红海。步步高选择进入时面临十几个品牌的竞争。段永平的策略：</p>
+  <ol>
+    <li><strong>产品差异化：</strong>不做最便宜的，做质量最好的</li>
+    <li><strong>品牌投入：</strong>邀请李连杰代言，"步步高无绳电话，方便千万家"成为国民广告</li>
+    <li><strong>渠道深耕：</strong>建立覆盖全国的经销商网络</li>
+    <li><strong>结果：</strong>3年内成为市场第一</li>
+  </ol>
+
+  <h3>案例二：OPPO的"后发"奇迹</h3>
+  <p>OPPO 2008年才进入手机市场，当时诺基亚、摩托罗拉、三星已占据主导。但OPPO用10年时间做到了全球前五：</p>
+  <table>
+    <tr><th>阶段</th><th>策略</th><th>结果</th></tr>
+    <tr><td>功能机时代 (2008-2011)</td><td>以音乐手机为差异化定位，主打拍照和音质</td><td>站稳二三线市场</td></tr>
+    <tr><td>智能机转型 (2012-2015)</td><td>"充电5分钟通话2小时"闪充技术突破</td><td>品牌破圈，进入一线</td></tr>
+    <tr><td>影像赛道 (2016-2020)</td><td>专注人像摄影，Find系列塑造高端</td><td>全球出货量TOP5</td></tr>
+    <tr><td>AI+生态 (2021-)</td><td>AI影像+IoT生态布局</td><td>高端市场突破</td></tr>
+  </table>
+
+  <h3>案例三：投资网易的经典一战</h3>
+  <p>2001年，网易因互联网泡沫和财务问题股价跌至不到1美元。段永平分析后认为：</p>
+  <ul>
+    <li>网易的在线游戏业务（大话西游）有巨大潜力</li>
+    <li>丁磊是懂产品、务实的人</li>
+    <li>市值低于公司账面现金——极度的安全边际</li>
+  </ul>
+  <p>他在1美元左右大量买入，持有至2004年股价70+美元时卖出。获利超100倍。</p>
+
+  <div class="callout purple">
+    <strong>思考练习：</strong>选择一个你熟悉的行业，用段永平的"本分+敢为天下后"框架分析——如果你是后发者，你的差异化切入点在哪里？
+  </div>
+</div>
+
+</div>
+
+<div class="cw-footer">
+  <p>AI商科课件 · 基于duan-yongping-skill知识库生成</p>
+  <p><a href="../index.html">返回教练首页</a> · <a href="../../index.html#courseware">返回课件列表</a></p>
+  <p style="font-size:12px;color:#ccc;">杨辉 Ken Yang · © 2026</p>
+</div>
+
+</body>
+</html>
