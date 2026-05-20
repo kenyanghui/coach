@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课件01 · 心光四营哲学总纲 | AI商科课程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; }
+.cw-header {
+  background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%);
+  color:#fff; padding:50px 40px 40px; text-align:center; position:relative; overflow:hidden;
+}
+.cw-header::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background:radial-gradient(ellipse at 25% 40%,rgba(124,92,252,0.10) 0%,transparent 50%),
+             radial-gradient(ellipse at 75% 60%,rgba(255,107,157,0.06) 0%,transparent 50%);
+  pointer-events:none;
+}
+.cw-header .meta { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px; }
+.cw-header .badge {
+  display:inline-block; background:rgba(246,200,66,0.10); border:1px solid rgba(246,200,66,0.20);
+  color:#f6c842; padding:4px 18px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:14px;
+}
+.cw-header h1 { font-size:2.2em; font-weight:900; letter-spacing:2px; }
+.cw-header h1 span { background:linear-gradient(135deg,#9b7fff,#ff6b9d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cw-header .sub { font-size:1.05em; font-weight:300; color:rgba(255,255,255,0.65); max-width:600px; margin:10px auto 0; line-height:1.6; }
+.cw-nav {
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid #e8ecf0; padding:0 20px; display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap;
+}
+.cw-nav a { padding:12px 16px; font-size:13px; color:#666; text-decoration:none; white-space:nowrap; font-weight:500; border-bottom:2px solid transparent; transition:all .15s; }
+.cw-nav a:hover { color:#1a1a2e; border-bottom-color:#7c5cfc; }
+.container { max-width:960px; margin:0 auto; padding:28px 20px; }
+.slide { background:#fff; border-radius:16px; padding:36px 40px; margin-bottom:22px; box-shadow:0 1px 8px rgba(0,0,0,0.04); scroll-margin-top:52px; transition:box-shadow .3s; }
+.slide:hover { box-shadow:0 8px 30px rgba(0,0,0,0.10); }
+.slide h2 { font-size:1.3em; font-weight:800; padding-bottom:10px; border-bottom:3px solid #7c5cfc; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.slide h2 .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#7c5cfc; color:#fff; font-size:14px; flex-shrink:0; }
+.slide h3 { font-size:1.05em; font-weight:700; color:#2c3e50; margin:22px 0 10px; padding-bottom:4px; border-bottom:1px solid #eef0f2; }
+.slide h4 { font-size:0.93em; font-weight:600; color:#555; margin:16px 0 8px; }
+.slide p { font-size:14px; color:#555; margin-bottom:10px; line-height:1.9; }
+.slide ul,.slide ol { padding-left:20px; margin-bottom:10px; }
+.slide li { font-size:14px; color:#555; margin-bottom:4px; }
+.objective {
+  background:#eaf2f8; border-left:4px solid #2e86c1; border-radius:10px; padding:16px 20px; margin:14px 0;
+}
+.objective strong { color:#1a5276; }
+.key-concept {
+  display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0;
+}
+@media(max-width:680px){ .key-concept { grid-template-columns:1fr; } }
+.key-item { background:#f8f9fa; border-radius:12px; padding:16px 18px; border:1px solid #eef0f2; border-left:4px solid #7c5cfc; }
+.key-item .label { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:2px; }
+.key-item .title { font-weight:700; font-size:15px; color:#1a1a2e; }
+.key-item .desc { font-size:13px; color:#666; line-height:1.6; margin-top:4px; }
+.callout { border-radius:10px; padding:14px 18px; margin:12px 0; font-size:14px; }
+.callout.purple { background:#f0e6f6; border-left:4px solid #7c5cfc; }
+.callout.gold { background:#fef9e7; border-left:4px solid #f6c842; }
+.callout.blue { background:#eaf2f8; border-left:4px solid #2e86c1; }
+.callout.green { background:#e8f8f0; border-left:4px solid #27ae60; }
+.diagram { background:#f8f9fa; border-radius:12px; padding:20px; margin:14px 0; border:1px solid #eef0f2; overflow-x:auto; }
+.diagram pre { font-family:'Noto Sans SC',monospace; font-size:13px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; color:#1a1a2e; font-weight:600; }
+tr:nth-child(even) { background:#fafbfc; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:680px){ .grid-3 { grid-template-columns:1fr; } }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; }
+@media(max-width:860px){ .grid-4 { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .grid-4 { grid-template-columns:1fr; } }
+.phil-card { background:#f8f9fa; border-radius:12px; padding:18px; border:1px solid #eef0f2; text-align:center; }
+.phil-card .icon { font-size:28px; margin-bottom:4px; }
+.phil-card .title { font-weight:700; font-size:15px; }
+.phil-card .desc { font-size:12px; color:#888; line-height:1.5; margin-top:4px; }
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-green { background:#e8f8f0; color:#27ae60; }
+.tag-blue { background:#eaf2f8; color:#2e86c1; }
+.tag-gold { background:#fef9e7; color:#d4a017; }
+.tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 20px; }
+.footer a { color:#7c5cfc; text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+.flow-chart { font-size:13px; line-height:1.8; text-align:center; padding:20px; }
+.flow-chart .arrow { color:#aaa; margin:0 4px; }
+.exercise {
+  background:#fef9e7; border:2px dashed #f6c842; border-radius:12px; padding:18px 22px; margin:14px 0;
+}
+.exercise h4 { color:#d4a017; margin-top:0; }
+.insight { background:linear-gradient(135deg,#f8f9fa,#f0e6f6); border-radius:12px; padding:18px 20px; margin:14px 0; border-left:4px solid #7c5cfc; }
+.insight .quote { font-size:14px; font-style:italic; color:#555; }
+.insight .author { font-size:12px; color:#999; margin-top:6px; }
+</style>
+</head>
+<body>
+
+<div class="cw-header">
+  <div class="badge">✦ AI商科课程 · 课件 01</div>
+  <h1>心光四营 · <span>哲学总纲</span></h1>
+  <div class="sub">用AI推动青少年做社会创新项目——符合大道，利他而行</div>
+  <div class="meta">心光AI科创 · 底层思想与顶层设计 · v2.0</div>
+</div>
+
+<nav class="cw-nav">
+  <a href="#L1">核心理念</a>
+  <a href="#L2">心光使命</a>
+  <a href="#L3">微笑模型</a>
+  <a href="#L4">四营体系</a>
+  <a href="#L5">社会创新</a>
+  <a href="#L6">人才观</a>
+  <a href="#L7">进阶路径</a>
+  <a href="../../index.html#courses">← 返回首页</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== L1 核心理念 ===== -->
+<div class="slide" id="L1">
+  <h2><span class="num">1</span> 核心理念</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解心光AI科创的底层哲学——为什么社会创新是AI时代最好的教育路径，以及"让更多人活好"的终极追问如何指导课程设计。
+  </div>
+
+  <h3>为什么是"社会创新"？</h3>
+  <p>推动青少年用AI做社会创新项目，是当下教育最接近<strong>"只有好处、没有坏处"</strong>的选择：</p>
+
+  <table>
+    <tr><th>维度</th><th>传统教育路径</th><th>AI社会创新路径</th></tr>
+    <tr><td>技能</td><td>刷题→考试→升学</td><td>真实问题→AI方案→社会影响</td></tr>
+    <tr><td>动力</td><td>外部驱动（分数/排名）</td><td>内在驱动（我想让世界更好）</td></tr>
+    <tr><td>视野</td><td>竞争思维：打败别人</td><td>共生思维：帮助更多人</td></tr>
+    <tr><td>心态</td><td>焦虑/比较/恐惧</td><td>使命/创造/自信</td></tr>
+    <tr><td>结果</td><td>个人成功（或少部分人成功）</td><td>集体受益（更多人活好）</td></tr>
+  </table>
+
+  <div class="callout purple">
+    <strong>核心理念：</strong>用AI推动青少年做社会创新项目——符合大道，利他而行。<br>
+    <strong>终极追问：</strong>如何让更多人活好？
+  </div>
+
+  <h3>社会创新项目的六大优势</h3>
+  <div class="key-concept">
+    <div class="key-item"><div class="label">01</div><div class="title">解决真实问题</div><div class="desc">有社会价值，不是纸上谈兵</div></div>
+    <div class="key-item"><div class="label">02</div><div class="title">倒逼技术学习</div><div class="desc">需要AI能力，学以致用</div></div>
+    <div class="key-item"><div class="label">03</div><div class="title">培养领导力</div><div class="desc">需要团队协作，锻炼沟通</div></div>
+    <div class="key-item"><div class="label">04</div><div class="title">训练坚毅力</div><div class="desc">需要持续投入，克服困难</div></div>
+    <div class="key-item"><div class="label">05</div><div class="title">满足升学需求</div><div class="desc">成果可参赛，充实履历</div></div>
+    <div class="key-item"><div class="label">06</div><div class="title">带来深层意义感</div><div class="desc">利他本质，内驱力源泉</div></div>
+  </div>
+</div>
+
+<!-- ===== L2 心光使命 ===== -->
+<div class="slide" id="L2">
+  <h2><span class="num">2</span> 心光使命与教育观</h2>
+
+  <div class="grid-3">
+    <div class="phil-card">
+      <div class="icon">💡</div>
+      <div class="title">教在科创</div>
+      <div class="desc">AI技术是载体，不是目的</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">🌟</div>
+      <div class="title">育在自信</div>
+      <div class="desc">自信是真爱，成绩是顺带</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">🧩</div>
+      <div class="title">成在思维</div>
+      <div class="desc">学习力比学历更重要</div>
+    </div>
+  </div>
+
+  <h3>心光教育观</h3>
+  <div class="key-concept">
+    <div class="key-item"><div class="title">自信是真爱，成绩只是顺带</div><div class="desc">自信的孩子才能从容面对不确定的未来</div></div>
+    <div class="key-item"><div class="title">学习力比学历更重要</div><div class="desc">学历是暂时的，学习力是陪伴孩子终生的</div></div>
+    <div class="key-item"><div class="title">教在科创，育在自信</div><div class="desc">科创是载体，自信是内核</div></div>
+    <div class="key-item"><div class="title">最高级的学习方法</div><div class="desc">是创造学习方法本身 —— 每个孩子都能创造自己的学习方法</div></div>
+  </div>
+
+  <div class="callout green">
+    <strong>心光使命：</strong>帮助更多孩子心中有光，学业圆满！<br>
+    <strong>核心理念：</strong>心光 = 心里有光，照亮他人 —— 不是"让你发光"，而是让你发现——你本来就有的光，可以照亮谁的路？
+  </div>
+
+  <div class="insight">
+    <div class="quote">"心光的'一'不是课程，是自信。自信是结果，思维是根。"</div>
+    <div class="author">—— 混沌学园创办人 李善友</div>
+  </div>
+</div>
+
+<!-- ===== L3 微笑模型 ===== -->
+<div class="slide" id="L3">
+  <h2><span class="num">3</span> 微笑模型 · 问挖建三步法</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握心光独创的"感→问→挖→建"四步方法论，理解AI时代人类不可替代的能力，以及如何将AI作为创造伙伴而非工具使用。
+  </div>
+
+  <h3>模型总览</h3>
+  <div class="diagram">
+<pre>┌─────────────────────────────────────────────────────────────┐
+│                   微笑模型 · 问挖建三步法                      │
+│                                                             │
+│   ┌───────────┐                                             │
+│   │   感       │ 深度感知，看见真问题（AI做不到的能力）        │
+│   │  (See)    │                                             │
+│   └─────┬─────┘                                             │
+│         ↓                                                   │
+│   ┌───────────┐    ┌───────────┐    ┌───────────┐           │
+│   │   问       │ →  │   挖       │ →  │   建       │           │
+│   │  (Ask)    │    │  (Dig)    │    │ (Build)   │           │
+│   │           │    │           │    │           │           │
+│   │ 使命驱动   │    │ 哲科思维   │    │ 工程逻辑   │           │
+│   │ 提出问题   │    │ 探究本质   │    │ 落地实现   │           │
+│   └───────────┘    └───────────┘    └─────┬─────┘           │
+│                                             ↓               │
+│                                    ┌───────────────┐        │
+│                                    │  自信 · 合一   │        │
+│                                    └───────────────┘        │
+└─────────────────────────────────────────────────────────────┘</pre>
+  </div>
+
+  <div class="insight">
+    <div class="quote">"不是所有的'问'都是有价值的。好的'问'来自对系统的深度感知。这恰恰是AI做不到的——AI可以回答问题，但AI不能'看见'问题。"</div>
+    <div class="author">—— 混沌学园创办人 李善友</div>
+  </div>
+
+  <h3>四步详解</h3>
+
+  <div class="key-concept">
+    <div class="key-item" style="border-left-color:#2e86c1;">
+      <div class="label">第〇步</div>
+      <div class="title">感（See）—— 深度感知</div>
+      <div class="desc">引导孩子看见系统中真正重要的问题，培养对世界的深度感知。这是AI做不到的能力——感知、直觉、共情。工具：静观练习、同理心地图、系统观察。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#27ae60;">
+      <div class="label">第一步</div>
+      <div class="title">问（Ask）—— 使命驱动</div>
+      <div class="desc">提出有意义的问题——"我能为谁解决什么问题？"好问题来自对系统的深度感知。AI辅助头脑风暴，但人类决定什么是值得问的。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#f6c842;">
+      <div class="label">第二步</div>
+      <div class="title">挖（Dig）—— 探究本质</div>
+      <div class="desc">追问根因，用哲科思维挖掘：5 Whys法、第一性原理、系统动力学。AI辅助资料检索、数据挖掘，但因果假设由人类搭建。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#e74c3c;">
+      <div class="label">第三步</div>
+      <div class="title">建（Build）—— 落地实现</div>
+      <div class="desc">用AI工具将洞察转化为作品：智能体构建、原型设计、快速迭代。AI承担执行层工作，人类把控方向和价值判断。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h4>课堂练习：微笑模型体验</h4>
+    <p><strong>场景：</strong>"校园午餐浪费严重"</p>
+    <ol>
+      <li><strong>感：</strong>走到食堂观察——是什么菜被倒掉最多？什么时间段浪费最严重？打菜阿姨怎么说？</li>
+      <li><strong>问：</strong>"如何用AI减少校园午餐浪费？"——而不是"怎么让同学不浪费"</li>
+      <li><strong>挖：</strong>用5Whys追问本质——是"学生挑食"还是"菜单不合理"还是"份量不可调"？</li>
+      <li><strong>建：</strong>用AI搭建"智能菜单推荐+份量预约"系统原型</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===== L4 四营体系 ===== -->
+<div class="slide" id="L4">
+  <h2><span class="num">4</span> 心光四营 · 课程体系</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解四营的定位、关系和递进逻辑，能够根据不同学生的需求推荐合适的课程路径。
+  </div>
+
+  <div class="diagram">
+<pre>┌─────────────────────────────────────────────────────────────────────┐
+│                        心光四营 · 社会创新路径                         │
+├──────────────┬──────────────┬──────────────┬────────────────────────┤
+│   爱智营      │   爱创营      │   爱习营      │       爱信营           │
+│  爱哲学和     │  社会创新     │  学习力       │      提心智            │
+│  方法论       │  项目        │  公益化       │      意识能量          │
+├──────────────┼──────────────┼──────────────┼────────────────────────┤
+│    WHY       │   WHAT       │    HOW       │       WHO              │
+│  为什么做     │  解决什么     │   怎么做      │      成为谁            │
+│  社会创新？   │  问题？      │   让更多人    │     在服务中           │
+│              │              │   受益        │   成为更好的自己        │
+├──────────────┼──────────────┼──────────────┼────────────────────────┤
+│  哲学之眼     │  创造之手     │  公益之心     │     意识之巅           │
+│  认识世界     │  改变世界     │  普惠世界     │     超越自我           │
+└──────────────┴──────────────┴──────────────┴────────────────────────┘</pre>
+  </div>
+
+  <div class="grid-4">
+    <div class="phil-card" style="border-top:3px solid #0d7377;">
+      <div class="title" style="color:#0d7377;">爱智营</div>
+      <div class="desc" style="font-size:11px;">爱哲学和方法论<br>哲学之眼 · 认识世界</div>
+      <div style="font-size:11px;color:#999;margin-top:6px;"><span class="tag tag-green">WHY</span> 为什么做</div>
+    </div>
+    <div class="phil-card" style="border-top:3px solid #d4745f;">
+      <div class="title" style="color:#d4745f;">爱创营 ⭐</div>
+      <div class="desc" style="font-size:11px;">社会创新项目<br>创造之手 · 改变世界</div>
+      <div style="font-size:11px;color:#999;margin-top:6px;"><span class="tag tag-blue">WHAT</span> 做什么</div>
+    </div>
+    <div class="phil-card" style="border-top:3px solid #c8a96e;">
+      <div class="title" style="color:#c8a96e;">爱习营</div>
+      <div class="desc" style="font-size:11px;">学习力公益化<br>公益之心 · 普惠世界</div>
+      <div style="font-size:11px;color:#999;margin-top:6px;"><span class="tag tag-gold">HOW</span> 怎么做</div>
+    </div>
+    <div class="phil-card" style="border-top:3px solid #1a1a2e;">
+      <div class="title" style="color:#1a1a2e;">爱信营</div>
+      <div class="desc" style="font-size:11px;">心智意识能量<br>意识之巅 · 超越自我</div>
+      <div style="font-size:11px;color:#999;margin-top:6px;"><span class="tag tag-purple">WHO</span> 成为谁</div>
+    </div>
+  </div>
+
+  <h3>四营递进逻辑</h3>
+  <div class="flow-chart">
+    <span style="font-weight:700;color:#0d7377;">爱智营</span>
+    <span class="arrow">→ 建立认知地基 →</span>
+    <span style="font-weight:700;color:#d4745f;">爱创营</span>
+    <span class="arrow">→ 动手创造实践 →</span>
+    <span style="font-weight:700;color:#c8a96e;">爱习营</span>
+    <span class="arrow">→ 公益回馈社会 →</span>
+    <span style="font-weight:700;color:#1a1a2e;">爱信营</span>
+    <span class="arrow">→ 超越自我觉醒</span>
+  </div>
+
+  <h3>分营详解</h3>
+
+  <div class="key-concept">
+    <div class="key-item" style="border-left-color:#0d7377;">
+      <div class="label">爱智营 · 哲学地基</div>
+      <div class="title">培养哲学思辨与AI方法论</div>
+      <div class="desc">适合年龄：13-18岁。内容：哲学之眼看世界、AI时代的思维框架、社会创新方法论。形式：哲学对话+Socratic追问+思维模型训练。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#d4745f;">
+      <div class="label">爱创营 · 核心爆品 ⭐</div>
+      <div class="title">AI社会创新实战项目</div>
+      <div class="desc">适合年龄：10-18岁。内容：从0到1完成AI社会创新项目——发现问题→定义目标→AI原型→路演展示。形式：5天4夜集训营/12周项目制。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#c8a96e;">
+      <div class="label">爱习营 · 学习力公益化</div>
+      <div class="title">让优质教育普惠更多人</div>
+      <div class="desc">适合年龄：13-18岁。内容：将自己在爱创营的项目转化成公益课程/工具，赋能更多人。形式：项目开源+公益教学+社区服务。</div>
+    </div>
+    <div class="key-item" style="border-left-color:#1a1a2e;">
+      <div class="label">爱信营 · 心智超越</div>
+      <div class="title">企二代专属心智陪跑</div>
+      <div class="desc">适合年龄：15-22岁企二代。内容：身份认同、家族传承、领导力、冥想正念、生命意义探索。形式：1对1教练+团体工作坊+传承对话。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== L5 社会创新 ===== -->
+<div class="slide" id="L5">
+  <h2><span class="num">5</span> AI社会创新方法论</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>掌握五步社会创新法——发现→定义→创造→执行→扩散，学会用AI辅助每一个步骤。
+  </div>
+
+  <h3>五步社会创新法</h3>
+
+  <div class="diagram">
+<pre>第一步：发现（Discover）
+  找到真正的问题，而不是"我以为的问题"
+  → 工具：同理心地图、5Whys、用户访谈
+  → AI辅助：AI分析社会热点、识别未被满足的需求
+
+第二步：定义（Define）
+  将模糊的问题转化为可解决的项目目标
+  → 工具：问题陈述模板、How Might We提问
+  → AI辅助：AI生成多个问题角度、验证问题价值
+
+第三步：创造（Create）
+  用AI设计解决方案并快速原型
+  → 工具：AI智能体构建、原型设计、用户测试
+  → AI辅助：Coze/豆包构建AI方案、快速迭代
+
+第四步：执行（Execute）
+  将原型推向真实场景，收集反馈
+  → 工具：MVP验证、用户反馈循环
+  → AI辅助：AI自动收集分析反馈数据
+
+第五步：扩散（Scale）
+  让更多人受益
+  → 工具：公益化/开源/复制模式设计
+  → AI辅助：AI生成扩散方案、自动适配不同场景</pre>
+  </div>
+
+  <h3>选题方向</h3>
+  <table>
+    <tr><th>领域</th><th>问题示例</th><th>AI解决方案方向</th></tr>
+    <tr><td>教育公平</td><td>山区孩子没有好老师</td><td>AI学习教练智能体</td></tr>
+    <tr><td>环境保护</td><td>垃圾分类难坚持</td><td>AI垃圾分类助手</td></tr>
+    <tr><td>老人关怀</td><td>独居老人无人陪伴</td><td>AI语音陪伴智能体</td></tr>
+    <tr><td>心理健康</td><td>青少年焦虑不被理解</td><td>AI情绪支持机器人</td></tr>
+    <tr><td>文化传承</td><td>方言/非遗在消失</td><td>AI方言学习/非遗数字人</td></tr>
+    <tr><td>社区服务</td><td>小区流浪猫无人管</td><td>AI社区众筹管理平台</td></tr>
+    <tr><td>食品安全</td><td>学生不知道如何健康吃</td><td>AI营养分析助手</td></tr>
+    <tr><td>助残</td><td>视障人士出行不便</td><td>AI视觉辅助智能体</td></tr>
+  </table>
+</div>
+
+<!-- ===== L6 人才观 ===== -->
+<div class="slide" id="L6">
+  <h2><span class="num">6</span> 马斯克型人才 · 培养目标</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>理解心光的人才观——培养马斯克型未来科技人才，以及AI时代教育的核心转向。
+  </div>
+
+  <div class="callout purple">
+    <strong>人才目标：</strong>培养马斯克型未来科技人才——AI创造力、学习力、思维力、自信力。<br>
+    <strong>核心理念：</strong>AI时代淘汰人的，一定不是AI，而是会用AI的人。成为掌握AI的人，而不是被AI掌握的人。
+  </div>
+
+  <div class="grid-4">
+    <div class="phil-card">
+      <div class="icon">🤖</div>
+      <div class="title">AI创造力</div>
+      <div class="desc">用AI创造商业价值与社会价值的能力</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">📚</div>
+      <div class="title">AI学习力</div>
+      <div class="desc">终身学习、快速掌握新工具的能力</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">🧠</div>
+      <div class="title">AI思维力</div>
+      <div class="desc">批判性思维、系统思维、第一性原理</div>
+    </div>
+    <div class="phil-card">
+      <div class="icon">⭐</div>
+      <div class="title">AI自信力</div>
+      <div class="desc">有使命感的自信，在利他中超越自我</div>
+    </div>
+  </div>
+
+  <h3>AI时代教育转向</h3>
+  <table>
+    <tr><th>维度</th><th>传统教育</th><th>AI时代新教育</th></tr>
+    <tr><td>知识获取</td><td>记忆事实、背诵公式</td><td>提问能力、信息筛选、AI辅助检索</td></tr>
+    <tr><td>技能培养</td><td>重复训练、标准化考试</td><td>创造力、批判思维、人机协作</td></tr>
+    <tr><td>评价标准</td><td>分数排名、升学率</td><td>真实问题解决能力、社会影响力</td></tr>
+    <tr><td>教师角色</td><td>知识传授者</td><td>学习引导者、成长教练</td></tr>
+    <tr><td>学习方式</td><td>被动接收、刷题</td><td>项目制、探究式、创造中学</td></tr>
+    <tr><td>成功定义</td><td>考好大学、找好工作</td><td>创造价值、让更多人活好</td></tr>
+  </table>
+</div>
+
+<!-- ===== L7 进阶路径 ===== -->
+<div class="slide" id="L7">
+  <h2><span class="num">7</span> 进阶路径 · T1-T4成长之路</h2>
+
+  <div class="objective">
+    <strong>学习目标：</strong>了解从体验到成果的完整成长路径，理解四个阶段的递进关系。
+  </div>
+
+  <h3>推荐进阶路径</h3>
+  <div class="flow-chart" style="text-align:left;background:#f8f9fa;border-radius:12px;padding:20px;">
+    <p><strong style="color:#27ae60;">T1 体验层</strong> <span class="arrow">→</span> AI商科启蒙一日营（¥680-980）<br>
+    <span style="font-size:12px;color:#888;">低门槛体验，验证兴趣，筛选意向</span></p>
+    <p><strong style="color:#2e86c1;">T2 核心层</strong> <span class="arrow">→</span> 爱智营 → 爱创营（¥12,800）<br>
+    <span style="font-size:12px;color:#888;">建立哲学地基 → 完成AI社会创新项目</span></p>
+    <p><strong style="color:#f6c842;">T3 深化层</strong> <span class="arrow">→</span> 爱习营 → ICC竞赛营（¥19,800）<br>
+    <span style="font-size:12px;color:#888;">公益回馈 → 赛事冲刺与成果出口</span></p>
+    <p><strong style="color:#7c5cfc;">T4 超越层</strong> <span class="arrow">→</span> 爱信营 · 心智陪跑（¥48,000+）<br>
+    <span style="font-size:12px;color:#888;">企二代专属传承，在服务中超越自我</span></p>
+  </div>
+
+  <h3>成长觉醒路径</h3>
+  <table>
+    <tr><th>阶段</th><th>核心问题</th><th>觉醒主题</th><th>适合对象</th></tr>
+    <tr><td>T1 体验</td><td>"我可以用AI做什么？"</td><td>兴趣觉醒</td><td>10-18岁初次接触AI</td></tr>
+    <tr><td>T2 创造</td><td>"我能解决什么真实问题？"</td><td>能力觉醒</td><td>有基础的青少年</td></tr>
+    <tr><td>T3 赛事</td><td>"我的项目能走多远？"</td><td>价值觉醒</td><td>准备参赛的学生</td></tr>
+    <tr><td>T4 传承</td><td>"我要成为什么样的人？"</td><td>生命觉醒</td><td>企二代接班人</td></tr>
+  </table>
+
+  <div class="callout gold">
+    <strong>进阶路径：</strong>爱智营（哲学地基）→ 爱创营（AI创造）→ 爱习营（公益普惠）→ 爱信营（超越自我）
+  </div>
+
+  <div class="exercise">
+    <h4>课后思考</h4>
+    <ol>
+      <li>你当前最关心的是学生哪个层面的成长？兴趣激发、能力构建、成果输出、还是生命觉醒？</li>
+      <li>微笑模型中的"感"（深度感知）为什么是AI做不到的能力？如何训练学生的感知力？</li>
+      <li>社会创新项目相比传统竞赛项目，在真实性和故事性上有哪些优势？</li>
+    </ol>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>心光AI科创 · AI商科课程体系 | 杨辉 Ken Yang · AI摆渡人 / 道商修行者 / 二代教育传承教练</p>
+  <p><a href="../../index.html">← 返回教练首页</a></p>
+</div>
+
+</body>
+</html>

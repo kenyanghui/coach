@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paperclip · 零人工公司操作系统</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --surface: #1a1a26;
+    --surface2: #22223a;
+    --border: #2a2a3e;
+    --text: #e8e8f0;
+    --text2: #9898b0;
+    --text3: #6868a0;
+    --accent: #6c5ce7;
+    --accent2: #a29bfe;
+    --accent-glow: rgba(108,92,231,0.15);
+    --green: #00cec9;
+    --green2: #55efc4;
+    --orange: #fd79a8;
+    --gold: #fdcb6e;
+    --radius: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* === Slide Container === */
+  .slides { position: relative; height: 100vh; width: 100vw; }
+  .slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 80px; opacity: 0; pointer-events: none;
+    transition: opacity .5s ease, transform .5s ease;
+    transform: scale(.97);
+  }
+  .slide.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+
+  .slide-inner { max-width: 1100px; width: 100%; }
+
+  /* === Nav === */
+  .nav-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px; padding: 16px; z-index: 100;
+    background: linear-gradient(transparent, rgba(10,10,15,.95) 40%);
+  }
+  .nav-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border); cursor: pointer;
+    transition: all .3s; border: none;
+  }
+  .nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-glow); width: 24px; border-radius: 4px; }
+  .nav-dot:hover { background: var(--text3); }
+
+  .nav-arrows {
+    position: fixed; bottom: 50%; width: 100%; pointer-events: none;
+    display: flex; justify-content: space-between; padding: 0 20px;
+    z-index: 99; transform: translateY(50%);
+  }
+  .nav-arrow {
+    pointer-events: auto; width: 44px; height: 44px;
+    border-radius: 50%; border: 1px solid var(--border);
+    background: rgba(26,26,38,.8); backdrop-filter: blur(8px);
+    color: var(--text2); cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .3s; opacity: 0;
+  }
+  .nav-arrow:hover { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+  .slide.active ~ .nav-arrows .nav-arrow { opacity: 1; }
+  .nav-arrow.visible { opacity: 1; }
+
+  /* === Slide Counter === */
+  .slide-counter {
+    position: fixed; top: 20px; right: 28px;
+    font-size: 12px; color: var(--text3); font-family: 'Inter', monospace;
+    letter-spacing: .05em; z-index: 100;
+  }
+
+  /* === Typography === */
+  h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: 1.2; letter-spacing: -.02em; }
+  h1 .accent { color: var(--accent2); }
+  h1 .green { color: var(--green); }
+  h1 .gold { color: var(--gold); }
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800;
+    margin-bottom: 16px; letter-spacing: -.01em;
+  }
+  h2 .accent { color: var(--accent2); }
+  h2 .green { color: var(--green); }
+  h3 { font-size: 1.1rem; font-weight: 600; color: var(--accent2); margin-bottom: 8px; }
+  p { font-size: 1rem; color: var(--text2); line-height: 1.8; font-weight: 350; }
+  p strong { color: var(--text); font-weight: 500; }
+
+  .subtitle {
+    font-size: 1.05rem; color: var(--text2); font-weight: 350;
+    max-width: 600px; line-height: 1.7; margin-top: 4px;
+  }
+
+  /* === Components === */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 700px) { .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px;
+    transition: all .3s;
+  }
+  .card:hover { border-color: var(--accent); background: var(--surface2); transform: translateY(-2px); }
+  .card .label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .card .value { font-size: 14px; color: var(--text); font-weight: 500; }
+  .card .value .accent { color: var(--accent2); }
+  .card .desc { font-size: 13px; color: var(--text2); font-weight: 350; line-height: 1.6; margin-top: 4px; }
+
+  .pill {
+    display: inline-block; padding: 3px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 500; margin: 2px;
+  }
+  .pill.purple { background: rgba(108,92,231,.15); color: var(--accent2); }
+  .pill.green { background: rgba(0,206,201,.12); color: var(--green); }
+  .pill.pink { background: rgba(253,121,168,.12); color: var(--orange); }
+  .pill.gold { background: rgba(253,203,110,.12); color: var(--gold); }
+
+  .tagline {
+    font-size: 14px; color: var(--text3); font-weight: 350;
+    padding: 12px 20px; border-radius: 12px;
+    background: var(--surface); border-left: 3px solid var(--accent);
+    margin: 16px 0; line-height: 1.6;
+  }
+  .tagline.green { border-left-color: var(--green); }
+  .tagline.gold { border-left-color: var(--gold); }
+
+  code {
+    background: var(--bg2); padding: 2px 8px; border-radius: 4px;
+    font-family: 'Inter', monospace; font-size: 13px; color: var(--green);
+  }
+
+  .code-block {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px; margin: 10px 0;
+    font-family: 'Inter', monospace; font-size: 13px; color: var(--green);
+    line-height: 1.7; overflow-x: auto; white-space: pre;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+  table th {
+    background: var(--surface2); color: var(--text2);
+    padding: 8px 12px; text-align: left; font-weight: 500; font-size: 11px;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  table th:first-child { border-radius: 8px 0 0 0; }
+  table th:last-child { border-radius: 0 8px 0 0; }
+  table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text2); }
+  table tr:hover td { background: var(--surface); }
+  table td strong { color: var(--text); }
+
+  .org-chart {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 20px; background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .org-level { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .org-node {
+    padding: 8px 16px; border-radius: 8px; font-size: 12px;
+    background: var(--bg2); border: 1px solid var(--border); text-align: center;
+  }
+  .org-node.ceo { border-color: var(--accent); color: var(--accent2); font-weight: 600; }
+  .org-node.exec { border-color: var(--green); color: var(--green); }
+  .org-node.dev { border-color: var(--gold); color: var(--gold); }
+  .org-node.infra { border-color: var(--orange); color: var(--orange); }
+  .org-arrow { color: var(--text3); font-size: 10px; }
+
+  .quote {
+    font-size: 1.2rem; color: var(--text); font-weight: 350; font-style: italic;
+    line-height: 2; text-align: center; max-width: 700px; margin: 0 auto;
+  }
+  .quote .highlight { color: var(--accent2); font-style: normal; font-weight: 500; }
+  .quote-author { text-align: center; color: var(--text3); font-size: 13px; margin-top: 12px; }
+
+  .flex-center { display: flex; align-items: center; justify-content: center; }
+  .gap-4 { gap: 4px; }
+  .gap-8 { gap: 8px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .text-center { text-align: center; }
+
+  @media (max-width: 768px) {
+    .slide { padding: 40px 24px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+    .nav-arrows { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="slide-counter" id="counter">01 / 15</div>
+
+<div class="nav-arrows">
+  <button class="nav-arrow" onclick="prevSlide()" id="prevArrow">←</button>
+  <button class="nav-arrow" onclick="nextSlide()" id="nextArrow" style="margin-left:auto">→</button>
+</div>
+
+<div class="nav-bar" id="navBar"></div>
+
+<div class="slides" id="slides">
+
+<!-- ==================== 1. Cover ==================== -->
+<div class="slide active">
+  <div class="slide-inner text-center">
+    <div style="font-size: 5rem; margin-bottom: 20px; opacity: .6;">📎</div>
+    <h1>Paperclip</h1>
+    <h1 style="font-size: clamp(1.6rem, 3.5vw, 2.8rem); color: var(--text2); font-weight: 300; margin-top: 4px;">零人工公司<span class="accent">操作系统</span></h1>
+    <div class="tagline" style="max-width: 500px; margin: 24px auto; font-size: 15px;">
+      如果 Claude Code / OpenClaw 是"员工"，那 Paperclip 就是整家"公司"
+    </div>
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+      <span class="pill purple">开源 MIT</span>
+      <span class="pill green">35k+ Stars</span>
+      <span class="pill pink">AI Agent 编排</span>
+      <span class="pill gold">多公司隔离</span>
+    </div>
+    <p style="font-size: 12px; color: var(--text3); margin-top: 40px;">← → 键盘切换 · 点击下方导航</p>
+  </div>
+</div>
+
+<!-- ==================== 2. What is Paperclip ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>什么是 <span class="accent">Paperclip</span>？</h2>
+    <p>Paperclip 是一个开源 AI Agent 编排平台，定位为<strong>"零人工公司"的操作系统</strong>——让你招募、管理和编排 AI 智能体团队，在最小人工干预下运营一家"企业"。</p>
+    <div class="grid-3 mt-16">
+      <div class="card">
+        <div class="label">作者</div><div class="value">@dotta</div>
+      </div>
+      <div class="card">
+        <div class="label">技术栈</div><div class="value">Node.js + React + PostgreSQL</div>
+      </div>
+      <div class="card">
+        <div class="label">最新版</div><div class="value">v2026.416.0</div>
+      </div>
+      <div class="card">
+        <div class="label">GitHub</div><div class="value"><span class="accent">github.com/paperclipai/paperclip</span></div>
+      </div>
+      <div class="card">
+        <div class="label">协议</div><div class="value">MIT（完全开源）</div>
+      </div>
+      <div class="card">
+        <div class="label">Stars</div><div class="value"><span class="accent">35,000+</span></div>
+      </div>
+    </div>
+    <div class="grid-2 mt-16">
+      <div class="card" style="border-left: 3px solid var(--orange);">
+        <div class="desc" style="font-size:14px;">
+          <strong style="color:var(--orange);">旧模式</strong><br>
+          人 → 指挥 → AI Agent（一对一）
+        </div>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--green);">
+        <div class="desc" style="font-size:14px;">
+          <strong style="color:var(--green);">新模式</strong><br>
+          人 → 设定目标 → Paperclip → 管理 → AI Agent 团队（多对多）
+        </div>
+      </div>
+    </div>
+    <p class="tagline" style="margin-top: 12px; font-size: 13px;">
+      名字源自 AI 安全领域的<strong>"回形针最大化"（Paperclip Maximizer）</strong>思想实验——让 AI Agent 在良好约束下最大化商业产出。
+    </p>
+  </div>
+</div>
+
+<!-- ==================== 3. 零人工公司概念 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>"<span class="green">零人工公司</span>" 概念</h2>
+    <p><strong>零人工公司（Zero-Human Company）</strong>——AI Agent 承担从执行到管理的所有角色，人类只作为"董事会"做顶层决策。</p>
+    <div class="grid-2 mt-16">
+      <div>
+        <h3>传统公司</h3>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);">👤 CEO — 人类</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);">👤 CTO — 人类</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);">👤 工程师 — 人类</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);">👤 运营 — 人类</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);">👤 HR — 人类</div>
+        </div>
+      </div>
+      <div>
+        <h3>零人工公司</h3>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);border-color:var(--accent);">🤖 CEO — AI Agent</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);border-color:var(--green);">🤖 CTO — AI Agent</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);border-color:var(--green);">🤖 工程师 — AI Agent</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);border-color:var(--green);">🤖 运营 — AI Agent</div>
+          <div class="org-node" style="width:100%;text-align:left;background:var(--surface);border-color:var(--gold);">👤 董事会 — 你</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-4 mt-16">
+      <div class="card"><div class="label">分层治理</div><div class="desc">CEO→高管→员工，逐层分解目标</div></div>
+      <div class="card"><div class="label">自主执行</div><div class="desc">接收任务后独立完成，无需中间干预</div></div>
+      <div class="card"><div class="label">成本可控</div><div class="desc">每个Agent有独立预算，超限自动暂停</div></div>
+      <div class="card"><div class="label">完全可审计</div><div class="desc">每一步决策、每次工具调用都有日志</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 4. 适用人群 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>谁需要 <span class="accent">Paperclip</span>？</h2>
+    <p style="margin-bottom: 20px;">从独立开发者到小团队，从技术创业者到数字游民——Paperclip 让"一个人撑起一家公司"成为现实。</p>
+    <div class="grid-2">
+      <div class="card" style="padding: 24px;">
+        <div style="font-size:2rem;margin-bottom:6px;">🧑‍💻</div>
+        <div class="value" style="font-size:1.1rem;">独立开发者</div>
+        <div class="desc" style="margin-top:4px;">一个人撑起整个产品开发 + 运营。Paperclip 帮你补齐设计、营销、客服等所有缺失技能。</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <div style="font-size:2rem;margin-bottom:6px;">👥</div>
+        <div class="value" style="font-size:1.1rem;">小团队创始人</div>
+        <div class="desc" style="margin-top:4px;">用 AI 补齐团队缺失的技能角色，让 3 人团队具备 30 人的战斗力和产出能力。</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <div style="font-size:2rem;margin-bottom:6px;">🚀</div>
+        <div class="value" style="font-size:1.1rem;">技术创业者</div>
+        <div class="desc" style="margin-top:4px;">快速验证 idea，零人工跑 MVP。用最小成本验证产品市场匹配，再决定是否投入资源。</div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <div style="font-size:2rem;margin-bottom:6px;">🌍</div>
+        <div class="value" style="font-size:1.1rem;">数字游民</div>
+        <div class="desc" style="margin-top:4px;">在任何地方管理"AI 员工"，通过 Paperclip 仪表盘查看组织运行状态，享受真正的地点自由。</div>
+      </div>
+    </div>
+    <div class="tagline mt-16" style="text-align:center;">
+      你不再直接管每个 Agent，而是像<strong>董事会</strong>一样设定使命、预算、审批规则，然后让 Paperclip 的 CEO Agent 自动分解目标、招聘下属、跟踪执行、汇报结果。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 5. 核心架构 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>核心架构 — <span class="accent">六大支柱</span></h2>
+    <p>Paperclip 的层级是递归的——CEO 可以"招聘"CTO，CTO 再"招聘"工程师。每一级管理者自主决策是否招募子 Agent。</p>
+    <div class="org-chart mt-16" style="background:var(--bg2);border-color:var(--border);">
+      <div class="org-level"><div class="org-node ceo">🤖 CEO Agent</div></div>
+      <div class="org-arrow">▾</div>
+      <div class="org-level">
+        <div class="org-node exec">🤖 CTO</div>
+        <div class="org-node exec">🤖 CMO</div>
+        <div class="org-node exec">🤖 CFO</div>
+      </div>
+      <div class="org-arrow">▾</div>
+      <div class="org-level">
+        <div class="org-node dev">工程师 Agent</div>
+        <div class="org-node dev">QA Agent</div>
+        <div class="org-node dev">内容 Agent</div>
+        <div class="org-node dev">增长 Agent</div>
+      </div>
+      <div class="org-arrow" style="color:var(--text3);">━━━━ 基础设施（心跳 · 预算 · 审计 · Skills）━━━━</div>
+      <div class="org-level">
+        <div class="org-node infra">Claude Code</div>
+        <div class="org-node infra">Codex</div>
+        <div class="org-node infra">OpenClaw</div>
+        <div class="org-node infra">Bash</div>
+      </div>
+    </div>
+    <div class="grid-3 mt-16">
+      <div class="card"><div class="label">P1 组织架构图</div><div class="desc">树状命令链，清晰的汇报关系</div></div>
+      <div class="card"><div class="label">P2 目标对齐</div><div class="desc">每个任务携带完整上下文，Agent 知道"为什么做"</div></div>
+      <div class="card"><div class="label">P3 心跳调度</div><div class="desc">Agent 按计划唤醒，也支持事件驱动</div></div>
+      <div class="card"><div class="label">P4 原子预算控制</div><div class="desc">每月限额，80%预警，100%硬停止</div></div>
+      <div class="card"><div class="label">P5 不可变审计日志</div><div class="desc">追加式日志，记录每一步决策和输出</div></div>
+      <div class="card"><div class="label">P6 多公司隔离</div><div class="desc">一次部署可运行多个完全隔离的"公司"</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 6. Agent 适配器 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>支持的 <span class="green">Agent 类型</span></h2>
+    <p>Paperclip 通过<strong>适配器（Adapter）</strong>连接不同的 AI 后端。不同 Agent 可以配置不同的模型，各司其职。</p>
+    <table class="mt-16">
+      <thead><tr><th>Agent 类型</th><th>适配器</th><th>说明</th><th>推荐角色</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude Code</strong></td><td><code>claude_local</code></td><td>Anthropic Claude CLI</td><td>CEO / 编程 Agent</td></tr>
+        <tr><td><strong>OpenAI Codex</strong></td><td><code>codex_local</code></td><td>OpenAI Codex CLI</td><td>编程 / QA Agent</td></tr>
+        <tr><td><strong>Gemini CLI</strong></td><td><code>gemini_local</code></td><td>Google Gemini</td><td>内容 / 分析 Agent</td></tr>
+        <tr><td><strong>OpenClaw</strong></td><td><code>openclaw</code></td><td>OpenClaw Agent</td><td>运营 / 自动化 Agent</td></tr>
+        <tr><td><strong>HTTP</strong></td><td><code>http</code></td><td>任意 HTTP Webhook</td><td>集成 / 通知 Agent</td></tr>
+        <tr><td><strong>Bash</strong></td><td><code>bash</code></td><td>Shell 脚本执行</td><td>运维 / 自动化 Agent</td></tr>
+      </tbody>
+    </table>
+    <div class="tagline mt-16" style="font-size: 13px;">
+      💡 <strong>合理分配模型</strong>：Haiku/轻量模型 → 路由、格式化、QA · Sonnet/重量模型 → 编程、策略、创造性工作
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 7. 快速安装 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>快速<span class="accent">安装</span></h2>
+    <p>多种部署方式，从本地到云端，三选一即可。</p>
+    <div class="grid-3 mt-16">
+      <div class="card" style="padding:24px;">
+        <div style="font-size:1.6rem;margin-bottom:6px;">⚡</div>
+        <div class="value">npx 零配置</div>
+        <div class="desc">有 Node.js 环境即可</div>
+        <div class="code-block" style="margin-top:8px;font-size:12px;">npx paperclipai onboard --yes</div>
+        <div class="desc" style="margin-top:8px;">自动启动内嵌 PostgreSQL、生成密钥、运行迁移。在 <code>localhost:3100</code> 启动</div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div style="font-size:1.6rem;margin-bottom:6px;">🐳</div>
+        <div class="value">Docker 部署</div>
+        <div class="desc">有 Docker 环境即可</div>
+        <div class="code-block" style="margin-top:8px;font-size:12px;">docker compose -f docker-compose.quickstart.yml up --build</div>
+        <div class="desc" style="margin-top:8px;">一行命令启动完整环境，适合服务器部署</div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div style="font-size:1.6rem;margin-bottom:6px;">☁️</div>
+        <div class="value">Zeabur 云部署</div>
+        <div class="desc">一键部署，无需本地环境</div>
+        <div class="code-block" style="margin-top:8px;font-size:12px;">Zeabur Paperclip 模板 → 一键部署 → 初始化</div>
+        <div class="desc" style="margin-top:8px;">自动处理 Docker + PostgreSQL + 网络配置</div>
+      </div>
+    </div>
+    <p class="tagline" style="font-size: 13px;">环境要求：Node.js 20+、pnpm 9.15+（手动安装方式：<code style="font-size:12px;">git clone && pnpm install && pnpm dev</code>）</p>
+  </div>
+</div>
+
+<!-- ==================== 8. 创建公司 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>创建你的第一家 <span class="green">AI 公司</span></h2>
+    <div class="grid-2 mt-16">
+      <div>
+        <div class="card" style="padding:20px;margin-bottom:10px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent2);">Step 1</div>
+          <div class="value">注册管理员</div>
+          <div class="desc">浏览器打开 <code>localhost:3100</code>，注册管理员账号，进入仪表盘</div>
+        </div>
+        <div class="card" style="padding:20px;margin-bottom:10px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent2);">Step 2</div>
+          <div class="value">创建公司 + 使命陈述</div>
+          <div class="desc">填写公司名称和使命陈述——这是所有 Agent 决策的顶层依据</div>
+        </div>
+        <div class="card" style="padding:20px;margin-bottom:10px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent2);">Step 3</div>
+          <div class="value">招聘 CEO Agent</div>
+          <div class="desc">选择适配器（推荐 Claude Code），设置心跳间隔和月预算。CEO 启动后会主动"招聘"下属</div>
+        </div>
+        <div class="card" style="padding:20px;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--accent2);">Step 4</div>
+          <div class="value">设定目标</div>
+          <div class="desc">在公司目标中添加具体任务，指派给 CEO。CEO 自动分解给下属 Agent 执行并汇报</div>
+        </div>
+      </div>
+      <div>
+        <div class="tagline" style="border-left-color:var(--gold);font-size:13px;">
+          <strong>好的使命示例</strong><br>
+          "开发一款 AI 笔记应用，做到 100 万美元 MRR"
+        </div>
+        <div class="tagline" style="border-left-color:var(--orange);font-size:13px;">
+          <strong>不好的使命示例</strong><br>
+          "做一些 AI 相关的东西"
+        </div>
+        <div class="card" style="padding:20px;margin-top:10px;">
+          <div class="value" style="font-size:13px;">📊 仪表盘功能</div>
+          <div class="desc" style="margin-top:6px;">
+            • 组织架构图 — 可视化所有 Agent 及汇报关系<br>
+            • 任务看板 — 跟踪每个任务的进度和状态<br>
+            • 成本面板 — 实时查看每个 Agent 费用消耗<br>
+            • 审计日志 — 审查每个 Agent 的历史决策
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 9. 心跳调度 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>心跳调度 <span class="gold">Heartbeats</span></h2>
+    <p>Agent 不会一直运行，而是按计划<strong>"醒来 → 检查任务 → 执行 → 报告 → 睡觉"</strong>。这是 Paperclip 的核心调度机制。</p>
+    <div class="tagline mt-8" style="text-align:center;border-left-color:var(--gold);font-size:13px;">
+      睡眠 → <strong style="color:var(--gold);">[心跳]</strong> → 醒来 → 检查任务队列 → 有任务则执行/汇报 · 无任务则直接睡觉
+    </div>
+    <table class="mt-16">
+      <thead><tr><th>Agent 角色</th><th>推荐间隔</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CEO / 高管</strong></td><td>3600 秒（1小时）</td><td>战略层不需要频繁响应</td></tr>
+        <tr><td><strong>编程 Agent</strong></td><td>600 秒（10分钟）</td><td>代码任务需要较频繁检查</td></tr>
+        <tr><td><strong>内容 Agent</strong></td><td>86400 秒（1天）</td><td>内容创作按天排期</td></tr>
+        <tr><td><strong>客服 Agent</strong></td><td>300-600 秒</td><td>客户等待有心理阈值</td></tr>
+        <tr><td><strong>最低安全间隔</strong></td><td>30 秒</td><td>低于此值可能失控</td></tr>
+      </tbody>
+    </table>
+    <div class="grid-2 mt-16">
+      <div class="card">
+        <div class="value">⏰ 定时心跳</div>
+        <div class="desc">Agent 按 cron 计划自动唤醒，完成例行任务后自动休眠</div>
+      </div>
+      <div class="card">
+        <div class="value">⚡ 事件驱动</div>
+        <div class="desc">GitHub push、新订单、监控告警等事件触发 Agent 即时响应</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 10. 预算控制 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>预算控制 <span class="orange">Budget Control</span></h2>
+    <p>AI Agent 调用 API 会产生费用。预算控制不是限制，而是<strong>安全护栏</strong>——设好上限，让 Agent 在范围内自由发挥。</p>
+    <div class="grid-3 mt-16">
+      <div class="card text-center" style="padding:24px;border-color:var(--green);">
+        <div style="font-size:2rem;font-weight:800;color:var(--green);">0-80%</div>
+        <div class="value" style="color:var(--green);">正常运行</div>
+        <div class="desc">Agent 自主工作，无需干预</div>
+      </div>
+      <div class="card text-center" style="padding:24px;border-color:var(--gold);">
+        <div style="font-size:2rem;font-weight:800;color:var(--gold);">80%</div>
+        <div class="value" style="color:var(--gold);">预警通知</div>
+        <div class="desc">发出预警，人为评估是否追加</div>
+      </div>
+      <div class="card text-center" style="padding:24px;border-color:var(--orange);">
+        <div style="font-size:2rem;font-weight:800;color:var(--orange);">100%</div>
+        <div class="value" style="color:var(--orange);">硬停止</div>
+        <div class="desc"><strong>Agent 自动暂停工作</strong></div>
+      </div>
+    </div>
+    <table class="mt-16">
+      <thead><tr><th>Agent 角色</th><th>推荐适配器</th><th>月预算建议</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CEO</strong></td><td>Claude Sonnet</td><td>$50-100/月</td></tr>
+        <tr><td><strong>工程师</strong></td><td>Claude Sonnet</td><td>$50-100/月</td></tr>
+        <tr><td><strong>QA</strong></td><td>Claude Haiku</td><td>$20-50/月</td></tr>
+        <tr><td><strong>内容 Agent</strong></td><td>Claude Haiku</td><td>$20-50/月</td></tr>
+      </tbody>
+    </table>
+    <p class="tagline" style="font-size: 13px; color: var(--orange);">⚠️ 第一次启动时必须设置预算，否则 Agent 可能无限制调用 API</p>
+  </div>
+</div>
+
+<!-- ==================== 11. Skills 技能系统 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>Skills <span class="green">技能系统</span></h2>
+    <p>Skills 是 Markdown 文件，教会 Agent 执行特定工作流。一次编写，所有 Agent 复用，<strong>无需重新训练模型</strong>。</p>
+    <div class="grid-2 mt-16">
+      <div>
+        <div class="card" style="padding:16px;">
+          <div class="value" style="font-size:13px;">目录结构</div>
+          <div class="code-block" style="margin-top:6px;font-size:12px;">skills/
+├── code-review.md
+├── deploy-to-vercel.md
+├── write-blog-post.md
+├── handle-customer-ticket.md
+└── ...</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="padding:16px;">
+          <div class="value" style="font-size:13px;">示例：deploy-to-vercel</div>
+          <div class="code-block" style="margin-top:6px;font-size:12px;"># deploy-to-vercel
+## 前置条件
+- Vercel CLI 已安装
+## 步骤
+1. vercel --prod
+2. 确认部署 URL 可访问
+3. 在 GitHub Release 标记版本
+4. 通知相关 Agent
+## 注意事项
+- 失败时自动回滚</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-4 mt-8">
+      <div class="card" style="padding:12px 16px;text-align:center;">
+        <div class="value" style="font-size:13px;">✍️ 一次编写</div>
+      </div>
+      <div class="card" style="padding:12px 16px;text-align:center;">
+        <div class="value" style="font-size:13px;">🔄 所有 Agent 复用</div>
+      </div>
+      <div class="card" style="padding:12px 16px;text-align:center;">
+        <div class="value" style="font-size:13px;">📦 Git 版本管理</div>
+      </div>
+      <div class="card" style="padding:12px 16px;text-align:center;">
+        <div class="value" style="font-size:13px;">🏪 社区共享（Clipmart）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 12. 实战案例 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>实战案例</h2>
+    <div class="grid-2 mt-16">
+      <div class="card" style="padding:24px;border-color:rgba(108,92,231,.3);">
+        <div style="font-size:1.4rem;margin-bottom:4px;">🏗️</div>
+        <div class="value" style="font-size:1rem;color:var(--accent2);">AI 驱动的开发工作室</div>
+        <div class="desc" style="margin-top:6px;">
+          <strong>背景</strong>：独立开发者运营 SaaS 产品<br>
+          <strong>配置</strong>：
+        </div>
+        <div class="code-block" style="font-size:11px;margin-top:4px;">CEO (Sonnet) → 战略
+├── CTO → 架构
+│   ├── Backend Engineer (Codex)
+│   ├── Frontend (Claude Code)
+│   └── QA (Codex Haiku)
+└── Content Writer (Haiku)</div>
+        <div class="desc" style="margin-top:4px;">
+          ✅ CEO 接收 Issue → 分配 CTO → 分解为分析/修复/测试/部署 → 各工程师执行 → CEO 汇报完成
+        </div>
+      </div>
+      <div class="card" style="padding:24px;border-color:rgba(0,206,201,.3);">
+        <div style="font-size:1.4rem;margin-bottom:4px;">📰</div>
+        <div class="value" style="font-size:1rem;color:var(--green);">24 小时内容工厂</div>
+        <div class="desc" style="margin-top:6px;">
+          <strong>背景</strong>：一个人运营多平台内容矩阵<br>
+          <strong>配置</strong>：
+        </div>
+        <div class="code-block" style="font-size:11px;margin-top:4px;">CEO (Sonnet) → 内容策略
+├── Content Strategist (Haiku) → 选题
+│   ├── Writer (Sonnet) → 文章
+│   ├── Designer → 配图
+│   └── Publisher → 分发
+└── Analyst (Haiku) → 复盘</div>
+        <div class="desc" style="margin-top:4px;">
+          ✅ 每日自动产出 10+ 篇内容 · 多平台自动分发 · 人类只需 30 分钟/天
+        </div>
+      </div>
+    </div>
+    <div class="tagline mt-16" style="text-align:center;font-size:13px;">
+      <strong>案例三：零人工 SaaS 运营</strong> — 用户注册 → 客服 Agent 响应 → Bug→技术Agent诊断修复 → 月报→Analyst自动生成
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 13. 平台对比 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>平台 <span class="accent">对比</span></h2>
+    <table>
+      <thead><tr><th>平台</th><th>定位</th><th>Stars</th><th>关键差异</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--accent2);">Paperclip</strong></td><td>零人工公司 OS</td><td><strong>35k+</strong></td><td>组织架构图、预算执行、审计日志、Web UI</td></tr>
+        <tr><td><strong>Mesa</strong></td><td>零人工公司</td><td>—</td><td>单 Go 二进制、自改进、递归治理</td></tr>
+        <tr><td><strong>Oh-My-ClaudeCode</strong></td><td>终端原生</td><td>—</td><td>19 个 Agent、聚焦 Claude Code</td></tr>
+        <tr><td><strong>Swarms</strong></td><td>企业级编排</td><td>—</td><td>全编排模式、企业级</td></tr>
+        <tr><td><strong>Auto-company</strong></td><td>全自动 24/7</td><td>—</td><td>零人工干预、仅 macOS</td></tr>
+      </tbody>
+    </table>
+    <div class="grid-2 mt-16">
+      <div>
+        <h3>✅ 优势</h3>
+        <div class="card" style="border-color:var(--green);">
+          <div class="desc">
+            • 最大社区（35k+ Stars）<br>
+            • 直观的 Web UI 仪表盘<br>
+            • 开源 + 自托管，数据安全<br>
+            • 强大的预算控制和审计
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>⚠️ 不足</h3>
+        <div class="card" style="border-color:var(--orange);">
+          <div class="desc">
+            • 不适合受监管行业<br>
+            • Agent 会自信地产生幻觉<br>
+            • 大规模并行（2048+）尚未验证<br>
+            • 当前偏技术用户取向
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 14. 最佳实践 ==================== -->
+<div class="slide">
+  <div class="slide-inner">
+    <h2>最佳 <span class="green">实践</span></h2>
+    <div class="grid-2 mt-16">
+      <div class="card" style="padding:20px;">
+        <div class="value" style="font-size:1rem;">1️⃣ 从小开始</div>
+        <div class="desc">先用 3-5 个 Agent（1 个协调者 + 2-4 个执行者），熟悉后再扩展到 10+</div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="value" style="font-size:1rem;">2️⃣ 写好使命陈述</div>
+        <div class="desc">使命是一切决策的源头。包含：做什么 + 为什么 + 衡量标准</div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="value" style="font-size:1rem;">3️⃣ 立即设置预算</div>
+        <div class="desc">起手 $20-50/月/Agent，从日志了解用量后再调整，设好预警通知</div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="value" style="font-size:1rem;">4️⃣ 合理分配模型</div>
+        <div class="desc">Haiku/轻量 → 路由、格式化、QA · Sonnet/重量 → 编程、策略、创造</div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="value" style="font-size:1rem;">5️⃣ 经常检查日志</div>
+        <div class="desc">前 48 小时是黄金调试期，大部分配置问题会在初期暴露</div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="value" style="font-size:1rem;">6️⃣ 文件驱动协作</div>
+        <div class="desc">Agent 之间通过共享文件通信，非直接对话。所有"沟通"可追溯可复盘</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 15. 未来展望 ==================== -->
+<div class="slide">
+  <div class="slide-inner text-center">
+    <h2>未来 <span class="gold">展望</span></h2>
+    <div class="grid-2 mt-16">
+      <div class="card" style="padding:28px;text-align:left;">
+        <div style="font-size:2rem;margin-bottom:4px;">🏪</div>
+        <div class="value" style="font-size:1.1rem;color:var(--gold);">Clipmart — 公司模板市场</div>
+        <div class="desc" style="margin-top:4px;">一键导入现成的组织配置：<br>
+          • 内容公司模板：CEO + 编辑 + 写手 + 设计师<br>
+          • SaaS 公司模板：CEO + CTO + 前后端工程师 + QA<br>
+          • 营销代理模板：策略 + 内容 + 广告投放 + 数据分析
+        </div>
+      </div>
+      <div class="card" style="padding:28px;text-align:left;">
+        <div style="font-size:2rem;margin-bottom:4px;">🚀</div>
+        <div class="value" style="font-size:1.1rem;color:var(--green);">进化方向</div>
+        <div class="desc" style="margin-top:4px;">
+          • 多模态 Agent 支持（图像/音视频）<br>
+          • Agent 间实时通信<br>
+          • 企业级安全与合规（SOC2/GDPR）<br>
+          • 视觉工作流编辑器（拖拽编排）<br>
+          • MCP 协议深度集成
+        </div>
+      </div>
+    </div>
+    <div class="quote mt-16" style="font-size:1.1rem;">
+      "Paperclip 不是另一个 AI 工具，而是一种<span class="highlight">新的组织范式</span>。<br>
+      你不再管理 Agent，而是<strong style="color:var(--text);">经营一家'AI 公司'</strong>。"
+    </div>
+    <div class="tagline" style="text-align:center;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto;">
+      如果说 Claude Code / OpenClaw 是"员工"，那 Paperclip 就是"公司"<br>
+      ——从一人公司到零人工公司的<strong>操作系统级跃迁</strong>
+    </div>
+    <p style="margin-top: 24px; font-size: 12px; color: var(--text3);">
+      github.com/paperclipai/paperclip · MIT 开源 · v2026.416.0
+    </p>
+  </div>
+</div>
+
+</div><!-- /slides -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const navBar = document.getElementById('navBar');
+const counter = document.getElementById('counter');
+let current = 0;
+
+// Build nav dots
+slides.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.onclick = () => goTo(i);
+  navBar.appendChild(dot);
+});
+
+function goTo(n) {
+  slides.forEach(s => s.classList.remove('active'));
+  slides[n].classList.add('active');
+  document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  counter.textContent = String(n + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+}
+
+function nextSlide() { if (current < slides.length - 1) { current++; goTo(current); } }
+function prevSlide() { if (current > 0) { current--; goTo(current); } }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+});
+
+// Arrow visibility
+document.addEventListener('mousemove', () => {
+  document.querySelectorAll('.nav-arrow').forEach(a => a.classList.add('visible'));
+  clearTimeout(window._arrowTimer);
+  window._arrowTimer = setTimeout(() => document.querySelectorAll('.nav-arrow').forEach(a => a.classList.remove('visible')), 3000);
+});
+
+// Touch swipe
+let touchX = 0;
+document.addEventListener('touchstart', e => touchX = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) dx > 0 ? prevSlide() : nextSlide();
+});
+</script>
+
+</body>
+</html>
