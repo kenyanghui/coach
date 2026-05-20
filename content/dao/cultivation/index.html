@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>修道记 · 打坐纪要 · 杨辉 Ken Yang | AI 摆渡人</title>
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dark: #8b6914;
+  --cinnabar: #a63a2e; --jade: #4a7c59; --jade-light: #6b9d7a;
+  --cream: #f5f0e6; --cream-dark: #e8e0d0; --paper: #faf6ef;
+  --ink: #1a1714; --ink-light: #3a3530; --text-muted: #7a7568;
+  --radius: 16px; --radius-sm: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #0d0c0a; color: var(--cream);
+  font-family: 'Noto Serif SC','Noto Sans SC','PingFang SC',serif;
+  line-height: 1.9; overflow-x: hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 40% at 80% 100%, rgba(74,124,89,0.05) 0%, transparent 50%);
+  pointer-events:none; z-index:0;
+}
+header {
+  background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, transparent 100%);
+  padding: 60px 40px 40px; text-align: center; position: relative; z-index:1;
+  border-bottom: 1px solid rgba(201,168,76,0.10);
+}
+header .badge {
+  display:inline-block; border:1px solid rgba(201,168,76,0.25);
+  color: var(--gold); padding:4px 18px; border-radius:20px;
+  font-size:12px; font-weight:600; letter-spacing:3px; margin-bottom:16px;
+}
+header h1 { font-size:2.4em; font-weight:700; letter-spacing:6px; color: var(--gold-light); }
+header .subtitle { font-size:1em; color: rgba(255,255,255,0.4); margin-top:8px; letter-spacing:2px; }
+header .ch { font-size:0.9em; color: rgba(201,168,76,0.5); margin-top:4px; letter-spacing:4px; }
+
+.container { max-width:900px; margin:0 auto; padding:20px; position:relative; z-index:1; }
+
+.section { background: rgba(255,255,255,0.03); border:1px solid rgba(201,168,76,0.08); border-radius: var(--radius); padding:32px 36px; margin-bottom:24px; }
+.section h2 { font-size:1.3em; font-weight:700; color: var(--gold-light); padding-bottom:12px; border-bottom:2px solid rgba(201,168,76,0.15); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.section h3 { font-size:1.1em; font-weight:600; color: var(--gold); margin:28px 0 14px; padding-bottom:6px; border-bottom:1px solid rgba(201,168,76,0.10); }
+.section h4 { font-size:0.95em; font-weight:600; color: var(--gold-dark); margin:18px 0 10px; }
+.section p { font-size:14px; color: rgba(255,255,255,0.65); margin-bottom:10px; line-height:2; }
+.section ul { padding-left:20px; margin-bottom:10px; }
+.section li { font-size:14px; color: rgba(255,255,255,0.6); margin-bottom:6px; line-height:1.8; }
+
+.card {
+  background: rgba(255,255,255,0.04); border:1px solid rgba(201,168,76,0.10);
+  border-radius:12px; padding:18px 20px; margin-bottom:14px;
+  transition: all .2s;
+}
+.card:hover { background: rgba(255,255,255,0.06); border-color: rgba(201,168,76,0.20); }
+.card .title { font-weight:700; font-size:15px; color: var(--gold-light); margin-bottom:4px; }
+.card .meta { font-size:12px; color: var(--gold-dark); margin-bottom:6px; }
+.card .desc { font-size:13px; color: rgba(255,255,255,0.55); line-height:1.7; }
+.card .links { margin-top:10px; font-size:13px; }
+.card .links a { color: var(--gold); text-decoration:none; font-weight:500; }
+.card .links a:hover { text-decoration:underline; }
+.card.border-jade { border-left:4px solid var(--jade); }
+.card.border-gold { border-left:4px solid var(--gold); }
+.card.border-cinnabar { border-left:4px solid var(--cinnabar); }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:680px){ .grid-2 { grid-template-columns:1fr; } }
+
+.quote {
+  border-left:3px solid var(--gold); padding:14px 20px; margin:14px 0;
+  background: rgba(201,168,76,0.04); border-radius:0 8px 8px 0;
+  font-style:italic; color: rgba(255,255,255,0.7); font-size:14px; line-height:1.9;
+}
+.quote .src { display:block; margin-top:6px; font-style:normal; font-size:12px; color: var(--gold-dark); }
+
+.callout { border-radius: var(--radius-sm); padding:14px 18px; margin:14px 0; font-size:14px; }
+.callout.gold { background: rgba(201,168,76,0.06); border-left:4px solid var(--gold); color: rgba(255,255,255,0.7); }
+.callout.jade { background: rgba(74,124,89,0.08); border-left:4px solid var(--jade); color: rgba(255,255,255,0.7); }
+
+.tag { display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px; font-weight:600; }
+.tag-gold { background: rgba(201,168,76,0.12); color: var(--gold); }
+.tag-jade { background: rgba(74,124,89,0.15); color: var(--jade-light); }
+.tag-cinnabar { background: rgba(166,58,46,0.12); color: var(--cinnabar); }
+
+.back { text-align:center; padding:20px 0; }
+.back a { color: var(--gold); text-decoration:none; font-weight:500; font-size:14px; }
+.back a:hover { text-decoration:underline; }
+
+.footer { text-align:center; color: rgba(255,255,255,0.2); font-size:13px; padding:30px 20px; line-height:1.8; z-index:1; position:relative; border-top:1px solid rgba(201,168,76,0.06); }
+
+hr { border:none; border-top:1px solid rgba(201,168,76,0.08); margin:24px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ 修道记</div>
+  <h1>打坐纪要</h1>
+  <div class="subtitle">实修实证 · 道藏经典 · 身心合一</div>
+  <div class="ch">Meditative Practice · Taoist Classics · Body-Mind Integration</div>
+</header>
+
+<div class="container">
+
+  <!-- 序言 -->
+  <div class="section">
+    <p style="font-size:15px;color:rgba(255,255,255,0.75);">
+      修道记，记录打坐实证路上的点点滴滴。每一座都是一次与道的对话，每一次呼吸都是与天地共振。
+      这里的文字不来自书本，来自身体——<strong>以身为鼎，以心为炉，以气为药</strong>。
+    </p>
+    <div class="quote">
+      道可道，非常道。名可名，非常名。
+      <span class="src">—— 老子《道德经》第一章</span>
+    </div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.4);">
+      ⚠️ 以下内容是个人实修记录，仅供参考。修行之路各有因缘，切莫执着文字，当以实修实证为本。
+    </p>
+  </div>
+
+  <!-- 壹 · 打坐纪要 -->
+  <div class="section">
+    <h2>壹 · 打坐纪要</h2>
+    <p>持续记录每一次打坐的身心感受、气脉变化、心性体证。从入门筑基到悟后起修，每一步都是真实的。</p>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">筑基</span>
+      <div class="title">第一座 · 初识静坐</div>
+      <div class="meta">乙巳年三月初三 · 2026年4月19日 · 35分钟</div>
+      <div class="desc">
+        散盘坐姿，手结定印。初时妄念纷飞，如瀑流不息。专注于呼吸，数息法：一呼一吸为一息，从一数到十，反复循环。
+        约15分钟后，呼吸渐渐细匀，身体微微发热，口生津液。腿麻数次，换腿后重新入座。
+        收功时按摩膝盖、拍打双腿。总体感受：静坐不难，难在持续。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">筑基</span>
+      <div class="title">第二座 · 身体反应</div>
+      <div class="meta">乙巳年三月初四 · 2026年4月20日 · 45分钟</div>
+      <div class="desc">
+        单盘，左腿上右腿。数息法入静。约20分钟后，背部有热感沿脊柱上升，至大椎穴附近停滞。
+        颈部不由自主地微微后仰，感觉像有一股气在推动。想起道藏中"通关"之说，不加意念，任其自然。
+        约5分钟后，热感通过大椎，头部微微出汗。下座后神清气爽。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">炼精化气</span>
+      <div class="title">第三座 · 丹田发热</div>
+      <div class="meta">乙巳年三月初五 · 2026年4月21日 · 50分钟</div>
+      <div class="desc">
+        单盘。这次改了方法：先调身（七支坐法），再调息（细匀深长），最后调心（意守丹田）。
+        约30分钟后，下丹田（脐下三寸）有明显温热感，像有一个小太阳。不执着，不追逐，只是觉察。
+        温热感持续约10分钟后慢慢扩散至整个小腹。下座后感觉全身通透。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">炼精化气</span>
+      <div class="title">第四座 · 气冲病灶</div>
+      <div class="meta">乙巳年三月初六 · 2026年4月22日 · 50分钟</div>
+      <div class="desc">
+        入座后不久，右膝盖旧伤处出现刺痛感。记得道藏中说"气冲病灶"是好事，不加排斥。
+        将意念轻轻放在痛处，用呼吸引导。约5分钟后刺痛变酸痛，再慢慢消失。
+        感悟：身体是有记忆的，情绪也是。打坐不仅是"坐"，更是与身体对话的过程。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">炼气化神</span>
+      <div class="title">第五座 · 光明现前</div>
+      <div class="meta">乙巳年三月初七 · 2026年4月23日 · 60分钟</div>
+      <div class="desc">
+        双盘。入静较深，呼吸几乎若有若无。眼前出现淡紫色光，初时如雾，后渐明亮。
+        不喜不惧，保持观照。光明持续约5分钟后散去，内心极为宁静。下座后感觉身心轻安，如释重负。
+        参照《太乙金华宗旨》："金华即光，光非色，色非光。"——所见的"光"不是目的，是过程。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">炼气化神</span>
+      <div class="title">第六座 · 梦中修行</div>
+      <div class="meta">乙巳年三月初八 · 2026年4月24日 · 晨起</div>
+      <div class="desc">
+        昨夜梦中自知是梦（梦中 lucid）。在梦中尝试打坐，居然也能感受气感。
+        醒来后回想，这或许是"炼神还虚"的前兆——<strong>醒梦一如，方是真修行</strong>。
+        道藏有云："至人无梦"，不是不做梦，而是梦中亦觉。
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="callout gold">
+      <strong>持续记录中...</strong> 打坐是终身修行，这座笔记本将持续更新。每一座都是独一无二的，每一个感受都是真实的。
+    </div>
+  </div>
+
+  <!-- 贰 · 道藏经典蒸馏 -->
+  <div class="section">
+    <h2>贰 · 道藏经典蒸馏</h2>
+    <p>将道藏经典中的核心智慧，提炼为可执行、可体证的修行要点。不追求理论完备，追求<strong>一句话入心、一个法门实修</strong>。</p>
+
+    <h3>根本经典</h3>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">根本经典</span>
+      <div class="title">道德经 · 老子</div>
+      <div class="desc">
+        万经之王。81章，5000余言，道尽了宇宙规律、处世智慧与治国之道。对修行者而言，"道法自然"四字即是一切法门的核心。
+      </div>
+      <div class="links">
+        <span>查看蒸馏笔记 →</span>
+        <span>相关Skill →</span>
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <span class="tag tag-gold" style="float:right">根本经典</span>
+      <div class="title">庄子 · 南华真经</div>
+      <div class="desc">
+        逍遥游、齐物论、养生主、人间世、德充符、大宗师、应帝王——内七篇为核心。"心斋"、"坐忘"二法门，是打坐修行的直接指导。
+      </div>
+      <div class="links">
+        <span>查看蒸馏笔记 →</span>
+        <span>相关Skill →</span>
+      </div>
+    </div>
+
+    <h3>丹道经典</h3>
+
+    <div class="grid-2">
+      <div class="card border-jade">
+        <div class="title">周易参同契 · 魏伯阳</div>
+        <div class="desc">万古丹经王。以周易卦象讲述炼丹原理，将乾坤鼎炉、坎离药物、火候进退阐述至极。核心口诀："乾坤为易，坎离为用"。</div>
+      </div>
+      <div class="card border-jade">
+        <div class="title">悟真篇 · 张伯端</div>
+        <div class="desc">紫阳真人悟真篇。北宋南宗祖经，主张"先命后性"，以命功入手，以性功了手。"道自虚无生一气，便从一气产阴阳"。</div>
+      </div>
+      <div class="card border-jade">
+        <div class="title">黄庭经 · 魏华存</div>
+        <div class="desc">黄庭内景经与外景经。以人体五脏六腑对应身神，强调"黄庭"（中宫）为修持枢纽。"黄庭真人衣朱衣，关门壮蘥盖两扉"。</div>
+      </div>
+      <div class="card border-jade">
+        <div class="title">太乙金华宗旨 · 吕洞宾</div>
+        <div class="desc">回光守中——全书核心四字。讲"金华"（先天之光）的凝练与返还。对现代人最适合的修行法门之一。</div>
+      </div>
+    </div>
+
+    <h3>清修经典</h3>
+
+    <div class="grid-2">
+      <div class="card border-cinnabar">
+        <div class="title">清静经</div>
+        <div class="desc">"人能常清静，天地悉皆归。" 全经仅300余字，道尽修行根本。从"遣欲"到"澄心"，从"清静"到"渐入真道"。</div>
+      </div>
+      <div class="card border-cinnabar">
+        <div class="title">太上感应篇</div>
+        <div class="desc">"祸福无门，唯人自召。善恶之报，如影随形。" 修行的根基在因果，在起心动念处下功夫。</div>
+      </div>
+      <div class="card border-cinnabar">
+        <div class="title">阴符经 · 黄帝</div>
+        <div class="desc">"观天之道，执天之行，尽矣。" 300余字，字字珠玑。讲"天人合发，万变定基"的机要。</div>
+      </div>
+      <div class="card border-cinnabar">
+        <div class="title">常清静经</div>
+        <div class="desc">清静经的扩展版本，更详细地讲述了"遣欲→澄心→清静→得道"的完整路径。每日晨诵，是修行者的日课。</div>
+      </div>
+    </div>
+
+    <h3>蒸馏示例 · 道德经修行精要</h3>
+    <p>以《道德经》为例，看如何将经典要义转化为打坐修行的直接指导。</p>
+
+    <div class="quote">
+      <strong>致虚极，守静笃。万物并作，吾以观复。</strong>
+      <span class="src">——《道德经》第十六章</span>
+    </div>
+    <p><strong>蒸馏：</strong>"虚极"是打坐的最高状态——不是空无，而是无限可能。"静笃"是功夫——在浮躁的世界中守住内心的宁静。"观复"是方法——观察万物的循环往复，从中悟道。</p>
+    <p><strong>实修：</strong>入座后，先调身至舒适，再调息至细匀，最后"致虚极"——放下一切念头，回到呼吸的觉知。不是"想"静，而是"守"静。</p>
+
+    <div class="quote">
+      <strong>专气致柔，能如婴儿乎？</strong>
+      <span class="src">——《道德经》第十章</span>
+    </div>
+    <p><strong>蒸馏：</strong>"专气"即凝聚气——打坐时的意守丹田。"致柔"——不是硬顶，而是柔和地保持觉知。"如婴儿"——回到最自然、最柔软的状态。</p>
+    <p><strong>实修：</strong>呼吸时想象气息如丝线般细长柔和。身体放松到像婴儿一样柔软——不是"瘫软"，而是"松而不懈、紧而不僵"。</p>
+
+    <div class="quote">
+      <strong>谷神不死，是谓玄牝。玄牝之门，是谓天地根。</strong>
+      <span class="src">——《道德经》第六章</span>
+    </div>
+    <p><strong>蒸馏：</strong>"谷神"——虚怀若谷之神，即先天一气。"玄牝"——玄妙的生殖之门，即丹田。"天地根"——天地之根本。</p>
+    <p><strong>实修：</strong>意守下丹田（玄牝之门），感受呼吸时丹田的开合。吸气时天地之气从丹田入，呼气时浊气从丹田出。久而久之，丹田自然发热，先天一气自生。</p>
+
+    <hr>
+
+    <div class="callout jade">
+      <strong>蒸馏方法：</strong>每部经典选取3-5个核心段落 → 提炼为一句修行要旨 → 转化为一个可操作的法门 → 在打坐中体证 → 记录体证结果。如此循环，经典才能从文字变为生命。<br>
+      <span style="display:block;margin-top:8px;font-size:12px;color:rgba(255,255,255,0.4);">更多经典蒸馏正在整理中，将陆续以 Skill 文件形式输出，方便在 Claude Code 中直接调用。</span>
+    </div>
+  </div>
+
+  <!-- 叁 · Skills 道藏经典 -->
+  <div class="section">
+    <h2>叁 · 道藏经典 Skills</h2>
+    <p>将蒸馏后的经典智慧编写为 Claude Code 可调用的 Skill 文件。每个 Skill 对应一个经典篇章，包含原文、蒸馏、实修指引。</p>
+
+    <div class="grid-2">
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">蒸馏中</span>
+        <div class="title">道德经 · 致虚守静</div>
+        <div class="desc">第十六章核心法门——"致虚极，守静笃"的完整修行指引。含原文、白话、打坐实操步骤。</div>
+      </div>
+      <div class="card border-gold">
+        <span class="tag tag-gold" style="float:right">蒸馏中</span>
+        <div class="title">庄子 · 心斋坐忘</div>
+        <div class="desc">"若一志，无听之以耳而听之以心"——心斋法门的系统拆解与打坐应用。</div>
+      </div>
+      <div class="card border-jade">
+        <span class="tag tag-jade" style="float:right">蒸馏中</span>
+        <div class="title">参同契 · 炼丹火候</div>
+        <div class="desc">乾坤鼎炉、坎离药物、火候进退——周易参同契的修行实操指南。</div>
+      </div>
+      <div class="card border-jade">
+        <span class="tag tag-jade" style="float:right">蒸馏中</span>
+        <div class="title">悟真篇 · 先命后性</div>
+        <div class="desc">紫阳真人"先命后性"法门——从命功入手，以性功了手的完整路径。</div>
+      </div>
+      <div class="card border-cinnabar">
+        <span class="tag tag-cinnabar" style="float:right">已规划</span>
+        <div class="title">清静经 · 遣欲澄心</div>
+        <div class="desc">"人能常清静，天地悉皆归"——清静经的日用修行法门。</div>
+      </div>
+      <div class="card border-cinnabar">
+        <span class="tag tag-cinnabar" style="float:right">已规划</span>
+        <div class="title">阴符经 · 天人合发</div>
+        <div class="desc">"观天之道，执天之行"——阴符经的核心修行智慧与应用。</div>
+      </div>
+    </div>
+
+    <div class="callout gold">
+      <strong>如何调用：</strong>在 Claude Code 中输入 <code style="color:var(--gold-light);">/dao-cultivation-[skill-name]</code> 即可加载对应经典的法门。<br>
+      <span style="display:block;margin-top:6px;font-size:12px;color:rgba(255,255,255,0.4);">Skills 持续开发中，每次完成蒸馏即同步更新。</span>
+    </div>
+  </div>
+
+  <!-- 肆 · 实修对照 -->
+  <div class="section">
+    <h2>肆 · 道藏对照 · 经典印证</h2>
+    <p>将打坐中的实际体验，与道藏经典相互印证。让经典不再遥远，让实修有据可依。</p>
+
+    <div class="card border-gold">
+      <div class="title">体验：丹田发热 → 经典：《参同契》"金华凝丹"</div>
+      <div class="desc">
+        第三座中丹田温热感，对应《参同契》"金华凝丹"之象。魏伯阳说："金来归性初，乃得称还丹。"——金华（先天一气）凝于丹田，是炼丹的基础。重要的是不执着于热感本身，而是"知而不守"。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <div class="title">体验：气冲病灶 → 经典：《悟真篇》"群阴剥尽丹成熟"</div>
+      <div class="desc">
+        第四座膝盖刺痛，正是"气冲病灶"。张伯端说："群阴剥尽丹成熟。"——身体中的旧疾、积郁，都是"阴"，气功运行时自然剥除。这是好现象，不是坏现象。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <div class="title">体验：光明现前 → 经典：《太乙金华宗旨》"回光守中"</div>
+      <div class="desc">
+        第五座眼前光明，吕祖说这是"金华"初现。但强调"回光守中"——不是追逐光明，而是回到中宫（丹田）守静。光明只是过程的副产品，不是目的。执着于光，就偏离了道。
+      </div>
+    </div>
+
+    <div class="card border-gold">
+      <div class="title">体验：梦中觉知 → 经典：《庄子》"至人无梦"</div>
+      <div class="desc">
+        第六座梦中修行的体验，印证庄子"至人无梦"的真义——不是不做梦，而是梦中亦觉。这其实就是"醒梦一如"的初步功夫。继续精进，可达"炼神还虚"。
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="callout jade">
+      <strong>印证之法：</strong>每次打坐后记录体感 → 查阅相关经典段落 → 对比印证 → 调整方法。如此循环，经典不再只是文字，而是活生生的修行指南。<br>
+      <span style="display:block;margin-top:8px;font-size:12px;color:rgba(255,255,255,0.4);">"纸上得来终觉浅，绝知此事要躬行。"——陆游</span>
+    </div>
+  </div>
+
+  <!-- 伍 · 修行路径总览 -->
+  <div class="section">
+    <h2>伍 · 六阶段修行路径</h2>
+    <p>从入门到成就，道商修行的完整路径——每一阶段都是真实的体证，不是理论推演。</p>
+
+    <div class="grid-2">
+      <div class="card border-gold">
+        <div class="meta">壹 · 信</div>
+        <div class="title">信静敬 · 入门筑基</div>
+        <div class="desc">信为道源功德母。从"信"开始——信自己能修、信道不欺人。以静坐调息为日课，以敬天爱人为心法。30小时基础打底。</div>
+      </div>
+      <div class="card border-gold">
+        <div class="meta">贰 · 勤</div>
+        <div class="title">精勤诚 · 实修实证</div>
+        <div class="desc">日行一善，日坐一座。精进不是苦修，是"朝于斯、夕于斯"的持续。诚其意者，毋自欺也——如实记录每一座的感受。</div>
+      </div>
+      <div class="card border-gold">
+        <div class="meta">叁 · 和</div>
+        <div class="title">和义智 · 和合共生</div>
+        <div class="desc">修行的效果开始体现在生活中：与人相处更和顺、决策更明智、气脉更通畅。身心合一，人我合一。</div>
+      </div>
+      <div class="card border-gold">
+        <div class="meta">肆 · 舍</div>
+        <div class="title">空舍慈 · 无我利他</div>
+        <div class="desc">放下"我"的执着——不是没有"我"，而是"我"不再是一切的中心。慈悲心自然生起，利他成为本能。</div>
+      </div>
+      <div class="card border-gold">
+        <div class="meta">伍 · 道</div>
+        <div class="title">道德天 · 天人合一</div>
+        <div class="desc">道法自然，德行天下。此时修行者已能感知天地能量——打坐不再是"做功夫"，而是"与道同行"。</div>
+      </div>
+      <div class="card border-gold">
+        <div class="meta">陆 · 传</div>
+        <div class="title">行传承 · 悟后起修</div>
+        <div class="desc">真正的修行是行出来的——将自己的体证传递给更多人。这正是"道商修行者"的使命：以道御商，以商传道。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back">
+    <a href="../../index.html#pj-dao">← 返回道家打坐教练</a>
+    <span style="color:rgba(255,255,255,0.2);margin:0 10px;">|</span>
+    <a href="../index.html">打坐实证评点 →</a>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div style="margin-bottom:4px;">修道记 · 打坐纪要</div>
+  杨辉 Ken Yang · 道商修行者 · 实修实证<br>
+  <span style="font-size:12px;">以身为鼎，以心为炉，以气为药</span>
+</div>
+
+</body>
+</html>
