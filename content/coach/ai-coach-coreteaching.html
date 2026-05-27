@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教练的核心意义与AI协同 · 修炼即教练 · AI教练觉修三部曲</title>
+<style>
+:root {
+  --ink: #1a1714;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gold-dark: #8b6914;
+  --cinnabar: #a63a2e;
+  --jade: #4a7c59;
+  --cream: #f5f0e6;
+  --cream-dark: #e8e0d0;
+  --paper: #faf6ef;
+  --void: #0d0c0a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--void);
+  color: var(--cream);
+  font-family: 'Noto Serif SC', serif;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(74,124,89,0.05) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 10px 40px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(13,12,10,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+nav .brand {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+nav .nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+nav .nav-links a {
+  color: var(--cream-dark);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+  opacity: 0.7;
+}
+nav .nav-links a:hover { color: var(--gold); opacity: 1; }
+nav .en {
+  display: block;
+  font-size: 0.72em;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 40px 80px;
+  z-index: 1;
+}
+.hero-subtitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  opacity: 0.75;
+}
+.hero h1 {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--cream);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  margin-bottom: 28px;
+}
+.hero h1 em { color: var(--gold); font-style: normal; }
+.hero-divider {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 28px;
+}
+.hero-desc {
+  max-width: 720px;
+  font-size: 0.95rem;
+  color: var(--cream-dark);
+  opacity: 0.65;
+  line-height: 2.1;
+  margin-bottom: 64px;
+}
+.hero-core {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 32px 48px;
+  margin-bottom: 40px;
+}
+.hero-core-formula {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 2.2rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+.hero-core-label {
+  font-size: 0.72rem;
+  color: var(--gold);
+  opacity: 0.6;
+  letter-spacing: 0.2em;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  font-size: 0.75rem;
+  color: var(--gold);
+  opacity: 0.5;
+  letter-spacing: 0.1em;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.55;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.6rem;
+  color: var(--cream);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-divider {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+.section-divider hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.18), transparent);
+}
+.section-divider-label {
+  text-align: center;
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  opacity: 0.15;
+  margin-top: -12px;
+  background: var(--void);
+  display: inline-block;
+  padding: 0 20px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.core-quote-box {
+  background: linear-gradient(135deg, rgba(201,168,76,0.07), rgba(166,58,46,0.04));
+  border: 1px solid rgba(201,168,76,0.22);
+  border-radius: 4px;
+  padding: 40px 48px;
+  margin: 0 auto 48px;
+  max-width: 860px;
+  text-align: center;
+  position: relative;
+}
+.core-quote-box::before {
+  content: '「';
+  position: absolute;
+  top: -16px;
+  left: 28px;
+  font-size: 3.5rem;
+  color: var(--gold);
+  opacity: 0.15;
+  font-family: 'Ma Shan Zheng', serif;
+  line-height: 1;
+}
+.core-quote-main {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.5rem;
+  color: var(--gold-light);
+  letter-spacing: 0.08em;
+  line-height: 2;
+  margin-bottom: 12px;
+}
+.core-quote-sub {
+  font-size: 0.85rem;
+  color: var(--cream-dark);
+  opacity: 0.65;
+  line-height: 1.9;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.card {
+  background: rgba(245,240,230,0.03);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 4px;
+  padding: 28px 24px;
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.card:hover {
+  border-color: rgba(201,168,76,0.28);
+  transform: translateY(-3px);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0.35;
+}
+.card-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.28);
+  padding: 2px 10px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+.card-title {
+  font-size: 0.95rem;
+  color: var(--cream);
+  margin-bottom: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--cream-dark);
+  opacity: 0.62;
+  line-height: 1.9;
+}
+.card-quote {
+  font-size: 0.75rem;
+  color: var(--gold-light);
+  opacity: 0.7;
+  font-style: italic;
+  padding-left: 12px;
+  border-left: 1px solid rgba(201,168,76,0.28);
+  line-height: 1.75;
+  margin-top: 12px;
+}
+
+.three-pillar-section {
+  background: rgba(201,168,76,0.03);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 4px;
+  padding: 48px 40px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+.three-pillar-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  opacity: 0.7;
+  text-align: center;
+  margin-bottom: 28px;
+}
+.three-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.pillar {
+  text-align: center;
+  padding: 24px 16px;
+  border: 1px solid rgba(201,168,76,0.08);
+  border-radius: 3px;
+  background: rgba(201,168,76,0.02);
+}
+.pillar-num {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 2.5rem;
+  color: var(--gold);
+  opacity: 0.2;
+  display: block;
+  margin-bottom: 8px;
+}
+.pillar-title {
+  font-size: 0.9rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  margin-bottom: 4px;
+}
+.pillar-sub {
+  font-size: 0.68rem;
+  color: var(--cream-dark);
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.pillar-desc {
+  font-size: 0.8rem;
+  color: var(--cream-dark);
+  opacity: 0.7;
+  line-height: 1.85;
+}
+.pillar-quote {
+  font-size: 0.72rem;
+  color: var(--gold-light);
+  opacity: 0.65;
+  font-style: italic;
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 0 auto 48px;
+  max-width: 800px;
+}
+.topic-chip {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 3px;
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--cream-dark);
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+.topic-chip:hover {
+  background: rgba(201,168,76,0.1);
+  border-color: rgba(201,168,76,0.35);
+  color: var(--gold);
+}
+
+.insight-box {
+  background: linear-gradient(135deg, rgba(74,124,89,0.1), rgba(201,168,76,0.05));
+  border: 1px solid rgba(74,124,89,0.25);
+  border-radius: 4px;
+  padding: 32px 36px;
+  margin: 0 auto 48px;
+  max-width: 860px;
+  position: relative;
+}
+.insight-box-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: var(--jade);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.insight-box-label::before { content: '◆'; font-size: 0.48rem; }
+.insight-box p {
+  font-size: 0.9rem;
+  color: var(--cream-dark);
+  line-height: 2;
+  opacity: 0.85;
+}
+.insight-box strong { color: var(--gold); font-weight: 600; }
+
+.question-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+.question-section h2 {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.3rem;
+  color: var(--cream);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.question-item {
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  padding: 24px 0;
+}
+.question-item .q {
+  font-size: 0.9rem;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  line-height: 1.7;
+}
+.question-item .q::before {
+  content: 'Q';
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 2px 7px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.question-item .a {
+  font-size: 0.85rem;
+  color: var(--cream-dark);
+  opacity: 0.72;
+  line-height: 1.9;
+  padding-left: 30px;
+}
+
+.conclusion-section {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 40px 120px;
+  text-align: center;
+}
+.conclusion-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  opacity: 0.55;
+  margin-bottom: 36px;
+}
+.conclusion-section h2 {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.7rem;
+  color: var(--cream);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  margin-bottom: 56px;
+}
+.conclusion-statements {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 72px;
+}
+.conclusion-item {
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 4px;
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+}
+.conclusion-item-num {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 2.4rem;
+  color: var(--gold);
+  opacity: 0.18;
+  position: absolute;
+  top: 10px;
+  right: 14px;
+}
+.conclusion-item-title {
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  margin-bottom: 14px;
+}
+.conclusion-item-content {
+  font-size: 0.85rem;
+  color: var(--cream);
+  line-height: 2;
+  opacity: 0.82;
+}
+.conclusion-quote {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.1rem;
+  color: var(--cream-dark);
+  opacity: 0.45;
+  letter-spacing: 0.1em;
+  line-height: 2.2;
+  max-width: 580px;
+  margin: 0 auto 28px;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 36px 40px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  font-size: 0.7rem;
+  color: var(--cream-dark);
+  opacity: 0.3;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .three-pillars { grid-template-columns: 1fr; }
+  .conclusion-statements { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav>
+  <div class="brand">道 马<span class="en">Dao Ma</span></div>
+  <ul class="nav-links">
+    <li><a href="https://ai.coachclon.top/coach">教练主页<span class="en">Coaching</span></a></li>
+    <li><a href="https://ai.coachclon.top/coach/使命驱动.html">使命驱动<span class="en">Mission</span></a></li>
+    <li><a href="https://ai.coachclon.top/dao">修行网站<span class="en">Cultivation</span></a></li>
+    <li><a href="#insight">核心理念<span class="en">Core Insight</span></a></li>
+    <li><a href="#ai-system">AI教练<span class="en">AI System</span></a></li>
+    <li><a href="#questions">思考问题<span class="en">Questions</span></a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-subtitle">龙虾杨教练 × 道虾 · 2026年5月26日<span class="en">Yang Hui (Dragon Lobster Coach) × Dao Xia · May 26, 2026</span></div>
+  <h1>教练 = 修炼<span class="en">Coaching = Cultivation</span><br><em>教练的核心意义与AI协同</em></h1>
+  <div class="hero-divider"></div>
+
+  <!-- 核心公式 -->
+  <div class="hero-core">
+    <div class="hero-core-formula">🦞 教练 = 修炼 = 觉修的通道</div>
+    <div class="hero-core-label">人人都是教练 · 人人都需要教练 · AI放大协同<span class="en">Everyone is a coach · Everyone needs a coach · AI amplifies collaboration</span></div>
+  </div>
+
+  <p class="hero-desc">
+    教练不是某个专家的专利，而是每个人本自具足的能力。<br>
+    在AI的协同下，教练他人的知识和专业瓶颈被突破——这才是教练的核心意义。
+    <span class="en">
+      Coaching is not the monopoly of experts — it is every person's innate capacity.<br>
+      With AI as a collaborator, the knowledge barriers and professional bottlenecks that limit coaches are broken. This is the true meaning of coaching.
+    </span>
+  </p>
+
+  <div class="hero-meta">
+    <span>觉修通道<span class="en">Path of awakening</span></span><span>·</span>
+    <span>AI协同放大<span class="en">AI amplified</span></span><span>·</span>
+    <span>内容×获客×交付<span class="en">Content × Acquisition × Delivery</span></span><span>·</span>
+    <span>主题无限<span class="en">Infinite themes</span></span>
+  </div>
+</section>
+
+<div class="section-divider"><hr><div class="section-divider-label">▼</div></div>
+
+<!-- 核心理念 -->
+<section class="section" id="insight">
+  <div class="section-label">核心理念<span class="en">Core insight</span></div>
+  <div class="section-title">人人都是教练，人人都需要教练<span class="en">Everyone Is a Coach, Everyone Needs a Coach</span></div>
+
+  <!-- 核心金句 -->
+  <div class="core-quote-box">
+    <div class="core-quote-main">
+      觉察自己，帮助他人，<br>让更多人帮助更多人，<br>让人生修行变得更有意义。
+    </div>
+    <div class="core-quote-sub">
+      教练的底层价值 = 修行的实施路径。<br>
+      教练不是职业，是觉修的通道——把觉知带入生活、在利他中实证修行。
+    </div>
+  </div>
+
+  <!-- 四个维度 -->
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-tag">维度①<span class="en">Dimension ①</span></div>
+      <div class="card-title">打破权威迷信<span class="en">Breaking authority bias</span></div>
+      <div class="card-desc">"人人都是教练"的核心是：教练不是某个专家的专利，而是每个人本自具足的能力。只是需要觉知和练习。</div>
+      <div class="card-quote">觉醒不是少数人的特权，是每个人本有的权利</div>
+    </div>
+    <div class="card">
+      <div class="card-tag">维度②<span class="en">Dimension ②</span></div>
+      <div class="card-title">觉修的通道<span class="en">Path of awakening practice</span></div>
+      <div class="card-desc">教练 = 觉修的通道。觉察自己、帮助他人，让修行在生活中落地。不需要逃世，在红尘中觉他、觉自、觉心。</div>
+      <div class="card-quote">修行的入手处，在每一个念头，也在每一次陪伴他人的当下</div>
+    </div>
+    <div class="card">
+      <div class="card-tag">维度③<span class="en">Dimension ③</span></div>
+      <div class="card-title">AI放大协同<span class="en">AI amplifies collaboration</span></div>
+      <div class="card-desc">在AI协同下，教练他人的知识和专业瓶颈被突破。AI不能替代真实的生命体验，但可以放大觉知的能力和服务的规模。</div>
+      <div class="card-quote">AI放大的是工具，觉知放大的才是生命</div>
+    </div>
+    <div class="card">
+      <div class="card-tag">维度④<span class="en">Dimension ④</span></div>
+      <div class="card-title">利他是核心意义<span class="en">Benefiting others is the core</span></div>
+      <div class="card-desc">教练的终极意义，是通过觉知他人的过程觉知自己，通过帮助他人的过程实证修行。生命影响生命，才是教练最不可替代的价值。</div>
+      <div class="card-quote">自度度他——教练他人的过程，也是自修实证的过程</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr><div class="section-divider-label">▼</div></div>
+
+<!-- AI教练体系 -->
+<section class="section" id="ai-system">
+  <div class="section-label">AI教练协同体系<span class="en">AI coaching system</span></div>
+  <div class="section-title">AI教练 = 内容 × 获客 × 交付 三部曲闭环<span class="en">AI Coach = Content × Acquisition × Delivery closed loop</span></div>
+
+  <!-- 三部曲 -->
+  <div class="three-pillar-section">
+    <div class="three-pillar-label">AI教练 · 三部曲<span class="en">AI Coach · Three-act loop</span></div>
+    <div class="three-pillars">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <div class="pillar-title">内 容<span class="en">Content</span></div>
+        <div class="pillar-sub">第一步：建立专业内容体系</div>
+        <div class="pillar-desc">用AI构建知识库、生成内容、提炼教练方法论。把觉知体系化、让经验可复制。内容是AI教练的第一部，也是获客的根基。</div>
+        <div class="pillar-quote">内容 = 觉知的显化，AI = 放大器</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <div class="pillar-title">获 客<span class="en">Acquisition</span></div>
+        <div class="pillar-sub">第二步：AI放大触达规模</div>
+        <div class="pillar-desc">AI驱动的精准获客：内容分发、私域运营、精准触达、AI智能客服。打破时间和地域限制，让需要教练的人找到你。</div>
+        <div class="pillar-quote">AI让好教练被更多人看见</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <div class="pillar-title">交 付<span class="en">Delivery</span></div>
+        <div class="pillar-sub">第三步：AI辅助教练过程</div>
+        <div class="pillar-desc">AI辅助诊断、跟进提醒、记录分析、个性化方案生成。教练的核心——觉知与陪伴——由人完成；重复性工作由AI承担。</div>
+        <div class="pillar-quote">AI做加法，教练做乘法</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 教练主题 -->
+  <div class="section-title" style="margin-top: 56px; font-size: 1.2rem;">教练主题：无限广阔<span class="en">Coaching themes: infinitely broad</span></div>
+  <div class="topics-grid">
+    <div class="topic-chip">亲子关系</div>
+    <div class="topic-chip">身心健康</div>
+    <div class="topic-chip">婚姻情感</div>
+    <div class="topic-chip">事业发展</div>
+    <div class="topic-chip">财富增长</div>
+    <div class="topic-chip">修行觉知</div>
+    <div class="topic-chip">心智模式</div>
+    <div class="topic-chip">代际传承</div>
+  </div>
+
+  <!-- AI洞察 -->
+  <div class="insight-box">
+    <div class="insight-box-label">关键洞察<span class="en">Key insight</span></div>
+    <p>在AI的协同下，教练他人的<strong>知识壁垒</strong>和<strong>专业瓶颈</strong>都会被突破。过去一个好教练需要十年磨一剑，现在AI可以补上知识和方法论的短板。<br><br>
+    人的核心价值变成：<strong>陪伴、觉察、激发</strong>——这恰恰是修行者的长板。生命影响生命，才是教练最不可替代的价值。</p>
+  </div>
+</section>
+
+<div class="section-divider"><hr><div class="section-divider-label">▼</div></div>
+
+<!-- 思考问题 -->
+<section class="question-section" id="questions">
+  <h2>值得深入探讨的问题<span class="en">Questions worth exploring deeper</span></h2>
+  <div class="question-item">
+    <div class="q">AI时代，专业壁垒被打破后，教练最核心不可替代的价值是什么？</div>
+    <div class="a">是真实的生命体验和觉知。AI可以复制知识和方法，但无法复制一个经历过真实困境、从困境中走出来的人的温度。教练本身就是一个生命影响生命的过程——这份真实，是AI无法替代的。</div>
+  </div>
+  <div class="question-item">
+    <div class="q">"觉修通道"这个定位，如何落地到具体的产品/课程设计？</div>
+    <div class="a">把"觉"和"修"做成产品闭环：觉知体验（沙龙/工作坊）→ 修行的实践路径（课程体系）→ AI辅助跟进（数字员工）。三层设计，让学员从"知道"到"做到"到"得到"。</div>
+  </div>
+  <div class="question-item">
+    <div class="q">教练的主题无限，哪些主题最适合自己的修行路径？</div>
+    <div class="a">回到自己最真实、最有感受的领域。你经历过的，才是你能觉他、教练他的。修行越深，越能在万象中提炼大道规律，教练的主题自然从具体到抽象，从技巧到心性。</div>
+  </div>
+</section>
+
+<!-- 结论 -->
+<div class="conclusion-section">
+  <div class="conclusion-label">结语 · 三句真言<span class="en">Conclusion · Three maxims</span></div>
+  <h2>教练即修炼，觉修即利他，AI放大协同<span class="en">Coaching is cultivation · Awakening through practice · AI amplifies all</span></h2>
+
+  <div class="conclusion-statements">
+    <div class="conclusion-item">
+      <div class="conclusion-item-num">一</div>
+      <div class="conclusion-item-title">人人本自具足<span class="en">Everyone already has it</span></div>
+      <div class="conclusion-item-content">教练不是某个专家的专利，是每个人本自具足的能力。觉察自己，帮助他人，让更多人帮助更多人。</div>
+    </div>
+    <div class="conclusion-item">
+      <div class="conclusion-item-num">二</div>
+      <div class="conclusion-item-title">AI放大觉知<span class="en">AI amplifies awareness</span></div>
+      <div class="conclusion-item-content">AI教练 = 内容 × 获客 × 交付，课程完成闭环。和AI一起教练更多的人，突破专业瓶颈。</div>
+    </div>
+    <div class="conclusion-item">
+      <div class="conclusion-item-num">三</div>
+      <div class="conclusion-item-title">利他是唯一路<span class="en">Benefiting others is the only road</span></div>
+      <div class="conclusion-item-content">教练 = 修炼 = 觉修的通道。生命影响生命，在觉他中觉自，在利他中实证修行。</div>
+    </div>
+  </div>
+
+  <div class="conclusion-quote">
+    教练即修炼，AI放大觉知，觉修即利他。<br>
+    人人本自具足，人人可以觉他利他。
+  </div>
+  <a href="https://ai.coachclon.top/coach" class="conclusion-cta" style="display:inline-flex;align-items:center;gap:10px;padding:13px 32px;border:1px solid rgba(201,168,76,0.38);color:var(--gold);text-decoration:none;font-size:0.78rem;letter-spacing:0.2em;border-radius:2px;transition:all 0.3s;margin-top:16px;">↑ 返回教练主页<span class="en">Back to Coaching Home</span></a>
+</div>
+
+<footer>
+  教练的核心意义与AI协同 · 龙虾杨教练 × 道虾 · 2026年5月26日<br>
+  <span class="en">The Core Meaning of Coaching and AI Collaboration · Yang Hui (Dragon Lobster Coach) × Dao Xia · May 26, 2026</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.section, .card, .pillar, .question-item, .conclusion-item, .hero-core').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
