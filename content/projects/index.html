@@ -14,6 +14,8 @@
   --text-muted: #7a7568;
   --ease-smooth: cubic-bezier(0.25,0.46,0.45,0.94);
   --sidebar-w: 220px;
+  --magenta: #E91E8C; --teal: #00695C; --cyan: #4DD0E1;
+  --violet: #7E57C2; --ochre: #FFCA28; --brown: #8D6E63;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -136,6 +138,101 @@ body::before {
 .card.border-green { border-left:3px solid #6bcf9a; }
 .card.border-cyan { border-left:3px solid #50d0d0; }
 
+/* ── Infographic ── */
+.infographic {
+  width:480px; height:640px;
+  background:#E5E5E5; position:relative; overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:12px; flex-shrink:0;
+}
+.infographic::before {
+  content:''; position:absolute; inset:0;
+  background-image:linear-gradient(rgba(0,0,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.03) 1px,transparent 1px);
+  background-size:40px 40px; pointer-events:none; z-index:1;
+}
+.infographic .header {
+  grid-column:1/-1; background:#000; padding:16px 18px; position:relative; z-index:2;
+}
+.infographic .header h1 { color:#fff; font-size:18px; font-weight:900; letter-spacing:1px; }
+.infographic .header .subtitle { color:#FFCA28; font-size:10px; margin-top:3px; }
+.infographic .header .tag { display:inline-block; background:rgba(255,255,255,0.08); color:#bbb; font-size:8px; padding:1px 7px; border-radius:10px; margin-right:4px; margin-top:4px; }
+.infographic .module { background:#fff; position:relative; z-index:2; padding:10px 12px; display:flex; flex-direction:column; overflow:hidden; }
+.infographic .module.span2 { grid-column:1/-1; }
+.infographic .module-header { font-size:8px; font-weight:900; letter-spacing:0.5px; padding:3px 7px; margin-bottom:5px; display:inline-block; align-self:flex-start; line-height:1.3; }
+.infographic .module-header.magenta { background:var(--magenta); color:#fff; }
+.infographic .module-header.teal { background:var(--teal); color:#fff; }
+.infographic .module-header.cyan { background:var(--cyan); color:#000; }
+.infographic .module-header.violet { background:var(--violet); color:#fff; }
+.infographic .module-header.ochre { background:var(--ochre); color:#000; }
+.infographic .module-header.brown { background:var(--brown); color:#fff; }
+.infographic .module-header.black { background:#000; color:#fff; }
+.infographic .module-content p,.infographic .module-content li { font-size:8px; line-height:1.5; color:#333; }
+.infographic .module-content ul { list-style:none; padding:0; }
+.infographic .module-content li { margin-bottom:2px; }
+.infographic .module-content li::before { content:"▸ "; color:var(--magenta); }
+.infographic .data-row { display:flex; justify-content:space-between; padding:2px 0; border-bottom:1px solid #eee; font-size:8px; }
+.infographic .data-row .label { color:#666; }
+.infographic .data-row .value { color:#000; font-weight:700; }
+.infographic .data-row .value.magenta { color:var(--magenta); }
+.infographic .data-row .value.green { color:var(--teal); }
+.infographic .data-row .value.gold { color:var(--gold-dark); }
+.infographic .columns-2 { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:3px; }
+.infographic .columns-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; margin-top:3px; }
+.infographic .scenario-card { background:#f5f5f5; padding:5px; text-align:center; border-top:2px solid #ccc; }
+.infographic .scenario-card.cons { border-top-color:var(--magenta); }
+.infographic .scenario-card.base { border-top-color:var(--teal); }
+.infographic .scenario-card.opt { border-top-color:var(--ochre); }
+.infographic .scenario-card .title { font-size:8px; color:#666; }
+.infographic .scenario-card .number { font-size:11px; font-weight:900; margin:1px 0; }
+.infographic .scenario-card .note { font-size:7px; color:#999; }
+.infographic .weight-bar { display:flex; align-items:center; gap:4px; margin:2px 0; font-size:8px; }
+.infographic .weight-bar .bar-bg { flex:1; height:8px; background:#eee; border-radius:4px; overflow:hidden; }
+.infographic .weight-bar .bar-fill { height:100%; border-radius:4px; }
+.infographic .footer-note { grid-column:1/-1; background:#000; color:rgba(255,255,255,0.4); font-size:7px; padding:6px 12px; z-index:2; text-align:center; }
+@media(max-width:1020px){ .infographic { width:100%; height:auto; aspect-ratio:3/4; } }
+/* ── Report / KPI / Risk ── */
+.report-section { margin:40px 0; }
+.report-section h2 { color:var(--gold); font-size:1.1rem; border-left:3px solid var(--gold); padding-left:14px; margin-bottom:18px; }
+.report-section h3 { color:var(--gold-light); font-size:0.95rem; margin-bottom:10px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:700px){ .three-col { grid-template-columns:1fr; } }
+.kpi-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.kpi-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:10px; padding:14px 20px; text-align:center; min-width:110px; flex:1; }
+.kpi-card .num { font-size:1.4rem; font-weight:900; color:var(--gold); }
+.kpi-card .num.magenta { color:var(--magenta); }
+.kpi-card .num.green { color:var(--cyan); }
+.kpi-card .label { font-size:0.75rem; color:var(--text-muted); margin-top:2px; }
+.risk-matrix { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.risk-cell { background:rgba(255,255,255,0.03); border-radius:10px; padding:12px 16px; border-left:3px solid #666; }
+.risk-cell.high { border-left-color:var(--magenta); }
+.risk-cell.med { border-left-color:var(--ochre); }
+.risk-cell.low { border-left-color:#4CAF50; }
+.risk-cell .r-title { font-size:0.9rem; color:var(--gold-light); }
+.risk-cell .r-desc { font-size:0.8rem; color:var(--text-muted); }
+.risk-cell .r-tag { display:inline-block; font-size:0.7rem; padding:1px 8px; border-radius:10px; margin-top:4px; }
+.risk-cell .r-tag.high { background:rgba(233,30,140,0.15); color:var(--magenta); }
+.risk-cell .r-tag.med { background:rgba(255,202,40,0.15); color:var(--ochre); }
+.risk-cell .r-tag.low { background:rgba(76,175,80,0.15); color:#4CAF50; }
+.risk-cell .r-strat { font-size:0.78rem; color:var(--cream); margin-top:4px; }
+.timeline { display:flex; gap:0; margin:16px 0; }
+.timeline-phase { flex:1; text-align:center; padding:10px 8px; border-top:3px solid #444; position:relative; }
+.timeline-phase::before { content:''; position:absolute; top:-6px; left:50%; width:10px; height:10px; border-radius:50%; background:#444; transform:translateX(-50%); }
+.timeline-phase.phase-1 { border-top-color:var(--magenta); }
+.timeline-phase.phase-1::before { background:var(--magenta); }
+.timeline-phase.phase-2 { border-top-color:var(--teal); }
+.timeline-phase.phase-2::before { background:var(--teal); }
+.timeline-phase.phase-3 { border-top-color:var(--gold); }
+.timeline-phase.phase-3::before { background:var(--gold); }
+.timeline-phase .phase-label { font-size:0.8rem; color:var(--text-muted); }
+.timeline-phase .phase-year { font-size:1rem; font-weight:700; color:var(--cream); }
+.alert-box { background:rgba(166,58,46,0.08); border:1px solid rgba(166,58,46,0.25); border-radius:10px; padding:14px 18px; margin:12px 0; font-size:0.86rem; color:var(--cream); }
+.alert-box strong { color:var(--gold-light); }
+.shape-1 { position:absolute; top:40px; right:20px; width:60px; height:60px; background:rgba(78,205,225,0.12); border-radius:50%; z-index:0; }
+.shape-2 { position:absolute; bottom:100px; left:10px; width:40px; height:40px; background:rgba(126,87,194,0.10); border-radius:40% 60% 30% 70%; transform:rotate(15deg); z-index:0; }
+.shape-3 { position:absolute; top:280px; left:40%; width:80px; height:28px; background:rgba(255,202,40,0.08); border-radius:14px; transform:rotate(-8deg); z-index:0; }
+.section-nav { position:sticky; top:0; z-index:10; background:rgba(13,12,10,0.95); backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,0.05); padding:8px 0; overflow-x:auto; }
+.section-nav a { color:var(--text-muted); text-decoration:none; font-size:0.78rem; padding:6px 12px; white-space:nowrap; display:inline-block; }
+.section-nav a:hover { color:var(--gold); }
 /* ── Back Link ── */
 .back-link {
   display:inline-flex; align-items:center; gap:6px;
@@ -376,13 +473,566 @@ footer {
 <!-- ═══════ 出海投资 ═══════ -->
 <section class="section" id="overseas">
   <h2>🌏 出海投资与国际化项目</h2>
-  <p class="sub-desc">澳洲布局与全球化投资机会</p>
-  <div class="grid-2">
+  <p class="sub-desc">澳洲布局与全球化投资机会 — 墨尔本胶囊酒店投资可行性全景分析</p>
+
+  <!-- 快速概览卡片 -->
+  <div class="grid-2" style="margin-bottom:24px;">
     <div class="card border-purple">
       <span class="tag tag-purple">澳洲</span>
       <div class="title">墨尔本胶囊酒店投资可行性分析</div>
       <div class="desc">悦洋NIV项目 · 澳洲布局第一步。AI独立调研报告，含市场分析、投资测算、奥运红利、风险分析。</div>
-      <div class="links"><a href="capsule-hotel-melbourne.html">→ 查看完整报告</a></div>
+    </div>
+    <div class="card gold">
+      <div class="title">📊 核心指标一览</div>
+      <div class="desc">
+        80 胶囊舱位 | 基准年收入 AU$92万 | 初始投资 $90-130万<br>
+        回收期 3-3.5年 | IRR 18-22% | EBITDA率 40%
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Nav -->
+  <nav class="section-nav">
+    <a href="#ch-visual">📊 信息图</a>
+    <a href="#ch-exec">📋 执行摘要</a>
+    <a href="#ch-market">🏙️ 市场分析</a>
+    <a href="#ch-financial">💰 财务模型</a>
+    <a href="#ch-opportunity">📌 机会矩阵</a>
+    <a href="#ch-risk">⚠️ 风险评估</a>
+    <a href="#ch-strategy">🎯 战略建议</a>
+  </nav>
+
+  <!-- ====== INFOGRAPHICS ====== -->
+  <div style="margin:24px 0;" id="ch-visual">
+    <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px;border-left:3px solid var(--gold);padding-left:14px;">信息总览</h3>
+    <div class="infographic-wrap" style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+
+      <!-- 图1：投资全景 -->
+      <div class="infographic">
+        <div class="shape-1"></div><div class="shape-2"></div><div class="shape-3"></div>
+        <div class="header">
+          <h1>墨尔本胶囊酒店 · 投资可行性全景分析</h1>
+          <div class="subtitle">悦洋NIV项目 ｜ 80床位 ｜ 首站墨尔本 ｜ 扩展布里斯班2032</div>
+          <div><span class="tag">📍 墨尔本</span><span class="tag">🏨 胶囊酒店</span><span class="tag">💰 投资分析</span></div>
+        </div>
+        <div class="module" style="grid-row:span 1;">
+          <div class="module-header cyan">01 项目定位</div>
+          <div class="module-content"><ul><li>韩国合作方主导商业设计与供应链</li><li>悦洋团队负责澳洲本地运营落地</li><li>墨尔本验证 → 布里斯班2032扩展</li><li>亚太青年文化聚落品牌定位</li></ul></div>
+        </div>
+        <div class="module">
+          <div class="module-header magenta">02 市场数据</div>
+          <div class="module-content">
+            <div class="data-row"><span class="label">全球胶囊酒店CAGR</span><span class="value magenta">8.8%</span></div>
+            <div class="data-row"><span class="label">墨尔本酒店房间总数</span><span class="value">27,890间</span></div>
+            <div class="data-row"><span class="label">酒店入住率</span><span class="value">73-77%</span></div>
+            <div class="data-row"><span class="label">新供给增速(2025)</span><span class="value gold">+1.3%</span></div>
+            <div class="data-row"><span class="label">澳洲hostel市场CAGR</span><span class="value">9.7%</span></div>
+          </div>
+        </div>
+        <div class="module span2" style="grid-row:span 1;">
+          <div class="module-header black">03 财务核心指标</div>
+          <div class="module-content">
+            <div class="columns-3">
+              <div class="scenario-card cons"><div class="title">保守</div><div class="number" style="color:#E91E8C;">AU$70.1万</div><div class="note">入住率60%</div></div>
+              <div class="scenario-card base"><div class="title">基准</div><div class="number" style="color:#00695C;">AU$92.0万</div><div class="note">入住率70%</div></div>
+              <div class="scenario-card opt"><div class="title">乐观</div><div class="number" style="color:#C9A84C;">AU$116.8万</div><div class="note">入住率80%</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-around;margin-top:5px;text-align:center;font-size:9px;">
+              <div><strong>初始投资</strong><br><span style="font-weight:900;font-size:13px;">$90-130万</span></div>
+              <div><strong>EBITDA</strong><br><span style="font-weight:900;font-size:13px;">$45-59万</span></div>
+              <div><strong>回收期</strong><br><span style="font-weight:900;font-size:13px;">3-3.5年</span></div>
+              <div><strong>IRR</strong><br><span style="font-weight:900;font-size:13px;">18-22%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-header teal">04 目标客群</div>
+          <div class="module-content">
+            <div class="data-row"><span class="label">🎒 背包客</span><span class="value">$15-30/晚</span></div>
+            <div class="data-row"><span class="label">🎓 学生/研修</span><span class="value">$25-40/晚</span></div>
+            <div class="data-row"><span class="label">💼 商务出差</span><span class="value">$50-70/晚</span></div>
+            <div class="data-row"><span class="label">🚁 FIFO跨城工</span><span class="value">$40-55/晚</span></div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-header violet">05 差异化策略</div>
+          <div class="module-content">
+            <div style="font-size:8px;margin-bottom:4px;"><strong style="color:#7E57C2;">① 位置优先</strong><br>Carlton/Fitzroy/Flinders St</div>
+            <div style="font-size:8px;margin-bottom:4px;"><strong style="color:#7E57C2;">② 教育+住宿</strong><br>语言研修·工作坊·交流活动</div>
+            <div style="font-size:8px;"><strong style="color:#7E57C2;">③ 品牌故事化</strong><br>亚太青年文化聚落 · 社媒传播</div>
+          </div>
+        </div>
+        <div class="module span2">
+          <div class="module-header ochre">06 扩展路线图</div>
+          <div class="module-content">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:700;padding:4px 0;">
+              <span style="color:#E91E8C;">墨尔本 2026</span>
+              <span style="color:#999;">▸▸▸</span>
+              <span style="color:#00695C;">布里斯班 2029-30</span>
+              <span style="color:#999;">▸▸▸</span>
+              <span style="color:#C9A84C;">管理输出 2032+</span>
+            </div>
+            <div style="font-size:8px;color:#666;text-align:center;">首站验证模型 → 奥运红利布局 → 轻资产加盟模式</div>
+          </div>
+        </div>
+        <div class="footer-note">本分析仅供参考，不构成投资建议 ｜ AI独立调研 ｜ 道虾起草 ｜ 2026年5月</div>
+      </div>
+
+      <!-- 图2：财务模型与风险矩阵 -->
+      <div class="infographic">
+        <div class="shape-1"></div><div class="shape-2"></div>
+        <div class="header">
+          <h1>财务推演 &amp; 风险评估</h1>
+          <div class="subtitle">三情景对比 · 敏感性分析 · 风险矩阵 ｜ 80床位墨尔本胶囊酒店</div>
+        </div>
+        <div class="module span2">
+          <div class="module-header magenta">01 三情景收入对比</div>
+          <div class="module-content">
+            <div class="columns-3">
+              <div class="scenario-card cons"><div class="title">保守</div><div class="number" style="color:#E91E8C;">AU$70.1万</div><div class="note">入住率60% · 回收4.5年</div></div>
+              <div class="scenario-card base"><div class="title">基准 ✓</div><div class="number" style="color:#00695C;">AU$92.0万</div><div class="note">入住率70% · 回收3年</div></div>
+              <div class="scenario-card opt"><div class="title">乐观</div><div class="number" style="color:#C9A84C;">AU$116.8万</div><div class="note">入住率80% · 回收2年</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-header cyan">02 收入结构</div>
+          <div class="module-content">
+            <div class="data-row"><span class="label">住宿（核心）</span><span class="value magenta">82%</span></div>
+            <div class="data-row"><span class="label">附加服务</span><span class="value">7%</span></div>
+            <div class="data-row"><span class="label">活动/工作坊</span><span class="value">6%</span></div>
+            <div class="data-row"><span class="label">零售/贩卖</span><span class="value">3%</span></div>
+            <div class="data-row"><span class="label">会员/社群</span><span class="value">2%</span></div>
+            <div style="margin-top:4px;font-size:10px;font-weight:900;text-align:right;">合计 AU$111.9万</div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-header teal">03 成本拆解</div>
+          <div class="module-content">
+            <div class="weight-bar"><span style="width:36px;">租金</span><div class="bar-bg"><div class="bar-fill" style="width:33%;background:#E91E8C;"></div></div><span style="font-size:7px;font-weight:700;">20%</span></div>
+            <div class="weight-bar"><span style="width:36px;">人力</span><div class="bar-bg"><div class="bar-fill" style="width:30%;background:#00695C;"></div></div><span style="font-size:7px;font-weight:700;">18%</span></div>
+            <div class="weight-bar"><span style="width:36px;">OTA佣金</span><div class="bar-bg"><div class="bar-fill" style="width:15%;background:#FFCA28;"></div></div><span style="font-size:7px;font-weight:700;">9%</span></div>
+            <div class="weight-bar"><span style="width:36px;">运营杂项</span><div class="bar-bg"><div class="bar-fill" style="width:12%;background:#7E57C2;"></div></div><span style="font-size:7px;font-weight:700;">7%</span></div>
+            <div class="weight-bar"><span style="width:36px;">维护/折旧</span><div class="bar-bg"><div class="bar-fill" style="width:10%;background:#8D6E63;"></div></div><span style="font-size:7px;font-weight:700;">6%</span></div>
+            <div style="margin-top:4px;font-size:8px;color:#666;text-align:right;">总成本率 ≈ 60% ｜ EBITDA率 ≈ 40%</div>
+          </div>
+        </div>
+        <div class="module span2">
+          <div class="module-header violet">04 敏感性分析</div>
+          <div class="module-content">
+            <div class="columns-2">
+              <div style="background:#fef0f0;padding:5px;text-align:center;"><div style="font-size:8px;color:#666;">入住率 ±10%</div><div style="font-size:12px;font-weight:900;color:#E91E8C;">±$13.1万</div><div style="font-size:7px;color:#999;">收入影响</div></div>
+              <div style="background:#f0f4f0;padding:5px;text-align:center;"><div style="font-size:8px;color:#666;">ADR ±$5</div><div style="font-size:12px;font-weight:900;color:#00695C;">±$10.2万</div><div style="font-size:7px;color:#999;">收入影响</div></div>
+              <div style="background:#fff8e0;padding:5px;text-align:center;"><div style="font-size:8px;color:#666;">租金 ±20%</div><div style="font-size:12px;font-weight:900;color:#C9A84C;">±$4.0万</div><div style="font-size:7px;color:#999;">EBITDA影响</div></div>
+              <div style="background:#f5f0ff;padding:5px;text-align:center;"><div style="font-size:8px;color:#666;">OTA佣金 ±2%</div><div style="font-size:12px;font-weight:900;color:#7E57C2;">±$2.0万</div><div style="font-size:7px;color:#999;">EBITDA影响</div></div>
+            </div>
+            <div style="margin-top:4px;font-size:8px;color:#E91E8C;font-weight:700;text-align:center;">⚡ 入住率是最大杠杆变量</div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-header ochre">05 风险矩阵</div>
+          <div class="module-content" style="font-size:8px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+              <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#f9f9f9;"><span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;"></span>选址 <span style="color:#999;margin-left:auto;">严重</span></div>
+              <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#f9f9f9;"><span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;"></span>市场 <span style="color:#999;margin-left:auto;">高</span></div>
+              <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#f9f9f9;"><span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;"></span>许可 <span style="color:#999;margin-left:auto;">中</span></div>
+              <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#f9f9f9;"><span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;"></span>竞争 <span style="color:#999;margin-left:auto;">中</span></div>
+              <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#f9f9f9;"><span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;"></span>运营 <span style="color:#999;margin-left:auto;">中</span></div>
+              <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#f9f9f9;"><span style="width:6px;height:6px;border-radius:50%;background:#4CAF50;"></span>汇率 <span style="color:#999;margin-left:auto;">低</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-header brown">06 选址权重评分卡</div>
+          <div class="module-content">
+            <div class="weight-bar"><span style="width:55px;">交通枢纽</span><div class="bar-bg"><div class="bar-fill" style="width:60%;background:#E91E8C;"></div></div><span style="font-size:7px;font-weight:700;">30%</span></div>
+            <div class="weight-bar"><span style="width:55px;">大学距离</span><div class="bar-bg"><div class="bar-fill" style="width:50%;background:#00695C;"></div></div><span style="font-size:7px;font-weight:700;">25%</span></div>
+            <div class="weight-bar"><span style="width:55px;">竞争密度</span><div class="bar-bg"><div class="bar-fill" style="width:40%;background:#FFCA28;"></div></div><span style="font-size:7px;font-weight:700;">20%</span></div>
+            <div class="weight-bar"><span style="width:55px;">周边配套</span><div class="bar-bg"><div class="bar-fill" style="width:30%;background:#7E57C2;"></div></div><span style="font-size:7px;font-weight:700;">15%</span></div>
+            <div class="weight-bar"><span style="width:55px;">租金成本</span><div class="bar-bg"><div class="bar-fill" style="width:20%;background:#8D6E63;"></div></div><span style="font-size:7px;font-weight:700;">10%</span></div>
+          </div>
+        </div>
+        <div class="footer-note">本分析仅供参考，不构成投资建议 ｜ AI独立调研 ｜ 2026年5月</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== 执行摘要 ====== -->
+  <div class="report-section" id="ch-exec">
+    <h2>一、执行摘要</h2>
+    <div class="card gold">
+      <h3>📋 项目概述</h3>
+      <p>本项目由韩国合作伙伴发起，已完成初步商业模型设计。本地专业团队评估认为项目具备可行性。项目定位为<strong>"亚太青年文化聚落"</strong>——整合韩国供应链优势（胶囊舱体采购）、悦洋澳洲本地资源与运营能力，在墨尔本打造首个胶囊酒店旗舰店。首个站点选址澳大利亚墨尔本，验证模型成功后计划于2029-30年扩展至布里斯班（2032年奥运会举办城市）。</p>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="num">80</div><div class="label">胶囊舱位</div></div>
+      <div class="kpi-card"><div class="num" style="font-size:1.1rem;">AU$92万</div><div class="label">基准年收入</div></div>
+      <div class="kpi-card"><div class="num" style="font-size:1.1rem;">$90-130万</div><div class="label">初始投资</div></div>
+      <div class="kpi-card"><div class="num">3-3.5年</div><div class="label">回收期</div></div>
+      <div class="kpi-card"><div class="num">18-22%</div><div class="label">IRR</div></div>
+      <div class="kpi-card"><div class="num green">40%</div><div class="label">EBITDA率</div></div>
+    </div>
+    <div class="callout"><strong>🦞 道虾札记：</strong>本分析为第一轮独立调研，基于公开市场数据与行业基准。结果显示墨尔本胶囊酒店市场具备<strong>结构性机会</strong>——位置是核心变量，差异化定价与品牌定位是利润关键。布里斯班奥运红利是中期扩展锚点。建议尽快锁定3个备选物业，建立财务模型的精确输入。</div>
+  </div>
+
+  <!-- ====== 市场深度分析 ====== -->
+  <div class="report-section" id="ch-market">
+    <h2>二、市场深度分析</h2>
+    <div class="card jade">
+      <h3>📊 全球胶囊酒店市场</h3>
+      <table class="data-table">
+        <tr><th>指标</th><th>数据</th></tr>
+        <tr><td>2023年全球市场规模</td><td>约 2.17 亿美元</td></tr>
+        <tr><td>2030年预计规模</td><td>4.33 亿美元</td></tr>
+        <tr><td>年复合增长率 (CAGR)</td><td>8.8%</td></tr>
+        <tr><td>亚太市场份额</td><td>约 60%+（日本、韩国、中国为核心市场）</td></tr>
+        <tr><td>澳洲市场增速（hostel类）</td><td>9.7% CAGR（高于全球平均）</td></tr>
+      </table>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">数据来源：Grand View Research, IBISWorld 行业报告</p>
+    </div>
+    <div class="card">
+      <h3>🏙️ 墨尔本住宿市场深度数据</h3>
+      <table class="data-table">
+        <tr><th>指标</th><th>数据</th></tr>
+        <tr><td>酒店总数</td><td>171 家</td></tr>
+        <tr><td>酒店房间总数</td><td>27,890 间</td></tr>
+        <tr><td>平均酒店入住率（2024-2025）</td><td>74.6%（73-77%区间）</td></tr>
+        <tr><td>青年旅舍床位均价（普通日）</td><td>AU$10 – 30 / 晚</td></tr>
+        <tr><td>青年旅舍床位均价（高峰期如1月/AFL决赛）</td><td>AU$64 – 84 / 晚</td></tr>
+        <tr><td>青年旅舍私人房间均价</td><td>约 AU$59 / 晚</td></tr>
+        <tr><td>酒店供给增长率（2020-2025累计）</td><td>+27.4%</td></tr>
+        <tr><td>预计新供给增速（2025起）</td><td>+1.3%（断崖式下降）</td></tr>
+        <tr><td>墨尔本机场年吞吐量（2024）</td><td>3,280 万人次</td></tr>
+      </table>
+      <div class="highlight-box">💡 <strong>核心洞察：</strong>墨尔本经历了2019-2024年的酒店建设潮（新增约6,000间客房），但2024年起新项目急剧减少。未来2-3年<strong>供给端将出现结构性收紧</strong>，叠加疫后旅游复苏和国际教育回归，住宿市场基本面持续向好。胶囊酒店作为hostel的升级替代品，可填补经济型住宿的供给缺口。</div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>🎯 客群需求驱动</h3>
+        <table class="data-table">
+          <tr><th>客群</th><th>特征</th><th>定价承受力</th></tr>
+          <tr><td>🎒 背包客（backpacker）</td><td>18-30岁，预算敏感</td><td>$15-30/晚</td></tr>
+          <tr><td>🎓 学生 &amp; 研修群体</td><td>墨尔本大学/RMIT附近</td><td>$25-40/晚</td></tr>
+          <tr><td>💼 商务/科技出差人群</td><td>短住，需求私密性</td><td>$50-70/晚</td></tr>
+          <tr><td>🚁 跨城工作者（FIFO）</td><td>矿区/边远州工作假期</td><td>$40-55/晚</td></tr>
+        </table>
+        <div class="highlight-box" style="margin-top:10px;">📌 胶囊酒店可通过分时定价 + 会员分层，覆盖多类客群，提高整体入住率。</div>
+      </div>
+      <div class="card">
+        <h3>✨ 参考案例</h3>
+        <p>悉尼已有胶囊酒店运营案例，与墨尔本市场高度可比。新加坡、日本、韩国、中国台湾/香港均已有成熟运营经验，可借鉴：</p>
+        <ul style="list-style:none;padding:0;margin-top:8px;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 日本 9hours / First Cabin — 标准化胶囊连锁</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 新加坡 Capsule Pod Boutique — 设计型胶囊旅店</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 悉尼 Capsule Hotel Sydney — 澳洲本地验证</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:4px 0;">✅ 欧洲 Hostel 3.0 趋势 — 社交+住宿复合空间</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card cinnabar">
+      <h3>🚀 布里斯班奥运红利（2032）</h3>
+      <p>昆士兰州目前面临 <strong>11,139 间客房缺口</strong> 需在2032年前填补，相当于每月需新建1家酒店。当前建设进度远落后于需求，布里斯班住宿市场将出现显著供需失衡。</p>
+      <table class="data-table" style="margin-top:12px;">
+        <tr><th>指标</th><th>数据</th></tr>
+        <tr><td>2032年预期访客量</td><td>额外 150-200 万人次</td></tr>
+        <tr><td>当前客房缺口</td><td>11,139 间</td></tr>
+        <tr><td>所需新增酒店（等效）</td><td>约 55-70 家</td></tr>
+        <tr><td>当前新建进度</td><td>严重落后</td></tr>
+      </table>
+      <p style="margin-top:10px;">📌 <strong>战略建议：</strong>墨尔本作为首站验证模型，2-3年后布局布里斯班，把握奥运前建设窗口期。胶囊酒店作为轻资产、建设周期短的住宿形态，在奥运红利期具有独特的供给优势。</p>
+    </div>
+  </div>
+
+  <!-- ====== 财务模型 ====== -->
+  <div class="report-section" id="ch-financial">
+    <h2>三、财务模型推演</h2>
+    <div class="callout">⚠️ <strong>说明：</strong>以下为基于行业公开数据的参考模型。实际投资额需待锁定具体选址与规模参数后精确测算。所有金额以澳元（AUD）计价。</div>
+    <div class="card gold">
+      <h3>📐 基础假设（80床位参照模型）</h3>
+      <table class="data-table">
+        <tr><th>项目</th><th>参数</th></tr>
+        <tr><td>总床位数</td><td>80 个胶囊舱位</td></tr>
+        <tr><td>平均每日房价（ADR）</td><td>AU$45 / 晚</td></tr>
+        <tr><td>运营天数/年</td><td>365 天</td></tr>
+        <tr><td>最大年接待能力</td><td>29,200 床晚</td></tr>
+        <tr><td>保守/基准/乐观入住率</td><td>60% / 70% / 80%</td></tr>
+      </table>
+    </div>
+    <div class="three-col">
+      <div class="card cinnabar">
+        <h3 style="color:#E91E8C;">保守情景</h3>
+        <div style="text-align:center;padding:12px 0;"><div style="font-size:2rem;font-weight:900;color:#E91E8C;">AU$70.1万</div><div style="font-size:0.8rem;color:var(--text-muted);">年总收入</div></div>
+        <table class="data-table"><tr><td>入住率</td><td>60%</td></tr><tr><td>年入住床晚</td><td>17,520</td></tr><tr><td>年收入</td><td>$70.1万</td></tr><tr><td>EBITDA</td><td>$28.0万</td></tr><tr><td>回收期</td><td>~4.5年</td></tr></table>
+      </div>
+      <div class="card gold">
+        <h3 style="color:#C9A84C;">基准情景 ✓</h3>
+        <div style="text-align:center;padding:12px 0;"><div style="font-size:2rem;font-weight:900;color:#C9A84C;">AU$92.0万</div><div style="font-size:0.8rem;color:var(--text-muted);">年总收入</div></div>
+        <table class="data-table"><tr><td>入住率</td><td>70%</td></tr><tr><td>年入住床晚</td><td>20,440</td></tr><tr><td>年收入</td><td>$92.0万</td></tr><tr><td>EBITDA</td><td>$36.8万</td></tr><tr><td>回收期</td><td>~3年</td></tr></table>
+      </div>
+      <div class="card jade">
+        <h3 style="color:#4DD0E1;">乐观情景</h3>
+        <div style="text-align:center;padding:12px 0;"><div style="font-size:2rem;font-weight:900;color:#4DD0E1;">AU$116.8万</div><div style="font-size:0.8rem;color:var(--text-muted);">年总收入</div></div>
+        <table class="data-table"><tr><td>入住率</td><td>80%</td></tr><tr><td>年入住床晚</td><td>23,360</td></tr><tr><td>年收入</td><td>$116.8万</td></tr><tr><td>EBITDA</td><td>$46.7万</td></tr><tr><td>回收期</td><td>~2年</td></tr></table>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>💵 初始投资明细</h3>
+        <table class="data-table">
+          <tr><th>项目</th><th>估算金额 (AUD)</th></tr>
+          <tr><td>装修与胶囊舱体采购</td><td>$60 – 80 万</td></tr>
+          <tr><td>租赁物业押金 + 首月租金</td><td>$15 – 25 万</td></tr>
+          <tr><td>运营资金（3个月）</td><td>$10 – 15 万</td></tr>
+          <tr><td>营销与品牌启动</td><td>$3 – 5 万</td></tr>
+          <tr><td><strong>合计估算</strong></td><td><strong>约 $90 – 130 万</strong></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>📊 收入结构拆解（基准情景）</h3>
+        <table class="data-table">
+          <tr><th>收入来源</th><th>占比</th><th>年收入</th></tr>
+          <tr><td>住宿（核心）</td><td>82%</td><td>$75.4万</td></tr>
+          <tr><td>附加服务（行李/洗漱/洗衣）</td><td>7%</td><td>$6.4万</td></tr>
+          <tr><td>活动/工作坊</td><td>6%</td><td>$5.5万</td></tr>
+          <tr><td>零售/贩卖（饮品/速食/纪念品）</td><td>3%</td><td>$2.8万</td></tr>
+          <tr><td>会员/社群</td><td>2%</td><td>$1.8万</td></tr>
+          <tr><td><strong>合计</strong></td><td><strong>100%</strong></td><td><strong>$92.0万</strong></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>📉 成本结构</h3>
+        <table class="data-table">
+          <tr><th>成本项</th><th>占比</th><th>说明</th></tr>
+          <tr><td>租金</td><td>20%</td><td>墨尔本核心区约 $15-18万/年</td></tr>
+          <tr><td>人力成本</td><td>18%</td><td>前台+清洁+管理 3-4人</td></tr>
+          <tr><td>OTA佣金</td><td>9%</td><td>Booking/Agoda/Hostelworld 15-18%</td></tr>
+          <tr><td>运营杂项</td><td>7%</td><td>水电/网络/消耗品/保险</td></tr>
+          <tr><td>维护/折旧</td><td>6%</td><td>胶囊舱体5年折旧</td></tr>
+          <tr><td><strong>总成本率</strong></td><td><strong>60%</strong></td><td></td></tr>
+          <tr><td><strong>EBITDA率</strong></td><td><strong>40%</strong></td><td>行业健康水平</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>⚡ 敏感性分析</h3>
+        <table class="data-table">
+          <tr><th>变量</th><th>变动幅度</th><th>收入/EBITDA影响</th><th>敏感度</th></tr>
+          <tr><td>入住率</td><td>±10%</td><td>±$13.1万（收入）</td><td style="color:#E91E8C;">🔴 高</td></tr>
+          <tr><td>ADR</td><td>±$5</td><td>±$10.2万（收入）</td><td style="color:#E91E8C;">🔴 高</td></tr>
+          <tr><td>租金</td><td>±20%</td><td>±$4.0万（EBITDA）</td><td style="color:#FFCA28;">🟡 中</td></tr>
+          <tr><td>变动成本</td><td>±5%</td><td>±$4.3万（EBITDA）</td><td style="color:#FFCA28;">🟡 中</td></tr>
+          <tr><td>OTA佣金</td><td>±2%</td><td>±$2.0万（EBITDA）</td><td style="color:#4CAF50;">🟢 低</td></tr>
+        </table>
+        <div class="alert-box" style="margin-top:8px;"><strong><span style="color:#E91E8C;">入住率</span>是最大杠杆变量。</strong> 选址质量直接决定入住率天花板。建议预留3个月爬坡期资金缓冲。</div>
+      </div>
+    </div>
+    <div class="card gold">
+      <h3>🏆 行业对标：胶囊酒店盈利能力区间</h3>
+      <table class="data-table">
+        <tr><th>规模</th><th>EBITDA范围（AUD）</th><th>典型EBITDA率</th></tr>
+        <tr><td>小型（30-50床）</td><td>$25 – 45 万/年</td><td>35-40%</td></tr>
+        <tr><td>中型（60-100床）</td><td>$50 – 85 万/年</td><td>38-45%</td></tr>
+        <tr><td>大型（100床+）</td><td>$80 – 120 万/年</td><td>40-48%</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== 机会矩阵 ====== -->
+  <div class="report-section" id="ch-opportunity">
+    <h2>四、机会矩阵（TOWS）</h2>
+    <div class="two-col">
+      <div class="card jade">
+        <h3>💪 内部优势（S）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:var(--gold-light);">S1</strong> 韩国成熟供应链（舱体采购成本优势）</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:var(--gold-light);">S2</strong> 悦洋本地运营资源与教育背景</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:var(--gold-light);">S3</strong> 多元文化团队（中/韩/澳）</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;"><strong style="color:var(--gold-light);">S4</strong> 轻资产模型，初始投资相对可控</li>
+        </ul>
+      </div>
+      <div class="card cinnabar">
+        <h3>🛡️ 内部劣势（W）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#E91E8C;">W1</strong> 澳洲无capsule hotel运营先例（墨尔本首店）</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#E91E8C;">W2</strong> 本地运营团队待组建</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#E91E8C;">W3</strong> 品牌从零起步，市场认知度低</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;"><strong style="color:#E91E8C;">W4</strong> 跨境协作成本（韩国→澳洲→中国）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>🌤️ 外部机会（O）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#4DD0E1;">O1</strong> 墨尔本住宿供给结构性收紧（新供给降至+1.3%）</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#4DD0E1;">O2</strong> 疫后旅游强势复苏 &amp; 国际教育回归</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#4DD0E1;">O3</strong> 胶囊酒店在澳洲尚属蓝海市场</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;"><strong style="color:#4DD0E1;">O4</strong> 布里斯班2032奥运带来中期巨量需求</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🌩️ 外部威胁（T）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#FFCA28;">T1</strong> 澳洲建筑成本持续通胀</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#FFCA28;">T2</strong> 签证政策不确定性</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><strong style="color:#FFCA28;">T3</strong> 大型连锁hostel进入胶囊赛道</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:6px 0;"><strong style="color:#FFCA28;">T4</strong> 经济下行影响旅游消费力</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card gold">
+      <h3>🎯 关键战略组合</h3>
+      <table class="data-table">
+        <tr><th>组合</th><th>战略</th></tr>
+        <tr><td><strong>S1+O3</strong></td><td>利用韩国供应链成本优势，在澳洲蓝海市场建立先行者壁垒</td></tr>
+        <tr><td><strong>S2+O2</strong></td><td>结合悦洋教育背景，打造"教育+住宿"复合空间，卡位国际学生市场</td></tr>
+        <tr><td><strong>W1+O1</strong></td><td>虽无先例，但供给侧紧缺创造窗口期——先发品牌效应显著</td></tr>
+        <tr><td><strong>W3+T3</strong></td><td>快速建立亚太文化聚落品牌心智，防止连锁巨头复制</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== 风险评估 ====== -->
+  <div class="report-section" id="ch-risk">
+    <h2>五、风险评估</h2>
+    <div class="card cinnabar">
+      <h3>⚠️ 风险矩阵与应对策略</h3>
+      <div class="risk-matrix">
+        <div class="risk-cell high">
+          <div class="r-title">📍 选址失误</div>
+          <div class="r-tag high">严重</div>
+          <div class="r-desc">位置决定入住率天花板。错误选址可导致入住率&lt;50%，年收入损失$20万+</div>
+          <div class="r-strat"><strong>应对：</strong>AI选址模型（交通30%+大学25%+竞争20%+配套15%+租金10%）+ 实地双重验证</div>
+        </div>
+        <div class="risk-cell high">
+          <div class="r-title">📉 市场承压</div>
+          <div class="r-tag high">高</div>
+          <div class="r-desc">宏观经济下行、旅游消费降级，影响整体入住率</div>
+          <div class="r-strat"><strong>应对：</strong>多元化客群组合（背包客+学生+商务+FIFO），降低单一客群依赖</div>
+        </div>
+        <div class="risk-cell med">
+          <div class="r-title">📋 许可风险</div>
+          <div class="r-tag med">中</div>
+          <div class="r-desc">市政厅（Council）对胶囊酒店的新型住宿业态无明确分区许可定义</div>
+          <div class="r-strat"><strong>应对：</strong>提前与Council沟通，借鉴悉尼先例，聘请本地规划律师</div>
+        </div>
+        <div class="risk-cell med">
+          <div class="r-title">🏢 竞争跟进</div>
+          <div class="r-tag med">中</div>
+          <div class="r-desc">成功模式被大型连锁快速复制，利润空间被压缩</div>
+          <div class="r-strat"><strong>应对：</strong>快速建立品牌忠诚度与社群护城河，优先锁定核心物业</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;" class="risk-matrix">
+        <div class="risk-cell med">
+          <div class="r-title">👥 团队运营</div>
+          <div class="r-tag med">中</div>
+          <div class="r-desc">本地运营团队组建与培训周期长，服务质量不稳定</div>
+          <div class="r-strat"><strong>应对：</strong>建立标准化SOP手册，韩国技术人员短期驻场培训</div>
+        </div>
+        <div class="risk-cell low">
+          <div class="r-title">🛂 签证政策</div>
+          <div class="r-tag low">低</div>
+          <div class="r-desc">投资人签证（NIV/商业移民）政策变化</div>
+          <div class="r-strat"><strong>应对：</strong>多元化投资人结构，不依赖单一签证通道</div>
+        </div>
+        <div class="risk-cell low">
+          <div class="r-title">💱 汇率波动</div>
+          <div class="r-tag low">低</div>
+          <div class="r-desc">投资人多元货币（人民币/韩元）兑AUD波动</div>
+          <div class="r-strat"><strong>应对：</strong>以AUD结算运营，分期出资降低汇率风险</div>
+        </div>
+        <div class="risk-cell low">
+          <div class="r-title">🔥 运营安全</div>
+          <div class="r-tag low">低</div>
+          <div class="r-desc">胶囊酒店消防、安全、卫生合规要求</div>
+          <div class="r-strat"><strong>应对：</strong>参照日本/韩国胶囊酒店消防标准设计，全面合规</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box"><strong>🛡️ 风险总评：</strong>本项目整体风险可控。致命风险在于<strong>选址</strong>（不可逆），其次为市场波动。建议将"选址验证"作为第一优先级，通过AI模型+实地调研锁定Top 3物业后，再推进详细财务测算。预留<strong>至少3个月运营资金缓冲</strong>应对入住率爬坡期。</div>
+  </div>
+
+  <!-- ====== 战略建议 ====== -->
+  <div class="report-section" id="ch-strategy">
+    <h2>六、战略建议</h2>
+    <div class="card gold">
+      <h3>🎯 三阶段实施路线图</h3>
+      <div class="timeline">
+        <div class="timeline-phase phase-1">
+          <div class="phase-year">2026 H2</div>
+          <div class="phase-label">模型验证</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">选址→融资→建设→开业</div>
+        </div>
+        <div class="timeline-phase phase-2">
+          <div class="phase-year">2027-29</div>
+          <div class="phase-label">运营优化</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">爬坡→品牌→复刻模型</div>
+        </div>
+        <div class="timeline-phase phase-3">
+          <div class="phase-year">2029-32</div>
+          <div class="phase-label">奥运扩张</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">布里斯班→连锁管理输出</div>
+        </div>
+      </div>
+    </div>
+    <div class="three-col">
+      <div class="card">
+        <h3>🔴 短期（30天）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 获取韩方完整商业模型数据</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 收集3-5个备选物业地址及租金</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ AI选址模型分析</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;">✅ 投资人路演材料制作</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🟡 中期（90天）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 澳洲公司注册 &amp; 法律架构搭建</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 与Council确认分区许可</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 协商胶囊舱体采购协议</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;">✅ 融资方案确认（NIV/商业贷款/合资）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🟢 长期（&gt;90天）</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 物业租赁 &amp; 装修施工启动</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 运营团队招聘 &amp; 培训</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">✅ 品牌建设 &amp; 上线OTA平台</li>
+          <li style="font-size:0.88rem;color:var(--cream);padding:5px 0;">✅ 布里斯班市场预研启动</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>📌 投资亮点总结：</strong><br>
+      ① <strong>结构性供给缺口</strong>——墨尔本新供给断崖下降至+1.3%，未来2-3年入住率有望持续爬升<br>
+      ② <strong>奥运红利锚点</strong>——布里斯班11,139间客房缺口为中期扩展提供确定性需求<br>
+      ③ <strong>轻资产、可复制</strong>——单店投入$90-130万，模型成熟后可快速连锁化<br>
+      ④ <strong>品牌差异化护城河</strong>——"亚太文化聚落"定位 + 教育住宿复合空间，差异化于传统hostel<br>
+      ⑤ <strong>风险可控</strong>——IRR 18-22%，回收期3-3.5年，主要风险可量化、可对冲
+    </div>
+    <div class="card gold">
+      <h3>✅ 下一步行动（Next 30 Days）</h3>
+      <table class="data-table">
+        <tr><th>行动项</th><th>负责人</th><th>状态</th></tr>
+        <tr><td>获取韩国合作方商业模型完整数据</td><td>宗辉道友</td><td>⏳ 待推进</td></tr>
+        <tr><td>收集3-5个备选物业地址及租金</td><td>澳洲团队</td><td>⏳ 待推进</td></tr>
+        <tr><td>AI选址模型分析（交通/大学/景点权重）</td><td>爱马仕Max</td><td>🔲 待分配</td></tr>
+        <tr><td>财务模型精确测算（基于实际选址）</td><td>量马腾讯云</td><td>🔲 待分配</td></tr>
+        <tr><td>投资人路演材料制作</td><td>心光马</td><td>🔲 待分配</td></tr>
+      </table>
+    </div>
+    <div class="highlight-box">
+      <strong>🦞 道虾札记 · 终审：</strong><br>
+      墨尔本胶囊酒店项目具备<strong>明确的结构性投资机会</strong>。核心结论如下：<br><br>
+      <strong>✅ 可投，但有前提。</strong> 项目成功的关键排序为：<strong>位置 &gt; 运营 &gt; 品牌 &gt; 资本</strong>。<br><br>
+      位置是生死线——必须锁定交通枢纽+大学步行圈内的物业，宁可支付溢价租金也不可妥协。运营是利润放大器——"教育+住宿"的复合空间模型可显著提升非住宿收入占比（目标从18%提升至30%+）。品牌是护城河——亚太文化聚落的故事具有天然的社媒传播属性，可降低获客成本。<br><br>
+      布里斯班奥运红利是中期催化剂，建议在墨尔本店运营稳定后（预计18-24个月）立即启动布里斯班布局。<br><br>
+      最大的否定性风险：<strong>拿不到核心位置的好物业</strong>。如果3个月内无法锁定符合条件的物业，建议暂缓推进。
     </div>
   </div>
 </section>
