@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mxai": {
+      "type": "http",
+      "url": "https://mcp.mxai.cn/sse",
+      "headers": {
+        "Authorization": "Bearer ${MXAI_API_KEY}"
+      }
+    }
+  }
+}
