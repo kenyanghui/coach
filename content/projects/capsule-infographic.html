@@ -148,14 +148,14 @@ body::before {
 .infographic .module-header.brown { background: var(--brown); color: #fff; }
 .infographic .module-header.black { background: #000; color: #fff; }
 
-.infographic .module-content { flex: 1; color: #1a1a1a; }
-.infographic .module-content p, .infographic .module-content li { font-size: 8px; line-height: 1.5; color: #1a1a1a; font-weight: 500; }
+.infographic .module-content { flex: 1; color: #000; font-weight: 600; }
+.infographic .module-content p, .infographic .module-content li { font-size: 8px; line-height: 1.5; color: #000; font-weight: 600; }
 .infographic .module-content ul { list-style: none; padding: 0; }
 .infographic .module-content li { margin-bottom: 2px; }
 .infographic .module-content li::before { content: "▸ "; color: #c2185b; }
 
 .infographic .data-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #ddd; font-size: 8px; }
-.infographic .data-row .label { color: #333; font-weight: 500; }
+.infographic .data-row .label { color: #000; font-weight: 600; }
 .infographic .data-row .value { color: #000; font-weight: 800; }
 .infographic .data-row .value.magenta { color: #c2185b; font-weight: 800; }
 .infographic .data-row .value.green { color: #004d40; font-weight: 800; }
@@ -174,9 +174,9 @@ body::before {
 .infographic .scenario-card.cons { border-top-color: #c2185b; }
 .infographic .scenario-card.base { border-top-color: #004d40; }
 .infographic .scenario-card.opt { border-top-color: var(--ochre); }
-.infographic .scenario-card .title { font-size: 8px; color: #333; font-weight: 600; }
-.infographic .scenario-card .number { font-size: 11px; font-weight: 900; margin: 1px 0; color: #111; }
-.infographic .scenario-card .note { font-size: 7px; color: #555; font-weight: 500; }
+.infographic .scenario-card .title { font-size: 8px; color: #000; font-weight: 700; }
+.infographic .scenario-card .number { font-size: 11px; font-weight: 900; margin: 1px 0; color: #000; }
+.infographic .scenario-card .note { font-size: 7px; color: #222; font-weight: 600; }
 
 .infographic .weight-bar { display: flex; align-items: center; gap: 4px; margin: 2px 0; font-size: 8px; }
 .infographic .weight-bar .bar-bg { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
@@ -572,22 +572,22 @@ footer {
             <div style="font-size:8px;">
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
                 <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#fef0f0;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>创始人集中度 <span style="color:#555;margin-left:auto;">严重</span>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>创始人集中度 <span style="color:#000;font-weight:700;margin-left:auto;">严重</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#fef0f0;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>现金缓冲 <span style="color:#555;margin-left:auto;">严重</span>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>现金缓冲 <span style="color:#000;font-weight:700;margin-left:auto;">严重</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#fef0f0;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>首店无验证 <span style="color:#555;margin-left:auto;">高</span>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>首店无验证 <span style="color:#000;font-weight:700;margin-left:auto;">高</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#fef0f0;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>Day Stay假设 <span style="color:#555;margin-left:auto;">高</span>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#E91E8C;flex-shrink:0;"></span>Day Stay假设 <span style="color:#000;font-weight:700;margin-left:auto;">高</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#fff8e0;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;flex-shrink:0;"></span>合规/许可 <span style="color:#555;margin-left:auto;">中</span>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;flex-shrink:0;"></span>合规/许可 <span style="color:#000;font-weight:700;margin-left:auto;">中</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:4px;padding:3px 5px;background:#fff8e0;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;flex-shrink:0;"></span>关联交易 <span style="color:#555;margin-left:auto;">中</span>
+                  <span style="width:6px;height:6px;border-radius:50%;background:#FFCA28;flex-shrink:0;"></span>关联交易 <span style="color:#000;font-weight:700;margin-left:auto;">中</span>
                 </div>
               </div>
               <div style="margin-top:4px;color:#E91E8C;font-weight:700;text-align:center;">
