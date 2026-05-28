@@ -77,6 +77,13 @@ main { padding: 40px 40px 80px; }
 }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media(max-width:600px) { .two-col { grid-template-columns:1fr; } }
+.alert-box {
+  background: rgba(166,58,46,0.08); border: 1px solid rgba(166,58,46,0.25);
+  border-radius: var(--radius-sm); padding: 14px 18px; margin: 12px 0;
+  font-size: 0.86rem; color: var(--cream);
+}
+.alert-box strong { color: var(--gold-light); }
+.alert-box a { color: var(--gold); }
 .callout {
   background: rgba(201,168,76,0.08); border-radius: var(--radius-sm);
   padding: 16px 20px; font-size: 0.88rem; color: var(--cream);
@@ -108,6 +115,15 @@ footer {
   </header>
 
   <main>
+
+    <div class="alert-box" style="margin-bottom:30px;">
+      <strong>⚠️ 数据口径变更：</strong>本页基于早期80床位网页参考模型（ADR AU$45），已被PDF尽调修正版（115床位·ADR AU$92.39·CAPEX A$3.05M）取代。请参阅
+      <a href="capsule-infographic.html" style="color:var(--gold);">全景分析（PDF修正版）</a>、
+      <a href="memo.html" style="color:var(--gold);">投资委员会Memo</a>
+      或
+      <a href="roadshow.html" style="color:var(--gold);">路演版说明书</a>
+      获取最新数据。本页保留作为早期市场机会参考。
+    </div>
 
     <!-- 项目背景 -->
     <div class="section">
