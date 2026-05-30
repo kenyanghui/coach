@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老外学中文 · 出海项目 | 杨辉 Ken Yang</title>
+<style>
+:root {
+  --primary: #7c5cfc; --primary-light: #9b7fff; --primary-dark: #5a3fd9;
+  --gold: #f6c842; --gold-dark: #d4a017; --accent-pink: #ff6b9d;
+  --text-primary: #1a1a2e; --text-secondary: #555; --text-muted: #888;
+  --card-bg: #fff; --section-bg: #f5f7fa;
+  --green: #27ae60; --blue: #3498db; --red: #e74c3c; --purple: #8e44ad;
+  --radius: 16px; --shadow: 0 1px 8px rgba(0,0,0,0.04); --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,'PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif; background:var(--section-bg); color:var(--text-primary); line-height:1.8; }
+
+.hero { background:linear-gradient(135deg,#0f0c29 0%,#1a1a3e 40%,#24243e 100%); color:#fff; padding:60px 40px; text-align:center; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 25% 40%,rgba(39,174,96,0.12) 0%,transparent 50%),radial-gradient(ellipse at 75% 60%,rgba(52,152,219,0.08) 0%,transparent 50%); pointer-events:none; }
+.hero .badge { display:inline-block; background:rgba(39,174,96,0.15); border:1px solid rgba(39,174,96,0.25); color:#2ecc71; padding:5px 20px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:2px; margin-bottom:18px; }
+.hero h1 { font-size:2.4em; font-weight:900; letter-spacing:3px; margin-bottom:6px; }
+.hero h1 .green { color:#2ecc71; }
+.hero .subtitle { font-size:1.05em; color:rgba(255,255,255,0.6); letter-spacing:4px; margin-bottom:16px; }
+.hero .desc { color:rgba(255,255,255,0.75); max-width:600px; margin:0 auto 24px; font-size:15px; line-height:1.7; }
+.hero .stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin-top:20px; }
+.hero .stat { text-align:center; }
+.hero .stat .num { font-size:2em; font-weight:900; color:var(--gold); }
+.hero .stat .label { font-size:12px; color:rgba(255,255,255,0.5); letter-spacing:1px; }
+
+.content { max-width:900px; margin:0 auto; padding:30px 20px; }
+.section { background:var(--card-bg); border-radius:var(--radius); padding:32px 36px; margin-bottom:20px; box-shadow:var(--shadow); }
+.section h2 { font-size:1.3em; font-weight:800; border-bottom:3px solid #27ae60; padding-bottom:10px; margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+.section h3 { font-size:1.05em; font-weight:700; border-bottom:2px solid #eee; padding-bottom:8px; margin:20px 0 12px; }
+.section p { font-size:14px; color:var(--text-secondary); margin-bottom:10px; line-height:1.9; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:14px; }
+@media(max-width:768px) { .grid-2,.grid-3 { grid-template-columns:1fr; } }
+
+.card { background:#fff; border-radius:12px; padding:18px 20px; border:1px solid #eee; border-left:4px solid #27ae60; }
+.card .tag { display:inline-block; font-size:11px; font-weight:700; padding:2px 10px; border-radius:20px; margin-bottom:8px; }
+.tag-green { background:#eafaf1; color:#27ae60; }
+.tag-blue { background:#ebf5fb; color:#3498db; }
+.tag-purple { background:#f5effb; color:#8e44ad; }
+.tag-red { background:#fdedec; color:#e74c3c; }
+.tag-gold { background:#fef9e7; color:#d4a017; }
+.card .title { font-size:15px; font-weight:700; margin-bottom:6px; color:var(--text-primary); }
+.card .desc { font-size:13px; color:var(--text-secondary); line-height:1.7; margin-bottom:8px; }
+.card .links { font-size:12px; color:var(--primary); font-weight:600; }
+
+.callout { padding:16px 20px; border-radius:10px; margin:14px 0; font-size:14px; line-height:1.8; border-left:4px solid; }
+.callout-green { background:#eafaf1; border-color:#27ae60; color:#1a5c38; }
+.callout-blue { background:#ebf5fb; border-color:#3498db; color:#1a4a7a; }
+.callout-gold { background:#fef9e7; border-color:#f6c842; color:#5c4800; }
+.callout-purple { background:#f5effb; border-color:#8e44ad; color:#4a1d7a; }
+
+table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0; }
+th { background:var(--primary); color:#fff; padding:10px 14px; text-align:left; border-radius:8px 8px 0 0; }
+td { padding:10px 14px; border-bottom:1px solid #eee; }
+tr:nth-child(even) td { background:#f9f9f9; }
+.phase { display:flex; align-items:flex-start; gap:14px; margin:14px 0; }
+.phase-num { font-size:28px; font-weight:900; color:#27ae60; line-height:1; flex-shrink:0; width:50px; text-align:center; }
+.phase-body { flex:1; }
+.phase-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+.phase-desc { font-size:13px; color:var(--text-secondary); }
+.phase-tasks { font-size:12px; color:var(--text-secondary); margin-top:6px; padding-left:16px; }
+
+.footer { text-align:center; padding:30px 20px; color:#aaa; font-size:13px; }
+.footer a { color:var(--primary); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">🌏 教育出海 · 内容赛道</div>
+  <h1>老外学中文<span class="green"> · 出海项目</span></h1>
+  <div class="subtitle">通过字形学发音 · 全球招生 · AI赋能</div>
+  <p class="desc">用汉字形声字规律，让外国人"见字知音"——把汉语从死记硬背变成可推导的逻辑系统。全球2亿汉语学习者，空白赛道，等你入局。</p>
+  <div class="stats">
+    <div class="stat"><div class="num">2亿+</div><div class="label">全球汉语学习者</div></div>
+    <div class="stat"><div class="num">20%+</div><div class="label">年增速</div></div>
+    <div class="stat"><div class="num">150亿</div><div class="label">2027年市场规模（美元）</div></div>
+    <div class="stat"><div class="num">80%+</div><div class="label">形声字占比</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <h2>📌 项目定位</h2>
+    <div class="callout callout-green">
+      <strong>一句话定位：</strong>用汉字"形声字"规律赋能汉语学习，让外国人"见字知音"，把汉语从"死记硬背"变成"可推导的逻辑系统"。
+    </div>
+    <p><strong>核心逻辑：</strong>汉字80%以上是形声字（声旁表音、形旁表义）。学会了声旁的发音规律，老外看到一个汉字就能推断其读音——无需死记硬背。</p>
+    <p><strong>差异化护城河：</strong>所有竞品都在词汇/语法红海中竞争，<strong>发音教学是未被占领的蓝海</strong>。我们先行占领。</p>
+    <div class="grid-2">
+      <div class="card" style="border-left-color:#27ae60;"><div class="title">🧠 科学背书</div><div class="desc">形声字占汉字80%+，人类大脑擅长模式识别——比死记硬背更符合认知科学。</div></div>
+      <div class="card" style="border-left-color:#3498db;"><div class="title">🎬 视觉传播力</div><div class="desc">汉字字形天然有视觉冲击力，TikTok短视频传播极强，内容即广告。</div></div>
+      <div class="card" style="border-left-color:#8e44ad;"><div class="title">💪 成就感驱动</div><div class="desc">"看到字就能读出来"——强烈的正向反馈，激励持续学习。</div></div>
+      <div class="card" style="border-left-color:#e74c3c;"><div class="title">🌐 全球市场</div><div class="desc">全球2亿学习者，一带一路+东南亚+欧美，纯线上交付无边界。</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>⚔️ vs 市场竞品</h2>
+    <table>
+      <thead><tr><th>产品</th><th>定位</th><th>发音教学</th><th>我们的优势</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Duolingo</strong></td><td>单词游戏化</td><td>❌ 极浅，无声调训练</td><td rowspan="5" style="background:#eafaf1;font-weight:700;color:#27ae60;">深度发音教学<br>+ AI纠音评测<br>+ 字形规律课程</td></tr>
+        <tr><td><strong>ChinesePod</strong></td><td>音频课程</td><td>❌ 被动听力，无字形推导</td></tr>
+        <tr><td><strong>Pleco</strong></td><td>词典工具</td><td>❌ 工具非课程</td></tr>
+        <tr><td><strong>italki</strong></td><td>真人对练</td><td>⚠️ 贵，无规律教学</td></tr>
+        <tr><td><strong>汉字卫士</strong></td><td>字源教学</td><td>⚠️ 偏学术，非实用</td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-blue"><strong>关键洞察：</strong>老外愿为"能开口说"付溢价——发音=尊严感。发音教学是蓝海。</div>
+  </div>
+
+  <div class="section">
+    <h2>👥 目标用户画像</h2>
+    <div class="grid-3">
+      <div class="card" style="border-left-color:#27ae60;"><span class="tag tag-green">18-30岁</span><div class="title">大学生 / 职场新人</div><div class="desc">在华或来华商务人士、对华贸易从业者、汉学专业学生——学习动机：生存+职业</div></div>
+      <div class="card" style="border-left-color:#3498db;"><span class="tag tag-blue">30-45岁</span><div class="title">企业管理层 / 创业者</div><div class="desc">对接中国市场的企业中高管、出海中国公司员工——学习动机：商业需求+文化兴趣</div></div>
+      <div class="card" style="border-left-color:#8e44ad;"><span class="tag tag-purple">全年龄</span><div class="title">海外华裔二三代</div><div class="desc">移民家庭子女（亲子需求）、汉字/书法文化爱好者——身份认同+文化传承</div></div>
+    </div>
+    <div class="callout callout-gold"><strong>第一刀切哪个市场？</strong>建议<strong>海外成人英语用户</strong>（TikTok主力受众），而非在华老外。</div>
+  </div>
+
+  <div class="section">
+    <h2>💰 商业模式设计</h2>
+    <div class="grid-2">
+      <div class="card" style="border-left-color:#27ae60;"><div class="tag tag-green" style="float:right">C端</div><div class="title">个人付费</div><div class="desc">免费内容获客→社群转化→付费课程+AI评测+单词工具。</div></div>
+      <div class="card" style="border-left-color:#3498db;"><div class="tag tag-blue" style="float:right">B端</div><div class="title">企业采购</div><div class="desc">企业汉语培训、HSK备考、国际学校课程——大单引擎。</div></div>
+    </div>
+    <table>
+      <thead><tr><th>层级</th><th>形式</th><th>价格</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td><strong>免费引流</strong></td><td>免费</td><td>$0</td><td>50个最高频声旁入门课+基础声调</td></tr>
+        <tr><td><strong>付费核心</strong></td><td>订阅</td><td>$19/月 或 $99/季</td><td>完整声旁体系课+AI评测+社群</td></tr>
+        <tr><td><strong>高价值</strong></td><td>课程包</td><td>$299一次性 或 $49/月</td><td>深度课+1对1纠音+考证备考</td></tr>
+        <tr><td><strong>B端企业</strong></td><td>年度合同</td><td>$2000+/员工/年</td><td>企业专属课+管理后台+LMS对接</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🤖 AI赋能的关键环节</h2>
+    <div class="grid-2">
+      <div class="card" style="border-left-color:#27ae60;"><div class="title">🎬 内容生产</div><div class="desc">• AI生成情景短剧脚本（老外在中国）<br>• 多语言字幕一键生成（英/日/韩/法/西）<br>• 汉字笔画动画自动生成</div></div>
+      <div class="card" style="border-left-color:#3498db;"><div class="title">👤 学员服务</div><div class="desc">• AI实时纠音+声调准确率打分<br>• 自适应学习路径（分析偏误推荐下一课）<br>• 社群AI机器人7×24答疑</div></div>
+      <div class="card" style="border-left-color:#8e44ad;"><div class="title">🌐 全球获客</div><div class="desc">• AI自动剪辑短视频片段（TikTok/YouTube）<br>• 多语言SEO内容自动生成<br>• AI客服承接全球时差咨询</div></div>
+      <div class="card" style="border-left-color:#e74c3c;"><div class="title">📊 数据运营</div><div class="desc">• 学习行为数据分析<br>• 薄弱点热力图（精准教研）<br>• 转化漏斗优化（A/B测试）</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🚀 MVP启动方案</h2>
+    <h3>最小可行产品：3个核心模块</h3>
+    <div class="grid-2">
+      <div class="card" style="border-left-color:#27ae60;"><div class="tag tag-green" style="float:right">模块1</div><div class="title">声旁发音数据库</div><div class="desc">整理GB级以上汉字的声旁-发音映射表，标注声调、IPA音标。<strong>这是核心资产，必须自建。</strong></div></div>
+      <div class="card" style="border-left-color:#3498db;"><div class="tag tag-blue" style="float:right">模块2</div><div class="title">交互式发音练习H5/小程序</div><div class="desc">输入/拍照一个汉字→AI展示声旁→朗读发音→练习。最少20节课（覆盖最高频50个声旁）。</div></div>
+      <div class="card" style="border-left-color:#8e44ad;"><div class="tag tag-purple" style="float:right">模块3</div><div class="title">TikTok短视频（3-5条）</div><div class="desc">病毒传播型："你认识这个字吗？看看它怎么读！"同传英文版，验证内容传播力。</div></div>
+      <div class="card" style="border-left-color:#e74c3c;"><div class="tag tag-red" style="float:right">验证</div><div class="title">最低成本验证路径</div><div class="desc">Reddit/Twitter发内容→兴趣度测试；一页式Landing Page→注册转化率；99元早鸟课预售→付费意愿</div></div>
+    </div>
+    <div class="callout callout-blue">
+      <strong>第一批用户从哪来？</strong><br>
+      ① Reddit r/ChineseLanguage + Twitter/X（精准兴趣）② TikTok自然流量 ③ 孔子学院学员 ④ YouTube中文学习博主KOL ⑤ Product Hunt发布MVP ⑥ 在华老外微信群/豆瓣
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>⚠️ 潜在风险与应对</h2>
+    <div class="grid-2">
+      <div class="card" style="border-left-color:#e74c3c;"><div class="title">⚡ 声旁古今音变问题</div><div class="desc">声旁古音≠今音（如"我"wǒ）。<strong>应对：</strong>诚实告知规律边界，把声调/变调/轻声单独成模块，不可用字形规律替代。</div></div>
+      <div class="card" style="border-left-color:#3498db;"><div class="title">🌍 文化/预期差异</div><div class="desc">部分用户期待"零门槛"。<strong>应对：</strong>营销中合理设定预期，设置学习里程碑。</div></div>
+      <div class="card" style="border-left-color:#8e44ad;"><div class="title">💪 竞争风险</div><div class="desc">大厂跟进字形方向。<strong>应对：</strong>快→快速建立内容壁垒；深→专注"字形发音"做到全球第一。</div></div>
+      <div class="card" style="border-left-color:#f6c842;"><div class="title">📋 合规风险</div><div class="desc">GDPR+退款政策。<strong>应对：</strong>不收集敏感信息、预留14天退款、设计订阅周期。</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📅 90天行动计划</h2>
+    <div class="phase">
+      <div class="phase-num">01</div>
+      <div class="phase-body">
+        <div class="phase-title">第1个月 · 验证（Build + Validate）</div>
+        <div class="phase-desc">建立核心资产，测试内容传播力。</div>
+        <div class="phase-tasks"><strong>关键任务：</strong>① 整理50个最高频声旁发音映射表 | ② 一页式Landing Page | ③ 3条TikTok短视频 | ④ 100名测试用户社群<br><strong>里程碑：</strong>TikTok视频自然传播系数 >0.5%</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">02</div>
+      <div class="phase-body">
+        <div class="phase-title">第2个月 · 增长（Content + Traction）</div>
+        <div class="phase-desc">产品上线，内容持续输出，找到最高ROI获客渠道。</div>
+        <div class="phase-tasks"><strong>关键任务：</strong>① H5发音练习小程序MVP | ② YouTube/小红书周更 | ③ 99元早鸟课 | ④ 数据复盘优化<br><strong>里程碑：</strong>早鸟课付费转化率 >3%，TikTok粉丝 >1000</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">03</div>
+      <div class="phase-body">
+        <div class="phase-title">第3个月 · 变现（Monetize + Iterate）</div>
+        <div class="phase-desc">正式产品上线，启动B端洽谈，实现第一笔收入。</div>
+        <div class="phase-tasks"><strong>关键任务：</strong>① 正式订阅课程 $19/月 | ② AI评测功能 | ③ B端企业意向洽谈（3-5家）| ④ 复盘制定规模化<br><strong>里程碑：</strong>月付费用户 >50人，或企业意向 ≥3家</div>
+      </div>
+    </div>
+    <div class="callout callout-gold">
+      <strong>🎯 3个灵魂拷问：</strong><br>
+      1️⃣ 内容为王，工具为辅（先内容获客再工具留存）<br>
+      2️⃣ 第一刀切：海外成人英语用户（TikTok主力），而非在华老外<br>
+      3️⃣ 护城河：声旁发音数据库（自建）+ AI评测系统（体验）+ 短剧内容（流量）
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🦞 虾军团分工建议</h2>
+    <div class="grid-2">
+      <div class="card" style="border-left-color:#27ae60;"><div class="title">🦞 道虾</div><div class="desc">框架设计 + 选题策略 + 整体协调</div></div>
+      <div class="card" style="border-left-color:#3498db;"><div class="title">🎯 获客虾腾讯云</div><div class="desc">全球社媒布局 + TikTok/YouTube运营 + SEO</div></div>
+      <div class="card" style="border-left-color:#8e44ad;"><div class="title">💡 爱马仕Max</div><div class="desc">AI工具链集成 + 发音评测系统 + 课程产品设计</div></div>
+      <div class="card" style="border-left-color:#e67e22;"><div class="title">📊 量马腾讯云</div><div class="desc">数据分析 + 用户反馈 + 转化优化</div></div>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <strong>🦞 道虾笔记：</strong>此项目方向清晰，差异化强，市场空白明显。优先确认"声旁发音数据库"的整理方案——这是整个产品的核心资产，值得投入。
+  </div>
+
+</div>
+
+<div class="footer">
+  <a href="../index.html">← 返回 coach 网站</a> &nbsp;·&nbsp; © 2026 杨辉 Ken Yang · AI摆渡人
+</div>
+
+</body>
+</html>
