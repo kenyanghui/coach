@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edict（三省六部）多Agent编排系统深度解读 | 杨辉 Ken Yang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; background:#f5f7fa; color:#1a1a2e; line-height:1.9; padding:40px 20px; }
+.container { max-width:920px; margin:0 auto; background:#fff; border-radius:16px; padding:44px 48px; box-shadow:0 1px 8px rgba(0,0,0,0.04); }
+h1 { font-size:1.8em; font-weight:900; padding-bottom:12px; border-bottom:3px solid #7c5cfc; margin-bottom:8px; }
+.subtitle { font-size:0.92em; color:#888; margin-bottom:22px; }
+h2 { font-size:1.25em; font-weight:800; color:#1a1a2e; margin:32px 0 12px; padding-bottom:8px; border-bottom:2px solid #7c5cfc; }
+h3 { font-size:1.08em; font-weight:700; color:#2c3e50; margin:22px 0 10px; }
+h4 { font-size:0.95em; font-weight:600; color:#555; margin:16px 0 8px; }
+p { font-size:15px; color:#555; margin-bottom:12px; line-height:1.9; }
+ul, ol { padding-left:22px; margin-bottom:12px; }
+li { font-size:15px; color:#555; margin-bottom:4px; }
+strong { color:#1a1a2e; }
+a { color:#7c5cfc; text-decoration:none; }
+a:hover { text-decoration:underline; }
+blockquote { background:#f5f0ff; border-left:4px solid #7c5cfc; border-radius:8px; padding:14px 18px; margin:14px 0; font-size:14px; color:#555; }
+blockquote strong { color:#7c5cfc; }
+code { background:#f0e6f6; color:#7c5cfc; padding:2px 8px; border-radius:4px; font-size:13px; }
+pre { background:#f8f9fa; border:1px solid #eef0f2; border-radius:10px; padding:16px; overflow-x:auto; margin:14px 0; font-size:13px; line-height:1.6; }
+pre code { background:none; color:#555; padding:0; }
+hr { border:none; border-top:1px solid #eef0f2; margin:28px 0; }
+table { width:100%; border-collapse:collapse; margin:14px 0; font-size:14px; }
+th,td { padding:8px 12px; text-align:left; border:1px solid #eef0f2; }
+th { background:#f5f0ff; font-weight:600; color:#1a1a2e; }
+tr:nth-child(even) { background:#fafbfc; }
+.footer { text-align:center; color:#aaa; font-size:13px; padding:30px 0 10px; }
+.footer a { color:#7c5cfc; }
+
+/* Architecture diagram */
+.arch-box {
+  background:#f8f9fa; border:1px solid #eef0f2; border-radius:12px;
+  padding:24px; margin:16px 0; text-align:center;
+  font-family:'Noto Serif SC',serif;
+}
+.arch-row { display:flex; justify-content:center; gap:16px; margin:8px 0; flex-wrap:wrap; }
+.arch-node {
+  display:inline-flex; flex-direction:column; align-items:center;
+  background:#fff; border:1px solid #e0d8f0; border-radius:8px;
+  padding:10px 18px; min-width:80px;
+}
+.arch-node .label { font-size:13px; font-weight:700; color:#7c5cfc; }
+.arch-node .sub { font-size:11px; color:#999; margin-top:2px; }
+.arch-arrow { font-size:18px; color:#7c5cfc; padding:0 4px; align-self:center; }
+.arch-six { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin:6px 0; }
+.arch-six-item {
+  background:#fff; border:1px solid #e0d8f0; border-radius:6px;
+  padding:6px 14px; font-size:13px;
+}
+.arch-six-item .cn { color:#7c5cfc; font-weight:600; }
+.arch-six-item .en { color:#999; font-size:11px; display:block; }
+
+/* Agent cards */
+.agent-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:14px 0; }
+.agent-card {
+  background:#fafbfc; border:1px solid #eef0f2; border-radius:8px;
+  padding:12px 16px; display:flex; gap:12px; align-items:flex-start;
+}
+.agent-card .emoji { font-size:22px; flex-shrink:0; margin-top:2px; }
+.agent-card .info { flex:1; }
+.agent-card .name { font-size:14px; font-weight:700; color:#1a1a2e; }
+.agent-card .role { font-size:12px; color:#7c5cfc; margin-bottom:4px; }
+.agent-card .desc { font-size:12px; color:#888; line-height:1.5; }
+.agent-card .comm { font-size:11px; color:#666; border-left:2px solid #7c5cfc; padding-left:8px; margin-top:4px; }
+
+/* Flow diagram */
+.flow-diagram {
+  background:#f8f9fa; border:1px solid #eef0f2; border-radius:12px;
+  padding:20px; margin:16px 0; text-align:center;
+}
+.flow-row { display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin:4px 0; }
+.flow-step {
+  background:#fff; border:1px solid #e0d8f0; border-radius:6px;
+  padding:8px 14px; font-size:13px; min-width:70px;
+}
+.flow-step .step-num { font-size:10px; color:#7c5cfc; font-weight:700; display:block; }
+.flow-arrow { color:#ccc; font-size:16px; }
+
+/* Data highlight */
+.data-highlight {
+  background:linear-gradient(135deg,#f5f0ff,#f0f9ff);
+  border:1px solid #e0d8f0; border-radius:10px;
+  padding:20px 24px; margin:16px 0;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;
+}
+.data-item { text-align:center; }
+.data-item .num { font-size:28px; font-weight:900; color:#7c5cfc; line-height:1.2; }
+.data-item .num .unit { font-size:16px; font-weight:600; color:#999; }
+.data-item .label { font-size:12px; color:#888; }
+
+/* Tag */
+.tag {
+  display:inline-block; background:#f0e6f6; color:#7c5cfc;
+  padding:2px 10px; border-radius:4px; font-size:12px; font-weight:500;
+}
+
+@media (max-width:700px) {
+  .container { padding:24px 18px; }
+  h1 { font-size:1.4em; }
+  .agent-grid { grid-template-columns:1fr; }
+  .arch-six { gap:4px; }
+  .arch-six-item { font-size:12px; padding:4px 10px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Edict（三省六部）多 Agent 编排系统</h1>
+<p class="subtitle">用 1300 年前的唐朝分权制度，设计现代 AI Agent 协作架构 · 2026-06-10</p>
+
+<blockquote>
+<strong>一句话：</strong>Edict 是一个基于唐代"三省六部制"的 AI 多 Agent 协作框架，用中书省的规划权、门下省的封驳权、尚书省的派发权、六部的执行权，形成制衡闭环——<strong>古人比现代 AI 框架更懂分权制衡</strong>。
+</blockquote>
+
+<hr>
+
+<h2>一、项目速览</h2>
+
+<div class="data-highlight">
+  <div class="data-item"><div class="num">12<span class="unit"> 个</span></div><div class="label">AI Agent</div></div>
+  <div class="data-item"><div class="num">15.3K<span class="unit"> ★</span></div><div class="label">GitHub Stars</div></div>
+  <div class="data-item"><div class="num">6<span class="unit"> 部</span></div><div class="label">专业执行机构</div></div>
+  <div class="data-item"><div class="num">3<span class="unit"> 省</span></div><div class="label">分权制衡层级</div></div>
+</div>
+
+<p>Edict 由开发者 <strong>cft0808</strong> 创建，基于 <strong>OpenClaw</strong> 运行时，前端 React 18 + TypeScript + Vite + Zustand，后端 Python stdlib only。项目以 MIT 许可证开源，曾登顶 GitHub 全球趋势榜。</p>
+
+<p>它的核心创新不是技术——而是<strong>组织架构</strong>。Edict 把 AI Agent 当作"朝廷官员"，用唐朝的三省六部制来分配权力、管控流程、防止滥用。</p>
+
+<hr>
+
+<h2>二、为什么这对你重要？</h2>
+
+<p>如果你在教练/教学场景中涉及以下问题，Edict 是最好的<strong>教学案例</strong>：</p>
+
+<ul>
+  <li><strong>多 Agent 协作</strong>：当多个 AI 一起工作，谁来管？怎么分任务？谁审核？</li>
+  <li><strong>AI 治理</strong>：如何防止 AI 乱执行？谁来否决错误的决策？</li>
+  <li><strong>制度 vs 技术</strong>：好的组织架构设计比技术实现更重要——这个理念对企业数字员工转型和二代传承都有启发</li>
+  <li><strong>教育场景</strong>：三省六部的历史映射 + AI Agent 的现代结合，是极好的跨学科教学素材</li>
+</ul>
+
+<blockquote>
+<strong>教练视角：</strong> Edict 展示了一个真理——<strong>AI 时代最稀缺的不是技术能力，而是组织设计能力</strong>。用好分权制衡、审核封驳、责任闭环这些制度智慧，比写多少行代码都重要。
+</blockquote>
+
+<hr>
+
+<h2>三、12 Agent 体系详解</h2>
+
+<h3>3.1 整体架构</h3>
+
+<div class="arch-box">
+  <div style="margin-bottom:10px;font-size:15px;font-weight:700;color:#7c5cfc;">👑 皇帝（用户）</div>
+  <div style="font-size:12px;color:#999;margin-bottom:12px;">下达旨意 · 终审裁决</div>
+
+  <div class="arch-row">
+    <div class="arch-node"><span class="label">🤖 太子</span><span class="sub">门禁分拣</span></div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-node"><span class="label">📜 中书省</span><span class="sub">起草规划</span></div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-node"><span class="label">⚖️ 门下省</span><span class="sub">审核封驳</span></div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-node"><span class="label">🏛️ 尚书省</span><span class="sub">派发协调</span></div>
+  </div>
+
+  <div style="font-size:12px;color:#999;margin:10px 0 6px;">↓ 派发到六部</div>
+
+  <div class="arch-six">
+    <div class="arch-six-item"><span class="cn">💰 户部</span><span class="en">数据/财政</span></div>
+    <div class="arch-six-item"><span class="cn">📝 礼部</span><span class="en">文案/内容</span></div>
+    <div class="arch-six-item"><span class="cn">⚔️ 兵部</span><span class="en">安全/竞品</span></div>
+    <div class="arch-six-item"><span class="cn">⚖️ 刑部</span><span class="en">审计/审查</span></div>
+    <div class="arch-six-item"><span class="cn">🔧 工部</span><span class="en">工程/开发</span></div>
+    <div class="arch-six-item"><span class="cn">👥 吏部</span><span class="en">人事/管理</span></div>
+  </div>
+
+  <div style="margin-top:10px;">
+    <div class="arch-row">
+      <div class="arch-node" style="min-width:auto;padding:6px 16px;"><span class="label" style="font-size:12px;">🌅 早朝官</span><span class="sub" style="font-size:10px;">仪式/资讯</span></div>
+      <div class="arch-node" style="min-width:auto;padding:6px 16px;"><span class="label" style="font-size:12px;">🌌 钦天监</span><span class="sub" style="font-size:10px;">天文/定时</span></div>
+    </div>
+  </div>
+</div>
+
+<h3>3.2 三省——决策与制衡</h3>
+
+<div class="agent-grid">
+  <div class="agent-card">
+    <div class="emoji">🤖</div>
+    <div class="info">
+      <div class="name">太子 taizi</div>
+      <div class="role">门禁 + 分拣</div>
+      <div class="desc">判断用户输入是闲聊还是政令。闲聊直接回复，政令提炼标题转中书省。不可越级联系六部。</div>
+      <div class="comm">对应现代：AI 网关 / 意图识别</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">📜</div>
+    <div class="info">
+      <div class="name">中书省 zhongshu</div>
+      <div class="role">起草 + 规划</div>
+      <div class="desc">拆解用户旨意为可执行子任务，输出结构化计划。被门下省封驳后需重新规划。</div>
+      <div class="comm">对应现代：项目经理 / 规划器</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">⚖️</div>
+    <div class="info">
+      <div class="name">门下省 menxia</div>
+      <div class="role">审核 + 封驳</div>
+      <div class="desc">审核计划是否符合道统、可行性和资源约束。<strong>有封驳权（Veto Power）</strong>——不合规打回中书省重做。</div>
+      <div class="comm">对应现代：审核委员会 / QA 门禁</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">🏛️</div>
+    <div class="info">
+      <div class="name">尚书省 shangshu</div>
+      <div class="role">派发 + 协调</div>
+      <div class="desc">接收门下省批准的计划，根据任务性质派发到对应六部。唯一能联系全部六部的节点。</div>
+      <div class="comm">对应现代：调度中心 / 任务分发器</div>
+    </div>
+  </div>
+</div>
+
+<h3>3.3 六部——专业执行</h3>
+
+<div class="agent-grid">
+  <div class="agent-card">
+    <div class="emoji">💰</div>
+    <div class="info">
+      <div class="name">户部 hubu</div>
+      <div class="role">财政 / 数据分析</div>
+      <div class="desc">数据分析、财务报表、数据处理、爬虫采集。只能通过尚书省接收任务。</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">📝</div>
+    <div class="info">
+      <div class="name">礼部 libu</div>
+      <div class="role">礼仪 / 文案</div>
+      <div class="desc">文案撰写、PPT制作、翻译、内容创作。品牌调性把控。</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">⚔️</div>
+    <div class="info">
+      <div class="name">兵部 bingbu</div>
+      <div class="role">安全 / 攻防</div>
+      <div class="desc">安全审计、渗透测试、CTF、竞品分析、威胁情报。</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">🔍</div>
+    <div class="info">
+      <div class="name">刑部 xingbu</div>
+      <div class="role">司法 / 审查</div>
+      <div class="desc">代码审查、Bug检测、合规审核、质量控制。</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">🔧</div>
+    <div class="info">
+      <div class="name">工部 gongbu</div>
+      <div class="role">工程 / 建设</div>
+      <div class="desc">代码编写、系统搭建、DevOps、架构设计、CI/CD。</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">👥</div>
+    <div class="info">
+      <div class="name">吏部 libu_hr</div>
+      <div class="role">人事 / 管理</div>
+      <div class="desc">Agent 配置管理、模型切换、Skill 管理、绩效考核。</div>
+    </div>
+  </div>
+</div>
+
+<h3>3.4 辅助机构</h3>
+
+<div class="agent-grid">
+  <div class="agent-card">
+    <div class="emoji">🌅</div>
+    <div class="info">
+      <div class="name">早朝官 zaochao</div>
+      <div class="role">仪式 / 资讯推送</div>
+      <div class="desc">每日首次打开看板→上朝开场动画+统计。天下要闻采集推送。不参与政务流程。</div>
+    </div>
+  </div>
+  <div class="agent-card">
+    <div class="emoji">🌌</div>
+    <div class="info">
+      <div class="name">钦天监 qintianjian</div>
+      <div class="role">天文 / 定时任务</div>
+      <div class="desc">定时任务管理、资讯采集调度、日历与历法管理。</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<h2>四、旨意生命周期——从下旨到归档</h2>
+
+<p>一个任务（旨意）从创建到完成，经过 <strong>7 个阶段</strong>，每个阶段由不同的 Agent 负责，形成完整闭环：</p>
+
+<div class="flow-diagram">
+  <div class="flow-row">
+    <div class="flow-step"><span class="step-num">①</span>用户下旨</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="step-num">②</span>太子分拣</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="step-num">③</span>中书规划</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="step-num">④</span>门下审议</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="step-num">⑤</span>尚书派发</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="step-num">⑥</span>六部执行</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="step-num">⑦</span>回奏归档</div>
+  </div>
+</div>
+
+<p><strong>关键设计点：</strong></p>
+<ul>
+  <li><strong>封驳机制</strong>：门下省在④阶段可以打回中书省重做——这是整个系统的核心制衡节点</li>
+  <li><strong>单向依赖链</strong>：太子→中书→门下→尚书→六部，不可越级</li>
+  <li><strong>六部隔离</strong>：六部之间不能直接通信，防止私下串通</li>
+  <li><strong>尚书枢纽</strong>：尚书省是唯一能联系全部六部的节点</li>
+  <li><strong>中断机制</strong>：任何阶段用户可叫停；封驳打回后可重新规划</li>
+</ul>
+
+<div class="flow-diagram" style="background:#f5f0ff;border-color:#d0c8e8;">
+  <div style="font-size:13px;font-weight:700;color:#7c5cfc;margin-bottom:8px;">💡 教练思考</div>
+  <p style="font-size:13px;color:#555;margin:0;line-height:1.7;">
+    这 7 个阶段其实是一个完整的 <strong>PDCA 循环</strong>（Plan→Do→Check→Act）。中书省是 Plan，门下省是 Check，尚书省+六部是 Do，回奏是 Act。企业数字化转型中，这个流程同样适用——<strong>先审批后执行、执行可追溯、结果可复盘</strong>。
+  </p>
+</div>
+
+<hr>
+
+<h2>五、权限矩阵——制度的核心</h2>
+
+<p>Edict 最精妙的设计是<strong>权限矩阵</strong>。每个 Agent 只能与特定的 Agent 通信，不能越级、不能串通：</p>
+
+<table>
+  <tr><th>Agent</th><th>可联系</th><th>不可联系</th></tr>
+  <tr><td>太子</td><td>中书省</td><td>门下省、尚书省、六部</td></tr>
+  <tr><td>中书省</td><td>门下省、尚书省</td><td>太子、六部</td></tr>
+  <tr><td>门下省</td><td>中书省、尚书省</td><td>太子、六部</td></tr>
+  <tr><td>尚书省</td><td>三省 + 全部六部</td><td>太子</td></tr>
+  <tr><td>六部各司</td><td>尚书省</td><td>彼此之间不能直接通信</td></tr>
+  <tr><td>早朝官</td><td>仅仪式/资讯</td><td>不参与政务流程</td></tr>
+</table>
+
+<p><strong>设计原则：</strong></p>
+<ul>
+  <li>单向依赖链，信息流从用户逐级向下</li>
+  <li>门下省是唯一的"反向通道"——可以把计划打回中书省</li>
+  <li>六部隔离——没有尚书省协调，六部之间不能串通</li>
+  <li>制度信用比效率更重要——多一步审核，少一个错误</li>
+</ul>
+
+<hr>
+
+<h2>六、技术架构</h2>
+
+<table>
+  <tr><th>层级</th><th>技术</th><th>说明</th></tr>
+  <tr><td>前端（军机处看板）</td><td>React 18 + TypeScript + Vite + Zustand</td><td>13 个功能组件，10 面板实时看板</td></tr>
+  <tr><td>后端 API</td><td>Python stdlib only（119KB 单文件）</td><td>REST + WebSocket + SQLite</td></tr>
+  <tr><td>Agent 运行时</td><td>OpenClaw</td><td>12 个独立 Agent 进程</td></tr>
+  <tr><td>数据存储</td><td>SQLite</td><td>轻量零配置</td></tr>
+  <tr><td>实时通信</td><td>WebSocket</td><td>状态实时推送</td></tr>
+</table>
+
+<p><strong>核心组件：</strong></p>
+<ul>
+  <li>任务看板（Kanban）— 所有旨意的实时状态</li>
+  <li>奏折时间线（Timeline）— 完整历史追溯</li>
+  <li>模型热切换（Model Switcher）— 每个 Agent 可独立切换 LLM</li>
+  <li>官员总览 — Token 消耗、活跃度统计</li>
+  <li>上朝开场动画 — 仪式感拉满</li>
+</ul>
+
+<hr>
+
+<h2>七、教练视角：三省六部的三个启发</h2>
+
+<h3>🏢 启发一：制度设计 > 技术选型</h3>
+<p>Edict 的创始人没有追求"更先进的算法"，而是从历史中找到了答案。这给企业数字员工转型的启示是：<strong>先设计好组织架构和流程制度，再选工具</strong>。很多 AI 转型失败不是因为技术不够好，而是流程没想清楚——谁来发起？谁来审批？谁来执行？谁来验收？</p>
+
+<h3>🧠 启发二：封驳权是 AI 治理的核心</h3>
+<p>在 AI 越来越强大的时代，<strong>谁来否决 AI 的决定</strong>是一个关键问题。Edict 的门下省封驳权提供了一个思路：在 AI 执行的流程中嵌入一个独立的审核节点，专门负责"挑毛病"。这对任何企业部署 AI 都有借鉴意义。</p>
+
+<h3>📚 启发三：跨学科教学的好素材</h3>
+<p>三省六部制 + AI Agent 的组合，是二代传承教育中<strong>历史 × 技术 × 管理</strong>的绝佳案例。学生可以：</p>
+<ul>
+  <li>从历史角度理解分权制衡的起源</li>
+  <li>从技术角度理解 Agent 协作的原理</li>
+  <li>从管理角度理解组织设计的核心要素</li>
+</ul>
+
+<hr>
+
+<h2>八、对比：Edict vs. 其他多 Agent 框架</h2>
+
+<table>
+  <tr><th>维度</th><th>CrewAI</th><th>AutoGen</th><th>Edict（三省六部）</th></tr>
+  <tr><td>任务分发</td><td>直接派发</td><td>直接派发</td><td>太子分拣→中书规划→门下审核→尚书派发</td></tr>
+  <tr><td>审核机制</td><td>无</td><td>无</td><td><strong>门下省封驳权</strong></td></tr>
+  <tr><td>可视化</td><td>有限</td><td>有限</td><td>军机处实时看板（10 面板）</td></tr>
+  <tr><td>制度约束</td><td>无</td><td>无</td><td>权限矩阵 + 道统文件约束</td></tr>
+  <tr><td>历史追溯</td><td>有限</td><td>有限</td><td>奏折系统 + 五阶段时间线</td></tr>
+  <tr><td>中文生态</td><td>一般</td><td>一般</td><td>原生中文设计</td></tr>
+</table>
+
+<hr>
+
+<h2>九、获取与部署</h2>
+
+<table>
+  <tr><th>资源</th><th>链接</th></tr>
+  <tr><td>GitHub 仓库</td><td><a href="https://github.com/cft0808/edict" target="_blank">github.com/cft0808/edict</a></td></tr>
+  <tr><td>许可证</td><td>MIT（可自由商用）</td></tr>
+  <tr><td>部署方式</td><td>本地部署 / Docker Compose</td></tr>
+  <tr><td>运行时依赖</td><td>OpenClaw + Python 3.9+</td></tr>
+  <tr><td>安装文档</td><td>WINDOWS_INSTALL_CN.md / install.sh / install.ps1</td></tr>
+  <tr><td>前端构建</td><td>Node.js + Vite（React 18）</td></tr>
+</table>
+
+<hr>
+
+<blockquote>
+<strong>教练总结：</strong> Edict（三省六部）的价值远不止是一个多 Agent 框架。它是一个<strong>组织设计的范本</strong>——告诉我们 AI 时代最需要解决的问题不是"如何让 AI 更聪明"，而是"如何让多个 AI 协同工作而不出乱子"。这个问题的答案，1300 年前的唐朝人已经给出了。
+</blockquote>
+
+<div class="footer">
+  <p><a href="index.html">← 返回 AI 工具</a></p>
+  <p style="font-size:12px;color:#ccc;">杨辉 Ken Yang · 教练即觉修 · © 2026</p>
+</div>
+
+</div>
+</body>
+</html>
