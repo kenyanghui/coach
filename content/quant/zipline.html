@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zipline · 美股事件驱动回测框架 | 20k★ · Pipeline API</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --indigo: #6366f1; --indigo-light: #818cf8; --indigo-dim: #4338ca;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #9e4a3f; --blue-light: #5a90d8;
+  --border-subtle: rgba(99,102,241,0.08);
+  --border-card: rgba(99,102,241,0.12);
+  --border-active: rgba(99,102,241,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(99,102,241,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--indigo-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#a5b4fc; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--indigo-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--indigo-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--indigo-light); border-color:var(--border-active); background:rgba(99,102,241,0.04); }
+
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--indigo-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(99,102,241,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--indigo-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--indigo-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--indigo-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--indigo-dim); }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--indigo-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--indigo-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--indigo-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(99,102,241,0.08),transparent); }
+
+.feature-box { background:linear-gradient(135deg,rgba(99,102,241,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--indigo-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(99,102,241,0.06); color:var(--indigo-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(99,102,241,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--indigo-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(99,102,241,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--indigo-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--indigo-light); opacity:0.55; background:rgba(99,102,241,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(99,102,241,0.12); color:var(--indigo-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--indigo-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--indigo-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(99,102,241,0.02); }
+.data-table code { background:rgba(99,102,241,0.05); color:var(--indigo-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-red { color:var(--red); border-color:rgba(158,74,63,0.2); background:rgba(158,74,63,0.05); }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(99,102,241,0.25); color:var(--indigo-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(99,102,241,0.06); border-color:var(--indigo-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--indigo-light); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · Zipline</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#features">核心能力</a><a href="#install">安装</a><a href="#limits">边界</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">ZIPLINE · 美股事件驱动回测框架</div>
+  <h1>Zip<em>line</em></h1>
+  <div class="subtitle">Quantopian · Pipeline 因子计算</div>
+  <p class="hero-desc">
+    20,033 Star · Apache-2.0 · 原项目停维 · reloaded 续命<br>
+    美股多因子/量化策略研究 · 横截面 Alpha 因子
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">20k</span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">Pipeline</span><span class="label">因子计算</span></div>
+    <div class="hero-stat"><span class="num">美股</span><span class="label">市场</span></div>
+    <div class="hero-stat"><span class="num">reloaded</span><span class="label">社区续命</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 Zipline？</h2>
+  <p class="section-sub">Quantopian 的美股事件驱动回测引擎</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>Zipline</strong> 是众包对冲基金 <strong>Quantopian</strong> 开发的 Pythonic 事件驱动回测引擎，
+      主要用于<strong>美股</strong>多因子/量化策略研究。标志性能力是 <strong>Pipeline API</strong>——
+      声明式的横截面因子计算。Quantopian 2020 年底关闭后原项目停维，
+      现由 <strong>Stefan Jansen</strong> 的 zipline-reloaded fork 续命（3.1.1 版本，活跃维护）。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>原仓库</td><td><a href="https://github.com/quantopian/zipline" target="_blank">quantopian/zipline</a> · 20,033 Star · 已停维</td></tr>
+    <tr><td>维护 fork</td><td><a href="https://github.com/stefan-jansen/zipline-reloaded" target="_blank">zipline-reloaded</a> · 1,919 Star · 3.1.1</td></tr>
+    <tr><td>许可证</td><td><code>Apache-2.0</code></td></tr>
+    <tr><td>配套生态</td><td>Alphalens（因子分析）+ pyfolio（业绩报告）</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="features">
+  <div class="section-label">核心能力</div>
+  <h2>事件驱动 + Pipeline 因子计算</h2>
+  <p class="section-sub">Quantopian 专业研究体系</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">⚙️</span><div><div class="domain-name">事件驱动回测</div><span class="domain-count">bar 驱动</span></div></div>
+      <div class="domain-methods"><span class="domain-method">initialize/handle_data</span><span class="domain-method">order_target</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📐</span><div><div class="domain-name">Pipeline API</div><span class="domain-count">横截面因子</span></div></div>
+      <div class="domain-methods"><span class="domain-method">批量因子计算</span><span class="domain-method">筛选</span></div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">研究流水线</div>
+    <p>
+      典型工作流：<strong>zipline Pipeline 计算因子 → Alphalens 分析因子有效性 → zipline 回测 → pyfolio 生成业绩报告</strong>。
+      这是 Quantopian 当年留给业界最完整的因子研究体系。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="install">
+  <div class="section-label">安装</div>
+  <h2>pip install zipline-reloaded</h2>
+  <p class="section-sub">原版无法在现代 Python 安装</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装 reloaded 版</div>
+    <div class="install-body">
+      <pre>pip install zipline-reloaded   <span class="cm"># Python ≥3.10</span></pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">⚠️ 重要</div>
+    <p>
+      原始 zipline 依赖栈极旧（Python 2.7/3.5/3.6、pandas≤0.22），现代环境基本无法直接安装。
+      <strong>必须使用 zipline-reloaded</strong>（Python 3.10+、numpy 2.x、pandas 2.x）。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="limits">
+  <div class="section-label">优缺点与边界</div>
+  <h2>美股因子研究利器，A 股需自建 bundle</h2>
+  <p class="section-sub">偏研究，非高频</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>Pipeline 因子计算</td><td>横截面 alpha 研究的利器，向量化高效</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>生态完整</td><td>Alphalens + pyfolio 配套，书籍资料丰富</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>原版停维</td><td>依赖栈极旧，需 reloaded fork</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>偏美股</td><td>A 股/加密需自建 bundle，成本高</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">用 Zipline 做美股因子研究</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      适合美股多因子/量化策略研究与回测（尤其横截面 alpha 因子）、教育/书籍学习。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://github.com/stefan-jansen/zipline-reloaded" target="_blank" class="cta-link">🐙 reloaded</a>
+      <a href="https://zipline.ml4trading.io" target="_blank" class="cta-link">📚 文档</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Zipline · 美股事件驱动回测框架 · Pipeline 因子计算</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.domain-card, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
+</script>
+</body>
+</html>

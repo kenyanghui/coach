@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QMT / MiniQMT · 迅投极速策略交易系统 | ~20券商 · 本地低延迟 · 全品类</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --orange: #f59e0b; --orange-light: #fbbf24; --orange-dim: #b45309;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #a63a2e; --blue: #3b6fb6; --blue-light: #5a90d8;
+  --border-subtle: rgba(245,158,11,0.08);
+  --border-card: rgba(245,158,11,0.12);
+  --border-active: rgba(245,158,11,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,158,11,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--orange-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#fcd34d; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--orange-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--orange-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--orange-light); border-color:var(--border-active); background:rgba(245,158,11,0.04); }
+
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--orange-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(245,158,11,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--orange-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--orange-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--orange-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--orange-dim); }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--orange-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--orange-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--orange-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(245,158,11,0.08),transparent); }
+
+.feature-box { background:linear-gradient(135deg,rgba(245,158,11,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--orange-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(245,158,11,0.06); color:var(--orange-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+/* Flow Steps */
+.flow-steps { display:flex; gap:0; align-items:stretch; margin:22px 0; }
+.flow-step { flex:1; background:rgba(245,158,11,0.015); border:1px solid var(--border-card); padding:22px 16px; text-align:center; position:relative; }
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after { content:'→'; position:absolute; right:-13px; top:50%; transform:translateY(-50%); color:var(--orange-light); opacity:0.3; font-size:1rem; z-index:1; }
+.flow-num { font-size:1.4rem; color:var(--orange-light); opacity:0.3; display:block; margin-bottom:4px; font-family:'JetBrains Mono',monospace; }
+.flow-step:nth-child(2) .flow-num { color:var(--gold); }
+.flow-step:nth-child(3) .flow-num { color:var(--green-light); }
+.flow-step:nth-child(4) .flow-num { color:var(--red); }
+.flow-title { font-size:0.82rem; color:var(--cream); letter-spacing:0.06em; margin:2px 0 6px; }
+.flow-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+
+/* Domain Grid */
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(245,158,11,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--orange-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(245,158,11,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--orange-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--orange-light); opacity:0.55; background:rgba(245,158,11,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+/* Skill Grid */
+.skill-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-bottom:24px; }
+.skill-card { background:rgba(245,158,11,0.015); border:1px solid var(--border-card); border-radius:4px; padding:16px 14px; transition:all 0.3s var(--ease-smooth); }
+.skill-card:hover { border-color:rgba(245,158,11,0.28); background:rgba(245,158,11,0.03); }
+.skill-card .sc-emoji { font-size:1.3rem; display:block; margin-bottom:4px; }
+.skill-card .sc-name { font-size:0.8rem; color:var(--cream); font-weight:500; letter-spacing:0.04em; margin-bottom:4px; }
+.skill-card .sc-desc { font-size:0.68rem; color:var(--text-muted); line-height:1.6; opacity:0.7; }
+.skill-card .sc-link { display:inline-block; margin-top:8px; font-size:0.62rem; color:var(--orange-light); opacity:0.55; letter-spacing:0.06em; }
+.skill-card .sc-link:hover { opacity:1; }
+
+/* Agent Grid */
+.agent-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:20px 0; }
+.agent-item { text-align:center; background:rgba(245,158,11,0.015); border:1px solid var(--border-card); border-radius:4px; padding:14px 10px; transition:border-color 0.3s; }
+.agent-item:hover { border-color:var(--border-active); }
+.agent-item .ai-icon { font-size:1.4rem; display:block; margin-bottom:4px; }
+.agent-item .ai-name { font-size:0.75rem; color:var(--cream); font-weight:500; }
+.agent-item .ai-path { font-size:0.58rem; color:var(--text-dim); letter-spacing:0.04em; display:block; margin-top:2px; }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(245,158,11,0.12); color:var(--orange-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--orange-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--orange-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(245,158,11,0.02); }
+.data-table code { background:rgba(245,158,11,0.05); color:var(--orange-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-blue { color:var(--blue-light); border-color:rgba(59,111,182,0.2); background:rgba(59,111,182,0.05); }
+.tag-red { color:var(--red); border-color:rgba(166,58,46,0.2); background:rgba(166,58,46,0.05); }
+
+.quote-block { max-width:700px; margin:24px auto; padding:20px 24px; text-align:center; border-top:1px solid rgba(245,158,11,0.08); border-bottom:1px solid rgba(245,158,11,0.08); font-size:0.82rem; color:var(--cream-dark); opacity:0.65; line-height:2; }
+.quote-block .source { display:block; margin-top:10px; font-size:0.7rem; color:var(--orange-light); opacity:0.45; letter-spacing:0.06em; }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(245,158,11,0.25); color:var(--orange-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(245,158,11,0.06); border-color:var(--orange-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--orange-light); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:900px) {
+  .flow-steps { flex-direction:column; }
+  .flow-step:not(:last-child)::after { content:'↓'; right:auto; top:auto; bottom:-12px; left:50%; transform:translateX(-50%); }
+  .hero-stats { gap:18px; }
+  .hero-stat:not(:last-child)::after { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .skill-grid { grid-template-columns:1fr; }
+  .agent-grid { grid-template-columns:repeat(2,1fr); }
+  .data-table { font-size:0.68rem; }
+  .data-table th, .data-table td { padding:6px 8px; }
+}
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · QMT / MiniQMT</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a>
+    <a href="#miniqmt">MiniQMT</a>
+    <a href="#xtquant">xtquant 库</a>
+    <a href="#compare">竞品对比</a>
+    <a href="#fee">收费门槛</a>
+    <a href="#community">社区生态</a>
+    <a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">THINKTRADER · QMT / MiniQMT · 迅投极速策略交易系统</div>
+  <h1>Q<em>MT</em></h1>
+  <div class="subtitle">迅投（睿智融科）· 本地运行 · 低延迟全品类量化终端</div>
+  <p class="hero-desc">
+    约 20 家券商支持 · 单笔报单延迟 &lt;1ms · 全品类覆盖（含期货/期权）<br>
+    Python + VBA 双语言 · xtquant 库 · 代码本地保密 · Tick 级回测
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">~20</span><span class="label">券商支持</span></div>
+    <div class="hero-stat"><span class="num">&lt;1ms</span><span class="label">报单延迟</span></div>
+    <div class="hero-stat"><span class="num">3.6<small>–3.13</small></span><span class="label">Python 版本</span></div>
+    <div class="hero-stat"><span class="num">全品类</span><span class="label">含期货/期权</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 QMT？</h2>
+  <p class="section-sub">迅投（ThinkTrader）的本地化极速策略交易系统</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>QMT</strong>（Quantitative Market Trading）是<strong>北京睿智融科控股</strong>（2011 年成立）旗下
+      <strong>迅投（ThinkTrader）</strong>品牌的极速策略交易系统，面向有编程能力的量化投资者与机构。
+      与恒生 PTrade 并称国内券商主推的两大量化终端，二者互补：QMT 主打<strong>本地运行 + 低延迟 + 全品种</strong>，
+      PTrade 主打<strong>云端托管 + 易上手</strong>。
+    </p>
+    <p style="margin-top:10px;">
+      <strong>易混淆澄清</strong>：<strong>MindGo</strong> 是<strong>同花顺</strong>旗下的 AI 量化平台，与迅投 QMT 无关；
+      恒生对应的产品是 PTrade，也非 QMT。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>开发商</td><td>北京睿智融科控股（2011 成立，品牌「迅投 ThinkTrader」，非上市）</td></tr>
+    <tr><td>产品定位</td><td>面向有编程能力者的本地化极速交易终端</td></tr>
+    <tr><td>运行模式</td><td>本地客户端运行，仅委托上传柜台（代码与数据不上云）</td></tr>
+    <tr><td>策略语言</td><td>Python + VBA 双语言</td></tr>
+    <tr><td>交易品种</td><td>A 股 / ETF / 可转债 / 两融 / <strong>期货 / 期权</strong> / 港股通 / 北交所</td></tr>
+    <tr><td>回测精度</td><td>Tick 级 / 逐笔回测（完整版）</td></tr>
+    <tr><td>延迟</td><td>本地直连极速柜台 + 全内存交易，宣传单笔 &lt;1ms</td></tr>
+    <tr><td>开源情况</td><td>xtquant 非开源，无官方 GitHub；第三方封装 EasyXT 等</td></tr>
+    <tr><td>监管合规</td><td>受证监会《程序化交易管理规定》（2024-10 施行）约束</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="miniqmt">
+  <div class="section-label">MiniQMT 是什么</div>
+  <h2>MiniQMT = QMT 的「极简模式」</h2>
+  <p class="section-sub">不是独立软件，而是允许外部 IDE + 外部 Python 自由开发的交易网关</p>
+
+  <table class="data-table">
+    <tr><th>维度</th><th>完整版 QMT</th><th>MiniQMT + xtquant</th></tr>
+    <tr><td>代码编写位置</td><td>必须在 QMT 客户端内</td><td>外部任意 IDE（PyCharm / VSCode / Jupyter）</td></tr>
+    <tr><td>Python 环境</td><td>内置 Python 3.6，第三方库有限</td><td>外部 64 位 Python 3.6–3.13，自由装库</td></tr>
+    <tr><td>回测</td><td>自带可视化回测（含 Tick 级）</td><td>无内置，需外接 backtrader 等</td></tr>
+    <tr><td>图形界面</td><td>完整 UI</td><td>精简，仅数据 + 交易网关</td></tr>
+    <tr><td>资源占用</td><td>较高</td><td>约标准版 30%</td></tr>
+    <tr><td>灵活性</td><td>受客户端框架限制</td><td>极高，可接数据库 / AI 模型 / 自建系统</td></tr>
+  </table>
+
+  <div class="feature-box">
+    <div class="feature-box-label">登录与授权机制</div>
+    <p>
+      必须<strong>先启动 MiniQMT 客户端并保持登录在线</strong>，xtquant 才能连接；客户端关闭策略即断。
+      策略代码<strong>无需上传</strong>，仅委托经本地客户端上传券商柜台。
+      <code>xtdata</code>（行情）无需登录即可用；<code>xttrader</code>（交易）需开通 A 股实盘版权限。
+      连接仅需提供<strong>资金账号</strong>，<strong>无需交易密码</strong>。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="xtquant">
+  <div class="section-label">xtquant Python 库</div>
+  <h2>数据 + 交易 · 双模块 API</h2>
+  <p class="section-sub">MiniQMT 的核心，把行情与下单能力开放给外部 Python</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📊</span><div><div class="domain-name">xtdata · 行情</div><span class="domain-count">历史 / 实时 / Tick / 财务</span></div></div>
+      <div class="domain-methods"><span class="domain-method">download_history_data()</span><span class="domain-method">get_market_data_ex()</span><span class="domain-method">subscribe_quote()</span><span class="domain-method">get_full_tick()</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">💹</span><div><div class="domain-name">xttrader · 交易</div><span class="domain-count">报单 / 撤单 / 查询</span></div></div>
+      <div class="domain-methods"><span class="domain-method">order_stock()</span><span class="domain-method">order_stock_async()</span><span class="domain-method">cancel_order_stock()</span><span class="domain-method">query_stock_positions()</span></div>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装 xtquant（三种方式）</div>
+    <div class="install-body">
+      <pre><span class="cm"># 方式一：pip（指向镜像或本地拷贝）</span>
+pip install xtquant
+
+<span class="cm"># 方式二：官网下载压缩包解压到 site-packages</span>
+<span class="cm"># dict.thinktrader.net/nativeApi/download_xtquant.html</span>
+
+<span class="cm"># 方式三：QMT 客户端「下载 Python 库」后拷贝</span>
+<span class="cm"># bin.x64\Lib\site-packages</span></pre>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> 连接 MiniQMT 并下单</div>
+    <div class="install-body">
+      <pre><span class="kw">from</span> xtquant <span class="kw">import</span> xtdata, xttrader
+<span class="kw">from</span> xtquant.xttrader <span class="kw">import</span> XtQuantTrader
+<span class="kw">from</span> xtquant.xttype <span class="kw">import</span> StockAccount
+
+<span class="cm"># path 指向 MiniQMT 安装目录的 userdata_mini 文件夹</span>
+trader = XtQuantTrader(path, session_id, callback)
+trader.connect()
+trader.subscribe(account)
+trader.order_stock(account, <span class="str">"600000.SH"</span>, <span class="str">23</span>, <span class="str">100</span>, <span class="str">11</span>, <span class="str">10.5</span>, <span class="str">"策略名"</span>, <span class="str">"备注"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">API 约定</div>
+    <p>
+      代码格式 <code>'600000.SH'</code> / <code>'000001.SZ'</code>；
+      <code>period</code> 支持 <code>tick / 1m / 5m / 15m / 30m / 1h / 1d / 1w / 1mon</code>；
+      下单 <code>order_type</code> 中 <code>23=买、24=卖</code>。
+      版本历史：<code>240613</code> 支持 Py3.12，<code>250516</code> 支持 Py3.13 + 银证转账，最新 <code>250807</code>。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="compare">
+  <div class="section-label">竞品对比</div>
+  <h2>QMT vs PTrade · 本地 vs 云端</h2>
+  <p class="section-sub">核心区别：手动挡赛车 vs 智能电动车</p>
+
+  <table class="data-table">
+    <tr><th>维度</th><th>QMT（迅投）</th><th>PTrade（恒生）</th></tr>
+    <tr><td>运行模式</td><td>本地客户端运行，仅委托上传</td><td>券商云端服务器托管</td></tr>
+    <tr><td>语言</td><td>Python + VBA</td><td>仅 Python</td></tr>
+    <tr><td>延迟</td><td>更低（微秒/亚毫秒级）</td><td>毫秒级，适合中低频</td></tr>
+    <tr><td>第三方库</td><td>可自由安装</td><td>仅白名单内库</td></tr>
+    <tr><td>品种覆盖</td><td>全品类（含期货/期权/港股通）</td><td>现货为主，衍生品支持弱</td></tr>
+    <tr><td>回测精度</td><td>Tick 级逐笔</td><td>分钟级为主</td></tr>
+    <tr><td>策略数量</td><td>理论上无上限</td><td>模拟盘 ≤5、实盘 ≤8</td></tr>
+    <tr><td>策略保密性</td><td>代码留在本地</td><td>需上传券商服务器</td></tr>
+    <tr><td>硬件要求</td><td>高（需常开 + 16G+ 固态）</td><td>极低</td></tr>
+    <tr><td>上手门槛</td><td>高（需编程+自运维）</td><td>低（零代码模板 + 云端免运维）</td></tr>
+  </table>
+
+  <div class="quote-block">
+    QMT 像「手动挡专业赛车」，PTrade 像「顶级智能电动车」。二者非互斥，国金等券商支持「双开」组合使用。
+    <span class="source">—— 社区流传比喻</span>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">适用场景选择</div>
+    <p>
+      <strong>选 QMT / MiniQMT</strong>：有编程能力、做<strong>期货/期权</strong>、高频/低延迟、策略复杂、对代码保密要求高、愿自维护服务器。<br>
+      <strong>选 PTrade</strong>：新手/上班族、股票/ETF/可转债、中低频、要云端 7×24 免运维。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="fee">
+  <div class="section-label">版本 · 收费 · 门槛</div>
+  <h2>券商专业版免费 · 官方投研版付费</h2>
+  <p class="section-sub">唯一能合规实盘的是券商专业版</p>
+
+  <table class="data-table">
+    <tr><th>版本</th><th>收费</th><th>说明</th></tr>
+    <tr><td>官方基础版</td><td>付费</td><td>无法实盘</td></tr>
+    <tr><td>官方投研版</td><td>约 <code>9780 元/年</code>（+L2 约 2980 元）</td><td>面向个人/机构，需注意实盘合规</td></tr>
+    <tr><td>券商测试版</td><td>多数免费</td><td>模拟盘</td></tr>
+    <tr><td><span class="tag tag-green">券商专业版</span></td><td>免费（需资产门槛 + 程序化报备）</td><td>完整功能，唯一能合规实盘</td></tr>
+  </table>
+
+  <div class="feature-box">
+    <div class="feature-box-label">开通门槛（20 日日均资产 + C4 风险测评）</div>
+    <p>
+      国金证券 <strong>0 门槛（限时）/ 10 万</strong>（散户最友好，可同开 PTrade、送 L2）；
+      江海 5 万起；华西/中金财富/国信约 10 万；中信建投/长城 20 万；华泰/中信 30–50 万；
+      头部全功能版 50–300 万。<strong>国盛偏高</strong>，多来源称 50 万以上甚至 100 万档。
+    </p>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">重要提醒</div>
+    <p>
+      国金「0 门槛」为<strong>限时政策</strong>；延迟的「微秒/纳秒级」属营销口径，真实延迟受柜台/网络/券商风控影响；
+      门槛与 MiniQMT 支持情况<strong>以开户券商客户经理确认为准</strong>，开通时需原话确认「是否支持带独立交易模式的 MiniQMT」。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="limits">
+  <div class="section-label">优缺点与边界</div>
+  <h2>本地运行的代价与回报</h2>
+  <p class="section-sub">低延迟与高灵活性的另一面，是需要自行运维</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>延迟极低</td><td>本地直连极速柜台 + 全内存交易，适合高频/套利/抢单</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>品种全覆盖</td><td>唯一可做期货/期权的券商量化终端</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>代码本地保密</td><td>策略不上云，保密性强</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>可装任意第三方库</td><td>外部 Python 环境自由 pip，可接 AI/数据库</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>Tick 级回测</td><td>逐笔回测，策略数量无硬性上限</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>需硬件常开</td><td>关机/断网/死机即策略停摆，需自维护</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>编程门槛高</td><td>需懂 Python + 量化 + 系统运维</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>MiniQMT 无内置回测</td><td>需外接 backtrader / vectorbt</td></tr>
+    <tr><td><span class="tag tag-blue">注意</span></td><td>仅 Windows 客户端</td><td>Mac/Linux 需虚拟机</td></tr>
+    <tr><td><span class="tag tag-blue">注意</span></td><td>xtquant 非开源</td><td>无官方 GitHub，pip 包实为镜像/本地拷贝</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="community">
+  <div class="section-label">社区生态</div>
+  <h2>Backtrader + xtquant 黄金搭档</h2>
+  <p class="section-sub">xtquant 闭源，但周边开源生态活跃</p>
+
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📚</span>
+      <div class="sc-name">官方 API 文档</div>
+      <div class="sc-desc">dict.thinktrader.net/nativeApi — xtquant API、快速开始、常见问题、版本下载</div>
+      <a class="sc-link" href="http://dict.thinktrader.net/nativeApi/start_now.html" target="_blank">官方文档 →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🌐</span>
+      <div class="sc-name">官方社区</div>
+      <div class="sc-desc">www.xuntou.net — 迅投 QMT 社区，7×24 仿真、策略指导、远程调试</div>
+      <a class="sc-link" href="https://www.xuntou.net" target="_blank">迅投社区 →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🧩</span>
+      <div class="sc-name">EasyXT</div>
+      <div class="sc-desc">基于 xtquant 的二次封装库，回测基于 Backtrader，支持参数优化/风险分析</div>
+      <a class="sc-link" href="https://github.com/quant-king299/EasyXT" target="_blank">github.com/quant-king299/EasyXT →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🤖</span>
+      <div class="sc-name">finance-quant-skills</div>
+      <div class="sc-desc">含 miniqmt / backtrader / qmt-docs 等 13 个 Agent Skills 的开源技能库</div>
+      <a class="sc-link" href="https://github.com/lzwme/finance-quant-skills" target="_blank">github.com/lzwme/finance-quant-skills →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📈</span>
+      <div class="sc-name">Backtrader 组合</div>
+      <div class="sc-desc">Backtrader（回测引擎）+ xtquant（数据/交易）是社区公认的「平民量化黄金搭档」</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🧪</span>
+      <div class="sc-name">xtquantai</div>
+      <div class="sc-desc">QMT 内置回测的因子回测脚本框架</div>
+      <a class="sc-link" href="https://github.com/dfkai/xtquantai" target="_blank">github.com/dfkai/xtquantai →</a>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">重要说明</div>
+    <p>
+      <strong>xtquant 非开源、无官方 GitHub 仓库、无正式 pip 包</strong>。
+      <code>pip install xtquant</code> 实际指向镜像或本地拷贝方案；社区 PyPI 包
+      <code>quant1x-xtquant</code> 为第三方维护。MiniQMT 软件免费但<strong>不能免开户</strong>，
+      实盘必须经券商开户 + 白名单 + 专业版权限。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">用 xtquant 把策略跑在自己的电脑上</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      联系支持券商的客户经理开通量化白名单（确认支持 MiniQMT），
+      用任意 IDE + 外部 Python + xtquant 自由开发，代码本地保密、低延迟下单。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="http://dict.thinktrader.net/nativeApi/start_now.html" target="_blank" class="cta-link">📚 官方 API 文档</a>
+      <a href="https://www.xuntou.net" target="_blank" class="cta-link">🌐 迅投社区</a>
+      <a href="https://github.com/quant-king299/EasyXT" target="_blank" class="cta-link">🧩 EasyXT 封装库</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>QMT / MiniQMT · 迅投极速策略交易系统 · 本地运行 · 低延迟全品类</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议 · 门槛与 MiniQMT 支持以开户券商实际政策为准</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.domain-card, .skill-card, .flow-step, .feature-box, .quote-block, .agent-item, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
+</script>
+</body>
+</html>

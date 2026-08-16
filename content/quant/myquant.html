@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>掘金 MyQuant · 机构级量化平台 | 多语言 · Tick回测 · 期货CTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --yellow: #eab308; --yellow-light: #facc15; --yellow-dim: #a16207;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #9e4a3f; --blue-light: #5a90d8;
+  --border-subtle: rgba(234,179,8,0.08);
+  --border-card: rgba(234,179,8,0.12);
+  --border-active: rgba(234,179,8,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(234,179,8,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--yellow-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#fde047; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--yellow-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--yellow-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--yellow-light); border-color:var(--border-active); background:rgba(234,179,8,0.04); }
+
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--yellow-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(234,179,8,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--yellow-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--yellow-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--yellow-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--yellow-dim); }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--yellow-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--yellow-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--yellow-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.08),transparent); }
+
+.feature-box { background:linear-gradient(135deg,rgba(234,179,8,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--yellow-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(234,179,8,0.06); color:var(--yellow-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(234,179,8,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--yellow-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(234,179,8,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--yellow-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--yellow-light); opacity:0.55; background:rgba(234,179,8,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+.skill-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-bottom:24px; }
+.skill-card { background:rgba(234,179,8,0.015); border:1px solid var(--border-card); border-radius:4px; padding:16px 14px; transition:all 0.3s var(--ease-smooth); }
+.skill-card:hover { border-color:rgba(234,179,8,0.28); background:rgba(234,179,8,0.03); }
+.skill-card .sc-emoji { font-size:1.3rem; display:block; margin-bottom:4px; }
+.skill-card .sc-name { font-size:0.8rem; color:var(--cream); font-weight:500; letter-spacing:0.04em; margin-bottom:4px; }
+.skill-card .sc-desc { font-size:0.68rem; color:var(--text-muted); line-height:1.6; opacity:0.7; }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(234,179,8,0.12); color:var(--yellow-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--yellow-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--yellow-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(234,179,8,0.02); }
+.data-table code { background:rgba(234,179,8,0.05); color:var(--yellow-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-red { color:var(--red); border-color:rgba(158,74,63,0.2); background:rgba(158,74,63,0.05); }
+
+.quote-block { max-width:700px; margin:24px auto; padding:20px 24px; text-align:center; border-top:1px solid rgba(234,179,8,0.08); border-bottom:1px solid rgba(234,179,8,0.08); font-size:0.82rem; color:var(--cream-dark); opacity:0.65; line-height:2; }
+.quote-block .source { display:block; margin-top:10px; font-size:0.7rem; color:var(--yellow-light); opacity:0.45; letter-spacing:0.06em; }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(234,179,8,0.25); color:var(--yellow-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(234,179,8,0.06); border-color:var(--yellow-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--yellow-light); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+  .skill-grid { grid-template-columns:1fr; }
+}
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · 掘金</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#features">核心能力</a><a href="#sdk">SDK</a><a href="#fee">收费</a><a href="#limits">边界</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">MYQUANT · 掘金 · 机构级本地量化平台</div>
+  <h1>掘<em>金</em></h1>
+  <div class="subtitle">MyQuant · 机构级高性能回测 + 期货 CTA 首选</div>
+  <p class="hero-desc">
+    多语言（Python/C++/C#/Matlab）· Tick 级回测 · 股票+期货混合<br>
+    CTP/OES 柜台对接 · 本地运行代码保密
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">4</span><span class="label">多语言</span></div>
+    <div class="hero-stat"><span class="num">&lt;1s</span><span class="label">单品种回测</span></div>
+    <div class="hero-stat"><span class="num">Tick</span><span class="label">级回测</span></div>
+    <div class="hero-stat"><span class="num">CTA</span><span class="label">期货首选</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是掘金？</h2>
+  <p class="section-sub">面向机构与专业量化投资者的本地化一站式平台</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>掘金（MyQuant）</strong>是<strong>深圳红树科技</strong>（2013 年成立，法定代表人许强）运营的
+      本地化一站式量化投资平台，覆盖投研、回测、仿真、实盘、风控、绩效分析全流程。
+      核心卖点是<strong>机构级高性能回测引擎 + 期货/CTA 强 + 多语言支持</strong>。
+    </p>
+    <p style="margin-top:10px;">
+      2016 年平台正式上线，先后获九州证券、东方财富资本投资。
+      是四大量化平台（QMT/PTrade/聚宽/掘金）中<strong>期货 CTA 能力最强</strong>的选手。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>运营主体</td><td>深圳红树科技（2013 成立，CEO 许强）</td></tr>
+    <tr><td>平台上线</td><td>2016 年</td></tr>
+    <tr><td>策略语言</td><td>Python / C++ / C# / MATLAB 四语言</td></tr>
+    <tr><td>回测引擎</td><td>C++ 核心，事件驱动 + 向量化双模式，Tick 级</td></tr>
+    <tr><td>柜台对接</td><td>CTP / OES / XTP / IB 等 10 余家</td></tr>
+    <tr><td>交易品种</td><td>A 股 / 期货 / 期权 / 可转债 / ETF / 指数（不支持港美股）</td></tr>
+    <tr><td>SDK</td><td><code>gm</code>（pip 安装，底层闭源二进制）</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="features">
+  <div class="section-label">核心能力</div>
+  <h2>机构级回测 + 期货 CTA 强</h2>
+  <p class="section-sub">多语言、Tick 级、股票期货混合回测</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">⚙️</span><div><div class="domain-name">高性能回测</div><span class="domain-count">C++ 核心引擎</span></div></div>
+      <div class="domain-methods"><span class="domain-method">事件驱动</span><span class="domain-method">向量化</span><span class="domain-method">Tick 级</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📈</span><div><div class="domain-name">期货 / CTA</div><span class="domain-count">CTP / OES 对接</span></div></div>
+      <div class="domain-methods"><span class="domain-method">CTP 柜台</span><span class="domain-method">CTA 策略库</span><span class="domain-method">股票+期货混合</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🌐</span><div><div class="domain-name">多语言</div><span class="domain-count">Python/C++/C#/Matlab</span></div></div>
+      <div class="domain-methods"><span class="domain-method">from gm.api import *</span><span class="domain-method">四语言 SDK</span></div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">回测 → 仿真 → 实盘统一 API</div>
+    <p>
+      生命周期函数 <code>init / schedule / run / stop</code>，事件 <code>on_bar / on_tick / on_l2transaction</code> 等。
+      回测、仿真、实盘通过标准化 API 一键切换，策略代码基本无需改动。
+      仿真撮合支持「精准撮合」（盘口撮合）与「模拟撮合」（7×24 调试）。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="sdk">
+  <div class="section-label">SDK 与 API</div>
+  <h2>gm 库 · 闭源二进制</h2>
+  <p class="section-sub">Python 层源码可见，底层引擎闭源</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装 gm SDK</div>
+    <div class="install-body">
+      <pre>pip install gm -U -i https://mirrors.aliyun.com/pypi/simple/
+<span class="cm"># 交易 SDK（仿真/实盘）</span>
+pip install gmtrade</pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> 认证并使用</div>
+    <div class="install-body">
+      <pre><span class="kw">from</span> gm.api <span class="kw">import</span> *
+set_token(<span class="str">'你的token'</span>)
+<span class="cm"># 获取历史行情</span>
+history(<span class="str">'SHSE.600000'</span>, frequency=<span class="str">'1d'</span>, fields=<span class="str">'close'</span>, start_time=<span class="str">'2024-01-01'</span>)</pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">开源状态</div>
+    <p>
+      掘金 SDK <strong>未声明开源</strong>。Python 层源码安装后可见（<code>site-packages/gm/api/</code>），
+      但底层为平台相关二进制 wheel（含编译的本地扩展），核心引擎闭源。
+      GitHub 仅有策略示例仓库 <code>myquant/strategy</code>，无 SDK 源码。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="fee">
+  <div class="section-label">收费模式</div>
+  <h2>免费版 + 专业版 ~9800 元/年</h2>
+  <p class="section-sub">免费版足够入门，深度数据需付费</p>
+
+  <table class="data-table">
+    <tr><th>版本</th><th>价格</th><th>说明</th></tr>
+    <tr><td>免费版</td><td>免费</td><td>数据/策略/回测/仿真；实时行情订阅最多 50 个标的</td></tr>
+    <tr><td>专业版</td><td>约 <code>9800 元/年</code></td><td>Tick 级数据、多因子库、实盘多账户</td></tr>
+    <tr><td>券商版</td><td>券商收费</td><td>需资产门槛（约 10 万～50 万）</td></tr>
+    <tr><td>机构版</td><td>定制</td><td>复杂组合策略研发/交易</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="limits">
+  <div class="section-label">优缺点与边界</div>
+  <h2>期货 CTA 最强，但社区偏小</h2>
+  <p class="section-sub">专业玩家友好，新手门槛高</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>多语言</td><td>Python/C++/C#/Matlab，专业开发者友好</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>期货 CTA 最强</td><td>CTP/OES 对接，Tick 回测，股票+期货混合回测</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>本地保密</td><td>策略代码不上传服务器</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>数据质量高</td><td>10 年+ 历史、财务、因子、北向资金</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>用户基数小</td><td>社区资源少，相比聚宽/QMT</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>仅 Windows</td><td>终端仅 Windows 64 位，macOS 不支持</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>费用偏高</td><td>专业版 ~9800/年，券商版有资产门槛</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">做期货 CTA，掘金是首选</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      访问 myquant.cn 注册即可使用免费版。适合机构用户、专业量化玩家、
+      高频/中高频与期货 CTA 策略、多语言需求者。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://www.myquant.cn" target="_blank" class="cta-link">🌐 官方网站</a>
+      <a href="https://myquant.cn/docs2/" target="_blank" class="cta-link">📚 官方文档</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>掘金 MyQuant · 机构级量化平台 · 多语言 · 期货 CTA 首选</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.domain-card, .skill-card, .feature-box, .quote-block, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
+</script>
+</body>
+</html>

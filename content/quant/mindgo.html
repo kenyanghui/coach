@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>同花顺 SuperMind · AI 量化平台 | 问财选股 · 秒级回测 · 原 MindGo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --rose: #f43f5e; --rose-light: #fb7185; --rose-dim: #be123c;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #9e4a3f; --blue-light: #5a90d8;
+  --border-subtle: rgba(244,63,94,0.08);
+  --border-card: rgba(244,63,94,0.12);
+  --border-active: rgba(244,63,94,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(244,63,94,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--rose-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#fda4af; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--rose-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--rose-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--rose-light); border-color:var(--border-active); background:rgba(244,63,94,0.04); }
+
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--rose-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(244,63,94,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--rose-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--rose-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--rose-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--rose-dim); }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--rose-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--rose-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--rose-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(244,63,94,0.08),transparent); }
+
+.feature-box { background:linear-gradient(135deg,rgba(244,63,94,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--rose-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(244,63,94,0.06); color:var(--rose-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(244,63,94,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--rose-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(244,63,94,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--rose-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--rose-light); opacity:0.55; background:rgba(244,63,94,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(244,63,94,0.12); color:var(--rose-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--rose-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--rose-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(244,63,94,0.02); }
+.data-table code { background:rgba(244,63,94,0.05); color:var(--rose-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-red { color:var(--red); border-color:rgba(158,74,63,0.2); background:rgba(158,74,63,0.05); }
+
+.quote-block { max-width:700px; margin:24px auto; padding:20px 24px; text-align:center; border-top:1px solid rgba(244,63,94,0.08); border-bottom:1px solid rgba(244,63,94,0.08); font-size:0.82rem; color:var(--cream-dark); opacity:0.65; line-height:2; }
+.quote-block .source { display:block; margin-top:10px; font-size:0.7rem; color:var(--rose-light); opacity:0.45; letter-spacing:0.06em; }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(244,63,94,0.25); color:var(--rose-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(244,63,94,0.06); border-color:var(--rose-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--rose-light); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · SuperMind</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#features">核心能力</a><a href="#iwencai">问财选股</a><a href="#fee">收费</a><a href="#limits">边界</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">HITHINK · SuperMind · 同花顺 AI 量化平台（原 MindGo）</div>
+  <h1>Super<em>Mind</em></h1>
+  <div class="subtitle">同花顺 · AI 赋能 · 让量化实盘更简单</div>
+  <p class="hero-desc">
+    问财自然语言选股 · 秒级回测 · HithinkGPT 大模型<br>
+    数据回溯 2005 年 · 免费调用同花顺金融大数据
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">2016</span><span class="label">平台上线</span></div>
+    <div class="hero-stat"><span class="num">0.29s</span><span class="label">秒级回测</span></div>
+    <div class="hero-stat"><span class="num">2005</span><span class="label">数据回溯</span></div>
+    <div class="hero-stat"><span class="num">HithinkGPT</span><span class="label">自研大模型</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 SuperMind？</h2>
+  <p class="section-sub">同花顺旗下的 AI 量化投研与交易平台</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>SuperMind（原 MindGo）</strong>是<strong>同花顺</strong>（300033.SZ）自主研发的量化投研与交易平台，
+      2016 年上线，2023 年 4 月更名 SuperMind。平台向所有投资者<strong>免费开放</strong>，
+      覆盖「策略回测 → 因子研究 → 绩效分析 → 模拟 → 仿真 → 实盘」全链路。
+    </p>
+    <p style="margin-top:10px;">
+      核心差异化是<strong>问财自然语言选股</strong>深度集成 + <strong>HithinkGPT 大模型</strong>，
+      是同花顺 AI 大模型变现的 To C 收费渠道（AI 付费用户超 180 万）。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>运营主体</td><td>同花顺（浙江核新同花顺，300033.SZ）</td></tr>
+    <tr><td>上线时间</td><td>2016 年（2023-04 更名 SuperMind）</td></tr>
+    <tr><td>产品形态</td><td>网页端（免费）+ 本地客户端 + 本地 SDK（付费）</td></tr>
+    <tr><td>回测引擎</td><td>秒级回测（300 股 4 年日频仅 0.29 秒）</td></tr>
+    <tr><td>AI 能力</td><td>问财自然语言选股 + HithinkGPT 大模型</td></tr>
+    <tr><td>数据起点</td><td>2005 年起 · Level-2 自 2014 年 · Tick 级</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="features">
+  <div class="section-label">核心能力</div>
+  <h2>AI 赋能 + 秒级回测</h2>
+  <p class="section-sub">同花顺生态无缝衔接</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">⚡</span><div><div class="domain-name">秒级回测</div><span class="domain-count">300股4年0.29秒</span></div></div>
+      <div class="domain-methods"><span class="domain-method">日频/分钟/Tick</span><span class="domain-method">14 项指标报告</span><span class="domain-method">Barra 因子分析</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🧠</span><div><div class="domain-name">AI 大模型</div><span class="domain-count">HithinkGPT</span></div></div>
+      <div class="domain-methods"><span class="domain-method">7B/13B/30B/70B/130B</span><span class="domain-method">32k 输入</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📊</span><div><div class="domain-name">数据覆盖</div><span class="domain-count">2005 年至今</span></div></div>
+      <div class="domain-methods"><span class="domain-method">股票/期货/期权/基金</span><span class="domain-method">财务/因子/舆情</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="iwencai">
+  <div class="section-label">差异化能力</div>
+  <h2>问财自然语言选股</h2>
+  <p class="section-sub">一行代码，自然语言选股 + 量化回测</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 自然语言选股（内置问财）</div>
+    <div class="install-body">
+      <pre><span class="kw">def</span> <span class="str">init</span>(context):
+    <span class="cm"># 一行代码完成自然语言选股，结果存于 context.iwencai_securities</span>
+    get_iwencai(<span class="str">"净利润增长大于20%，股价位于20日均线上方"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心卖点</div>
+    <p>
+      这是 SuperMind 区别于其他量化平台的特色：内置同花顺<strong>问财</strong>，
+      可在策略中用 <code>get_iwencai(...)</code> 一行代码完成自然语言选股/回测。
+      限频每 15 分钟 5000 次，仅能在 <code>init()</code> 中调用。
+      官方 FAQ 直称「一行代码策略回测 - 问财自然语言回测，简单方便」。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="fee">
+  <div class="section-label">收费模式</div>
+  <h2>基础免费 · 机构版 L2 6 万/年</h2>
+  <p class="section-sub">仿真体验版免费，机构版付费</p>
+
+  <table class="data-table">
+    <tr><th>版本</th><th>价格</th><th>说明</th></tr>
+    <tr><td>仿真体验版</td><td>免费</td><td>仅模拟账户，研究环境 2G 内存</td></tr>
+    <tr><td>机构量化版 L2</td><td><code>60000 元/年</code></td><td>主观+量化，研究环境 8G 内存</td></tr>
+    <tr><td>付费扩展</td><td>另计</td><td>本地数据/接口/SDK、计算资源、期货实盘</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="limits">
+  <div class="section-label">优缺点与边界</div>
+  <h2>入门友好，但实盘限制多</h2>
+  <p class="section-sub">同花顺重度用户的最佳入门选择</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>数据全且免费</td><td>免费调用同花顺金融大数据，含 Tick 与 L2</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>秒级回测</td><td>迭代效率高，问财自然语言选股降门槛</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>生态衔接</td><td>策略 100% 归属用户，容器隔离安全</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>实盘限制多</td><td>仅部分券商支持，需 C4 测评与资产要求</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>需会 Python</td><td>零代码能力有限，代码相对封闭</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>更新放缓</td><td>2026 年平台部分功能「升级中」，更新放缓</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">用问财，让量化选股像说话一样简单</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      访问 quant.10jqka.com.cn 注册即可免费使用在线回测与问财选股。
+      适合同花顺重度用户、零基础入门、机构与高校量化教学。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://quant.10jqka.com.cn" target="_blank" class="cta-link">🌐 官方网站</a>
+      <a href="https://quant.10jqka.com.cn/view/help/16" target="_blank" class="cta-link">📚 FAQ</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>同花顺 SuperMind（原 MindGo）· AI 量化平台 · 问财选股 · 秒级回测</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.domain-card, .feature-box, .quote-block, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
+</script>
+</body>
+</html>

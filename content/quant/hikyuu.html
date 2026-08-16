@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hikyuu · C++/Python 量化框架 | 3.4k★ · Apache-2.0 · A股适配</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --violet: #8b5cf6; --violet-light: #a78bfa; --violet-dim: #6d28d9;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #9e4a3f; --blue-light: #5a90d8;
+  --border-subtle: rgba(139,92,246,0.08);
+  --border-card: rgba(139,92,246,0.12);
+  --border-active: rgba(139,92,246,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139,92,246,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--violet-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#c4b5fd; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--violet-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--violet-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--violet-light); border-color:var(--border-active); background:rgba(139,92,246,0.04); }
+
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--violet-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(139,92,246,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--violet-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--violet-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--violet-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--violet-dim); }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--violet-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--violet-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--violet-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(139,92,246,0.08),transparent); }
+
+.feature-box { background:linear-gradient(135deg,rgba(139,92,246,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--violet-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(139,92,246,0.06); color:var(--violet-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(139,92,246,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--violet-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(139,92,246,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--violet-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--violet-light); opacity:0.55; background:rgba(139,92,246,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(139,92,246,0.12); color:var(--violet-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--violet-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--violet-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(139,92,246,0.02); }
+.data-table code { background:rgba(139,92,246,0.05); color:var(--violet-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-red { color:var(--red); border-color:rgba(158,74,63,0.2); background:rgba(158,74,63,0.05); }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(139,92,246,0.25); color:var(--violet-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(139,92,246,0.06); border-color:var(--violet-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--violet-light); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · Hikyuu</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#arch">架构</a><a href="#perf">性能</a><a href="#limits">边界</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">HIKYUU · C++/Python 超高速量化研究框架</div>
+  <h1>Hiky<em>uu</em></h1>
+  <div class="subtitle">系统化交易组件化 · 深度适配 A 股</div>
+  <p class="hero-desc">
+    3,439 Star · Apache-2.0 · C++ 核心 + pybind11<br>
+    1913 万日 K 线预热后 166ms · 全市场回测秒级
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">3.4k</span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">2012</span><span class="label">项目起源</span></div>
+    <div class="hero-stat"><span class="num">166ms</span><span class="label">1913万K线</span></div>
+    <div class="hero-stat"><span class="num">C++</span><span class="label">核心</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 Hikyuu？</h2>
+  <p class="section-sub">老牌 C++/Python 量化交易研究框架</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>Hikyuu</strong> 是 fasiondog 开发的基于 <strong>C++/Python</strong> 的超高速开源量化交易研究框架，
+      聚焦「交易模型研发、极速计算引擎、高效回测体系、实盘交易拓展」四大维度，深度适配国内 <strong>A 股市场</strong>。
+      核心理念：把系统化交易方法拆解为独立「策略部件」，用户自由组合、快速积累策略资产。
+    </p>
+    <p style="margin-top:10px;">
+      仓库创建于 2012 年，是国内最早的开源量化框架之一，Apache-2.0 许可（注意 PyPI 误标为 MIT）。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>开发者</td><td>fasiondog（单维护者项目）</td></tr>
+    <tr><td>GitHub</td><td><a href="https://github.com/fasiondog/hikyuu" target="_blank">fasiondog/hikyuu</a> · 3,439 Star</td></tr>
+    <tr><td>许可证</td><td><code>Apache-2.0</code>（完全开源）</td></tr>
+    <tr><td>主语言</td><td>C++（核心）+ Python（pybind11 绑定）</td></tr>
+    <tr><td>最新版本</td><td><code>hikyuu 2.8.1</code>（2026-07）· Python 3.10–3.13</td></tr>
+    <tr><td>维护状态</td><td>活跃维护（2026-08 仍提交）</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="arch">
+  <div class="section-label">核心架构</div>
+  <h2>系统化交易组件化设计</h2>
+  <p class="section-sub">9+ 个可自由组合的策略部件</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🧩</span><div><div class="domain-name">策略部件</div><span class="domain-count">SYS/SG/MM/TM</span></div></div>
+      <div class="domain-methods"><span class="domain-method">交易系统</span><span class="domain-method">信号</span><span class="domain-method">资金管理</span><span class="domain-method">交易管理</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📊</span><div><div class="domain-name">组合/选股</div><span class="domain-count">PF/SE</span></div></div>
+      <div class="domain-methods"><span class="domain-method">投资组合 Portfolio</span><span class="domain-method">选股 Selector</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">💾</span><div><div class="domain-name">数据存储</div><span class="domain-count">4 种方式</span></div></div>
+      <div class="domain-methods"><span class="domain-method">HDF5(默认)</span><span class="domain-method">MySQL</span><span class="domain-method">ClickHouse</span><span class="domain-method">SQLite</span></div>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装</div>
+    <div class="install-body">
+      <pre>pip install hikyuu   <span class="cm"># Python 3.10–3.13</span></pre>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="perf">
+  <div class="section-label">性能特点</div>
+  <h2>C++ 核心 · 秒级全市场回测</h2>
+  <p class="section-sub">官方 AMD 7950x 实测数据</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">实测性能</div>
+    <p>
+      A 股全市场 <strong>1,913 万条日 K 线</strong>：首次「加载 + 计算 20 日均线并求和」约 <strong>6 秒</strong>，
+      数据预热后同操作仅 <strong>166 毫秒</strong>。百万级别 K 线回测约 <strong>2~3 秒</strong>完成计算。
+      性能来源：C++ 核心 + 多线程/多核加速 + 高效 HDF5 本地存储。
+    </p>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">实盘能力（重要边界）</div>
+    <p>
+      自 1.0.3 起支持实盘交易，通过 <code>TradeManager.regBroker()</code> 注册订单代理执行买卖。
+      但框架<strong>不内置券商交易服务</strong>，只提供通用接口扩展能力，
+      对接 QMT 等合规柜台需开发者自行编写 <code>buy/sell/get_asset_info</code> 接口后包装注册。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="limits">
+  <div class="section-label">优缺点与边界</div>
+  <h2>A 股适配强，实盘需自研对接</h2>
+  <p class="section-sub">中高级开发者的技术底座</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>高性能</td><td>C++ 核心，全市场回测秒级</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>组件化</td><td>策略可资产化、可重用、可组合</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>完全开源</td><td>Apache-2.0，数据本地可控</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>深度适配 A 股</td><td>期货等需自备数据适配</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>实盘需自研</td><td>无官方券商插件，仅提供接口框架</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>单维护者</td><td>社区维护基本靠作者一人</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">用 Hikyuu 做 A 股策略研究</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      适合 A 股策略研究、因子/信号回测、组合分析，以及愿自行对接合规柜台的中高级开发者。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://github.com/fasiondog/hikyuu" target="_blank" class="cta-link">🐙 GitHub</a>
+      <a href="https://hikyuu.org/" target="_blank" class="cta-link">🌐 官网</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Hikyuu · C++/Python 量化框架 · 系统化交易组件 · A 股适配</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.domain-card, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
+</script>
+</body>
+</html>

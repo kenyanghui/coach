@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenBB · 开源投资研究平台 | 600+ 命令 · Terminal / SDK / Platform</title>
+<title>OpenBB · 开源金融数据平台 | 71.8k★ · 31 数据源 · MCP 原生</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
   --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
   --blue: #2a7fd4; --blue-light: #4a9ae8; --blue-dim: #1a5a9e;
   --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #a63a2e;
   --border-subtle: rgba(42,127,212,0.08);
   --border-card: rgba(42,127,212,0.12);
   --border-active: rgba(42,127,212,0.25);
@@ -28,7 +29,7 @@ body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:no
 h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
 a { color:var(--blue-light); text-decoration:none; transition:color 0.2s; }
 a:hover { color:#7cb8f0; }
-code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 
 .top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .nav-home { display:flex; align-items:center; gap:10px; color:var(--blue-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
@@ -37,18 +38,22 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
 .nav-links a:hover { color:var(--blue-light); border-color:var(--border-active); background:rgba(42,127,212,0.04); }
 
-.hero { position:relative; z-index:1; min-height:75vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
 .hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--blue-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(42,127,212,0.25); padding:5px 18px; border-radius:2px; }
 .hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
 .hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
 .hero h1 em { color:var(--blue-light); font-style:normal; }
 .hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
-.hero-desc { max-width:640px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
-.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
 .hero-stat { text-align:center; position:relative; }
 .hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--blue-light),transparent); opacity:0.2; }
-.hero-stat .num { font-size:1.8rem; font-weight:700; color:var(--blue-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--blue-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--blue-dim); }
 .hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--blue-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--blue-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
 .section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
 .section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
@@ -58,15 +63,6 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
 .section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(42,127,212,0.08),transparent); }
 
-.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-bottom:20px; }
-.card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(42,127,212,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:22px 20px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); }
-.card:hover { border-color:var(--border-active); transform:translateY(-2px); }
-.card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--blue-light),transparent); opacity:0.6; }
-.card-icon { font-size:1.7rem; display:block; margin-bottom:6px; opacity:0.5; }
-.card-tag { display:inline-block; font-size:0.58rem; letter-spacing:0.18em; color:var(--blue-light); border:1px solid rgba(42,127,212,0.2); padding:2px 10px; border-radius:2px; margin-bottom:10px; }
-.card-title { font-size:0.95rem; color:var(--cream); margin-bottom:8px; font-weight:600; }
-.card-desc { font-size:0.78rem; color:var(--cream-dark); opacity:0.62; line-height:1.8; }
-
 .feature-box { background:linear-gradient(135deg,rgba(42,127,212,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
 .feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--blue-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 .feature-box-label::before { content:'◆'; font-size:0.35rem; }
@@ -74,10 +70,50 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .feature-box strong { color:var(--gold); font-weight:600; }
 .feature-box code { background:rgba(42,127,212,0.06); color:var(--blue-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
 
-.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
-.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--blue-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
-.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
-.data-table code { background:rgba(42,127,212,0.05); color:var(--blue-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+/* Flow Steps (architecture) */
+.flow-steps { display:flex; gap:0; align-items:stretch; margin:22px 0; }
+.flow-step { flex:1; background:rgba(42,127,212,0.015); border:1px solid var(--border-card); padding:22px 16px; text-align:center; position:relative; }
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after { content:'→'; position:absolute; right:-13px; top:50%; transform:translateY(-50%); color:var(--blue-light); opacity:0.3; font-size:1rem; z-index:1; }
+.flow-num { font-size:1.4rem; color:var(--blue-light); opacity:0.3; display:block; margin-bottom:4px; font-family:'JetBrains Mono',monospace; }
+.flow-step:nth-child(2) .flow-num { color:var(--gold); }
+.flow-step:nth-child(3) .flow-num { color:var(--green-light); }
+.flow-step:nth-child(4) .flow-num { color:var(--red); }
+.flow-title { font-size:0.82rem; color:var(--cream); letter-spacing:0.06em; margin:2px 0 6px; }
+.flow-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+
+/* Domain Grid (extensions) */
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(42,127,212,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--blue-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(42,127,212,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--blue-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--blue-light); opacity:0.55; background:rgba(42,127,212,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+/* Skill Grid (providers) */
+.skill-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-bottom:24px; }
+.skill-card { background:rgba(42,127,212,0.015); border:1px solid var(--border-card); border-radius:4px; padding:16px 14px; transition:all 0.3s var(--ease-smooth); }
+.skill-card:hover { border-color:rgba(42,127,212,0.28); background:rgba(42,127,212,0.03); }
+.skill-card .sc-emoji { font-size:1.3rem; display:block; margin-bottom:4px; }
+.skill-card .sc-name { font-size:0.8rem; color:var(--cream); font-weight:500; letter-spacing:0.04em; margin-bottom:4px; }
+.skill-card .sc-desc { font-size:0.68rem; color:var(--text-muted); line-height:1.6; opacity:0.7; }
+
+/* Agent Grid (interfaces) */
+.agent-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:20px 0; }
+.agent-item { text-align:center; background:rgba(42,127,212,0.015); border:1px solid var(--border-card); border-radius:4px; padding:14px 10px; transition:border-color 0.3s; }
+.agent-item:hover { border-color:var(--border-active); }
+.agent-item .ai-icon { font-size:1.4rem; display:block; margin-bottom:4px; }
+.agent-item .ai-name { font-size:0.75rem; color:var(--cream); font-weight:500; }
+.agent-item .ai-path { font-size:0.58rem; color:var(--text-dim); letter-spacing:0.04em; display:block; margin-top:2px; }
 
 .install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
 .install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
@@ -88,14 +124,45 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .install-body pre .str { color:var(--green-light); }
 .install-body pre .cm { color:var(--text-dim); font-style:italic; }
 
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--blue-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(42,127,212,0.02); }
+.data-table code { background:rgba(42,127,212,0.05); color:var(--blue-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-blue { color:var(--blue-light); border-color:rgba(42,127,212,0.2); background:rgba(42,127,212,0.05); }
+.tag-red { color:var(--red); border-color:rgba(166,58,46,0.2); background:rgba(166,58,46,0.05); }
+
+.quote-block { max-width:700px; margin:24px auto; padding:20px 24px; text-align:center; border-top:1px solid rgba(42,127,212,0.08); border-bottom:1px solid rgba(42,127,212,0.08); font-size:0.82rem; color:var(--cream-dark); opacity:0.65; line-height:2; }
+.quote-block .source { display:block; margin-top:10px; font-size:0.7rem; color:var(--blue-light); opacity:0.45; letter-spacing:0.06em; }
+
 .cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(42,127,212,0.25); color:var(--blue-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
 .cta-link:hover { background:rgba(42,127,212,0.06); border-color:var(--blue-light); }
 
 footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
-footer a { color:var(--gold); opacity:0.6; }
+footer a { color:var(--blue-light); opacity:0.6; }
 footer a:hover { opacity:1; }
 
-@media (max-width:600px) { .hero { padding:100px 20px 50px; min-height:55vh; } .hero h1 { font-size:1.5rem; } .hero-stats { gap:14px; } .hero-stat .num { font-size:1.4rem; } .section { padding:40px 20px; } .nav-links { display:none; } .card-grid { grid-template-columns:1fr; } }
+@media (max-width:900px) {
+  .flow-steps { flex-direction:column; }
+  .flow-step:not(:last-child)::after { content:'↓'; right:auto; top:auto; bottom:-12px; left:50%; transform:translateX(-50%); }
+  .hero-stats { gap:18px; }
+  .hero-stat:not(:last-child)::after { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .skill-grid { grid-template-columns:1fr; }
+  .agent-grid { grid-template-columns:repeat(2,1fr); }
+  .data-table { font-size:0.68rem; }
+  .data-table th, .data-table td { padding:6px 8px; }
+}
 
 .fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
 .fade-up.visible { opacity:1; transform:translateY(0); }
@@ -106,24 +173,31 @@ footer a:hover { opacity:1; }
 <nav class="top-nav">
   <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · OpenBB</a>
   <div class="nav-links">
-    <a href="#overview">总览</a><a href="#products">产品体系</a><a href="#features">能力</a><a href="#install">安装</a><a href="index.html">◂ 总览</a>
+    <a href="#overview">总览</a>
+    <a href="#architecture">架构</a>
+    <a href="#extensions">数据模块</a>
+    <a href="#providers">数据源</a>
+    <a href="#ai">AI/MCP</a>
+    <a href="#install">安装</a>
+    <a href="index.html">◂ 总览</a>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">OPENBB · 开源投资研究 · EVERYONE EVERYWHERE</div>
+  <div class="hero-badge">OPENBB · OPEN DATA PLATFORM · 开源金融数据平台</div>
   <h1>Open<em>BB</em></h1>
-  <div class="subtitle">开源投资研究平台 · 600+ 金融命令</div>
+  <div class="subtitle">面向分析师、量化与 AI Agent 的开源数据平台</div>
   <p class="hero-desc">
-    Terminal 命令行终端 · SDK 程序化访问 · Platform 重构<br>
-    覆盖股票 / 期权 / 加密 / 外汇 / 宏观 / 固收 / 另类数据
+    71,800+ GitHub Stars · 31 个数据源 · 18 大数据模块 · MCP 原生<br>
+    一次连接，处处消费 —— Python / REST / CLI / Web / Excel / AI Agent
   </p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">600<small>+</small></span><span class="label">金融命令</span></div>
-    <div class="hero-stat"><span class="num">11</span><span class="label">资产类别</span></div>
-    <div class="hero-stat"><span class="num">3</span><span class="label">产品形态</span></div>
-    <div class="hero-stat"><span class="num">10<small>+</small></span><span class="label">数据源</span></div>
+    <div class="hero-stat"><span class="num">71.8k</span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">31</span><span class="label">数据源 Provider</span></div>
+    <div class="hero-stat"><span class="num">18</span><span class="label">数据模块 Extension</span></div>
+    <div class="hero-stat"><span class="num">7<small>+</small></span><span class="label">消费接口</span></div>
   </div>
+  <div class="hero-scroll">向下探索</div>
 </section>
 
 <div class="section-divider"><hr></div>
@@ -131,141 +205,351 @@ footer a:hover { opacity:1; }
 <section class="section" id="overview">
   <div class="section-label">项目总览</div>
   <h2>什么是 OpenBB？</h2>
-  <p class="section-sub">免费开源的「彭博终端」替代品</p>
+  <p class="section-sub">从迷因股终端到企业级金融数据平台的十年进化</p>
 
   <div class="feature-box">
     <div class="feature-box-label">核心定位</div>
     <p>
-      <strong>OpenBB</strong> 是一个免费、完全开源的<strong>投资研究平台</strong>，
-      被称为「彭博终端（Bloomberg Terminal）的开源替代品」。
-      最初以 <strong>OpenBB Terminal</strong>（600+ 命令的金融终端）为核心，
-      配套 <strong>OpenBB SDK</strong>（程序化访问），现在正转型到 <strong>OpenBB Platform</strong>。
+      <strong>OpenBB</strong>（Open Data Platform，ODP）是一个<strong>免费、完全开源的金融数据平台</strong>，
+      把专有、授权与公开的数据源统一接入一个标准化的数据层，再通过<strong>「connect once, consume everywhere」</strong>
+      一次性暴露给多个消费端：Python 环境、OpenBB Workspace、Excel、MCP 服务器、REST API。
     </p>
     <p style="margin-top:10px;">
-      覆盖股票、期权、加密、外汇、宏观、固收、另类数据等 11 大资产类别，
-      支持 Alpha Vantage、FRED、Polygon、Binance、IEX、Finnhub 等 10+ 数据源。
+      其前身 <strong>Gamestonk Terminal</strong> 诞生于 2021 年初的迷因股热潮，由软件工程师
+      <strong>Didier Lopes</strong> 发起，在 Hacker News 与 Reddit 走红后，于 2022 年 3 月成立 OpenBB Inc.，
+      现已转型为 Bloomberg Terminal 的<strong>开源替代方案</strong>。
     </p>
   </div>
 
   <table class="data-table">
     <tr><th>属性</th><th>详情</th></tr>
     <tr><td>仓库</td><td><a href="https://github.com/OpenBB-finance/OpenBB" target="_blank">github.com/OpenBB-finance/OpenBB</a></td></tr>
-    <tr><td>官网</td><td><a href="https://openbb.co" target="_blank">openbb.co</a></td></tr>
-    <tr><td>命令数</td><td>600+（股票/期权/加密/外汇/宏观/固收/另类）</td></tr>
-    <tr><td>许可证</td><td>AGPLv3（Platform）/ MIT（旧 Terminal）</td></tr>
-    <tr><td>安装</td><td><code>pip install openbb</code> / Docker / 桌面安装器</td></tr>
+    <tr><td>GitHub 热度</td><td><code>71,797</code> Stars · <code>7,392</code> Forks</td></tr>
+    <tr><td>主语言</td><td>Python（FastAPI + Pydantic v2）</td></tr>
+    <tr><td>许可证</td><td><code>AGPL-3.0</code>（开源，网络分发需开源或商业授权）</td></tr>
+    <tr><td>安装</td><td><code>pip install openbb</code>（Python 3.10 – 3.13）</td></tr>
+    <tr><td>成立时间</td><td>2020-12-20（仓库创建）· 2022-03 公司化</td></tr>
+    <tr><td>融资</td><td><code>850 万美元</code> 种子轮（OSS Capital 领投，Naval Ravikant 等天使跟投）</td></tr>
+    <tr><td>官方文档</td><td><a href="https://docs.openbb.co" target="_blank">docs.openbb.co</a></td></tr>
+    <tr><td>仓库规模</td><td>~2.4 GB · 单体仓库（monorepo）· 最新 v4.7.0（2026-03）</td></tr>
   </table>
 </section>
 
 <div class="section-divider"><hr></div>
 
-<section class="section section-alt" id="products">
-  <div class="section-label">产品体系</div>
-  <h2>三大产品形态</h2>
-  <p class="section-sub">Terminal → SDK → Platform 的演进</p>
+<section class="section section-alt" id="architecture">
+  <div class="section-label">三层架构</div>
+  <h2>「一次连接，处处消费」</h2>
+  <p class="section-sub">OpenBB Platform (v4) 的分层设计，让同一套数据服务多个前端</p>
 
-  <div class="card-grid">
-    <div class="card">
-      <span class="card-icon">💻</span>
-      <div class="card-tag">CLI 终端</div>
-      <div class="card-title">OpenBB Terminal</div>
-      <div class="card-desc">Python 命令行终端，菜单导航（股票/加密/ETF/外汇/基金/经济/另类/计量/组合/仪表盘/报告），600+ 命令。v3.2.5 为最后版本。</div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">L1</span>
+      <div class="flow-title">🏗️ openbb-core</div>
+      <div class="flow-desc">FastAPI + Pydantic v2 内核<br>路由识别 · 数据模型标准化<br>uvicorn 启动（:6900）</div>
     </div>
-    <div class="card">
-      <span class="card-icon">🐍</span>
-      <div class="card-tag">Python SDK</div>
-      <div class="card-title">OpenBB SDK</div>
-      <div class="card-desc">程序化访问终端命令，<code>from openbb_terminal.sdk import openbb</code>，返回 Pandas DataFrame，<code>_chart</code> 后缀直接可视化。</div>
+    <div class="flow-step">
+      <span class="flow-num">L2</span>
+      <div class="flow-title">🧩 Routers 路由层</div>
+      <div class="flow-desc">100+ 端点按资产类别组织<br>equity / crypto / etf / economy…<br>每个端点可对接多个数据源</div>
     </div>
-    <div class="card">
-      <span class="card-icon">🔌</span>
-      <div class="card-tag">新平台</div>
-      <div class="card-title">OpenBB Platform</div>
-      <div class="card-desc">下一代平台，扩展机制增强用户体验。含开源 AI 金融分析师 Agent。配套 Terminal Pro（pro.openbb.co）。</div>
+    <div class="flow-step">
+      <span class="flow-num">L3</span>
+      <div class="flow-title">🔌 Providers 数据源</div>
+      <div class="flow-desc">31 个数据源（Yahoo / FRED / SEC…）<br>TET（Transform-Extract-Transform）<br>输出统一 Pydantic 模型</div>
     </div>
   </div>
-</section>
 
-<div class="section-divider"><hr></div>
-
-<section class="section" id="features">
-  <div class="section-label">核心能力</div>
-  <h2>覆盖 11 大资产类别</h2>
-  <p class="section-sub">从股票到另类数据，一个终端全覆盖</p>
-
-  <div class="card-grid">
-    <div class="card"><span class="card-icon">📈</span><div class="card-tag">股票</div><div class="card-title">Stocks</div><div class="card-desc">行情、基本面、技术分析、期权、卖空、内部人交易</div></div>
-    <div class="card"><span class="card-icon">⚖️</span><div class="card-tag">期权</div><div class="card-title">Options</div><div class="card-desc">期权链、希腊字母、波动率、策略</div></div>
-    <div class="card"><span class="card-icon">🪙</span><div class="card-tag">加密</div><div class="card-title">Crypto</div><div class="card-desc">加密货币行情、DeFi、链上数据</div></div>
-    <div class="card"><span class="card-icon">💱</span><div class="card-tag">外汇</div><div class="card-title">Forex</div><div class="card-desc">汇率、货币对、Oanda 数据</div></div>
-    <div class="card"><span class="card-icon">🏛️</span><div class="card-tag">宏观</div><div class="card-title">Economy</div><div class="card-desc">FRED、经济指标、GDP、CPI</div></div>
-    <div class="card"><span class="card-icon">📊</span><div class="card-tag">固收</div><div class="card-title">Fixed Income</div><div class="card-desc">国债、收益率曲线、信用</div></div>
-    <div class="card"><span class="card-icon">📚</span><div class="card-tag">另类数据</div><div class="card-title">Alternative</div><div class="card-desc">新闻情绪、社交媒体、公司事件</div></div>
-    <div class="card"><span class="card-icon">📐</span><div class="card-tag">计量</div><div class="card-title">Econometrics</div><div class="card-desc">回归分析、统计检验、预测</div></div>
+  <h3 style="text-align:center;margin-top:36px;font-size:1rem;color:var(--cream);letter-spacing:0.06em;">七大消费接口 · 一次连接，处处消费</h3>
+  <div class="agent-grid">
+    <div class="agent-item"><span class="ai-icon">🐍</span><span class="ai-name">Python SDK</span><span class="ai-path">from openbb import obb</span></div>
+    <div class="agent-item"><span class="ai-icon">🌐</span><span class="ai-name">REST API</span><span class="ai-path">FastAPI · OpenAPI</span></div>
+    <div class="agent-item"><span class="ai-icon">⌨️</span><span class="ai-name">CLI 终端</span><span class="ai-path">openbb-cli</span></div>
+    <div class="agent-item"><span class="ai-icon">🖥️</span><span class="ai-name">Web 终端</span><span class="ai-path">免费可视化看板</span></div>
+    <div class="agent-item"><span class="ai-icon">📊</span><span class="ai-name">Excel Add-in</span><span class="ai-path">原生 Excel 函数</span></div>
+    <div class="agent-item"><span class="ai-icon">🤖</span><span class="ai-name">MCP 服务器</span><span class="ai-path">AI Agent 接入</span></div>
+    <div class="agent-item"><span class="ai-icon">🏢</span><span class="ai-name">Workspace Pro</span><span class="ai-path">企业级 · VPC</span></div>
   </div>
 
   <div class="feature-box">
-    <div class="feature-box-label">AI 金融分析师 Agent</div>
+    <div class="feature-box-label">统一数据模型 OBBject</div>
     <p>
-      OpenBB Platform 内置开源的 <strong>AI 金融分析师 Agent</strong>，
-      可直接访问 OpenBB 内的数据，实现「自然语言提问 → 自动数据查询 → 分析报告」的闭环。
+      所有查询都返回 <code>OBBject</code>，原生支持
+      <code>.to_df()</code> · <code>.to_dict()</code> · <code>.to_numpy()</code> · <code>.to_polars()</code>，
+      一行代码在不同数据格式间无缝切换，彻底消除「每个数据源一个 JSON 结构」的碎片化问题。
     </p>
   </div>
 </section>
 
 <div class="section-divider"><hr></div>
 
+<section class="section" id="extensions">
+  <div class="section-label">十八大数据模块</div>
+  <h2>100+ 端点 · 全资产类别覆盖</h2>
+  <p class="section-sub">从股票到宏观、从衍生品到计量经济学，统一命名空间分层调用</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📈</span><div><div class="domain-name">股票 Equity</div><span class="domain-count">价格 · 基本面 · 估值</span></div></div>
+      <div class="domain-methods"><span class="domain-method">equity.price.historical</span><span class="domain-method">equity.fundamental</span><span class="domain-method">equity.estimates</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🪙</span><div><div class="domain-name">加密货币 Crypto</div><span class="domain-count">价格 · 链上 · 交易对</span></div></div>
+      <div class="domain-methods"><span class="domain-method">crypto.price.historical</span><span class="domain-method">crypto.dd</span><span class="domain-method">crypto.onchain</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">💱</span><div><div class="domain-name">外汇 Currency</div><span class="domain-count">汇率 · 即期 · 远期</span></div></div>
+      <div class="domain-methods"><span class="domain-method">currency.price.historical</span><span class="domain-method">currency.reference</span><span class="domain-method">currency.search</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🧺</span><div><div class="domain-name">ETF</div><span class="domain-count">行情 · 持仓 · 搜索</span></div></div>
+      <div class="domain-methods"><span class="domain-method">etf.price.historical</span><span class="domain-method">etf.holdings</span><span class="domain-method">etf.search</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📊</span><div><div class="domain-name">指数 Index</div><span class="domain-count">成分股 · 权重 · 行情</span></div></div>
+      <div class="domain-methods"><span class="domain-method">index.price.historical</span><span class="domain-method">index.constituents</span><span class="domain-method">index.market</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🛢️</span><div><div class="domain-name">大宗商品 Commodity</div><span class="domain-count">能源 · 金属 · 农产品</span></div></div>
+      <div class="domain-methods"><span class="domain-method">commodity.price.historical</span><span class="domain-method">commodity.forward</span><span class="domain-method">commodity.short_term</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🏦</span><div><div class="domain-name">固定收益 Fixedincome</div><span class="domain-count">国债 · 收益率曲线</span></div></div>
+      <div class="domain-methods"><span class="domain-method">fixedincome.government</span><span class="domain-method">fixedincome.corporate</span><span class="domain-method">fixedincome.rate</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🎯</span><div><div class="domain-name">衍生品 Derivatives</div><span class="domain-count">期权 · 期货 · 链</span></div></div>
+      <div class="domain-methods"><span class="domain-method">derivatives.options.chains</span><span class="domain-method">derivatives.futures.curve</span><span class="domain-method">derivatives.options.snapshots</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🏛️</span><div><div class="domain-name">宏观经济 Economy</div><span class="domain-count">GDP · CPI · 利率</span></div></div>
+      <div class="domain-methods"><span class="domain-method">economy.cpi</span><span class="domain-method">economy.gdp</span><span class="domain-method">economy.indicators</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📐</span><div><div class="domain-name">计量经济学 Econometrics</div><span class="domain-count">回归 · 协整 · 面板</span></div></div>
+      <div class="domain-methods"><span class="domain-method">econometrics.regression</span><span class="domain-method">econometrics.cointegration</span><span class="domain-method">econometrics.panel</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📉</span><div><div class="domain-name">技术分析 Technical</div><span class="domain-count">指标 · 移动平均</span></div></div>
+      <div class="domain-methods"><span class="domain-method">technical.sma</span><span class="domain-method">technical.rsi</span><span class="domain-method">technical.macd</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🧮</span><div><div class="domain-name">量化分析 Quantitative</div><span class="domain-count">因子 · 绩效 · 统计</span></div></div>
+      <div class="domain-methods"><span class="domain-method">quantitative.factors</span><span class="domain-method">quantitative.performance</span><span class="domain-method">quantitative.rolling</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">📰</span><div><div class="domain-name">新闻 News</div><span class="domain-count">公司 · 市场 · 全球</span></div></div>
+      <div class="domain-methods"><span class="domain-method">news.company</span><span class="domain-method">news.world</span><span class="domain-method">news.market</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">⚖️</span><div><div class="domain-name">监管 Regulators</div><span class="domain-count">SEC · CFPB · 披露</span></div></div>
+      <div class="domain-methods"><span class="domain-method">regulators.sec</span><span class="domain-method">regulators.cfpb</span><span class="domain-method">regulators.finra</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🔬</span><div><div class="domain-name">Fama-French</div><span class="domain-count">因子模型</span></div></div>
+      <div class="domain-methods"><span class="domain-method">famafrench.fama_french_3</span><span class="domain-method">famafrench.carhart</span><span class="domain-method">famafrench.q_factor</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🛠️</span><div><div class="domain-name">开发者工具 DevTools</div><span class="domain-count">调试 · 集成</span></div></div>
+      <div class="domain-methods"><span class="domain-method">devtools.introspection</span><span class="domain-method">devtools.routines</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🤖</span><div><div class="domain-name">MCP 服务器</div><span class="domain-count">AI Agent 工具</span></div></div>
+      <div class="domain-methods"><span class="domain-method">openbb-mcp-server</span><span class="domain-method">MCPConfigModel</span><span class="domain-method">Bearer 认证</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🔌</span><div><div class="domain-name">平台 API</div><span class="domain-count">内部集成</span></div></div>
+      <div class="domain-methods"><span class="domain-method">platform_api</span><span class="domain-method">system.health</span></div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">统一命名空间约定</div>
+    <p>
+      所有调用遵循<strong>层级命名空间</strong>：<code>obb.&lt;模块&gt;.&lt;子类&gt;.&lt;方法&gt;</code>，
+      例如 <code>obb.equity.price.historical("AAPL")</code>。
+      数据源通过 <code>provider=</code> 参数切换，同一个方法签名可跨 31 个数据源复用。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="providers">
+  <div class="section-label">三十一个数据源</div>
+  <h2>Provider 生态矩阵</h2>
+  <p class="section-sub">免费、付费与官方数据源统一接入，按需选择、灵活切换</p>
+
+  <div class="skill-grid">
+    <div class="skill-card"><span class="sc-emoji">💹</span><div class="sc-name">Yahoo Finance</div><div class="sc-desc">免费股票/ETF/指数行情与基本面，最常用的默认数据源</div></div>
+    <div class="skill-card"><span class="sc-emoji">🏦</span><div class="sc-name">FRED</div><div class="sc-desc">美联储经济数据库，利率/GDP/CPI 等 80 万+宏观序列</div></div>
+    <div class="skill-card"><span class="sc-emoji">📄</span><div class="sc-name">SEC EDGAR</div><div class="sc-desc">美股官方披露：10-K/10-Q/8-K 财报与内幕交易</div></div>
+    <div class="skill-card"><span class="sc-emoji">🌐</span><div class="sc-name">IMF</div><div class="sc-desc">国际货币基金组织宏观数据，SDMX 3 重构</div></div>
+    <div class="skill-card"><span class="sc-emoji">🇪🇺</span><div class="sc-name">ECB / OECD</div><div class="sc-desc">欧洲央行与经合组织官方经济数据</div></div>
+    <div class="skill-card"><span class="sc-emoji">📊</span><div class="sc-name">Polygon / FMP</div><div class="sc-desc">专业级美股行情与基本面（付费 tier）</div></div>
+    <div class="skill-card"><span class="sc-emoji">🇨🇦</span><div class="sc-name">TMX / Nasdaq</div><div class="sc-desc">加拿大与美国交易所数据</div></div>
+    <div class="skill-card"><span class="sc-emoji">⚡</span><div class="sc-name">Alpha Vantage</div><div class="sc-desc">免费 API 行情与技术指标</div></div>
+    <div class="skill-card"><span class="sc-emoji">📡</span><div class="sc-name">Benzinga / Biztoc</div><div class="sc-desc">新闻、财报日历与市场情绪</div></div>
+    <div class="skill-card"><span class="sc-emoji">🏛️</span><div class="sc-name">Federal Reserve / BLS</div><div class="sc-desc">美联储与美国劳工统计局官方数据</div></div>
+    <div class="skill-card"><span class="sc-emoji">🔗</span><div class="sc-name">CBOE / CFTC</div><div class="sc-desc">期权交易所与商品期货委员会数据</div></div>
+    <div class="skill-card"><span class="sc-emoji">🏛️</span><div class="sc-name">Congress Gov</div><div class="sc-desc">美国国会议员交易披露（政治敏感数据）</div></div>
+    <div class="skill-card"><span class="sc-emoji">🇺🇸</span><div class="sc-name">Government US</div><div class="sc-desc">美国政府开放数据聚合</div></div>
+    <div class="skill-card"><span class="sc-emoji">🎯</span><div class="sc-name">Deribit / Tradier</div><div class="sc-desc">加密货币衍生品与美股期权交易</div></div>
+    <div class="skill-card"><span class="sc-emoji">📈</span><div class="sc-name">Finviz / Seeking Alpha</div><div class="sc-desc">筛选器与分析师观点</div></div>
+    <div class="skill-card"><span class="sc-emoji">🔢</span><div class="sc-name">Intrinio / Tiingo</div><div class="sc-desc">专业级数据 API（付费 tier）</div></div>
+    <div class="skill-card"><span class="sc-emoji">🗞️</span><div class="sc-name">WSJ / TradingEconomics</div><div class="sc-desc">新闻与全球经济指标</div></div>
+    <div class="skill-card"><span class="sc-emoji">🇨🇦</span><div class="sc-name">Multpl / Stockgrid</div><div class="sc-desc">估值指标（Shiller PE）与历史数据</div></div>
+  </div>
+
+  <div class="quote-block">
+    OpenBB 不是数据生产商，而是数据编排层——它把 31 个数据源的「方言」翻译成统一的「普通话」。
+    <span class="source">—— Open Data Platform 设计哲学</span>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="ai">
+  <div class="section-label">AI 与 MCP 集成</div>
+  <h2>MCP 原生 · AI Agent 即插即用</h2>
+  <p class="section-sub">让 Claude Code、Codex、Cursor 直接读取金融数据</p>
+
+  <div class="flow-steps">
+    <div class="flow-step"><span class="flow-num">01</span><div class="flow-title">🧠 OpenBB Copilot</div><div class="flow-desc">Workspace 内置复合 AI 系统<br>自然语言查询金融数据</div></div>
+    <div class="flow-step"><span class="flow-num">02</span><div class="flow-title">🔌 MCP Server</div><div class="flow-desc">openbb-mcp-server 独立包<br>把 API 端点封装为 MCP 工具</div></div>
+    <div class="flow-step"><span class="flow-num">03</span><div class="flow-title">🤖 外部 Agent</div><div class="flow-desc">Claude Code / Codex / Cursor<br>通过 MCP 协议调用数据</div></div>
+    <div class="flow-step"><span class="flow-num">04</span><div class="flow-title">🛡️ 治理与血缘</div><div class="flow-desc">继承用户权限 · 凭证加密<br>输出可追溯数据血缘</div></div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">MCP 集成能力</div>
+    <p>
+      <strong>openbb-mcp-server</strong> 将 OpenBB 的 100+ API 端点自动组织为 MCP 工具，
+      按类别（equity / crypto / economy / news）分组，支持 prompt 文件与多步工作流组合，
+      通过 <code>MCPConfigModel</code> 精细控制工具暴露，并支持 <code>Bearer Token</code> 认证。
+    </p>
+  </div>
+
+  <h3 style="text-align:center;margin-top:36px;font-size:1rem;color:var(--cream);letter-spacing:0.06em;">AI Agent 兼容矩阵</h3>
+  <div class="agent-grid">
+    <div class="agent-item"><span class="ai-icon">🟣</span><span class="ai-name">Claude Code</span><span class="ai-path">MCP 工具接入</span></div>
+    <div class="agent-item"><span class="ai-icon">🟠</span><span class="ai-name">Codex</span><span class="ai-path">MCP 工具接入</span></div>
+    <div class="agent-item"><span class="ai-icon">🔵</span><span class="ai-name">Cursor</span><span class="ai-path">MCP 工具接入</span></div>
+    <div class="agent-item"><span class="ai-icon">🧠</span><span class="ai-name">OpenBB Copilot</span><span class="ai-path">Workspace 内置</span></div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
 <section class="section section-alt" id="install">
-  <div class="section-label">安装与使用</div>
-  <h2>三种安装方式</h2>
-  <p class="section-sub">从源码、Docker 到桌面安装器</p>
+  <div class="section-label">安装与配置</div>
+  <h2>三步接入 OpenBB</h2>
+  <p class="section-sub">从零到真实数据调用，不到 5 分钟</p>
 
   <div class="install-block">
-    <div class="install-header"><span class="step-num">1</span> 安装 Platform / SDK</div>
+    <div class="install-header"><span class="step-num">1</span> 安装核心包（Python 3.10 – 3.13）</div>
     <div class="install-body">
-      <pre><span class="cm"># 安装 OpenBB Platform</span>
-pip install openbb
-<span class="cm"># 或安装 CLI</span>
-pip install openbb-cli
-<span class="cm"># 或旧版 SDK（v3.2.4）</span>
-pip install openbb==3.2.4</pre>
-    </div>
-  </div>
-  <div class="install-block">
-    <div class="install-header"><span class="step-num">2</span> 配置数据源 API Key</div>
-    <div class="install-body">
-      <pre><span class="cm"># 配置数据源（Alpha Vantage / FRED / Polygon / Finnhub 等）</span>
-openbb.keys</pre>
-    </div>
-  </div>
-  <div class="install-block">
-    <div class="install-header"><span class="step-num">3</span> 使用示例</div>
-    <div class="install-body">
-      <pre><span class="cm"># SDK 调用</span>
-<span class="kw">from</span> openbb_terminal.sdk <span class="kw">import</span> openbb
-df = openbb.stocks.load(<span class="str">"AAPL"</span>)
+      <pre><span class="cm"># 安装全部数据源（推荐）</span>
+pip install <span class="str">"openbb[all]"</span>
 
-<span class="cm"># 终端命令</span>
-stocks/load AAPL/candle</pre>
+<span class="cm"># 或仅安装核心</span>
+pip install openbb</pre>
     </div>
   </div>
 
-  <div style="text-align:center;margin-top:28px;">
-    <a href="https://github.com/OpenBB-finance/OpenBB" target="_blank" class="cta-link">📦 GitHub 仓库</a>
-    <a href="https://openbb.co" target="_blank" class="cta-link">🌐 官网</a>
-    <a href="index.html" class="cta-link">◂ 返回总览</a>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> Python SDK 直接调用</div>
+    <div class="install-body">
+      <pre><span class="kw">from</span> openbb <span class="kw">import</span> obb
+
+<span class="cm"># 获取苹果历史行情</span>
+output = obb.equity.price.historical(<span class="str">"AAPL"</span>)
+df = output.to_dataframe()   <span class="cm"># 转 DataFrame</span>
+
+<span class="cm"># 切换数据源（默认 yfinance）</span>
+obb.equity.price.historical(<span class="str">"AAPL"</span>, provider=<span class="str">"fmp"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">3</span> 启动本地 REST API 服务</div>
+    <div class="install-body">
+      <pre><span class="cm"># 启动 FastAPI 服务（Uvicorn，端口 6900）</span>
+openbb-api
+
+<span class="cm"># 浏览器访问</span>
+http://127.0.0.1:6900</pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">API Key 配置</div>
+    <p>
+      免费数据源（如 <code>yfinance</code>、<code>fred</code>）无需密钥即可使用；
+      付费数据源（如 <code>polygon</code>、<code>fmp</code>）需通过
+      <code>obb.account.save(pat="&lt;token&gt;")</code> 或环境变量配置 API Key。
+      认证凭据加密存储，绝不写入源码。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="license">
+  <div class="section-label">许可证与边界</div>
+  <h2>AGPL-3.0 · 开源但有条件</h2>
+  <p class="section-sub">理解授权边界，才能放心地在生产环境中使用</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">允许</span></td><td>内部使用 / 研究 / 开发</td><td>无任何限制，完全免费</td></tr>
+    <tr><td><span class="tag tag-green">允许</span></td><td>私有扩展与专有数据源</td><td>可闭源集成自有数据，无需公开</td></tr>
+    <tr><td><span class="tag tag-green">允许</span></td><td>作为依赖调用</td><td>仅调用 OpenBB API，风险较低</td></tr>
+    <tr><td><span class="tag tag-red">受限</span></td><td>修改后对外分发</td><td>需以 AGPLv3 开源，或购买商业许可证</td></tr>
+    <tr><td><span class="tag tag-red">受限</span></td><td>作为 SaaS 对外托管</td><td>网络分发触发 AGPL copyleft 条款</td></tr>
+    <tr><td><span class="tag tag-blue">注意</span></td><td>付费数据源需订阅</td><td>Polygon / FMP / Intrinio 等需单独付费</td></tr>
+    <tr><td><span class="tag tag-blue">注意</span></td><td>数据仅供参考</td><td>不构成投资建议，交易存在高风险</td></tr>
+  </table>
+
+  <div class="feature-box">
+    <div class="feature-box-label">商业对比</div>
+    <p>
+      相较于 Bloomberg Terminal 的 <code>~2,000 美元/用户/月</code>，OpenBB 核心<strong>零席位费</strong>，
+      无供应商锁定，数据完全主权可控。企业需要 RBAC、SSO/SAML、审计日志、VPC 部署时，
+      可升级到 <strong>OpenBB Workspace Pro</strong>（SOC 2 Type II 认证）。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">让金融数据像呼吸一样自然</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      一行 <code style="background:rgba(42,127,212,0.06);color:var(--blue-light);padding:2px 8px;border-radius:2px;">pip install openbb</code>
+      接入 31 个数据源。Python、Excel、CLI、Web、AI Agent，一次连接，处处消费。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://github.com/OpenBB-finance/OpenBB" target="_blank" class="cta-link">📦 GitHub 仓库</a>
+      <a href="https://docs.openbb.co" target="_blank" class="cta-link">📚 官方文档</a>
+      <a href="https://openbb.co" target="_blank" class="cta-link">🌐 官方网站</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <p>OpenBB · 开源投资研究平台 · Investment Research for Everyone, Everywhere</p>
+  <p>OpenBB · 开源金融数据平台 · Investment Research for Everyone, Everywhere</p>
   <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
   <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
 </footer>
 
 <script>
 const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
-document.querySelectorAll('.card, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.domain-card, .skill-card, .flow-step, .feature-box, .quote-block, .agent-item, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
 </script>
 </body>
 </html>

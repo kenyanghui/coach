@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qlib · 微软 AI 量化投资平台 | 47.4k★ · Alpha158 · 20+模型</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --fuchsia: #d946ef; --fuchsia-light: #e879f9; --fuchsia-dim: #a21caf;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --red: #9e4a3f; --blue-light: #5a90d8;
+  --border-subtle: rgba(217,70,239,0.08);
+  --border-card: rgba(217,70,239,0.12);
+  --border-active: rgba(217,70,239,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(217,70,239,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--fuchsia-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#f0abfc; }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--fuchsia-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--fuchsia-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--fuchsia-light); border-color:var(--border-active); background:rgba(217,70,239,0.04); }
+
+.hero { position:relative; z-index:1; min-height:78vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--fuchsia-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(217,70,239,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--fuchsia-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; margin-bottom:34px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--fuchsia-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.9rem; font-weight:700; color:var(--fuchsia-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.85rem; color:var(--fuchsia-dim); }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--fuchsia-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--fuchsia-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--fuchsia-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(217,70,239,0.08),transparent); }
+
+.feature-box { background:linear-gradient(135deg,rgba(217,70,239,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--fuchsia-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(217,70,239,0.06); color:var(--fuchsia-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-bottom:20px; }
+.domain-card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(217,70,239,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); overflow:hidden; }
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--fuchsia-light),transparent); opacity:0.6; }
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--gold),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--green-light),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon { font-size:1.5rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(217,70,239,0.06); border-radius:6px; }
+.domain-name { font-size:0.92rem; color:var(--cream); font-weight:600; letter-spacing:0.04em; font-family:'Noto Serif SC',serif; }
+.domain-count { font-size:0.65rem; color:var(--fuchsia-dim); opacity:0.75; letter-spacing:0.08em; display:block; }
+.domain-methods { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.domain-method { font-size:0.62rem; font-family:'JetBrains Mono',monospace; color:var(--fuchsia-light); opacity:0.55; background:rgba(217,70,239,0.05); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+.domain-card:nth-child(3n+2) .domain-method { color:var(--gold); background:rgba(201,168,76,0.05); }
+.domain-card:nth-child(3n) .domain-method { color:var(--green-light); background:rgba(74,124,89,0.06); }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(217,70,239,0.12); color:var(--fuchsia-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--fuchsia-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--fuchsia-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(217,70,239,0.02); }
+.data-table code { background:rgba(217,70,239,0.05); color:var(--fuchsia-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.data-table .tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-red { color:var(--red); border-color:rgba(158,74,63,0.2); background:rgba(158,74,63,0.05); }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(217,70,239,0.25); color:var(--fuchsia-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(217,70,239,0.06); border-color:var(--fuchsia-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--fuchsia-light); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:600px) {
+  .hero { padding:100px 20px 50px; min-height:60vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .nav-links { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · Qlib</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#features">核心能力</a><a href="#install">安装</a><a href="#limits">边界</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">MICROSOFT · QLIB · AI 量化投资平台</div>
+  <h1>Q<em>lib</em></h1>
+  <div class="subtitle">微软亚洲研究院 · 首个 AI 量化开源平台</div>
+  <p class="hero-desc">
+    47,402 Star · MIT · Alpha158/360 因子库 · 20+ 论文模型<br>
+    数据处理 → 模型训练 → 回测 全链路一体化
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">47.4k</span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">158/360</span><span class="label">Alpha 因子</span></div>
+    <div class="hero-stat"><span class="num">20+</span><span class="label">论文模型</span></div>
+    <div class="hero-stat"><span class="num">2020</span><span class="label">开源</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 Qlib？</h2>
+  <p class="section-sub">微软的 AI 导向量化投资平台</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>Qlib（微矿）</strong>是微软亚洲研究院开发的、面向 AI 的量化投资平台，
+      业内公认的<strong>首个 AI 量化投资开源平台</strong>。目标「用 AI 技术赋能量化研究，从想法探索到生产落地」，
+      覆盖 <strong>Alpha 挖掘、风险建模、组合优化、订单执行</strong> 整条量化投资链条。
+    </p>
+    <p style="margin-top:10px;">
+      2020 年开源，现集成 <strong>RD-Agent</strong>（LLM 驱动的自动化量化研发工厂，2024-08 发布）。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>开发商</td><td>微软亚洲研究院（Microsoft Research Asia）</td></tr>
+    <tr><td>GitHub</td><td><a href="https://github.com/microsoft/qlib" target="_blank">microsoft/qlib</a> · 47,402 Star · 7,530 Fork</td></tr>
+    <tr><td>许可证</td><td><code>MIT</code>（完全开源）</td></tr>
+    <tr><td>最新版本</td><td><code>pyqlib 0.9.7</code>（2025-08）· Python 3.8–3.12</td></tr>
+    <tr><td>维护状态</td><td>活跃维护（2026-07 仍提交，未归档）</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="features">
+  <div class="section-label">核心能力</div>
+  <h2>因子挖掘 → 模型训练 → 回测 全链路</h2>
+  <p class="section-sub">一条 qrun 命令跑通完整工作流</p>
+
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🔢</span><div><div class="domain-name">因子库</div><span class="domain-count">Alpha158/360</span></div></div>
+      <div class="domain-methods"><span class="domain-method">Alpha158</span><span class="domain-method">Alpha360</span><span class="domain-method">表达式引擎</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">🤖</span><div><div class="domain-name">模型库</div><span class="domain-count">20+ SOTA</span></div></div>
+      <div class="domain-methods"><span class="domain-method">LightGBM/XGBoost</span><span class="domain-method">LSTM/Transformer</span><span class="domain-method">强化学习</span></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-header"><span class="domain-icon">⚡</span><div><div class="domain-name">高性能数据处理</div><span class="domain-count">表达式+缓存</span></div></div>
+      <div class="domain-methods"><span class="domain-method">7.4s vs HDF5 184s</span><span class="domain-method">DatasetCache</span></div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">RD-Agent（LLM 时代延伸）</div>
+    <p>
+      微软在 Qlib 之上发布 <strong>RD-Agent</strong>（2024-08），用 LLM 自主演化 Agent 实现
+      <strong>自动化因子挖掘与模型优化</strong>，论文 R&D-Agent-Quant（arXiv:2505.15155）。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="install">
+  <div class="section-label">安装与使用</div>
+  <h2>pip install pyqlib</h2>
+  <p class="section-sub">一条命令安装，一条 qrun 跑通</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装</div>
+    <div class="install-body">
+      <pre>pip install pyqlib   <span class="cm"># Python 3.8–3.12</span></pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> 运行工作流</div>
+    <div class="install-body">
+      <pre>qrun config.yaml   <span class="cm"># 构建数据集 → 训练 → 回测 → 评估</span></pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">⚠️ 重要现状（2026）</div>
+    <p>
+      README 明确标注：因更严格的数据安全政策，<strong>官方数据集暂时停用</strong>，
+      建议改用社区数据源 <code>chenditc/investment_data</code>。内置示例数据来自 Yahoo Finance，
+      数据质量非完美，高质量数据建议自行准备。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="limits">
+  <div class="section-label">优缺点与边界</div>
+  <h2>研究强，不直接对接券商实盘</h2>
+  <p class="section-sub">最契合研究型、因子挖掘型团队</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>事项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>全链路一体</td><td>因子+模型+回测开箱即用，一条命令跑通</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>高性能</td><td>表达式引擎+缓存，远超通用数据库</td></tr>
+    <tr><td><span class="tag tag-green">优点</span></td><td>模型丰富</td><td>20+ 论文模型复现，方便横向对比</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>数据集停用</td><td>官方数据集暂时停用，需自备数据</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>不接券商</td><td>偏研究/回测，实盘需自行开发桥接层</td></tr>
+    <tr><td><span class="tag tag-red">局限</span></td><td>学习曲线陡</td><td>YAML workflow 为主，深度定制需理解机制</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="cta">
+  <div style="text-align:center;max-width:640px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">用 Qlib 做 AI 因子挖掘</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      适合 AI/ML 因子挖掘与选股研究、策略原型验证、多模型基准对比、学术论文复现与教学。
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://github.com/microsoft/qlib" target="_blank" class="cta-link">🐙 GitHub</a>
+      <a href="https://qlib.readthedocs.io/en/latest/" target="_blank" class="cta-link">📚 文档</a>
+      <a href="index.html" class="cta-link">◂ 返回总览</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Qlib · 微软 AI 量化投资平台 · 首个 AI 量化开源平台</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.domain-card, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => { link.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }); });
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>玄龙堂 · 量化工具全景 | 26+ 工具 · 国内平台 · 数据 · 回测 · 开源AI · Agent</title>
+<title>量化 AI 工具总览 · 一站式访问 | 数据 · 研究 · 回测 · 实盘全生态</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,6 +17,18 @@
   --blue: #3b6fb6; --blue-light: #5a90d8;
   --red: #a63a2e; --red-light: #c95a4f;
   --purple: #7c5cfc; --purple-light: #9b7fff;
+  --teal: #14b8a6; --teal-light: #2dd4bf;
+  --orange: #f59e0b; --orange-light: #fbbf24;
+  --sky: #0ea5e9; --sky-light: #38bdf8;
+  --yellow: #eab308; --yellow-light: #facc15;
+  --rose: #f43f5e; --rose-light: #fb7185;
+  --indigo: #6366f1; --indigo-light: #818cf8;
+  --lime: #84cc16; --lime-light: #a3e635;
+  --emerald: #10b981; --emerald-light: #34d399;
+  --cyan: #06b6d4; --cyan-light: #22d3ee;
+  --violet: #8b5cf6; --violet-light: #a78bfa;
+  --fuchsia: #d946ef; --fuchsia-light: #e879f9;
+  --pink: #ec4899; --pink-light: #f472b6;
   --border-subtle: rgba(201,168,76,0.08);
   --border-card: rgba(201,168,76,0.10);
   --border-active: rgba(201,168,76,0.22);
@@ -40,7 +52,6 @@ h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; 
 a { color:var(--gold); text-decoration:none; transition:color 0.2s; }
 a:hover { color:var(--gold-light); }
 code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
-.en { display:block; margin-top:2px; color:var(--cream-dark); opacity:0.55; font-size:0.72em; font-weight:300; letter-spacing:0.02em; }
 
 /* Nav */
 .top-nav {
@@ -58,7 +69,7 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 
 /* Hero */
 .hero {
-  position:relative; z-index:1; min-height:68vh;
+  position:relative; z-index:1; min-height:70vh;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; padding:110px 40px 70px;
 }
@@ -71,7 +82,7 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .hero h1 { font-size:clamp(1.8rem,4.5vw,3.4rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; line-height:1.3; margin-bottom:14px; }
 .hero h1 em { color:var(--gold); font-style:normal; }
 .hero .subtitle { font-size:clamp(0.95rem,2vw,1.2rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
-.hero-desc { max-width:720px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-desc { max-width:660px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
 .hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
 .hero-stat { text-align:center; position:relative; }
 .hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--gold),transparent); opacity:0.2; }
@@ -80,38 +91,25 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 
 /* Section */
 .section { max-width:1160px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
-.section-alt { background:rgba(201,168,76,0.012); border-top:1px solid rgba(201,168,76,0.03); border-bottom:1px solid rgba(201,168,76,0.03); }
 .section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--gold); opacity:0.5; margin-bottom:16px; text-align:center; }
 .section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
-.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:34px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
 .section-divider { max-width:1160px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
 .section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,0.08),transparent); }
 
-/* Group head */
-.group-head { display:flex; align-items:center; gap:12px; margin:26px 0 14px; font-size:0.95rem; color:var(--cream); font-family:'Noto Serif SC',serif; letter-spacing:0.05em; }
-.group-head .g-icon { font-size:1.2rem; color:var(--gold); opacity:0.7; }
-.group-head .g-num { font-size:0.65rem; color:var(--gold); opacity:0.5; letter-spacing:0.1em; }
-.group-head .g-line { flex:1; height:1px; background:linear-gradient(90deg,rgba(201,168,76,0.15),transparent); }
-
-/* Roster (tool name + one-line desc, no dedicated page) */
-.roster { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:10px; }
-.roster-item {
-  background:rgba(201,168,76,0.02); border:1px solid var(--border-card); border-radius:5px;
-  padding:12px 14px; position:relative; overflow:hidden;
-  transition:border-color 0.3s var(--ease-smooth);
-}
-.roster-item:hover { border-color:var(--border-active); }
-.roster-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--ri-accent,var(--gold)); opacity:0.6; }
-.roster-item .ri-name { font-size:0.82rem; color:var(--cream); font-weight:600; letter-spacing:0.02em; }
-.roster-item .ri-desc { font-size:0.7rem; color:var(--cream-dark); opacity:0.5; line-height:1.5; margin-top:1px; }
-.ri-domestic { --ri-accent: var(--green-light); }
-.ri-data { --ri-accent: var(--blue-light); }
-.ri-backtest { --ri-accent: var(--red-light); }
-.ri-oss { --ri-accent: var(--purple-light); }
-.ri-agent { --ri-accent: var(--gold); }
-
-/* Project Cards (with dedicated pages) */
+/* Project Cards */
 .project-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:18px; }
+.cat-head {
+  grid-column:1 / -1; display:flex; align-items:center; gap:10px;
+  margin:14px 0 2px; padding:0 4px;
+}
+.cat-head .cat-icon { font-size:1.1rem; }
+.cat-head .cat-name {
+  font-size:0.95rem; color:var(--cream); font-weight:600;
+  letter-spacing:0.08em; font-family:'Noto Serif SC',serif; white-space:nowrap;
+}
+.cat-head .cat-count { font-size:0.62rem; color:var(--text-muted); opacity:0.7; letter-spacing:0.1em; white-space:nowrap; }
+.cat-head .cat-line { flex:1; height:1px; background:linear-gradient(90deg,var(--pc-accent,var(--gold)),transparent); }
 .project-card {
   background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(201,168,76,0.01));
   border:1px solid var(--border-card); border-radius:6px;
@@ -120,30 +118,72 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
   overflow:hidden;
 }
 .project-card:hover { border-color:var(--border-active); transform:translateY(-3px); }
-.project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--pc-accent,var(--gold)),transparent); opacity:0.7; }
+.project-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--pc-accent,var(--gold)),transparent); opacity:0.7;
+}
 .pc-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
-.pc-icon { font-size:1.6rem; width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:rgba(201,168,76,0.06); border-radius:8px; }
+.pc-icon {
+  font-size:1.6rem; width:44px; height:44px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(201,168,76,0.06); border-radius:8px;
+}
 .pc-titles { flex:1; }
 .pc-name { font-size:1.05rem; color:var(--cream); font-weight:600; letter-spacing:0.03em; font-family:'Noto Serif SC',serif; }
 .pc-en { font-size:0.68rem; color:var(--text-muted); opacity:0.7; letter-spacing:0.04em; margin-top:2px; }
 .pc-badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
-.pc-badge { font-size:0.58rem; letter-spacing:0.08em; padding:2px 10px; border-radius:2px; border:1px solid; white-space:nowrap; }
+.pc-badge {
+  font-size:0.58rem; letter-spacing:0.08em; padding:2px 10px; border-radius:2px;
+  border:1px solid; white-space:nowrap;
+}
 .pc-desc { font-size:0.8rem; color:var(--cream-dark); opacity:0.65; line-height:1.8; margin-bottom:14px; }
 .pc-meta { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; font-size:0.7rem; color:var(--text-muted); }
 .pc-meta span { display:flex; align-items:center; gap:4px; }
 .pc-actions { display:flex; gap:10px; flex-wrap:wrap; }
-.pc-link { display:inline-flex; align-items:center; gap:5px; padding:7px 16px; border:1px solid var(--pc-accent,var(--gold)); color:var(--pc-accent,var(--gold)); font-size:0.7rem; letter-spacing:0.08em; border-radius:2px; transition:all 0.25s; }
+.pc-link {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:7px 16px; border:1px solid var(--pc-accent,var(--gold));
+  color:var(--pc-accent,var(--gold)); font-size:0.7rem; letter-spacing:0.08em;
+  border-radius:2px; transition:all 0.25s;
+}
 .pc-link:hover { background:color-mix(in srgb, var(--pc-accent,var(--gold)) 8%, transparent); border-color:var(--pc-accent,var(--gold)); }
 .pc-link.ghost { border-color:rgba(201,168,76,0.15); color:var(--text-muted); }
 .pc-link.ghost:hover { color:var(--gold); border-color:var(--gold); }
+
+/* Accent colors per card */
 .pc-pandadata { --pc-accent: var(--gold); }
+.pc-daily { --pc-accent: var(--green-light); }
 .pc-dojo { --pc-accent: var(--purple-light); }
 .pc-trading { --pc-accent: var(--red-light); }
 .pc-finrobot { --pc-accent: var(--blue-light); }
 .pc-openbb { --pc-accent: var(--blue-light); }
+.pc-ptrade { --pc-accent: var(--teal-light); }
+.pc-qmt { --pc-accent: var(--orange-light); }
+.pc-joinquant { --pc-accent: var(--sky-light); }
+.pc-myquant { --pc-accent: var(--yellow-light); }
+.pc-mindgo { --pc-accent: var(--rose-light); }
+.pc-backtrader { --pc-accent: var(--indigo-light); }
+.pc-vectorbt { --pc-accent: var(--lime-light); }
+.pc-easyxt { --pc-accent: var(--orange-light); }
+.pc-simtradelab { --pc-accent: var(--teal-light); }
+.pc-vnpy { --pc-accent: var(--emerald-light); }
+.pc-wondertrader { --pc-accent: var(--cyan-light); }
+.pc-hikyuu { --pc-accent: var(--violet-light); }
+.pc-qlib { --pc-accent: var(--fuchsia-light); }
+.pc-finrl { --pc-accent: var(--pink-light); }
+.pc-freqtrade { --pc-accent: var(--teal-light); }
+.pc-ccxt { --pc-accent: var(--orange-light); }
+.pc-zipline { --pc-accent: var(--indigo-light); }
+.pc-alphalens { --pc-accent: var(--sky-light); }
+.pc-bigquant { --pc-accent: var(--emerald-light); }
+.pc-ricequant { --pc-accent: var(--yellow-light); }
 
 /* Feature box */
-.feature-box { background:linear-gradient(135deg,rgba(201,168,76,0.03),rgba(59,111,182,0.02)); border:1px solid var(--border-active); border-radius:6px; padding:24px 28px; margin:20px 0; position:relative; }
+.feature-box {
+  background:linear-gradient(135deg,rgba(201,168,76,0.03),rgba(59,111,182,0.02));
+  border:1px solid var(--border-active); border-radius:6px;
+  padding:24px 28px; margin:20px 0; position:relative;
+}
 .feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--gold); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 .feature-box-label::before { content:'◆'; font-size:0.35rem; }
 .feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
@@ -153,9 +193,6 @@ footer { position:relative; z-index:1; text-align:center; padding:32px 40px; bor
 footer a { color:var(--gold); opacity:0.6; }
 footer a:hover { opacity:1; }
 
-.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
-.fade-up.visible { opacity:1; transform:translateY(0); }
-
 @media (max-width:600px) {
   .hero { padding:100px 20px 50px; min-height:55vh; }
   .hero h1 { font-size:1.5rem; }
@@ -164,116 +201,60 @@ footer a:hover { opacity:1; }
   .section { padding:40px 20px; }
   .top-nav { padding:8px 16px; }
   .nav-links { display:none; }
-  .project-grid, .roster { grid-template-columns:1fr; }
+  .project-grid { grid-template-columns:1fr; }
 }
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
 
 <!-- ═══ Nav ═══ -->
 <nav class="top-nav">
-  <a href="../index.html" class="nav-home"><span class="dot"></span> 玄龙堂 · AI量化教育 · 量化工具全景</a>
+  <a href="../index.html" class="nav-home"><span class="dot"></span> 玄龙堂 · AI量化教育 · 量化工具总览</a>
   <div class="nav-links">
-    <a href="#domestic">国内平台</a>
-    <a href="#data">数据接口</a>
-    <a href="#backtest">回测框架</a>
-    <a href="#oss">开源 AI 项目</a>
-    <a href="#agent">Agent 工具</a>
-    <a href="education.html">教育总目录 →</a>
+    <a href="#all">全部项目</a>
+    <a href="#data">数据平台</a>
+    <a href="#agents">Agent 框架</a>
+    <a href="education.html">教育总目录</a>
+    <a href="../index.html">◂ 返回</a>
   </div>
 </nav>
 
 <!-- ═══ Hero ═══ -->
 <section class="hero" id="top">
-  <div class="hero-badge">量化投研 · 工具全景 · 一站式访问</div>
-  <h1>量化 <em>工具全景</em></h1>
-  <div class="subtitle">国内平台 · 数据接口 · 回测框架 · 开源 AI · Agent 工具，五线覆盖</div>
+  <div class="hero-badge">AI 量化投研 · 开源工具生态 · 一站式访问</div>
+  <h1>量化 <em>AI 工具总览</em></h1>
+  <div class="subtitle">二十六大金融 AI 项目 · 数据 / 研究 / 回测 / 交易 / 加密 / 实盘全覆盖</div>
   <p class="hero-desc">
-    从通达信到 miniQMT，从米筐到六大开源金融 AI 项目，从 Backtrader 到 Agent 编排系统<br>
-    一套完整的量化投研工具地图，26+ 工具分类呈现
+    从数据获取到策略研究，从回测框架到 AI 量化，从交易框架到加密与券商实盘<br>
+    覆盖开源框架与官方平台，构建完整量化投研闭环
   </p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">26+</span><span class="label">量化工具</span></div>
-    <div class="hero-stat"><span class="num">5</span><span class="label">工具分类</span></div>
+    <div class="hero-stat"><span class="num">26</span><span class="label">核心项目</span></div>
     <div class="hero-stat"><span class="num">218+</span><span class="label">数据接口</span></div>
     <div class="hero-stat"><span class="num">20K+</span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="label">Agent 框架</span></div>
   </div>
 </section>
 
 <div class="section-divider"><hr></div>
 
-<!-- ═══ 一、国内量化软件 & 平台 ═══ -->
-<section class="section" id="domestic">
-  <div class="section-label">一 · 国内量化软件 &amp; 平台</div>
-  <h2>国内量化软件与平台<span class="en">Domestic Platforms</span></h2>
-  <p class="section-sub">通达信 · QMT · PTrade · 米筐 · 聚宽 · 掘金 —— 国内量化生态的底层软件</p>
-
-  <div class="group-head"><span class="g-icon">📖</span>通达信系列（有教学页）<span class="g-num">8 篇</span><span class="g-line"></span></div>
-  <div class="roster">
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-intro.html">通达信入门 · Windows</a></div><div class="ri-desc">界面 · 选股 · 自选股 · 基础操作</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-mac.html">通达信入门 · Mac</a></div><div class="ri-desc">Mac 版安装与基础操作</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-knowledge.html">通达信知识体系</a></div><div class="ri-desc">入门 · 行业 · 量化 三阶递进</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-options-tech.html">通达信 + miniQMT</a></div><div class="ri-desc">期权期货量化交易技术方案</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-comparison.html">软件横向对比</a></div><div class="ri-desc">通达信 vs 同花顺 vs 东财 vs 大智慧</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-youth.html">通达信青少年课程</a></div><div class="ri-desc">青少年投资培训体系</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name"><a href="tdx-elite.html">企业二代投资精修班</a></div><div class="ri-desc">L3 + L4 压缩课程</div></div>
-  </div>
-
-  <div class="group-head"><span class="g-icon">🇨🇳</span>量化平台与接口<span class="g-num">8 个</span><span class="g-line"></span></div>
-  <div class="roster">
-    <div class="roster-item ri-domestic"><div class="ri-name">QMT / miniQMT（迅投）</div><div class="ri-desc">国内主力量化交易终端，策略落地</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">PTrade（恒生电子）</div><div class="ri-desc">券商标配量化回测接口平台</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">米筐 RiceQuant</div><div class="ri-desc">国内量化回测标杆</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">聚宽 JoinQuant</div><div class="ri-desc">在线量化研究平台</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">掘金量化 MyQuant</div><div class="ri-desc">本地化策略研发平台</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">同花顺 iFinD</div><div class="ri-desc">行情与数据终端</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">东方财富 Choice</div><div class="ri-desc">数据与资讯终端</div></div>
-    <div class="roster-item ri-domestic"><div class="ri-name">金字塔 / 文华财经</div><div class="ri-desc">期货程序化交易软件</div></div>
-  </div>
-</section>
-
-<div class="section-divider"><hr></div>
-
-<!-- ═══ 二、数据接口 ═══ -->
-<section class="section section-alt" id="data">
-  <div class="section-label">二 · 数据接口</div>
-  <h2>数据接口<span class="en">Data APIs</span></h2>
-  <p class="section-sub">量化研究的原料来源 —— 数据获取与处理</p>
-
-  <div class="roster">
-    <div class="roster-item ri-data"><div class="ri-name"><a href="pandadata.html">Pandadata × PandaAI</a></div><div class="ri-desc">218 个金融数据接口 · 9 大数据域</div></div>
-    <div class="roster-item ri-data"><div class="ri-name">Tushare</div><div class="ri-desc">国内开源金融数据接口标杆</div></div>
-    <div class="roster-item ri-data"><div class="ri-name">AkShare</div><div class="ri-desc">免费开源金融数据接口</div></div>
-    <div class="roster-item ri-data"><div class="ri-name">Baostock</div><div class="ri-desc">免费证券数据（历史 K 线）</div></div>
-  </div>
-</section>
-
-<div class="section-divider"><hr></div>
-
-<!-- ═══ 三、回测与研究框架 ═══ -->
-<section class="section" id="backtest">
-  <div class="section-label">三 · 回测与研究框架</div>
-  <h2>回测与研究框架<span class="en">Backtest &amp; Research Frameworks</span></h2>
-  <p class="section-sub">策略回测 · 因子研究 · 强化学习的工程底座</p>
-
-  <div class="roster">
-    <div class="roster-item ri-backtest"><div class="ri-name">Backtrader</div><div class="ri-desc">Python 事件驱动回测框架</div></div>
-    <div class="roster-item ri-backtest"><div class="ri-name">vn.py</div><div class="ri-desc">国内开源量化交易框架</div></div>
-    <div class="roster-item ri-backtest"><div class="ri-name">Qlib（微软）</div><div class="ri-desc">AI 驱动的量化投资平台</div></div>
-    <div class="roster-item ri-backtest"><div class="ri-name">FinRL</div><div class="ri-desc">金融深度强化学习框架</div></div>
-  </div>
-</section>
-
-<div class="section-divider"><hr></div>
-
-<!-- ═══ 四、开源 AI 金融项目 ═══ -->
-<section class="section section-alt" id="oss">
-  <div class="section-label">四 · 开源 AI 金融项目</div>
-  <h2>开源 AI 金融项目<span class="en">Open-Source AI Projects</span></h2>
-  <p class="section-sub">数据 · Agent · 研究 · 交易，六大开源项目 · 每个独立成页</p>
+<!-- ═══ All Projects ═══ -->
+<section class="section" id="all">
+  <div class="section-label">项目总览</div>
+  <h2>二十六大类量化 AI 项目<span class="en">One-Stop Access</span></h2>
+  <p class="section-sub">点击卡片进入详细分析页 · 每个项目独立成页，交叉链接</p>
 
   <div class="project-grid">
-    <!-- Pandadata -->
+
+    <!-- ═══ 数据平台 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--gold);">
+      <span class="cat-icon">📊</span><span class="cat-name">数据平台</span><span class="cat-count">3 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- Pandadata -->
     <div class="project-card pc-pandadata">
       <div class="pc-header">
         <span class="pc-icon">🐼</span>
@@ -287,79 +268,22 @@ footer a:hover { opacity:1; }
         <span class="pc-badge" style="color:var(--gold);border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05);">Agent 技能</span>
         <span class="pc-badge" style="color:var(--gold);border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.05);">中文市场</span>
       </div>
-      <div class="pc-desc">218 个金融数据接口 · 9 大数据域（A股/期货/期权/港美股/宏观/基金）。PandaAI 平台提供 Qube/Evo/OS 三层产品 + 多 Agent 协作。</div>
-      <div class="pc-meta"><span>⭐ 数据底座</span><span>📊 218 接口</span><span>🤖 140+ Skills</span></div>
+      <div class="pc-desc">
+        218 个金融数据接口 · 9 大数据域（A股/期货/期权/港美股/宏观/基金）。
+        PandaAI 平台（pandaaiquant.com）提供 Qube/Evo/OS 三层产品 + 多 Agent 协作。
+        QuantSkills 140+ 量化技能生态。
+      </div>
+      <div class="pc-meta">
+        <span>⭐ 数据底座</span><span>📊 218 接口</span><span>🤖 140+ Skills</span>
+      </div>
       <div class="pc-actions">
         <a href="pandadata.html" class="pc-link">📖 详细分析 →</a>
         <a href="https://www.pandaaiquant.com" target="_blank" class="pc-link ghost">🌐 官网</a>
+        <a href="https://github.com/quantskills" target="_blank" class="pc-link ghost">🐙 GitHub</a>
       </div>
     </div>
 
-    <!-- DojoAgents -->
-    <div class="project-card pc-dojo">
-      <div class="pc-header">
-        <span class="pc-icon">🥋</span>
-        <div class="pc-titles">
-          <div class="pc-name">DojoAgents</div>
-          <div class="pc-en">Full-Market AI Copilot · 主动式 Agent Loop</div>
-        </div>
-      </div>
-      <div class="pc-badges">
-        <span class="pc-badge" style="color:var(--purple-light);border-color:rgba(124,92,252,0.2);background:rgba(124,92,252,0.05);">主动式 Agent</span>
-        <span class="pc-badge" style="color:var(--purple-light);border-color:rgba(124,92,252,0.2);background:rgba(124,92,252,0.05);">MCP 原生</span>
-      </div>
-      <div class="pc-desc">深涌智能（Alpha-Dojo）开源的主动式 AI Agent 框架。Loop-Driven 认知组合智能体，支持全市场扫描、产业链传导、持仓诊断。</div>
-      <div class="pc-meta"><span>⭐ 1.4K+</span><span>🥋 Agent Loop</span><span>📊 四柱仪表盘</span></div>
-      <div class="pc-actions">
-        <a href="dojoagents.html" class="pc-link">📖 详细分析 →</a>
-        <a href="https://github.com/Alpha-Dojo/DojoAgents" target="_blank" class="pc-link ghost">🐙 GitHub</a>
-      </div>
-    </div>
-
-    <!-- TradingAgents-CN -->
-    <div class="project-card pc-trading">
-      <div class="pc-header">
-        <span class="pc-icon">💹</span>
-        <div class="pc-titles">
-          <div class="pc-name">TradingAgents-CN</div>
-          <div class="pc-en">多智能体中文金融交易框架</div>
-        </div>
-      </div>
-      <div class="pc-badges">
-        <span class="pc-badge" style="color:var(--red-light);border-color:rgba(166,58,46,0.2);background:rgba(166,58,46,0.05);">多 Agent 交易</span>
-        <span class="pc-badge" style="color:var(--red-light);border-color:rgba(166,58,46,0.2);background:rgba(166,58,46,0.05);">中文增强</span>
-      </div>
-      <div class="pc-desc">TradingAgents 中文增强版。7-8 个专业角色（分析师/研究员/交易员/风控/资金经理）协作决策，支持 A股/港股/美股 + 国产 LLM。</div>
-      <div class="pc-meta"><span>👥 7-8 Agent</span><span>🇨🇳 中文市场</span><span>🐳 国产 LLM</span></div>
-      <div class="pc-actions">
-        <a href="tradingagents-cn.html" class="pc-link">📖 详细分析 →</a>
-        <a href="https://github.com/hsliuping/TradingAgents-CN" target="_blank" class="pc-link ghost">🐙 GitHub</a>
-      </div>
-    </div>
-
-    <!-- FinRobot -->
-    <div class="project-card pc-finrobot">
-      <div class="pc-header">
-        <span class="pc-icon">🤖</span>
-        <div class="pc-titles">
-          <div class="pc-name">FinRobot</div>
-          <div class="pc-en">AI4Finance · 微软研究院支持 · 金融 AI Agent</div>
-        </div>
-      </div>
-      <div class="pc-badges">
-        <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">金融 Agent</span>
-        <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">研报生成</span>
-        <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">美股</span>
-      </div>
-      <div class="pc-desc">微软研究院支持的金融 AI Agent 平台。四层架构 + Financial CoT，三 Agent 研报流水线生成专业研报。</div>
-      <div class="pc-meta"><span>⭐ 7.7K+</span><span>📊 4 层架构</span><span>🤖 3 CoT Agent</span></div>
-      <div class="pc-actions">
-        <a href="finrobot.html" class="pc-link">📖 详细分析 →</a>
-        <a href="https://github.com/AI4Finance-Foundation/FinRobot" target="_blank" class="pc-link ghost">🐙 GitHub</a>
-      </div>
-    </div>
-
-    <!-- OpenBB -->
+<!-- OpenBB -->
     <div class="project-card pc-openbb">
       <div class="pc-header">
         <span class="pc-icon">📡</span>
@@ -373,31 +297,695 @@ footer a:hover { opacity:1; }
         <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">开源终端</span>
         <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">600+ 命令</span>
       </div>
-      <div class="pc-desc">开源投资研究平台。Terminal 提供 600+ 命令（股票/期权/加密/外汇/宏观/固收），SDK 程序化访问 + AI 金融分析师 Agent。</div>
-      <div class="pc-meta"><span>📡 600+ 命令</span><span>🔌 多数据源</span><span>📊 AI Analyst</span></div>
+      <div class="pc-desc">
+        开源投资研究平台。Terminal 提供 600+ 命令（股票/期权/加密/外汇/宏观/固收）。
+        SDK 程序化访问，Platform 重构 + AI 金融分析师 Agent。
+      </div>
+      <div class="pc-meta">
+        <span>📡 600+ 命令</span><span>🔌 多数据源</span><span>📊 AI Analyst</span>
+      </div>
       <div class="pc-actions">
         <a href="openbb.html" class="pc-link">📖 详细分析 →</a>
         <a href="https://github.com/OpenBB-finance/OpenBB" target="_blank" class="pc-link ghost">🐙 GitHub</a>
       </div>
     </div>
 
-    <!-- Daily Stock Analysis -->
-    <div class="project-card pc-pandadata">
+<!-- ricequant -->
+    <div class="project-card pc-ricequant">
+      <div class="pc-header">
+        <span class="pc-icon">📊</span>
+        <div class="pc-titles">
+          <div class="pc-name">米筐 RiceQuant</div>
+          <div class="pc-en">量化投研平台 · 转型机构</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--yellow-light);border-color:rgba(234,179,8,0.2);background:rgba(234,179,8,0.05);">数据质量</span>
+        <span class="pc-badge" style="color:var(--yellow-light);border-color:rgba(234,179,8,0.2);background:rgba(234,179,8,0.05);">RQData</span>
+        <span class="pc-badge" style="color:var(--yellow-light);border-color:rgba(234,179,8,0.2);background:rgba(234,179,8,0.05);">机构级</span>
+      </div>
+      <div class="pc-desc">
+        早期三大研究平台之一，数据质量最高，RQData 数据服务 + RQAlpha 回测引擎。
+        未关停，战略转向机构服务商，个人社区已收缩。
+      </div>
+      <div class="pc-meta">
+        <span>📊 RQData</span><span>⚙️ RQAlpha</span><span>🏦 300+机构</span>
+      </div>
+      <div class="pc-actions">
+        <a href="ricequant.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://www.ricequant.com" target="_blank" class="pc-link ghost">🌐 官网</a>
+      </div>
+    </div>
+
+    <!-- ═══ 研究平台 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--sky-light);">
+      <span class="cat-icon">🔬</span><span class="cat-name">研究平台</span><span class="cat-count">5 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- 聚宽 JoinQuant -->
+    <div class="project-card pc-joinquant">
+      <div class="pc-header">
+        <span class="pc-icon">🦐</span>
+        <div class="pc-titles">
+          <div class="pc-name">聚宽 JoinQuant</div>
+          <div class="pc-en">北京小龙虾科技 · 在线量化研究平台</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--sky-light);border-color:rgba(14,165,233,0.2);background:rgba(14,165,233,0.05);">研究回测</span>
+        <span class="pc-badge" style="color:var(--sky-light);border-color:rgba(14,165,233,0.2);background:rgba(14,165,233,0.05);">50万用户</span>
+        <span class="pc-badge" style="color:var(--sky-light);border-color:rgba(14,165,233,0.2);background:rgba(14,165,233,0.05);">百度投资</span>
+      </div>
+      <div class="pc-desc">
+        国内用户量最大、社区生态最好的量化研究/回测平台。
+        在线 Jupyter + jqdatasdk，数据回溯 2005 年。实盘能力弱，需另接券商。
+      </div>
+      <div class="pc-meta">
+        <span>📓 在线研究</span><span>⚙️ 三档回测</span><span>👥 社区最强</span>
+      </div>
+      <div class="pc-actions">
+        <a href="joinquant.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://www.joinquant.com" target="_blank" class="pc-link ghost">🌐 官网</a>
+      </div>
+    </div>
+
+<!-- 同花顺 SuperMind -->
+    <div class="project-card pc-mindgo">
+      <div class="pc-header">
+        <span class="pc-icon">🌸</span>
+        <div class="pc-titles">
+          <div class="pc-name">同花顺 SuperMind</div>
+          <div class="pc-en">原 MindGo · AI 量化平台</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--rose-light);border-color:rgba(244,63,94,0.2);background:rgba(244,63,94,0.05);">问财选股</span>
+        <span class="pc-badge" style="color:var(--rose-light);border-color:rgba(244,63,94,0.2);background:rgba(244,63,94,0.05);">秒级回测</span>
+        <span class="pc-badge" style="color:var(--rose-light);border-color:rgba(244,63,94,0.2);background:rgba(244,63,94,0.05);">HithinkGPT</span>
+      </div>
+      <div class="pc-desc">
+        同花顺旗下 AI 量化平台（2016 上线，2023 更名）。问财自然语言选股 + 秒级回测，
+        数据回溯 2005 年，免费调用同花顺金融大数据。
+      </div>
+      <div class="pc-meta">
+        <span>🧠 问财选股</span><span>⚡ 0.29s 回测</span><span>📊 2005 数据</span>
+      </div>
+      <div class="pc-actions">
+        <a href="mindgo.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://quant.10jqka.com.cn" target="_blank" class="pc-link ghost">🌐 官网</a>
+      </div>
+    </div>
+
+<!-- FinRobot -->
+    <div class="project-card pc-finrobot">
+      <div class="pc-header">
+        <span class="pc-icon">🤖</span>
+        <div class="pc-titles">
+          <div class="pc-name">FinRobot</div>
+          <div class="pc-en">AI4Finance · 微软研究院支持 · 金融 AI Agent</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">金融 Agent</span>
+        <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">研报生成</span>
+        <span class="pc-badge" style="color:var(--blue-light);border-color:rgba(59,111,182,0.2);background:rgba(59,111,182,0.05);">美股</span>
+      </div>
+      <div class="pc-desc">
+        微软研究院支持的金融 AI Agent 平台。四层架构 + Financial CoT。
+        三 Agent 研报流水线（Data-CoT → Concept-CoT → Thesis-CoT）
+        生成 JPMorgan 级专业研报。
+      </div>
+      <div class="pc-meta">
+        <span>⭐ 7.7K+</span><span>📊 4 层架构</span><span>🤖 3 CoT Agent</span>
+      </div>
+      <div class="pc-actions">
+        <a href="finrobot.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/AI4Finance-Foundation/FinRobot" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- Daily Stock Analysis -->
+    <div class="project-card pc-daily">
       <div class="pc-header">
         <span class="pc-icon">📈</span>
         <div class="pc-titles">
           <div class="pc-name">Daily Stock Analysis</div>
-          <div class="pc-en">LLM 驱动 · 多市场股票智能分析</div>
+          <div class="pc-en">A 股每日深度复盘分析</div>
         </div>
       </div>
       <div class="pc-badges">
         <span class="pc-badge" style="color:var(--green-light);border-color:rgba(74,124,89,0.2);background:rgba(74,124,89,0.05);">每日复盘</span>
-        <span class="pc-badge" style="color:var(--green-light);border-color:rgba(74,124,89,0.2);background:rgba(74,124,89,0.05);">15 策略 Agent</span>
+        <span class="pc-badge" style="color:var(--green-light);border-color:rgba(74,124,89,0.2);background:rgba(74,124,89,0.05);">深度分析</span>
       </div>
-      <div class="pc-desc">LLM 驱动多市场股票智能分析，15 种策略 Agent 并行分析，AI 决策仪表盘。缺 RAG 知识库、风控不足需自补；DSA 做 AI + Backtrader 做数学回测。</div>
-      <div class="pc-meta"><span>📊 多市场</span><span>🤖 15 Agent</span><span>🚧 分析页待建</span></div>
+      <div class="pc-desc">
+        基于 Pandadata 数据的 A 股每日收盘深度分析报告。
+        覆盖指数估值、市场宽度、行业热点、龙虎榜、资金流向等维度。
+      </div>
+      <div class="pc-meta">
+        <span>📊 A 股</span><span>🔍 深度分析</span>
+      </div>
       <div class="pc-actions">
-        <a href="education.html" class="pc-link ghost">🔍 研究选题（待建）</a>
+        <span style="font-size:0.7rem;color:var(--text-muted);opacity:0.6;letter-spacing:0.08em;">🚧 分析页待建</span>
+      </div>
+    </div>
+
+<!-- bigquant -->
+    <div class="project-card pc-bigquant">
+      <div class="pc-header">
+        <span class="pc-icon">🧠</span>
+        <div class="pc-titles">
+          <div class="pc-name">BigQuant</div>
+          <div class="pc-en">AI 量化投资平台</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--emerald-light);border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.05);">AI选股</span>
+        <span class="pc-badge" style="color:var(--emerald-light);border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.05);">可视化</span>
+        <span class="pc-badge" style="color:var(--emerald-light);border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.05);">2000+因子</span>
+      </div>
+      <div class="pc-desc">
+        成都宽邦科技的 AI 量化平台，拖拽式可视化 + 机器学习 + 自研 StockRanker 选股。
+        免费社区版 + 付费会员，实盘间接对接券商。
+      </div>
+      <div class="pc-meta">
+        <span>🧠 AI</span><span>🖱️ 可视化</span><span>🎯 StockRanker</span>
+      </div>
+      <div class="pc-actions">
+        <a href="bigquant.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://bigquant.com" target="_blank" class="pc-link ghost">🌐 官网</a>
+      </div>
+    </div>
+
+    <!-- ═══ 回测框架 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--indigo-light);">
+      <span class="cat-icon">📐</span><span class="cat-name">回测框架</span><span class="cat-count">6 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- Backtrader -->
+    <div class="project-card pc-backtrader">
+      <div class="pc-header">
+        <span class="pc-icon">📐</span>
+        <div class="pc-titles">
+          <div class="pc-name">Backtrader</div>
+          <div class="pc-en">开源 Python 回测框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--indigo-light);border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);">事件驱动</span>
+        <span class="pc-badge" style="color:var(--indigo-light);border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);">123指标</span>
+        <span class="pc-badge" style="color:var(--indigo-light);border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);">22.8k★</span>
+      </div>
+      <div class="pc-desc">
+        史上最流行的 Python 事件驱动回测框架，123 内置指标、17 分析器、多券商实盘。
+        与 xtquant 组成「平民量化黄金搭档」。
+      </div>
+      <div class="pc-meta">
+        <span>📐 123 指标</span><span>⚙️ 事件驱动</span><span>⭐ 22.8k</span>
+      </div>
+      <div class="pc-actions">
+        <a href="backtrader.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/mementum/backtrader" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- Vectorbt -->
+    <div class="project-card pc-vectorbt">
+      <div class="pc-header">
+        <span class="pc-icon">🚀</span>
+        <div class="pc-titles">
+          <div class="pc-name">Vectorbt</div>
+          <div class="pc-en">向量化回测框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--lime-light);border-color:rgba(132,204,22,0.2);background:rgba(132,204,22,0.05);">向量化</span>
+        <span class="pc-badge" style="color:var(--lime-light);border-color:rgba(132,204,22,0.2);background:rgba(132,204,22,0.05);">参数寻优</span>
+        <span class="pc-badge" style="color:var(--lime-light);border-color:rgba(132,204,22,0.2);background:rgba(132,204,22,0.05);">8.6k★</span>
+      </div>
+      <div class="pc-desc">
+        NumPy/Numba/Rust 加速的向量化回测，把「数小时网格搜索」变成「几秒钟」。
+        适合大规模参数寻优与快速验证。
+      </div>
+      <div class="pc-meta">
+        <span>⚡ 100x+ 快</span><span>🎯 参数扫描</span><span>🚀 Rust</span>
+      </div>
+      <div class="pc-actions">
+        <a href="vectorbt.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/polakowo/vectorbt" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- SimTradeLab -->
+    <div class="project-card pc-simtradelab">
+      <div class="pc-header">
+        <span class="pc-icon">🧪</span>
+        <div class="pc-titles">
+          <div class="pc-name">SimTradeLab</div>
+          <div class="pc-en">PTrade 本地回测框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">PTrade兼容</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">100-160x</span>
+      </div>
+      <div class="pc-desc">
+        PTrade 事件驱动架构的本地回测框架，语法兼容，速度比 PTrade 平台快 100-160x。
+        仅回测，不能实盘。
+      </div>
+      <div class="pc-meta">
+        <span>🧪 327★</span><span>⚡ 100-160x</span>
+      </div>
+      <div class="pc-actions">
+        <a href="simtradelab.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/kay-ou/SimTradeLab" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- EasyXT -->
+    <div class="project-card pc-easyxt">
+      <div class="pc-header">
+        <span class="pc-icon">🧩</span>
+        <div class="pc-titles">
+          <div class="pc-name">EasyXT</div>
+          <div class="pc-en">xtquant 二次封装库</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">xtquant封装</span>
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">MIT</span>
+      </div>
+      <div class="pc-desc">
+        基于 miniqmt/xtquant 的二次封装库，简化 QMT 量化开发。
+        模块化设计，含回测框架与 101 因子平台。
+      </div>
+      <div class="pc-meta">
+        <span>🧩 649★</span><span>📐 回测框架</span>
+      </div>
+      <div class="pc-actions">
+        <a href="easyxt.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/quant-king299/EasyXT" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- zipline -->
+    <div class="project-card pc-zipline">
+      <div class="pc-header">
+        <span class="pc-icon">📈</span>
+        <div class="pc-titles">
+          <div class="pc-name">Zipline</div>
+          <div class="pc-en">美股事件驱动回测框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--indigo-light);border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);">Pipeline</span>
+        <span class="pc-badge" style="color:var(--indigo-light);border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);">美股</span>
+        <span class="pc-badge" style="color:var(--indigo-light);border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);">20k★</span>
+      </div>
+      <div class="pc-desc">
+        Quantopian 的美股事件驱动回测框架，标志性 Pipeline API 因子计算。
+        原版停维，zipline-reloaded 续命。
+      </div>
+      <div class="pc-meta">
+        <span>📐 Pipeline</span><span>🇺🇸 美股</span><span>⭐ 20k</span>
+      </div>
+      <div class="pc-actions">
+        <a href="zipline.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/stefan-jansen/zipline-reloaded" target="_blank" class="pc-link ghost">🐙 reloaded</a>
+      </div>
+    </div>
+
+<!-- alphalens -->
+    <div class="project-card pc-alphalens">
+      <div class="pc-header">
+        <span class="pc-icon">🎯</span>
+        <div class="pc-titles">
+          <div class="pc-name">Alphalens</div>
+          <div class="pc-en">因子绩效分析工具</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--sky-light);border-color:rgba(14,165,233,0.2);background:rgba(14,165,233,0.05);">因子分析</span>
+        <span class="pc-badge" style="color:var(--sky-light);border-color:rgba(14,165,233,0.2);background:rgba(14,165,233,0.05);">IC</span>
+        <span class="pc-badge" style="color:var(--sky-light);border-color:rgba(14,165,233,0.2);background:rgba(14,165,233,0.05);">4.4k★</span>
+      </div>
+      <div class="pc-desc">
+        Quantopian 的因子绩效分析工具，IC 信息系数、分层回测、换手率。
+        alphalens-reloaded 续命，与 zipline/pyfolio 配套。
+      </div>
+      <div class="pc-meta">
+        <span>🎯 IC</span><span>📊 分层回测</span><span>⭐ 4.4k</span>
+      </div>
+      <div class="pc-actions">
+        <a href="alphalens.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/stefan-jansen/alphalens-reloaded" target="_blank" class="pc-link ghost">🐙 reloaded</a>
+      </div>
+    </div>
+
+    <!-- ═══ 交易框架 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--emerald-light);">
+      <span class="cat-icon">🏗️</span><span class="cat-name">交易框架</span><span class="cat-count">5 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- vnpy -->
+    <div class="project-card pc-vnpy">
+      <div class="pc-header">
+        <span class="pc-icon">🐍</span>
+        <div class="pc-titles">
+          <div class="pc-name">vnpy (VeighNa)</div>
+          <div class="pc-en">Python 开源量化交易框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--emerald-light);border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.05);">期货CTA</span>
+        <span class="pc-badge" style="color:var(--emerald-light);border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.05);">20+接口</span>
+        <span class="pc-badge" style="color:var(--emerald-light);border-color:rgba(16,185,129,0.2);background:rgba(16,185,129,0.05);">44.4k★</span>
+      </div>
+      <div class="pc-desc">
+        全球用户量最大的开源量化平台之一，国内实盘接口覆盖最全（CTP 等）。
+        事件驱动 + Gateway/App 分离架构，4.0 起加入 AI 模块。
+      </div>
+      <div class="pc-meta">
+        <span>🐍 44.4k★</span><span>🔌 20+接口</span><span>📦 15+模块</span>
+      </div>
+      <div class="pc-actions">
+        <a href="vnpy.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/vnpy/vnpy" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- WonderTrader -->
+    <div class="project-card pc-wondertrader">
+      <div class="pc-header">
+        <span class="pc-icon">🚀</span>
+        <div class="pc-titles">
+          <div class="pc-name">WonderTrader</div>
+          <div class="pc-en">C++ 高性能量化框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--cyan-light);border-color:rgba(6,182,212,0.2);background:rgba(6,182,212,0.05);">C++核心</span>
+        <span class="pc-badge" style="color:var(--cyan-light);border-color:rgba(6,182,212,0.2);background:rgba(6,182,212,0.05);">四引擎</span>
+        <span class="pc-badge" style="color:var(--cyan-light);border-color:rgba(6,182,212,0.2);background:rgba(6,182,212,0.05);">纳秒级</span>
+      </div>
+      <div class="pc-desc">
+        C++ 核心的高性能量化框架，四引擎（CTA/SEL/HFT/UFT），UFT 纳秒级。
+        M+1+N 多账户实盘架构，面向专业机构。
+      </div>
+      <div class="pc-meta">
+        <span>⚡ &lt;200ns</span><span>🔧 四引擎</span><span>🏢 机构级</span>
+      </div>
+      <div class="pc-actions">
+        <a href="wondertrader.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/wondertrader/wondertrader" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- Hikyuu -->
+    <div class="project-card pc-hikyuu">
+      <div class="pc-header">
+        <span class="pc-icon">🧩</span>
+        <div class="pc-titles">
+          <div class="pc-name">Hikyuu</div>
+          <div class="pc-en">C++/Python 量化研究框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--violet-light);border-color:rgba(139,92,246,0.2);background:rgba(139,92,246,0.05);">A股适配</span>
+        <span class="pc-badge" style="color:var(--violet-light);border-color:rgba(139,92,246,0.2);background:rgba(139,92,246,0.05);">组件化</span>
+        <span class="pc-badge" style="color:var(--violet-light);border-color:rgba(139,92,246,0.2);background:rgba(139,92,246,0.05);">Apache-2.0</span>
+      </div>
+      <div class="pc-desc">
+        老牌 C++/Python 量化框架（2012 年起），系统化交易组件化设计（SYS/SG/MM/TM）。
+        深度适配 A 股，1913 万日 K 线预热后 166ms。
+      </div>
+      <div class="pc-meta">
+        <span>🧩 3.4k★</span><span>⚡ 秒级回测</span><span>📊 A股</span>
+      </div>
+      <div class="pc-actions">
+        <a href="hikyuu.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/fasiondog/hikyuu" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- TradingAgents-CN -->
+    <div class="project-card pc-trading">
+      <div class="pc-header">
+        <span class="pc-icon">💹</span>
+        <div class="pc-titles">
+          <div class="pc-name">TradingAgents-CN</div>
+          <div class="pc-en">多智能体中文金融交易框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--red-light);border-color:rgba(166,58,46,0.2);background:rgba(166,58,46,0.05);">多 Agent 交易</span>
+        <span class="pc-badge" style="color:var(--red-light);border-color:rgba(166,58,46,0.2);background:rgba(166,58,46,0.05);">中文增强</span>
+      </div>
+      <div class="pc-desc">
+        TradingAgents 中文增强版。模拟专业交易机构，
+        7-8 个专业角色（分析师/研究员/交易员/风控/资金经理）协作决策。
+        支持 A股/港股/美股 + 国产 LLM（Qwen/DeepSeek）。
+      </div>
+      <div class="pc-meta">
+        <span>👥 7-8 Agent</span><span>🇨🇳 中文市场</span><span>🐳 国产 LLM</span>
+      </div>
+      <div class="pc-actions">
+        <a href="tradingagents-cn.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/hsliuping/TradingAgents-CN" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- DojoAgents -->
+    <div class="project-card pc-dojo">
+      <div class="pc-header">
+        <span class="pc-icon">🥋</span>
+        <div class="pc-titles">
+          <div class="pc-name">DojoAgents</div>
+          <div class="pc-en">Full-Market AI Copilot · 主动式 Agent Loop</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--purple-light);border-color:rgba(124,92,252,0.2);background:rgba(124,92,252,0.05);">主动式 Agent</span>
+        <span class="pc-badge" style="color:var(--purple-light);border-color:rgba(124,92,252,0.2);background:rgba(124,92,252,0.05);">MCP 原生</span>
+      </div>
+      <div class="pc-desc">
+        深涌智能（Alpha-Dojo）开源的主动式 AI Agent 框架。
+        Loop-Driven 认知组合智能体，主动推进研究与决策，
+        而非被动问答。支持全市场扫描、产业链传导、持仓诊断。
+      </div>
+      <div class="pc-meta">
+        <span>⭐ 1.4K+</span><span>🥋 Agent Loop</span><span>📊 四柱仪表盘</span>
+      </div>
+      <div class="pc-actions">
+        <a href="dojoagents.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/Alpha-Dojo/DojoAgents" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+    <!-- ═══ 加密交易 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--teal-light);">
+      <span class="cat-icon">🪙</span><span class="cat-name">加密交易</span><span class="cat-count">2 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- freqtrade -->
+    <div class="project-card pc-freqtrade">
+      <div class="pc-header">
+        <span class="pc-icon">🪙</span>
+        <div class="pc-titles">
+          <div class="pc-name">freqtrade</div>
+          <div class="pc-en">开源加密货币交易机器人</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">加密CTA</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">Hyperopt</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">53.3k★</span>
+      </div>
+      <div class="pc-desc">
+        开源加密货币算法交易机器人，Python 策略 + 回测 + Hyperopt 优化 + 实盘全链路。
+        底层依赖 CCXT 支持 100+ 交易所，内置 freqAI 机器学习。
+      </div>
+      <div class="pc-meta">
+        <span>🪙 53.3k★</span><span>⚙️ 100+交易所</span><span>🧠 freqAI</span>
+      </div>
+      <div class="pc-actions">
+        <a href="freqtrade.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/freqtrade/freqtrade" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- ccxt -->
+    <div class="project-card pc-ccxt">
+      <div class="pc-header">
+        <span class="pc-icon">🔗</span>
+        <div class="pc-titles">
+          <div class="pc-name">ccxt</div>
+          <div class="pc-en">加密货币统一交易库</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">统一API</span>
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">多语言</span>
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">43.6k★</span>
+      </div>
+      <div class="pc-desc">
+        统一 API 库访问 100+ 加密货币交易所，多语言（JS/Python/C#/Go/Java/PHP）。
+        freqtrade 的底层交易所对接层，REST + WebSocket。
+      </div>
+      <div class="pc-meta">
+        <span>🔗 100+交易所</span><span>🌐 7语言</span><span>⭐ 43.6k</span>
+      </div>
+      <div class="pc-actions">
+        <a href="ccxt.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/ccxt/ccxt" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+    <!-- ═══ AI 量化 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--fuchsia-light);">
+      <span class="cat-icon">🧠</span><span class="cat-name">AI 量化</span><span class="cat-count">2 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- Qlib -->
+    <div class="project-card pc-qlib">
+      <div class="pc-header">
+        <span class="pc-icon">🧠</span>
+        <div class="pc-titles">
+          <div class="pc-name">Qlib</div>
+          <div class="pc-en">微软 · AI 量化投资平台</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--fuchsia-light);border-color:rgba(217,70,239,0.2);background:rgba(217,70,239,0.05);">AI量化</span>
+        <span class="pc-badge" style="color:var(--fuchsia-light);border-color:rgba(217,70,239,0.2);background:rgba(217,70,239,0.05);">Alpha158</span>
+        <span class="pc-badge" style="color:var(--fuchsia-light);border-color:rgba(217,70,239,0.2);background:rgba(217,70,239,0.05);">47.4k★</span>
+      </div>
+      <div class="pc-desc">
+        微软亚洲研究院的 AI 量化投资平台，首个 AI 量化开源平台。
+        Alpha158/360 因子库 + 20+ 论文模型，全链路一体化。
+      </div>
+      <div class="pc-meta">
+        <span>🧠 47.4k★</span><span>🔢 Alpha158/360</span><span>🤖 20+模型</span>
+      </div>
+      <div class="pc-actions">
+        <a href="qlib.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/microsoft/qlib" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+<!-- FinRL -->
+    <div class="project-card pc-finrl">
+      <div class="pc-header">
+        <span class="pc-icon">🎮</span>
+        <div class="pc-titles">
+          <div class="pc-name">FinRL</div>
+          <div class="pc-en">深度强化学习量化框架</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--pink-light);border-color:rgba(236,72,153,0.2);background:rgba(236,72,153,0.05);">强化学习</span>
+        <span class="pc-badge" style="color:var(--pink-light);border-color:rgba(236,72,153,0.2);background:rgba(236,72,153,0.05);">PPO/SAC</span>
+        <span class="pc-badge" style="color:var(--pink-light);border-color:rgba(236,72,153,0.2);background:rgba(236,72,153,0.05);">16k★</span>
+      </div>
+      <div class="pc-desc">
+        哥伦比亚大学 AI4Finance 团队的深度强化学习量化框架。
+        PPO/SAC/TD3 等 DRL 算法，三层架构，FinRL-X/DeepSeek 生态。
+      </div>
+      <div class="pc-meta">
+        <span>🎮 16k★</span><span>🤖 6+算法</span><span>🏫 教学</span>
+      </div>
+      <div class="pc-actions">
+        <a href="finrl.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://github.com/AI4Finance-Foundation/FinRL" target="_blank" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
+
+    <!-- ═══ 实盘终端 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--orange-light);">
+      <span class="cat-icon">⚡</span><span class="cat-name">实盘终端</span><span class="cat-count">3 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- PTrade -->
+    <div class="project-card pc-ptrade">
+      <div class="pc-header">
+        <span class="pc-icon">🏦</span>
+        <div class="pc-titles">
+          <div class="pc-name">恒生 PTrade</div>
+          <div class="pc-en">Hundsun · 券商托管量化交易终端</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">券商托管</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">回测实盘一体</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.05);">A股量化</span>
+      </div>
+      <div class="pc-desc">
+        恒生电子研发的券商级量化交易终端，云端托管 7×24 无人值守。
+        Python 事件驱动 + 15+ 零代码工具，覆盖「投研 → 回测 → 仿真 → 实盘」全流程。
+        2025 年接入 DeepSeek，自然语言生成策略代码。
+      </div>
+      <div class="pc-meta">
+        <span>🏦 近40券商</span><span>🐍 Python 3.11</span><span>⚡ 毫秒级报单</span>
+      </div>
+      <div class="pc-actions">
+        <a href="ptrade.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://www.isimu123.com/product-ptrade.html" target="_blank" class="pc-link ghost">🌐 官网</a>
+        <a href="https://github.com/kay-ou/SimTradeLab" target="_blank" class="pc-link ghost">🧪 社区</a>
+      </div>
+    </div>
+
+<!-- QMT / MiniQMT -->
+    <div class="project-card pc-qmt">
+      <div class="pc-header">
+        <span class="pc-icon">🏎️</span>
+        <div class="pc-titles">
+          <div class="pc-name">迅投 QMT / MiniQMT</div>
+          <div class="pc-en">ThinkTrader · 本地极速策略交易系统</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">本地运行</span>
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">低延迟</span>
+        <span class="pc-badge" style="color:var(--orange-light);border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.05);">全品类</span>
+      </div>
+      <div class="pc-desc">
+        迅投（睿智融科）的本地化极速交易终端，Python + VBA 双语言。
+        MiniQMT 极简模式 + xtquant 库，可用任意 IDE + 外部 Python 自由开发。
+        唯一可做期货/期权的券商量化终端，代码本地保密。
+      </div>
+      <div class="pc-meta">
+        <span>🏎️ &lt;1ms 报单</span><span>🐍 xtquant</span><span>📈 全品类</span>
+      </div>
+      <div class="pc-actions">
+        <a href="qmt.html" class="pc-link">📖 详细分析 →</a>
+        <a href="http://dict.thinktrader.net/nativeApi/start_now.html" target="_blank" class="pc-link ghost">📚 文档</a>
+        <a href="https://github.com/quant-king299/EasyXT" target="_blank" class="pc-link ghost">🧩 社区</a>
+      </div>
+    </div>
+
+<!-- 掘金 MyQuant -->
+    <div class="project-card pc-myquant">
+      <div class="pc-header">
+        <span class="pc-icon">⛏️</span>
+        <div class="pc-titles">
+          <div class="pc-name">掘金 MyQuant</div>
+          <div class="pc-en">深圳红树科技 · 机构级量化平台</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--yellow-light);border-color:rgba(234,179,8,0.2);background:rgba(234,179,8,0.05);">期货CTA</span>
+        <span class="pc-badge" style="color:var(--yellow-light);border-color:rgba(234,179,8,0.2);background:rgba(234,179,8,0.05);">多语言</span>
+        <span class="pc-badge" style="color:var(--yellow-light);border-color:rgba(234,179,8,0.2);background:rgba(234,179,8,0.05);">Tick回测</span>
+      </div>
+      <div class="pc-desc">
+        机构级 C++ 高性能回测，期货/CTA 能力四平台最强（CTP/OES 对接）。
+        支持 Python/C++/C#/Matlab 四语言，本地运行代码保密。
+      </div>
+      <div class="pc-meta">
+        <span>⛏️ 期货首选</span><span>⚡ &lt;1s 回测</span><span>🌐 四语言</span>
+      </div>
+      <div class="pc-actions">
+        <a href="myquant.html" class="pc-link">📖 详细分析 →</a>
+        <a href="https://www.myquant.cn" target="_blank" class="pc-link ghost">🌐 官网</a>
       </div>
     </div>
   </div>
@@ -405,59 +993,46 @@ footer a:hover { opacity:1; }
 
 <div class="section-divider"><hr></div>
 
-<!-- ═══ 五、Agent 工具生态 ═══ -->
-<section class="section" id="agent">
-  <div class="section-label">五 · Agent 工具生态</div>
-  <h2>Agent 工具生态<span class="en">Agent Ecosystem</span></h2>
-  <p class="section-sub">多 Agent 编排 · 编程 Agent · 零人工公司 · MCP 接入</p>
-
-  <div class="roster">
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/DojoAgents-主动式Agent源码级分析.html">DojoAgents 源码级分析</a></div><div class="ri-desc">主动式 Agent 源码拆解</div></div>
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/Edict-三省六部-多Agent编排系统.html">Edict · 三省六部</a></div><div class="ri-desc">多 Agent 编排 · 12 Agent 分权制衡</div></div>
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/Paperclip_零人工公司操作系统.html">Paperclip · 零人工公司</a></div><div class="ri-desc">AI 教练公司操作系统</div></div>
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/OpenClaw-vs-Hermes-vs-ClaudeCode-对比分析.html">OpenClaw / Hermes / Claude Code</a></div><div class="ri-desc">三大 AI 编程 Agent 深度对比</div></div>
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/AI工具全景图-杨辉教练实战指南.html">AI 工具全景图</a></div><div class="ri-desc">43 个 AI 工具实战指南</div></div>
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/Claude-MCP设置指南.html">Claude MCP 设置指南</a></div><div class="ri-desc">MCP 协议配置与使用</div></div>
-    <div class="roster-item ri-agent"><div class="ri-name"><a href="../tools/飞书MCP接入指南.html">飞书 MCP 接入指南</a></div><div class="ri-desc">飞书 MCP 协议接入</div></div>
-  </div>
-</section>
-
-<div class="section-divider"><hr></div>
-
-<!-- ═══ 生态图谱 ═══ -->
+<!-- ═══ Summary ═══ -->
 <section class="section" id="summary">
   <div class="section-label">生态图谱</div>
-  <h2>26+ 工具 · 五线互补定位</h2>
-  <p class="section-sub">从软件到数据、从回测到 AI 决策的完整覆盖</p>
+  <h2>二十六大项目 · 生态图谱</h2>
+  <p class="section-sub">从数据到研究、从分析到交易的完整覆盖</p>
 
   <div class="feature-box">
-    <div class="feature-box-label">分工协作关系</div>
+    <div class="feature-box-label">七大分类 · 二十六大项目生态图谱</div>
     <p>
-      <strong>软件层</strong>：通达信（教学）/ QMT·PTrade（交易落地）/ 米筐·聚宽·掘金（回测平台）<br>
-      <strong>数据层</strong>：Pandadata（218 接口）+ Tushare / AkShare / Baostock（开源数据）<br>
-      <strong>回测层</strong>：Backtrader / vn.py / Qlib / FinRL（策略验证与强化学习）<br>
-      <strong>AI 决策层</strong>：FinRobot（研报 CoT）+ TradingAgents-CN（多 Agent 交易）+ DojoAgents（主动式组合）+ Daily Stock Analysis（每日复盘）+ OpenBB（投资终端）<br>
-      <strong>Agent 层</strong>：Edict / Paperclip / OpenClaw / Hermes / Claude Code（编排与自动化）
+      <strong>📊 数据平台</strong>：Pandadata（中文市场）· OpenBB（全球市场）· 米筐 RQData（机构数据）<br>
+      <strong>🔬 研究平台</strong>：聚宽（在线回测）· SuperMind（问财选股）· FinRobot（美股研报）· Daily Stock（A股复盘）· BigQuant（AI 选股）<br>
+      <strong>📐 回测框架</strong>：Backtrader（事件驱动）· Vectorbt（向量化）· SimTradeLab（PTrade 回测）· EasyXT（xtquant 封装）· Zipline（美股 Pipeline）· Alphalens（因子分析）<br>
+      <strong>🏗️ 交易框架</strong>：vnpy（期货 CTA）· WonderTrader（高性能 C++）· Hikyuu（A股组件化）· TradingAgents-CN · DojoAgents<br>
+      <strong>🪙 加密交易</strong>：freqtrade（交易机器人）· ccxt（统一 API 库）<br>
+      <strong>🧠 AI 量化</strong>：Qlib（微软 AI 因子）· FinRL（强化学习）<br>
+      <strong>⚡ 实盘终端</strong>：PTrade（云端托管）· QMT（本地低延迟）· 掘金（期货 CTA）
+    </p>
+    <p style="margin-top:14px;border-top:1px solid var(--border-subtle);padding-top:14px;">
+      完整链路：<strong>数据 → 研究 → 回测 → 交易 → 实盘</strong>，AI 量化（Qlib/FinRL/BigQuant）与加密交易（freqtrade/ccxt）贯穿全程。
+      二十六大项目覆盖开源框架与官方平台，可组合使用构建完整量化投研体系。
     </p>
   </div>
 </section>
 
 <!-- ═══ Footer ═══ -->
 <footer>
-  <p>玄龙堂 · 量化工具全景 · 26+ 工具 · 国内平台 / 数据 / 回测 / 开源 AI / Agent</p>
+  <p>量化 AI 工具总览 · 数据 · 研究 · 回测 · 交易 · 加密 · 实盘全生态 · 二十六大项目</p>
   <p style="margin-top:4px;">
-    <a href="../index.html">返回首页</a> ·
+    <a href="../index.html">玄龙堂 · AI量化教育</a> ·
     <a href="education.html">教育总目录</a> ·
     <a href="https://github.com/kenyanghui" target="_blank">GitHub</a>
   </p>
-  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供学习研究参考，不构成投资建议</p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
 </footer>
 
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.08 });
-document.querySelectorAll('.project-card, .roster-item, .feature-box').forEach(el => {
+document.querySelectorAll('.project-card, .feature-box').forEach(el => {
   el.classList.add('fade-up'); observer.observe(el);
 });
 </script>
