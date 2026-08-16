@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玄龙堂 · AI量化教育总目录 | 课程体系 · 工具研究 · 学习路径</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --blue: #3b6fb6; --blue-light: #5a90d8;
+  --red: #a63a2e; --red-light: #c95a4f;
+  --purple: #7c5cfc; --purple-light: #9b7fff;
+  --border-subtle: rgba(201,168,76,0.08);
+  --border-card: rgba(201,168,76,0.10);
+  --border-active: rgba(201,168,76,0.22);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--void); color: var(--text-default);
+  font-family: 'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(59,111,182,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(74,124,89,0.03) 0%, transparent 50%);
+}
+h1,h2,h3 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--gold); text-decoration:none; transition:color 0.2s; }
+a:hover { color:var(--gold-light); }
+.en { display:block; margin-top:2px; color:var(--cream-dark); opacity:0.55; font-size:0.72em; font-weight:300; letter-spacing:0.02em; }
+
+/* Nav */
+.top-nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(0,0,0,0.85); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-subtle);
+  padding:10px 24px; display:flex; align-items:center;
+  justify-content:space-between; gap:16px;
+}
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--gold); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--gold); border-color:var(--border-active); background:rgba(201,168,76,0.04); }
+
+/* Hero */
+.hero {
+  position:relative; z-index:1; min-height:60vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:110px 40px 60px;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:0.7rem; letter-spacing:0.3em; color:var(--gold); opacity:0.8;
+  margin-bottom:22px; border:1px solid rgba(201,168,76,0.2); padding:5px 18px; border-radius:2px;
+}
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(1.8rem,4.5vw,3.2rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; line-height:1.3; margin-bottom:14px; }
+.hero h1 em { color:var(--gold); font-style:normal; }
+.hero .subtitle { font-size:clamp(0.95rem,2vw,1.15rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:32px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--gold),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.7rem; font-weight:700; color:var(--gold); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+
+/* Section */
+.section { max-width:1100px; margin:0 auto; padding:52px 40px; position:relative; z-index:1; }
+.section-alt { background:rgba(201,168,76,0.012); border-top:1px solid rgba(201,168,76,0.03); border-bottom:1px solid rgba(201,168,76,0.03); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--gold); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.35rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:32px; }
+.section-divider { max-width:1100px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,0.08),transparent); }
+
+/* Group header */
+.group-head {
+  display:flex; align-items:center; gap:12px;
+  margin:28px 0 14px; font-size:0.95rem; color:var(--cream);
+  font-family:'Noto Serif SC',serif; letter-spacing:0.05em;
+}
+.group-head .g-icon { font-size:1.2rem; color:var(--gold); opacity:0.7; }
+.group-head .g-line { flex:1; height:1px; background:linear-gradient(90deg,rgba(201,168,76,0.15),transparent); }
+
+/* Link cards */
+.link-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; }
+.link-card {
+  background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(201,168,76,0.01));
+  border:1px solid var(--border-card); border-radius:5px;
+  padding:16px 18px; position:relative; overflow:hidden;
+  transition:border-color 0.3s var(--ease-smooth),transform 0.3s var(--ease-smooth);
+}
+.link-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.link-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--lc-accent,var(--gold)),transparent); opacity:0.6; }
+.link-card .lc-title { font-size:0.86rem; color:var(--cream); font-weight:600; letter-spacing:0.03em; margin-bottom:3px; }
+.link-card .lc-desc { font-size:0.74rem; color:var(--cream-dark); opacity:0.55; line-height:1.6; }
+.link-card .lc-title a { color:inherit; }
+.link-card .lc-title a:hover { color:var(--gold); }
+
+/* Accent */
+.lc-tdx { --lc-accent: var(--green-light); }
+.lc-oss { --lc-accent: var(--blue-light); }
+.lc-agent { --lc-accent: var(--purple-light); }
+.lc-strategy { --lc-accent: var(--red-light); }
+.lc-youth { --lc-accent: var(--gold); }
+.lc-path { --lc-accent: var(--gold); }
+
+/* Flow */
+.flow-steps { display:flex; gap:0; align-items:stretch; margin:22px 0 30px; }
+.flow-step { flex:1; background:rgba(201,168,76,0.02); border:1px solid rgba(201,168,76,0.08); padding:20px 16px; text-align:center; position:relative; }
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after { content:'→'; position:absolute; right:-12px; top:50%; transform:translateY(-50%); color:var(--gold); opacity:0.35; font-size:0.9rem; z-index:1; }
+.flow-num { font-size:1.4rem; color:var(--gold); opacity:0.25; display:block; }
+.flow-title { font-size:0.82rem; color:var(--cream); letter-spacing:0.06em; margin:4px 0 6px; }
+.flow-desc { font-size:0.72rem; color:var(--cream-dark); opacity:0.5; line-height:1.6; }
+
+/* Feature box */
+.feature-box {
+  background:linear-gradient(135deg,rgba(201,168,76,0.03),rgba(59,111,182,0.02));
+  border:1px solid var(--border-active); border-radius:6px;
+  padding:22px 28px; margin:20px 0; position:relative;
+}
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--gold); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--gold); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+@media (max-width:700px) {
+  .hero { padding:100px 20px 50px; min-height:50vh; }
+  .hero h1 { font-size:1.5rem; }
+  .hero-stats { gap:14px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .top-nav { padding:8px 16px; }
+  .nav-links { display:none; }
+  .link-grid { grid-template-columns:1fr; }
+  .flow-steps { flex-direction:column; }
+  .flow-step:not(:last-child)::after { content:'↓'; right:auto; top:auto; bottom:-12px; left:50%; transform:translateX(-50%); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Nav ═══ -->
+<nav class="top-nav">
+  <a href="../index.html" class="nav-home"><span class="dot"></span> 玄龙堂 · AI量化教育</a>
+  <div class="nav-links">
+    <a href="#courses">课程体系</a>
+    <a href="#tools">工具研究</a>
+    <a href="#path">学习路径</a>
+    <a href="index.html">量化工具总览 →</a>
+  </div>
+</nav>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero" id="top">
+  <div class="hero-badge">量化教育 · 总目录 · 一站式导航</div>
+  <h1>AI 量化教育 <em>总目录</em></h1>
+  <div class="subtitle">从入门到实战 · 课程 + 工具 + 学习路径</div>
+  <p class="hero-desc">
+    通达信 · miniQMT · 六大开源金融 AI 项目 · 廖老师策略 · 青少年财商<br>
+    把散落的量化教育内容归拢成一条清晰的学习路径
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">8</span><span class="label">通达信系列</span></div>
+    <div class="hero-stat"><span class="num">6+</span><span class="label">开源 AI 项目</span></div>
+    <div class="hero-stat"><span class="num">7</span><span class="label">Agent 工具</span></div>
+    <div class="hero-stat"><span class="num">9</span><span class="label">策略课程</span></div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ 一、课程体系 ═══ -->
+<section class="section" id="courses">
+  <div class="section-label">一、量化课程体系</div>
+  <h2>从入门到策略实战<span class="en">Curriculum Path</span></h2>
+  <p class="section-sub">入门 → 进阶 → 策略实战 → 青少年，四段递进</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">01</span>
+      <div class="flow-title">入门</div>
+      <div class="flow-desc">通达信入门 · HTML<br>期权期货小白培训</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">02</span>
+      <div class="flow-title">进阶</div>
+      <div class="flow-desc">通达信知识体系<br>+ miniQMT 期权期货</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">03</span>
+      <div class="flow-title">策略实战</div>
+      <div class="flow-desc">廖老师量化策略<br>将金不金 / 百倍龙王</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">04</span>
+      <div class="flow-title">青少年</div>
+      <div class="flow-desc">金融思维启蒙<br>少年商学院</div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">📖</span>入门基础<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-intro.html">通达信入门手册 · Windows</a></div>
+      <div class="lc-desc">界面 · 选股 · 自选股 · 基础操作</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-mac.html">通达信入门手册 · Mac</a></div>
+      <div class="lc-desc">Mac 版安装与基础操作</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="html-intro.html">HTML 入门手册</a></div>
+      <div class="lc-desc">量化可视化与页面基础</div>
+    </div>
+    <div class="link-card lc-path">
+      <div class="lc-title"><a href="options-kline-training.html">期权期货入门培训</a></div>
+      <div class="lc-desc">小白也能懂 · 80+ 品种全攻略</div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">🧠</span>进阶体系<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-knowledge.html">通达信知识体系</a></div>
+      <div class="lc-desc">入门 · 行业 · 量化 三阶递进</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-options-tech.html">通达信 + miniQMT</a></div>
+      <div class="lc-desc">期权期货量化交易技术方案</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-comparison.html">股票软件横向对比</a></div>
+      <div class="lc-desc">通达信 vs 同花顺 vs 东方财富 vs 大智慧</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-elite.html">企业二代投资精修班</a></div>
+      <div class="lc-desc">L3 + L4 压缩课程</div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">📈</span>策略实战 · 廖老师<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-strategy">
+      <div class="lc-title"><a href="量化投资目录_HTML/index.html">量化策略课程目录</a></div>
+      <div class="lc-desc">9 篇核心策略 · 完整课程导航</div>
+    </div>
+    <div class="link-card lc-strategy">
+      <div class="lc-title"><a href="量化投资目录_HTML/02-将金不金将死不死模型-PPT原版.html">将金不金 / 将死不死模型</a></div>
+      <div class="lc-desc">核心策略模型（含图表 PPT 原版）</div>
+    </div>
+    <div class="link-card lc-strategy">
+      <div class="lc-title"><a href="量化投资目录_HTML/05-量化投资-百倍龙王系列文章备份.html">百倍龙王系列</a></div>
+      <div class="lc-desc">妖股识别与实战</div>
+    </div>
+    <div class="link-card lc-strategy">
+      <div class="lc-title"><a href="量化投资目录_HTML/06-量化投资-洞藏酒时间止盈备份.html">洞藏酒时间止盈</a></div>
+      <div class="lc-desc">时间止盈策略</div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">🧭</span>青少年量化 + 财商<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-youth">
+      <div class="lc-title"><a href="youth-quant-intro.html">青少年金融思维启蒙课</a></div>
+      <div class="lc-desc">看懂一套交易策略背后的秘密</div>
+    </div>
+    <div class="link-card lc-youth">
+      <div class="lc-title"><a href="youth-financial-literacy.html">少年商学院 · 12 节课学会投资</a></div>
+      <div class="lc-desc">青少年财商系统课程</div>
+    </div>
+    <div class="link-card lc-youth">
+      <div class="lc-title"><a href="tdx-youth.html">通达信青少年投资课程</a></div>
+      <div class="lc-desc">培训体系</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ 二、工具研究 ═══ -->
+<section class="section section-alt" id="tools">
+  <div class="section-label">二、量化工具研究</div>
+  <h2>工具全景<span class="en">Tool Landscape</span></h2>
+  <p class="section-sub">国内软件 + 开源 AI 项目 + Agent 工具，三线覆盖</p>
+
+  <div class="group-head"><span class="g-icon">🇨🇳</span>国内量化软件<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-intro.html">通达信 · 入门</a></div>
+      <div class="lc-desc">Windows / Mac 双版本</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-knowledge.html">通达信 · 知识体系</a></div>
+      <div class="lc-desc">入门 · 行业 · 量化</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-options-tech.html">通达信 + miniQMT</a></div>
+      <div class="lc-desc">期权期货量化交易技术方案</div>
+    </div>
+    <div class="link-card lc-tdx">
+      <div class="lc-title"><a href="tdx-comparison.html">软件横向对比</a></div>
+      <div class="lc-desc">通达信 / 同花顺 / 东财 / 大智慧</div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">🤖</span>开源 AI 项目 · 详细分析<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="index.html">量化工具全景</a></div>
+      <div class="lc-desc">26+ 工具 · 五线分类入口</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="pandadata.html">Pandadata × PandaAI</a></div>
+      <div class="lc-desc">218 接口 · 中文市场数据底座</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="openbb.html">OpenBB</a></div>
+      <div class="lc-desc">600+ 命令 · 开源投资终端</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="dojoagents.html">DojoAgents</a></div>
+      <div class="lc-desc">主动式 Agent Loop · 全市场扫描</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="tradingagents-cn.html">TradingAgents-CN</a></div>
+      <div class="lc-desc">多智能体中文交易框架</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="finrobot.html">FinRobot</a></div>
+      <div class="lc-desc">微软研究院 · 金融 AI Agent</div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">🛠️</span>Agent 工具生态<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/DojoAgents-主动式Agent源码级分析.html">DojoAgents 源码级分析</a></div>
+      <div class="lc-desc">主动式 Agent 源码拆解</div>
+    </div>
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/Edict-三省六部-多Agent编排系统.html">Edict · 三省六部</a></div>
+      <div class="lc-desc">多 Agent 编排系统 · 12 Agent 分权制衡</div>
+    </div>
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/Paperclip_零人工公司操作系统.html">Paperclip · 零人工公司</a></div>
+      <div class="lc-desc">AI 教练公司操作系统</div>
+    </div>
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/OpenClaw-vs-Hermes-vs-ClaudeCode-对比分析.html">OpenClaw vs Hermes vs Claude Code</a></div>
+      <div class="lc-desc">三大 AI 编程工具深度对比</div>
+    </div>
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/AI工具全景图-杨辉教练实战指南.html">AI 工具全景图</a></div>
+      <div class="lc-desc">实战指南 · 工具扫描</div>
+    </div>
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/Claude-MCP设置指南.html">Claude MCP 设置指南</a></div>
+      <div class="lc-desc">MCP 协议配置与使用</div>
+    </div>
+    <div class="link-card lc-agent">
+      <div class="lc-title"><a href="../tools/飞书MCP接入指南.html">飞书 MCP 接入指南</a></div>
+      <div class="lc-desc">飞书 MCP 协议接入</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ 三、学习路径 ═══ -->
+<section class="section" id="path">
+  <div class="section-label">三、学习路径</div>
+  <h2>研究 → 搭建 → 实盘<span class="en">Learning Path</span></h2>
+  <p class="section-sub">三阶段闭环，配学习进度跟踪</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">01</span>
+      <div class="flow-title">Phase 1 · 研究<span class="en">Roadmap</span></div>
+      <div class="flow-desc"><a href="phase1-roadmap.html" style="color:var(--gold);">学习路线图 →</a></div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">02</span>
+      <div class="flow-title">Phase 2 · 搭建<span class="en">Tech Setup</span></div>
+      <div class="flow-desc"><a href="phase2-tech-setup.html" style="color:var(--gold);">量化系统搭建 →</a></div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">03</span>
+      <div class="flow-title">Phase 3 · 实盘<span class="en">Live Trading</span></div>
+      <div class="flow-desc"><a href="phase3-live-trading.html" style="color:var(--gold);">实盘测试 →</a></div>
+    </div>
+  </div>
+
+  <div class="group-head"><span class="g-icon">📋</span>配套与进阶<span class="g-line"></span></div>
+  <div class="link-grid">
+    <div class="link-card lc-path">
+      <div class="lc-title"><a href="learning-tracker.html">学习进度跟踪表</a></div>
+      <div class="lc-desc">期权期货学习计划 · 进度追踪</div>
+    </div>
+    <div class="link-card lc-path">
+      <div class="lc-title"><a href="quant-competition-analysis.html">量化竞争差异分析</a></div>
+      <div class="lc-desc">个人 / 小团队 vs 专业量化机构</div>
+    </div>
+    <div class="link-card lc-path">
+      <div class="lc-title"><a href="daoshang-war-philosophy.html">道商·天问堂 量化战法</a></div>
+      <div class="lc-desc">哲学深度分析</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">学习量化 · 就是投资自己</div>
+    <p>
+      建立闭环 AI 量化投资系统：<strong>策略 → 回测 → 复盘</strong>。<br>
+      AI量化是工具，玄学是底色，修行是内核，教育是路径。从量化入门到策略实战，每一步亲手走通。
+    </p>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+  <p>玄龙堂 · AI量化教育总目录 · 学习量化就是投资自己</p>
+  <p style="margin-top:4px;">
+    <a href="../index.html">返回首页</a> ·
+    <a href="index.html">量化工具总览</a> ·
+    <a href="https://github.com/kenyanghui" target="_blank">GitHub</a>
+  </p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供学习研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.link-card, .feature-box').forEach(el => {
+  el.classList.add('fade-up'); observer.observe(el);
+});
+</script>
+</body>
+</html>

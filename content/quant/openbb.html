@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenBB · 开源投资研究平台 | 600+ 命令 · Terminal / SDK / Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --blue: #2a7fd4; --blue-light: #4a9ae8; --blue-dim: #1a5a9e;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --border-subtle: rgba(42,127,212,0.08);
+  --border-card: rgba(42,127,212,0.12);
+  --border-active: rgba(42,127,212,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(42,127,212,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--blue-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#7cb8f0; }
+code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--blue-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--blue-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--blue-light); border-color:var(--border-active); background:rgba(42,127,212,0.04); }
+
+.hero { position:relative; z-index:1; min-height:75vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--blue-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(42,127,212,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--blue-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:640px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--blue-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.8rem; font-weight:700; color:var(--blue-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--blue-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(42,127,212,0.08),transparent); }
+
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-bottom:20px; }
+.card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(42,127,212,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:22px 20px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); }
+.card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--blue-light),transparent); opacity:0.6; }
+.card-icon { font-size:1.7rem; display:block; margin-bottom:6px; opacity:0.5; }
+.card-tag { display:inline-block; font-size:0.58rem; letter-spacing:0.18em; color:var(--blue-light); border:1px solid rgba(42,127,212,0.2); padding:2px 10px; border-radius:2px; margin-bottom:10px; }
+.card-title { font-size:0.95rem; color:var(--cream); margin-bottom:8px; font-weight:600; }
+.card-desc { font-size:0.78rem; color:var(--cream-dark); opacity:0.62; line-height:1.8; }
+
+.feature-box { background:linear-gradient(135deg,rgba(42,127,212,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--blue-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(42,127,212,0.06); color:var(--blue-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--blue-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table code { background:rgba(42,127,212,0.05); color:var(--blue-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(42,127,212,0.12); color:var(--blue-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--blue-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(42,127,212,0.25); color:var(--blue-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(42,127,212,0.06); border-color:var(--blue-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--gold); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:600px) { .hero { padding:100px 20px 50px; min-height:55vh; } .hero h1 { font-size:1.5rem; } .hero-stats { gap:14px; } .hero-stat .num { font-size:1.4rem; } .section { padding:40px 20px; } .nav-links { display:none; } .card-grid { grid-template-columns:1fr; } }
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · OpenBB</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#products">产品体系</a><a href="#features">能力</a><a href="#install">安装</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">OPENBB · 开源投资研究 · EVERYONE EVERYWHERE</div>
+  <h1>Open<em>BB</em></h1>
+  <div class="subtitle">开源投资研究平台 · 600+ 金融命令</div>
+  <p class="hero-desc">
+    Terminal 命令行终端 · SDK 程序化访问 · Platform 重构<br>
+    覆盖股票 / 期权 / 加密 / 外汇 / 宏观 / 固收 / 另类数据
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">600<small>+</small></span><span class="label">金融命令</span></div>
+    <div class="hero-stat"><span class="num">11</span><span class="label">资产类别</span></div>
+    <div class="hero-stat"><span class="num">3</span><span class="label">产品形态</span></div>
+    <div class="hero-stat"><span class="num">10<small>+</small></span><span class="label">数据源</span></div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 OpenBB？</h2>
+  <p class="section-sub">免费开源的「彭博终端」替代品</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>OpenBB</strong> 是一个免费、完全开源的<strong>投资研究平台</strong>，
+      被称为「彭博终端（Bloomberg Terminal）的开源替代品」。
+      最初以 <strong>OpenBB Terminal</strong>（600+ 命令的金融终端）为核心，
+      配套 <strong>OpenBB SDK</strong>（程序化访问），现在正转型到 <strong>OpenBB Platform</strong>。
+    </p>
+    <p style="margin-top:10px;">
+      覆盖股票、期权、加密、外汇、宏观、固收、另类数据等 11 大资产类别，
+      支持 Alpha Vantage、FRED、Polygon、Binance、IEX、Finnhub 等 10+ 数据源。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>仓库</td><td><a href="https://github.com/OpenBB-finance/OpenBB" target="_blank">github.com/OpenBB-finance/OpenBB</a></td></tr>
+    <tr><td>官网</td><td><a href="https://openbb.co" target="_blank">openbb.co</a></td></tr>
+    <tr><td>命令数</td><td>600+（股票/期权/加密/外汇/宏观/固收/另类）</td></tr>
+    <tr><td>许可证</td><td>AGPLv3（Platform）/ MIT（旧 Terminal）</td></tr>
+    <tr><td>安装</td><td><code>pip install openbb</code> / Docker / 桌面安装器</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="products">
+  <div class="section-label">产品体系</div>
+  <h2>三大产品形态</h2>
+  <p class="section-sub">Terminal → SDK → Platform 的演进</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">💻</span>
+      <div class="card-tag">CLI 终端</div>
+      <div class="card-title">OpenBB Terminal</div>
+      <div class="card-desc">Python 命令行终端，菜单导航（股票/加密/ETF/外汇/基金/经济/另类/计量/组合/仪表盘/报告），600+ 命令。v3.2.5 为最后版本。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🐍</span>
+      <div class="card-tag">Python SDK</div>
+      <div class="card-title">OpenBB SDK</div>
+      <div class="card-desc">程序化访问终端命令，<code>from openbb_terminal.sdk import openbb</code>，返回 Pandas DataFrame，<code>_chart</code> 后缀直接可视化。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔌</span>
+      <div class="card-tag">新平台</div>
+      <div class="card-title">OpenBB Platform</div>
+      <div class="card-desc">下一代平台，扩展机制增强用户体验。含开源 AI 金融分析师 Agent。配套 Terminal Pro（pro.openbb.co）。</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="features">
+  <div class="section-label">核心能力</div>
+  <h2>覆盖 11 大资产类别</h2>
+  <p class="section-sub">从股票到另类数据，一个终端全覆盖</p>
+
+  <div class="card-grid">
+    <div class="card"><span class="card-icon">📈</span><div class="card-tag">股票</div><div class="card-title">Stocks</div><div class="card-desc">行情、基本面、技术分析、期权、卖空、内部人交易</div></div>
+    <div class="card"><span class="card-icon">⚖️</span><div class="card-tag">期权</div><div class="card-title">Options</div><div class="card-desc">期权链、希腊字母、波动率、策略</div></div>
+    <div class="card"><span class="card-icon">🪙</span><div class="card-tag">加密</div><div class="card-title">Crypto</div><div class="card-desc">加密货币行情、DeFi、链上数据</div></div>
+    <div class="card"><span class="card-icon">💱</span><div class="card-tag">外汇</div><div class="card-title">Forex</div><div class="card-desc">汇率、货币对、Oanda 数据</div></div>
+    <div class="card"><span class="card-icon">🏛️</span><div class="card-tag">宏观</div><div class="card-title">Economy</div><div class="card-desc">FRED、经济指标、GDP、CPI</div></div>
+    <div class="card"><span class="card-icon">📊</span><div class="card-tag">固收</div><div class="card-title">Fixed Income</div><div class="card-desc">国债、收益率曲线、信用</div></div>
+    <div class="card"><span class="card-icon">📚</span><div class="card-tag">另类数据</div><div class="card-title">Alternative</div><div class="card-desc">新闻情绪、社交媒体、公司事件</div></div>
+    <div class="card"><span class="card-icon">📐</span><div class="card-tag">计量</div><div class="card-title">Econometrics</div><div class="card-desc">回归分析、统计检验、预测</div></div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">AI 金融分析师 Agent</div>
+    <p>
+      OpenBB Platform 内置开源的 <strong>AI 金融分析师 Agent</strong>，
+      可直接访问 OpenBB 内的数据，实现「自然语言提问 → 自动数据查询 → 分析报告」的闭环。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="install">
+  <div class="section-label">安装与使用</div>
+  <h2>三种安装方式</h2>
+  <p class="section-sub">从源码、Docker 到桌面安装器</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装 Platform / SDK</div>
+    <div class="install-body">
+      <pre><span class="cm"># 安装 OpenBB Platform</span>
+pip install openbb
+<span class="cm"># 或安装 CLI</span>
+pip install openbb-cli
+<span class="cm"># 或旧版 SDK（v3.2.4）</span>
+pip install openbb==3.2.4</pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> 配置数据源 API Key</div>
+    <div class="install-body">
+      <pre><span class="cm"># 配置数据源（Alpha Vantage / FRED / Polygon / Finnhub 等）</span>
+openbb.keys</pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">3</span> 使用示例</div>
+    <div class="install-body">
+      <pre><span class="cm"># SDK 调用</span>
+<span class="kw">from</span> openbb_terminal.sdk <span class="kw">import</span> openbb
+df = openbb.stocks.load(<span class="str">"AAPL"</span>)
+
+<span class="cm"># 终端命令</span>
+stocks/load AAPL/candle</pre>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:28px;">
+    <a href="https://github.com/OpenBB-finance/OpenBB" target="_blank" class="cta-link">📦 GitHub 仓库</a>
+    <a href="https://openbb.co" target="_blank" class="cta-link">🌐 官网</a>
+    <a href="index.html" class="cta-link">◂ 返回总览</a>
+  </div>
+</section>
+
+<footer>
+  <p>OpenBB · 开源投资研究平台 · Investment Research for Everyone, Everywhere</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.card, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+</script>
+</body>
+</html>

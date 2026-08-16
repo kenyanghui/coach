@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DojoAgents · 主动式金融 AI Agent | Alpha-Dojo · 全市场 AI 副驾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --purple: #7c5cfc; --purple-light: #9b7fff; --purple-dim: #5a3fd9;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --blue: #3b6fb6; --blue-light: #5a90d8;
+  --border-subtle: rgba(124,92,252,0.08);
+  --border-card: rgba(124,92,252,0.12);
+  --border-active: rgba(124,92,252,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,92,252,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--purple-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#b8a5ff; }
+code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--purple-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--purple-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--purple-light); border-color:var(--border-active); background:rgba(124,92,252,0.04); }
+
+.hero { position:relative; z-index:1; min-height:75vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--purple-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(124,92,252,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.8rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--purple-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:640px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--purple-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.8rem; font-weight:700; color:var(--purple-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--purple-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(124,92,252,0.08),transparent); }
+
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-bottom:20px; }
+.card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(124,92,252,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); }
+.card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--purple-light),transparent); opacity:0.6; }
+.card-icon { font-size:1.7rem; display:block; margin-bottom:6px; opacity:0.5; }
+.card-tag { display:inline-block; font-size:0.58rem; letter-spacing:0.18em; color:var(--purple-light); border:1px solid rgba(124,92,252,0.2); padding:2px 10px; border-radius:2px; margin-bottom:10px; }
+.card-title { font-size:0.9rem; color:var(--cream); margin-bottom:8px; font-weight:600; }
+.card-desc { font-size:0.78rem; color:var(--cream-dark); opacity:0.62; line-height:1.8; }
+
+.feature-box { background:linear-gradient(135deg,rgba(124,92,252,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--purple-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(124,92,252,0.06); color:var(--purple-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.flow-steps { display:flex; gap:0; align-items:stretch; margin:22px 0; }
+.flow-step { flex:1; background:rgba(124,92,252,0.015); border:1px solid var(--border-card); padding:20px 16px; text-align:center; position:relative; }
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after { content:'→'; position:absolute; right:-14px; top:50%; transform:translateY(-50%); color:var(--purple-light); opacity:0.3; font-size:1rem; z-index:1; }
+.flow-num { font-size:1.4rem; color:var(--purple-light); opacity:0.2; display:block; margin-bottom:4px; }
+.flow-title { font-size:0.8rem; color:var(--cream); letter-spacing:0.06em; margin:2px 0 6px; }
+.flow-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--purple-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table code { background:rgba(124,92,252,0.05); color:var(--purple-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(124,92,252,0.12); color:var(--purple-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--purple-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(124,92,252,0.25); color:var(--purple-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(124,92,252,0.06); border-color:var(--purple-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--gold); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:900px) { .flow-steps { flex-direction:column; } .flow-step:not(:last-child)::after { content:'↓'; right:auto; top:auto; bottom:-12px; left:50%; transform:translateX(-50%); } }
+@media (max-width:600px) { .hero { padding:100px 20px 50px; min-height:55vh; } .hero h1 { font-size:1.5rem; } .hero-stats { gap:14px; } .hero-stat .num { font-size:1.4rem; } .section { padding:40px 20px; } .nav-links { display:none; } }
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · DojoAgents</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#loop">Agent Loop</a><a href="#features">能力</a><a href="#install">安装</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">ALPHA-DOJO · 主动式 Agent · 全市场 AI 副驾</div>
+  <h1>Dojo<em>Agents</em></h1>
+  <div class="subtitle">主动式 AI Agent 框架 · 个人投资全市场副驾</div>
+  <p class="hero-desc">
+    不是被动问答，而是主动推进研究<br>
+    Loop-Driven 认知组合智能体 · MCP 原生 · 四柱仪表盘 · 全链路投研
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">1.4K<small>+</small></span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="label">认知维度</span></div>
+    <div class="hero-stat"><span class="num">7</span><span class="label">架构层级</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="label">仪表盘视图</span></div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 DojoAgents？</h2>
+  <p class="section-sub">深涌智能（Alpha-Dojo）开源的主动式金融 AI Agent 框架</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>DojoAgents</strong> 是深涌智能（Alpha-Dojo）开源的<strong>主动式（自主式）AI Agent 框架</strong>，
+      定位为「个人投资的全市场 AI 副驾」（Full-Market AI Copilot）。
+      核心是 <strong>Loop-Driven Cognitive Portfolio Agent</strong>（循环驱动的认知组合智能体），
+      通过 <strong>Agent Loop</strong> 引擎把市场扫描、新闻检索、公司分析、产业链映射、
+      组合构建和风险分析拆解为可自主调用的工具，串联成完整决策辅助流程。
+    </p>
+    <p style="margin-top:10px;">
+      与传统「被动问答」金融 AI 不同，DojoAgents <strong>知道「下一步应该查什么、如何验证」</strong>，
+      主动推进研究与决策辅助任务——不再是「给出答案」，而是「主动推进」。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>仓库</td><td><a href="https://github.com/Alpha-Dojo/DojoAgents" target="_blank">github.com/Alpha-Dojo/DojoAgents</a></td></tr>
+    <tr><td>组织</td><td>深涌智能（Alpha-Dojo）</td></tr>
+    <tr><td>PyPI</td><td><code>dojoagents</code></td></tr>
+    <tr><td>许可证</td><td>Apache-2.0</td></tr>
+    <tr><td>Star 数</td><td>1,400+（开源一周破千星）</td></tr>
+    <tr><td>技术栈</td><td>Python ≥3.11 · Node.js ≥18 · React SPA</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="loop">
+  <div class="section-label">核心机制</div>
+  <h2>Agent Loop · 主动式认知循环</h2>
+  <p class="section-sub">四维认知 + 主动推进，实现全链路自主投研</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">01</span>
+      <div class="flow-title">基本面数据认知</div>
+      <div class="flow-desc">抓取并交叉引用多市场数据<br>K线 · 财务 · 新闻</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">02</span>
+      <div class="flow-title">高级逻辑分析</div>
+      <div class="flow-desc">解读估值带 · 动量指标<br>行业分类 · 逻辑推演</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">03</span>
+      <div class="flow-title">跨市场策略推演</div>
+      <div class="flow-desc">映射市场联动<br>如「美股半导体下跌为何 A 股上涨」</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">04</span>
+      <div class="flow-title">动态组合管理</div>
+      <div class="flow-desc">持续诊断风险暴露<br>监控净值曲线</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">七层技术架构</div>
+    <p>
+      <strong>基础设施 → 数据 → 工具 → Agent Loop → 聊天网关 / Web 仪表盘 / CLI</strong><br>
+      工具层基于 <strong>Model Context Protocol（MCP）</strong> 原生构建，便于扩展。
+      支持 OpenAI、Anthropic、Gemini、DeepSeek、GLM 等 API，以及 Ollama、vLLM、llama.cpp 本地模型。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="features">
+  <div class="section-label">核心能力</div>
+  <h2>四大典型应用场景</h2>
+  <p class="section-sub">从市场扫描到持仓诊断，覆盖完整投研工作流</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🌏</span>
+      <div class="card-tag">全球扫描</div>
+      <div class="card-title">全球市场主线扫描</div>
+      <div class="card-desc">自动拉取 A 股/美股/港股异动板块、涨跌幅、成交变化，归类为半导体、AI 算力等主题，生成研究观察列表。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔗</span>
+      <div class="card-tag">产业链传导</div>
+      <div class="card-title">新闻产业链传导分析</div>
+      <div class="card-desc">如「Meta 卖算力影响哪些行业」，沿 AI 算力→云计算→服务器→GPU→光模块→半导体设备映射到具体公司。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">📸</span>
+      <div class="card-tag">多模态诊断</div>
+      <div class="card-title">持仓截图多模态诊断</div>
+      <div class="card-desc">上传脱敏持仓截图，自动识别 40+ 标的并按市场/行业/供应链重新分组，诊断过度集中、重叠暴露等风险。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">📊</span>
+      <div class="card-tag">组合跟踪</div>
+      <div class="card-title">模拟组合跟踪</div>
+      <div class="card-desc">按事件发布日价格建立模拟观察组合并持续跟踪净值变化。</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">四柱仪表盘（开箱即用 React SPA）</div>
+    <p>
+      <strong>Portfolio</strong>（组合视图）· <strong>Markets</strong>（跨市场热力图）·
+      <strong>Sectors</strong>（行业视图）· <strong>Equities</strong>（个股视图）
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="install">
+  <div class="section-label">快速部署</div>
+  <h2>10-15 分钟本地搭建</h2>
+  <p class="section-sub">Python + Node.js 环境，一键启动仪表盘</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 安装</div>
+    <div class="install-body">
+      <pre><span class="cm"># 创建虚拟环境并安装</span>
+uv venv && source .venv/bin/activate
+uv pip install dojoagents</pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> 启动仪表盘</div>
+    <div class="install-body">
+      <pre><span class="cm"># 启动 Web 仪表盘</span>
+dojoagents dashboard --host 127.0.0.1 --port 8765
+<span class="cm"># 浏览器访问 http://127.0.0.1:8765/</span></pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">3</span> 配置 API 密钥</div>
+    <div class="install-body">
+      <pre><span class="cm"># 密钥存储在本地 ~/.dojo/agents.yaml</span>
+<span class="cm"># 支持：OpenAI / Anthropic / Gemini / DeepSeek / GLM / Ollama / vLLM</span></pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">免责声明</div>
+    <p>该框架仅用于<strong>教育、研究与技术演示</strong>，不构成投资建议。框架不含持牌行情/新闻数据源，需用户自行配置授权数据源，不提供自动实盘下单功能。</p>
+  </div>
+
+  <div style="text-align:center;margin-top:28px;">
+    <a href="https://github.com/Alpha-Dojo/DojoAgents" target="_blank" class="cta-link">📦 GitHub 仓库</a>
+    <a href="index.html" class="cta-link">◂ 返回总览</a>
+  </div>
+</section>
+
+<footer>
+  <p>DojoAgents · 深涌智能 Alpha-Dojo · 主动式金融 AI Agent 框架</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.card, .flow-step, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+</script>
+</body>
+</html>

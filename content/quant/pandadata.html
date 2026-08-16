@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pandadata × PandaAI · AI量化全栈生态 | pandaaiquant.com · 218 接口 · 140+ Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════ Design Tokens ═══════════ */
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gold-dim: #8b6914;
+  --cream: #f5f0e6;
+  --cream-dark: #d4cfc4;
+  --void: #000000;
+  --surface: #0a0a08;
+  --surface-2: #121110;
+  --surface-3: #1a1814;
+  --text-default: #e8e4dc;
+  --text-muted: #7a7568;
+  --text-dim: #4a4640;
+  --accent-green: #4a7c59;
+  --accent-green-light: #6b9f7a;
+  --accent-blue: #3b6fb6;
+  --accent-blue-light: #5a90d8;
+  --accent-red: #a63a2e;
+  --border-subtle: rgba(201,168,76,0.08);
+  --border-card: rgba(201,168,76,0.10);
+  --border-active: rgba(201,168,76,0.22);
+  --glow-gold: rgba(201,168,76,0.06);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--void);
+  color: var(--text-default);
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(59,111,182,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(74,124,89,0.03) 0%, transparent 50%);
+}
+h1,h2,h3,h4 { font-family: 'Noto Serif SC', 'PingFang SC', serif; font-weight: 600; line-height: 1.4; }
+a { color: var(--gold); text-decoration:none; transition:color 0.2s; }
+a:hover { color: var(--gold-light); }
+
+code, pre, .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace; }
+
+/* ═══════════ Nav Bar ═══════════ */
+.top-nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(0,0,0,0.85); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-subtle);
+  padding:10px 24px; display:flex; align-items:center;
+  justify-content:space-between; gap:16px;
+}
+.nav-home {
+  display:flex; align-items:center; gap:10px;
+  color:var(--gold); font-family:'Noto Serif SC',serif;
+  font-size:0.85rem; letter-spacing:0.1em;
+}
+.nav-home .dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--gold); opacity:0.7;
+}
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a {
+  font-size:0.72rem; color:var(--text-muted);
+  letter-spacing:0.06em; padding:4px 12px;
+  border:1px solid transparent; border-radius:2px;
+  transition:all 0.2s;
+}
+.nav-links a:hover, .nav-links a.active {
+  color:var(--gold); border-color:var(--border-active);
+  background:rgba(201,168,76,0.04);
+}
+
+/* ═══════════ Hero ═══════════ */
+.hero {
+  position:relative; z-index:1;
+  min-height:80vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:120px 40px 80px;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:0.7rem; letter-spacing:0.3em; color:var(--gold);
+  opacity:0.8; margin-bottom:24px;
+  border:1px solid rgba(201,168,76,0.2);
+  padding:5px 18px; border-radius:2px;
+}
+.hero-badge::before, .hero-badge::after {
+  content:'◆'; font-size:0.35rem; opacity:0.5;
+}
+.hero h1 {
+  font-size:clamp(2rem,5vw,3.8rem);
+  color:var(--cream); font-weight:400;
+  letter-spacing:0.1em; line-height:1.3; margin-bottom:16px;
+}
+.hero h1 em { color:var(--gold); font-style:normal; }
+.hero .subtitle {
+  font-size:clamp(1rem,2vw,1.3rem);
+  color:var(--gold); opacity:0.75;
+  letter-spacing:0.06em; margin-bottom:12px;
+}
+.hero-desc {
+  max-width:640px; font-size:0.88rem;
+  color:var(--cream-dark); opacity:0.6;
+  line-height:2; margin-bottom:36px;
+}
+.hero-stats {
+  display:flex; gap:32px; flex-wrap:wrap;
+  justify-content:center; margin-bottom:40px;
+}
+.hero-stat {
+  text-align:center; position:relative;
+}
+.hero-stat:not(:last-child)::after {
+  content:''; position:absolute; right:-16px; top:10%; height:80%;
+  width:1px; background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+  opacity:0.2;
+}
+.hero-stat .num {
+  font-size:2rem; font-weight:700; color:var(--gold);
+  font-family:'Noto Serif SC',serif; line-height:1.2;
+  display:block;
+}
+.hero-stat .num small { font-size:0.8rem; color:var(--gold-dim); }
+.hero-stat .label {
+  font-size:0.7rem; color:var(--text-muted);
+  letter-spacing:0.08em; display:block;
+}
+.hero-scroll {
+  position:absolute; bottom:30px; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  color:var(--gold); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em;
+  animation:float 2.5s ease-in-out infinite;
+}
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--gold),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+/* ═══════════ Sections ═══════════ */
+.section { max-width:1060px; margin:0 auto; padding:60px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label {
+  font-size:0.62rem; letter-spacing:0.3em; color:var(--gold);
+  opacity:0.5; margin-bottom:16px; text-align:center;
+}
+.section h2 {
+  font-size:1.5rem; color:var(--cream); font-weight:400;
+  letter-spacing:0.08em; text-align:center; margin-bottom:8px;
+}
+.section-sub {
+  text-align:center; font-size:0.85rem; color:var(--cream-dark);
+  opacity:0.55; margin-bottom:40px; letter-spacing:0.04em;
+}
+.section-divider {
+  max-width:1060px; margin:0 auto; padding:0 40px;
+  position:relative; z-index:1;
+}
+.section-divider hr {
+  border:none; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,0.08),transparent);
+}
+
+/* ═══════════ Domain Cards ═══════════ */
+.domain-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:14px; margin-bottom:20px;
+}
+.domain-card {
+  background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(201,168,76,0.01));
+  border:1px solid var(--border-card); border-radius:4px;
+  padding:20px 18px; position:relative;
+  transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth);
+  overflow:hidden;
+}
+.domain-card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.domain-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent); opacity:0.6;
+}
+.domain-card:nth-child(3n+2)::before { background:linear-gradient(90deg,var(--accent-blue),transparent); }
+.domain-card:nth-child(3n)::before { background:linear-gradient(90deg,var(--accent-green),transparent); }
+.domain-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.domain-icon {
+  font-size:1.5rem; width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(201,168,76,0.06); border-radius:6px;
+}
+.domain-name {
+  font-size:0.92rem; color:var(--cream); font-weight:600;
+  letter-spacing:0.04em; font-family:'Noto Serif SC',serif;
+}
+.domain-count {
+  font-size:0.65rem; color:var(--gold-dim); opacity:0.7;
+  letter-spacing:0.08em; display:block;
+}
+.domain-methods {
+  display:flex; flex-wrap:wrap; gap:5px; margin-top:8px;
+}
+.domain-method {
+  font-size:0.62rem; font-family:'JetBrains Mono',monospace;
+  color:var(--gold); opacity:0.55;
+  background:rgba(201,168,76,0.04);
+  padding:2px 8px; border-radius:2px;
+  white-space:nowrap;
+}
+.domain-card:nth-child(3n+2) .domain-method { color:var(--accent-blue-light); background:rgba(59,111,182,0.06); }
+.domain-card:nth-child(3n) .domain-method { color:var(--accent-green-light); background:rgba(74,124,89,0.06); }
+.domain-note {
+  font-size:0.6rem; color:var(--accent-red); opacity:0.5;
+  margin-top:6px; font-style:italic;
+}
+
+/* ═══════════ Feature Box ═══════════ */
+.feature-box {
+  background:linear-gradient(135deg,rgba(201,168,76,0.03),rgba(74,124,89,0.02));
+  border:1px solid var(--border-active); border-radius:4px;
+  padding:24px 28px; margin:18px 0; position:relative;
+}
+.feature-box-label {
+  font-size:0.6rem; letter-spacing:0.22em; color:var(--gold);
+  opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px;
+}
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code {
+  background:rgba(201,168,76,0.06); color:var(--gold);
+  padding:1px 6px; border-radius:2px; font-size:0.82em;
+}
+
+/* ═══════════ Flow Steps ═══════════ */
+.flow-steps {
+  display:flex; gap:0; align-items:stretch; margin:22px 0;
+}
+.flow-step {
+  flex:1; background:rgba(201,168,76,0.015);
+  border:1px solid var(--border-card); padding:22px 18px;
+  text-align:center; position:relative;
+}
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after {
+  content:'→'; position:absolute; right:-14px; top:50%;
+  transform:translateY(-50%); color:var(--gold);
+  opacity:0.3; font-size:1rem; z-index:1;
+}
+.flow-num {
+  font-size:1.6rem; color:var(--gold); opacity:0.2;
+  display:block; margin-bottom:4px;
+}
+.flow-step:nth-child(2) .flow-num { color:var(--accent-blue); }
+.flow-step:nth-child(3) .flow-num { color:var(--accent-green); }
+.flow-step:nth-child(4) .flow-num { color:var(--accent-red); }
+.flow-title { font-size:0.82rem; color:var(--cream); letter-spacing:0.06em; margin:2px 0 6px; }
+.flow-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+
+/* ═══════════ Skill Cards ═══════════ */
+.skill-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:12px; margin-bottom:24px;
+}
+.skill-card {
+  background:rgba(201,168,76,0.015);
+  border:1px solid var(--border-card); border-radius:4px;
+  padding:16px 14px; transition:all 0.3s var(--ease-smooth); position:relative;
+}
+.skill-card:hover { border-color:rgba(201,168,76,0.25); background:rgba(201,168,76,0.025); }
+.skill-card .sc-emoji { font-size:1.3rem; display:block; margin-bottom:4px; }
+.skill-card .sc-name {
+  font-size:0.8rem; color:var(--cream); font-weight:500;
+  letter-spacing:0.04em; margin-bottom:4px;
+}
+.skill-card .sc-desc {
+  font-size:0.68rem; color:var(--text-muted);
+  line-height:1.6; opacity:0.7;
+}
+.skill-card .sc-link {
+  display:inline-block; margin-top:8px;
+  font-size:0.62rem; color:var(--gold); opacity:0.5;
+  letter-spacing:0.06em;
+}
+.skill-card .sc-link:hover { opacity:1; }
+
+/* ═══════════ Agent Grid ═══════════ */
+.agent-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px; margin:20px 0;
+}
+.agent-item {
+  text-align:center;
+  background:rgba(201,168,76,0.015); border:1px solid var(--border-card);
+  border-radius:4px; padding:14px 10px;
+  transition:border-color 0.3s;
+}
+.agent-item:hover { border-color:var(--border-active); }
+.agent-item .ai-icon { font-size:1.4rem; display:block; margin-bottom:4px; }
+.agent-item .ai-name { font-size:0.75rem; color:var(--cream); font-weight:500; }
+.agent-item .ai-path { font-size:0.58rem; color:var(--text-dim); letter-spacing:0.04em; display:block; margin-top:2px; }
+
+/* ═══════════ Install Steps ═══════════ */
+.install-block {
+  background:var(--surface-2); border:1px solid var(--border-card);
+  border-radius:6px; overflow:hidden; margin:16px 0;
+}
+.install-header {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 18px; background:var(--surface-3);
+  border-bottom:1px solid var(--border-card);
+  font-size:0.75rem; color:var(--cream); letter-spacing:0.05em;
+}
+.install-header .step-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:20px; height:20px; border-radius:4px;
+  background:rgba(201,168,76,0.12); color:var(--gold);
+  font-size:0.6rem; font-weight:700;
+}
+.install-body { padding:16px 18px; }
+.install-body pre {
+  background:var(--surface); border:1px solid var(--border-card);
+  border-radius:4px; padding:14px 16px; overflow-x:auto;
+  font-size:0.72rem; line-height:1.6; color:var(--cream-dark);
+}
+.install-body pre .kw { color:var(--gold); }
+.install-body pre .str { color:var(--accent-green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+/* ═══════════ Data Table ═══════════ */
+.data-table {
+  width:100%; border-collapse:collapse; margin:16px 0;
+  font-size:0.78rem;
+}
+.data-table th {
+  text-align:left; padding:10px 14px;
+  background:var(--surface-2); color:var(--gold);
+  font-size:0.66rem; letter-spacing:0.1em;
+  font-weight:500; border-bottom:1px solid var(--border-active);
+}
+.data-table td {
+  padding:9px 14px; color:var(--cream-dark);
+  border-bottom:1px solid var(--border-subtle);
+  font-size:0.76rem;
+}
+.data-table tr:hover td { background:rgba(201,168,76,0.02); }
+.data-table code {
+  background:rgba(201,168,76,0.05); color:var(--gold);
+  padding:1px 6px; border-radius:2px; font-size:0.92em;
+  white-space:nowrap;
+}
+.data-table .tag {
+  display:inline-block; font-size:0.58rem; letter-spacing:0.08em;
+  padding:1px 8px; border-radius:2px; border:1px solid;
+}
+.tag-green { color:var(--accent-green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-blue { color:var(--accent-blue-light); border-color:rgba(59,111,182,0.2); background:rgba(59,111,182,0.05); }
+.tag-red { color:var(--accent-red); border-color:rgba(166,58,46,0.2); background:rgba(166,58,46,0.05); }
+
+/* ═══════════ CTA ═══════════ */
+.cta-center { text-align:center; margin:28px 0; }
+.cta-link {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:10px 24px; border:1px solid rgba(201,168,76,0.25);
+  color:var(--gold); text-decoration:none;
+  font-size:0.75rem; letter-spacing:0.12em; border-radius:2px;
+  transition:all 0.3s;
+}
+.cta-link:hover { background:rgba(201,168,76,0.06); border-color:var(--gold); }
+
+/* ═══════════ Quote Block ═══════════ */
+.quote-block {
+  max-width:700px; margin:24px auto; padding:20px 24px;
+  text-align:center;
+  border-top:1px solid rgba(201,168,76,0.08);
+  border-bottom:1px solid rgba(201,168,76,0.08);
+  font-size:0.82rem; color:var(--cream-dark);
+  opacity:0.65; line-height:2;
+}
+.quote-block .source {
+  display:block; margin-top:10px;
+  font-size:0.7rem; color:var(--gold);
+  opacity:0.45; letter-spacing:0.06em;
+}
+
+/* ═══════════ Footer ═══════════ */
+footer {
+  position:relative; z-index:1;
+  text-align:center; padding:32px 40px;
+  border-top:1px solid var(--border-subtle);
+  font-size:0.66rem; color:var(--text-dim);
+  letter-spacing:0.06em;
+}
+footer a { color:var(--gold); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+/* ═══════════ Responsive ═══════════ */
+@media (max-width:900px) {
+  .flow-steps { flex-direction:column; }
+  .flow-step:not(:last-child)::after {
+    content:'↓'; right:auto; top:auto;
+    bottom:-12px; left:50%; transform:translateX(-50%);
+  }
+  .hero-stats { gap:20px; }
+  .hero-stat:not(:last-child)::after { display:none; }
+  .domain-grid { grid-template-columns:1fr; }
+}
+@media (max-width:600px) {
+  .hero { padding:100px 20px 60px; min-height:60vh; }
+  .hero h1 { font-size:1.6rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .top-nav { padding:8px 16px; }
+  .nav-links { display:none; }
+  .skill-grid { grid-template-columns:1fr; }
+  .agent-grid { grid-template-columns:repeat(2,1fr); }
+  .data-table { font-size:0.68rem; }
+  .data-table th, .data-table td { padding:6px 8px; }
+}
+
+/* ═══════════ Animations ═══════════ */
+.fade-up {
+  opacity:0; transform:translateY(18px);
+  transition:opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ Top Nav ═══════════ -->
+<nav class="top-nav">
+  <a href="../index.html" class="nav-home">
+    <span class="dot"></span> 杨辉 · AI教练 · 量化
+  </a>
+  <div class="nav-links">
+    <a href="#overview">总览</a>
+    <a href="#pandaai">PandaAI 平台</a>
+    <a href="#domains">数据域</a>
+    <a href="#workflow">工作流</a>
+    <a href="#ecosystem">技能生态</a>
+    <a href="#install">安装</a>
+    <a href="index.html">◂ 量化首页</a>
+  </div>
+</nav>
+
+<!-- ═══════════ Hero ═══════════ -->
+<section class="hero" id="top">
+  <div class="hero-badge">PANDADATA × PANDAAI · QUANTSKILLS 开源生态</div>
+  <h1>Panda<em>Data</em> × Panda<em>AI</em></h1>
+  <div class="subtitle">AI 量化全栈基础设施 · 从数据到策略、从单兵到团队</div>
+  <p class="hero-desc">
+    <strong>Pandadata</strong>：218 个金融数据接口 · 9 大数据域 · 6 大 AI Agent 兼容<br>
+    <strong>PandaAI</strong>（<a href="https://www.pandaaiquant.com" target="_blank" style="color:var(--gold);">pandaaiquant.com</a>）：Qube 自然语言策略 · Evo 深度研投 · OS 多 Agent 协作<br>
+    自然语言 → 数据调用 → 策略回测 → 多 Agent 决策，全链路 AI 量化
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">218</span>
+      <span class="label">数据接口</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">140<small>+</small></span>
+      <span class="label">量化技能</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">9</span>
+      <span class="label">数据域</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">3</span>
+      <span class="label">平台层级</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">6</span>
+      <span class="label">Agent 兼容</span>
+    </div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ Overview ═══════════ -->
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 Pandadata？</h2>
+  <p class="section-sub">一个以 AI Agent 为中心的量化金融数据技能生态</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>Pandadata</strong>（SDK 名称 <code>panda_data</code>）是一个量化金融数据平台，
+      通过 Python SDK v0.0.12 提供 <strong>218 个中文文档数据接口</strong>，
+      覆盖 A 股、港股、美股、期货、期权、宏观、基金、量化因子等维度。
+    </p>
+    <p style="margin-top:10px;">
+      <strong>skill-pandadata-api</strong> 将其打包为 Agent Skill——让 Claude Code、WorkBuddy、Cursor 等 AI 编程助手
+      能够<strong>用自然语言精准查询金融数据</strong>，无需记忆接口名称和参数。
+      配合 <strong>Quantskills.ai</strong> 平台，可完成从数据获取到策略评估的完整量化投研闭环。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>仓库</td><td><a href="https://github.com/quantskills/skill-pandadata-api" target="_blank">github.com/quantskills/skill-pandadata-api</a></td></tr>
+    <tr><td>SDK 版本</td><td><code>panda_data == 0.0.12</code>（Python ≥ 3.10）</td></tr>
+    <tr><td>接口总数</td><td>218 文档方法 / 201 SDK 可调用 / 17 仅网关文档收录</td></tr>
+    <tr><td>许可证</td><td>GPL-3.0（开源免费）</td></tr>
+    <tr><td>维护者</td><td><a href="https://github.com/abgyjaguo" target="_blank">abgyjaguo</a> · QuantSkills 组织</td></tr>
+    <tr><td>PyPI</td><td><a href="https://pypi.org/project/panda-data/0.0.12/" target="_blank">panda-data 0.0.12</a></td></tr>
+    <tr><td>注册</td><td>pandadata.pandaaiquant.com（需 <code>86</code> + 手机号）</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ PandaAI Platform ═══════════ -->
+<section class="section" id="pandaai">
+  <div class="section-label">PandaAI 量化平台</div>
+  <h2>pandaaiquant.com<span class="en">From Data to Strategy · From Solo to Team</span></h2>
+  <p class="section-sub">三层产品体系 · 可视化工作流 · 多 Agent 协作决策</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">平台定位</div>
+    <p>
+      <strong><a href="https://www.pandaaiquant.com" target="_blank">PandaAI（pandaaiquant.com）</a></strong> 是一个 AI 驱动的量化交易平台，
+      致力于降低量化投研门槛。从自然语言生成策略到多 Agent 协作决策，从单兵作战到组建 AI 量化团队，
+      覆盖「数据→因子→回测→风控→执行」完整链路。与 <strong>Pandadata</strong> 数据底座和 <strong>QuantSkills</strong> 技能生态构成三位一体的量化基础设施。
+    </p>
+  </div>
+
+  <!-- 三层产品 -->
+  <h3 style="text-align:center;margin:28px 0 16px;font-size:1rem;color:var(--cream);letter-spacing:0.06em;">三层产品体系</h3>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🧊</span>
+      <div class="card-tag">入门级</div>
+      <div class="card-title">PandaAI Qube<span class="en">Natural Language to Strategy</span></div>
+      <div class="card-desc">
+        零代码量化工具。用自然语言描述交易想法，AI 自动完成数据分析、策略构建与回测。
+        适合量化初学者快速验证交易灵感。
+      </div>
+      <div class="card-quote">「描述你的想法，AI 帮你写成策略」</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🧬</span>
+      <div class="card-tag">进阶级</div>
+      <div class="card-title">PandaAI Evo<span class="en">AI Research Partner</span></div>
+      <div class="card-desc">
+        AI 深度研投伙伴。辅助市场状态分类、策略逻辑审视、稳健性评估和迭代优化。
+        适合有经验的量化研究员进行深度策略开发。
+      </div>
+      <div class="card-quote">「AI 不只是工具，更是你的研究伙伴」</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🧠</span>
+      <div class="card-tag">旗舰级</div>
+      <div class="card-title">PandaAI OS<span class="en">Multi-Agent Collaboration</span></div>
+      <div class="card-desc">
+        多 Agent 协作平台。创建并编排多个 AI 智能体（如首席风控官、趋势分析师、VSA 分析师），
+        各自持有不同技能与视角，通过辩论与投票形成集体决策。
+      </div>
+      <div class="card-quote">「一个人，也能拥有一支 AI 量化交易团队」</div>
+    </div>
+  </div>
+
+  <!-- 多Agent 系统 -->
+  <h3 style="text-align:center;margin:36px 0 16px;font-size:1rem;color:var(--cream);letter-spacing:0.06em;">PandaAI OS · 多 Agent 架构</h3>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">🧩</span>
+      <div class="flow-title">Skill Node<span class="en">技能节点</span></div>
+      <div class="flow-desc">封装分析技能<br>标准化 I/O 接口<br>自然语言解释模板</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">🤖</span>
+      <div class="flow-title">Agent<span class="en">智能体</span></div>
+      <div class="flow-desc">定义角色 + 目标<br>组合技能作为武器库<br>独立分析与判断</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">🗳️</span>
+      <div class="flow-title">Collective<span class="en">集体决策</span></div>
+      <div class="flow-desc">多 Agent 辩论<br>投票/加权共识<br>融合多视角输出信号</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">PandaAI OS · 核心节点类型</div>
+    <p>
+      <strong>RAG 节点</strong> — 检索增强生成，拉取研报/政策/财报等外部知识 ·
+      <strong>MCP 节点</strong> — 多 Agent 协调协议，确保有序协作 ·
+      <strong>Skill 节点</strong> — 封装自定义分析技能（如动态 ATR 止损、市场状态分类器）·
+      <strong>Agent Analysis 节点</strong> — 融合多 Agent 输出进行综合研判 ·
+      <strong>Agent Trading 节点</strong> — 最终执行步，将集体决策转化为交易信号 ·
+      <strong>Prompt Input 节点</strong> — 定义每个 Agent 的角色、目标和分析逻辑
+    </p>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">关键平台特性</div>
+    <p>
+      🎨 <strong>可视化工作流编辑器</strong> — LiteGraph 拖拽式节点编排，所见即所得 ·
+      💻 <strong>专家模式</strong> — 节点内直接编写 Python 代码，满足高级需求 ·
+      📊 <strong>专业回测引擎</strong> — T+1 执行、15bp 手续费、涨跌停过滤、无未来偏差 ·
+      📡 <strong>仿真交易</strong> — 实时行情驱动的模拟交易，实盘前验证策略 ·
+      🔗 <strong>CTP 实盘通道</strong> — 支持期货实盘交易 ·
+      🌍 <strong>TQX 国际版</strong> — 通过 TQX.ai 支持全球市场
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ 9 Data Domains ═══════════ -->
+<section class="section section-alt" id="domains">
+  <div class="section-label">九大数据域 · 数据底座</div>
+  <h2>218 个接口 · 全覆盖</h2>
+  <p class="section-sub">从 A 股到宏观、从期货到期权、从港美股到量化因子</p>
+
+  <div class="domain-grid">
+    <!-- 1. 交易工具 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">🛠️</span>
+        <div>
+          <div class="domain-name">交易工具</div>
+          <span class="domain-count">5 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_trade_cal</span>
+        <span class="domain-method">get_last_trade_date</span>
+        <span class="domain-method">get_trade_list</span>
+        <span class="domain-method">get_prev_trade_date</span>
+      </div>
+    </div>
+
+    <!-- 2. A 股数据 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">📈</span>
+        <div>
+          <div class="domain-name">A 股数据</div>
+          <span class="domain-count">~60 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_stock_daily</span>
+        <span class="domain-method">get_stock_dividend</span>
+        <span class="domain-method">get_fina_reports</span>
+        <span class="domain-method">get_lhb_list</span>
+        <span class="domain-method">get_margin</span>
+        <span class="domain-method">get_hsgt_hold</span>
+        <span class="domain-method">get_block_trade</span>
+        <span class="domain-method">get_repurchase</span>
+      </div>
+    </div>
+
+    <!-- 3. 期货数据 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">🔩</span>
+        <div>
+          <div class="domain-name">期货数据</div>
+          <span class="domain-count">~35 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_future_daily</span>
+        <span class="domain-method">get_future_dominant</span>
+        <span class="domain-method">get_broker_netmarg</span>
+        <span class="domain-method">get_future_basis</span>
+        <span class="domain-method">get_broker_flow_daily</span>
+        <span class="domain-method">get_broker_profit</span>
+        <span class="domain-method">get_future_warehouse_receipt</span>
+      </div>
+    </div>
+
+    <!-- 4. 期权数据 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">⚖️</span>
+        <div>
+          <div class="domain-name">期权数据</div>
+          <span class="domain-count">8 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_option_daily</span>
+        <span class="domain-method">get_option_implied_volatility</span>
+        <span class="domain-method">get_option_risk_indicators</span>
+        <span class="domain-method">get_option_exercise</span>
+        <span class="domain-method">get_option_static</span>
+      </div>
+    </div>
+
+    <!-- 5. 量化因子 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">🧮</span>
+        <div>
+          <div class="domain-name">量化因子</div>
+          <span class="domain-count">4 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_factor</span>
+        <span class="domain-method">get_adj_factor</span>
+        <span class="domain-method">get_factor_hk</span>
+        <span class="domain-method">get_adj_factor_hk</span>
+      </div>
+    </div>
+
+    <!-- 6. 港美股 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">🌏</span>
+        <div>
+          <div class="domain-name">港美股</div>
+          <span class="domain-count">~50 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_hk_daily</span>
+        <span class="domain-method">get_us_daily</span>
+        <span class="domain-method">get_stock_insider_trade</span>
+        <span class="domain-method">get_fina_ex</span>
+        <span class="domain-method">get_stock_ncycl_consensus</span>
+      </div>
+    </div>
+
+    <!-- 7. 宏观数据 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">🏛️</span>
+        <div>
+          <div class="domain-name">宏观数据</div>
+          <span class="domain-count">~40 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_macro_na</span>
+        <span class="domain-method">get_macro_cal</span>
+        <span class="domain-method">get_macro_gb</span>
+        <span class="domain-method">get_macro_ec</span>
+        <span class="domain-method">get_macro_ch</span>
+        <span class="domain-method">get_macro_rb</span>
+      </div>
+    </div>
+
+    <!-- 8. 基金数据 -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">🧾</span>
+        <div>
+          <div class="domain-name">基金数据</div>
+          <span class="domain-count">7 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_fund_detail</span>
+        <span class="domain-method">get_fund_daily</span>
+        <span class="domain-method">get_fund_etf_cr</span>
+        <span class="domain-method">get_fund_etf_constituents</span>
+      </div>
+    </div>
+
+    <!-- 9. 优先股（未导出） -->
+    <div class="domain-card">
+      <div class="domain-header">
+        <span class="domain-icon">💠</span>
+        <div>
+          <div class="domain-name">优先股数据</div>
+          <span class="domain-count">7 个方法</span>
+        </div>
+      </div>
+      <div class="domain-methods">
+        <span class="domain-method">get_stock_preferred_detail</span>
+        <span class="domain-method">get_stock_preferred_dividend</span>
+        <span class="domain-method">get_stock_preferred_rating</span>
+      </div>
+      <div class="domain-note">⚠ SDK 0.0.12 尚未导出，仅网关文档收录</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心约定</div>
+    <p>
+      📅 日期统一 <strong>YYYYMMDD</strong> 字符串（如 <code>20250131</code>）·
+      🏷️ A 股代码带后缀 <code>000001.SZ</code> / <code>600000.SH</code> ·
+      🌐 交易所代码 <code>SH</code> · <code>HK</code> · <code>US</code> ·
+      📋 <code>fields=[]</code> 表示全字段 ·
+      ⚠️ 开始与结束日期间不超过 <strong>5 年</strong>
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ Agent Workflow ═══════════ -->
+<section class="section" id="workflow">
+  <div class="section-label">AI Agent 工作流</div>
+  <h2>自然语言 → 精准数据调用</h2>
+  <p class="section-sub">四步流程，让 AI 编程助手成为你的量化数据管家</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">01</span>
+      <div class="flow-title">🧭 路由识别</div>
+      <div class="flow-desc">在 9 大数据域中定位正确接口<br>从自然语言提取市场、标的、时间</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">02</span>
+      <div class="flow-title">📑 契约加载</div>
+      <div class="flow-desc">读取精确的参数名/字段名/示例<br>绝不凭 LLM 记忆瞎编</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">03</span>
+      <div class="flow-title">✍️ 代码生成</div>
+      <div class="flow-desc">输出符合文档约定的<br>最小可运行 panda_data 调用</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">04</span>
+      <div class="flow-title">🚀 真实调用</div>
+      <div class="flow-desc">自动加载凭证 → init_token()<br>同进程执行 API → 返回 DataFrame</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心原则</div>
+    <p><strong>Prefer the bundled reference over memory.</strong> 先查文档，再回答。方法名、参数名、字段名严格按文档书写，不发明、不臆造、不猜测。</p>
+  </div>
+
+  <h3 style="text-align:center;margin-top:36px;font-size:1rem;color:var(--cream);letter-spacing:0.06em;">六大 AI Agent 兼容</h3>
+  <div class="agent-grid">
+    <div class="agent-item">
+      <span class="ai-icon">🟣</span>
+      <span class="ai-name">Claude Code</span>
+      <span class="ai-path">~/.claude/skills/</span>
+    </div>
+    <div class="agent-item">
+      <span class="ai-icon">💚</span>
+      <span class="ai-name">WorkBuddy</span>
+      <span class="ai-path">portable-loader</span>
+    </div>
+    <div class="agent-item">
+      <span class="ai-icon">🔵</span>
+      <span class="ai-name">Cursor</span>
+      <span class="ai-path">.cursor/skills/</span>
+    </div>
+    <div class="agent-item">
+      <span class="ai-icon">🟠</span>
+      <span class="ai-name">Codex</span>
+      <span class="ai-path">~/.codex/skills/</span>
+    </div>
+    <div class="agent-item">
+      <span class="ai-icon">⚪</span>
+      <span class="ai-name">Hermes</span>
+      <span class="ai-path">~/.hermes/skills/</span>
+    </div>
+    <div class="agent-item">
+      <span class="ai-icon">🔴</span>
+      <span class="ai-name">OpenClaw</span>
+      <span class="ai-path">~/.openclaw/skills/</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ QuantSkills Ecosystem ═══════════ -->
+<section class="section section-alt" id="ecosystem">
+  <div class="section-label">量化技能生态</div>
+  <h2>QuantSkills · 140+ 技能矩阵<span class="en">9 Categories · Community-Validated · Open Source</span></h2>
+  <p class="section-sub">基于 Pandadata 数据底座 + PandaAI 平台，覆盖数据→因子→回测→风控→执行的完整量化投研栈</p>
+
+  <!-- Cat 1: Data -->
+  <h3 style="font-size:0.85rem;color:var(--gold);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    📡 一、数据接口与数仓
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📡</span>
+      <div class="sc-name">Pandadata API</div>
+      <div class="sc-desc">218 接口自然语言路由，精确参数契约加载</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-pandadata-api" target="_blank">pandadata-api →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🗄️</span>
+      <div class="sc-name">本地数据仓库</div>
+      <div class="sc-desc">DuckDB/Parquet 本地缓存，离线回测研究</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-pandadata-warehouse" target="_blank">pandadata-warehouse →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🇺🇸</span>
+      <div class="sc-name">SEC EDGAR 收割机</div>
+      <div class="sc-desc">美股 SEC 申报文件自动化采集与解析</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-us-sec-edgar-harvester" target="_blank">us-sec-edgar →</a>
+    </div>
+  </div>
+
+  <!-- Cat 2: Factor Research -->
+  <h3 style="font-size:0.85rem;color:var(--accent-blue-light);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    🧮 二、因子研究工具箱（含 800+ 预验证因子库）
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">⛏️</span>
+      <div class="sc-name">因子挖掘</div>
+      <div class="sc-desc">标准化因子挖掘 SOP 工作流</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-factor-mine" target="_blank">factor-mine →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span>
+      <div class="sc-name">因子评估</div>
+      <div class="sc-desc">双 IC + Sharpe + MDD + 单调性 + 换手率五维评分</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-factor-evaluate" target="_blank">factor-evaluate →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🧬</span>
+      <div class="sc-name">因子合成</div>
+      <div class="sc-desc">多因子信号合成与去冗余</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-factor-blend" target="_blank">factor-blend →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔪</span>
+      <div class="sc-name">因子正交化</div>
+      <div class="sc-desc">剥离行业/规模/风格暴露</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-factor-orthogonalize" target="_blank">factor-orthogonalize →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📉</span>
+      <div class="sc-name">因子衰减分析</div>
+      <div class="sc-desc">不同持仓周期下的 IC 衰减曲线</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-factor-decay" target="_blank">factor-decay →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🤖</span>
+      <div class="sc-name">多 Agent 辩经挖因子</div>
+      <div class="sc-desc">多智能体辩论式因子发现</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-factormad-debate-factor-mining" target="_blank">factormad-debate →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📚</span>
+      <div class="sc-name">预验证因子库</div>
+      <div class="sc-desc">296 方向性 Alpha + 288 风险/形态 + 216 量价统计因子</div>
+      <span class="sc-link" style="opacity:0.4;">内置因子库（800+）</span>
+    </div>
+  </div>
+
+  <!-- Cat 3: Market Analysis -->
+  <h3 style="font-size:0.85rem;color:var(--accent-green-light);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    📈 三、市场与证券分析
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📰</span>
+      <div class="sc-name">每日市场复盘</div>
+      <div class="sc-desc">指数估值/市场宽度/龙虎榜/两融/北向资金全自动日报</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-market-daily-review" target="_blank">market-daily-review →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span>
+      <div class="sc-name">个股尽调报告</div>
+      <div class="sc-desc">25+ 接口 × 5 阶段 × 10 条风险规则，基本面/财务/股东全面覆盖</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-a-share-stock-dossier" target="_blank">a-share-stock-dossier →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔩</span>
+      <div class="sc-name">期货 DeepView 分析</div>
+      <div class="sc-desc">期货持仓/基差/期限结构深度分析</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-futures-deepview-analyst" target="_blank">futures-deepview →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">⚖️</span>
+      <div class="sc-name">期权波动率分析</div>
+      <div class="sc-desc">隐含波动率/IV 分位数/偏度报告</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-options-vol-analyst" target="_blank">options-vol →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔍</span>
+      <div class="sc-name">自然语言选股</div>
+      <div class="sc-desc">用日常语言描述条件，AI 自动转化为筛选逻辑</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-stock-screener" target="_blank">stock-screener →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔄</span>
+      <div class="sc-name">指数估值轮动</div>
+      <div class="sc-desc">PE/PB 历史分位 + 行业轮动分析</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-index-valuation-rotation" target="_blank">index-valuation →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🏛️</span>
+      <div class="sc-name">宏观数据监控</div>
+      <div class="sc-desc">宏观指标路由与自动化监控</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-macro-monitor" target="_blank">macro-monitor →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span>
+      <div class="sc-name">ETF 基金评价</div>
+      <div class="sc-desc">跟踪质量/风险收益/流动性/规模/资金流五维比较</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-etf-fund-evaluator" target="_blank">etf-fund-evaluator →</a>
+    </div>
+  </div>
+
+  <!-- Cat 4: Risk Monitoring -->
+  <h3 style="font-size:0.85rem;color:var(--accent-red);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    🛡️ 四、风险监控与预警
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">⚠️</span>
+      <div class="sc-name">事件风险预警</div>
+      <div class="sc-desc">解禁/质押/减持/ST/审计意见全扫描</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-event-risk-alert" target="_blank">event-risk-alert →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📋</span>
+      <div class="sc-name">财报季追踪</div>
+      <div class="sc-desc">业绩横截面扫描，超预期/暴雷榜</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-earnings-season-tracker" target="_blank">earnings-season →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">💱</span>
+      <div class="sc-name">大宗交易雷达</div>
+      <div class="sc-desc">大宗交易折溢价分析，机构动向监控</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-block-trade-radar" target="_blank">block-trade-radar →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🕵️</span>
+      <div class="sc-name">内部人交易雷达</div>
+      <div class="sc-desc">港股/美股董监高与大股东交易信号监控</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-hk-us-insider-radar" target="_blank">hk-us-insider-radar →</a>
+    </div>
+  </div>
+
+  <!-- Cat 5: Strategy & Backtesting -->
+  <h3 style="font-size:0.85rem;color:var(--gold);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    ⚡ 五、策略回测与交易工具
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">⚡</span>
+      <div class="sc-name">标准回测协议</div>
+      <div class="sc-desc">T+1/15bp/涨跌停过滤/5 健康检查/诊断图表</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-backtest" target="_blank">backtest →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔬</span>
+      <div class="sc-name">过拟合检测</div>
+      <div class="sc-desc">回测过拟合诊断与稳健性检验</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-backtest-overfit" target="_blank">backtest-overfit →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">⚖️</span>
+      <div class="sc-name">组合优化</div>
+      <div class="sc-desc">约束条件下的最优权重分配</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-portfolio-optimize" target="_blank">portfolio-optimize →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📐</span>
+      <div class="sc-name">Barra 风险模型</div>
+      <div class="sc-desc">多因子风险分解与归因</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-risk-model" target="_blank">risk-model →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔄</span>
+      <div class="sc-name">市场状态分类</div>
+      <div class="sc-desc">HMM/阈值法市场状态识别</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-market-regime-analysis" target="_blank">market-regime →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔀</span>
+      <div class="sc-name">JQ→PandaAI 转换器</div>
+      <div class="sc-desc">JoinQuant 策略批量迁移到 PandaAI</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-jq-to-panda-converter" target="_blank">jq-to-panda →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔧</span>
+      <div class="sc-name">工作流生成器</div>
+      <div class="sc-desc">自然语言 → PandaAI 工作流 JSON 自动生成</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-pandaai-workflow-generator" target="_blank">workflow-generator →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">✅</span>
+      <div class="sc-name">工作流审计</div>
+      <div class="sc-desc">Code-review 风格的工作流质量审计</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-pandaai-workflow-audit" target="_blank">workflow-audit →</a>
+    </div>
+  </div>
+
+  <!-- Cat 6: Research Models -->
+  <h3 style="font-size:0.85rem;color:var(--accent-blue-light);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    📖 六、研究模型与论文复现
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📄</span>
+      <div class="sc-name">论文复现</div>
+      <div class="sc-desc">框架无关的量化论文复现流水线</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-paper-replication" target="_blank">paper-replication →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📝</span>
+      <div class="sc-name">研报复现</div>
+      <div class="sc-desc">翻译→公式→验证→策略→回测全流程</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-report-replication" target="_blank">report-replication →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔬</span>
+      <div class="sc-name">Gaetano/Crux 模型</div>
+      <div class="sc-desc">复现知名量化研究机构方法论</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-gaetano-crux-capital-research-model" target="_blank">gaetano-crux →</a>
+    </div>
+  </div>
+
+  <!-- Cat 7: Validation -->
+  <h3 style="font-size:0.85rem;color:var(--accent-green-light);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    🔍 七、研究验证与质量保障
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">🚫</span>
+      <div class="sc-name">数值泄露检测</div>
+      <div class="sc-desc">Lookahead/未来信息泄露自动检测</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-numerical-leak-check" target="_blank">numerical-leak-check →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">👻</span>
+      <div class="sc-name">生存偏差审计</div>
+      <div class="sc-desc">退市/ST 股票导致的生存偏差检测</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-survivorship-universe-auditor" target="_blank">survivorship-auditor →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📋</span>
+      <div class="sc-name">期货换月审计</div>
+      <div class="sc-desc">期货合约换月数据处理正确性校验</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-futures-roll-auditor" target="_blank">futures-roll-auditor →</a>
+    </div>
+  </div>
+
+  <!-- Cat 8: News & Knowledge -->
+  <h3 style="font-size:0.85rem;color:var(--gold);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    📡 八、新闻与知识分析
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📰</span>
+      <div class="sc-name">财经新闻聚合</div>
+      <div class="sc-desc">实时财经新闻聚合 + AI 摘要分析</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-fin-news" target="_blank">fin-news →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🧠</span>
+      <div class="sc-name">芒格心智模型</div>
+      <div class="sc-desc">多维度交叉验证，芒格框架审视个股</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-munger-mental-model" target="_blank">munger-mental-model →</a>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">💬</span>
+      <div class="sc-name">新闻情绪分析</div>
+      <div class="sc-desc">财经新闻情绪量化与交易信号转化</div>
+      <a class="sc-link" href="https://github.com/quantskills/skill-news-sentiment-analyst" target="_blank">news-sentiment →</a>
+    </div>
+  </div>
+
+  <!-- Cat 9: Community Agents -->
+  <h3 style="font-size:0.85rem;color:var(--accent-red);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">
+    🤖 九、社区智能体
+  </h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span>
+      <div class="sc-name">市场状态监控 Agent</div>
+      <div class="sc-desc">自动识别牛熊震荡 + 状态切换信号</div>
+      <span class="sc-link" style="opacity:0.4;">社区 Agent · agent-market-regime-monitor</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🚨</span>
+      <div class="sc-name">拥挤风险监控 Agent</div>
+      <div class="sc-desc">拥挤交易检测 + 风险预警</div>
+      <span class="sc-link" style="opacity:0.4;">社区 Agent · agent-crowding-risk-monitor</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔀</span>
+      <div class="sc-name">相关性断裂研究 Agent</div>
+      <div class="sc-desc">相关性断裂与风格切换检测</div>
+      <span class="sc-link" style="opacity:0.4;">社区 Agent · agent-correlation-break-research</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔄</span>
+      <div class="sc-name">宏观驱动轮动 Agent</div>
+      <div class="sc-desc">宏观指标驱动行业/板块轮动</div>
+      <span class="sc-link" style="opacity:0.4;">社区 Agent · agent-macro-driven-rotation</span>
+    </div>
+  </div>
+
+  <div class="quote-block" style="margin-top:28px;">
+    <strong>pandaaiquant.com</strong> 上可以直接用 AI 拉取数据 · 配合 <strong>Quantskills</strong> 完成大量量化投研工作<br>
+    全量数据流量在 <strong>Quantskills.ai</strong> 免费领取 · 一个人也能拥有一支 AI 量化交易团队
+    <span class="source">—— PandaAI / Pandadata / QuantSkills 三位一体生态</span>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ Installation ═══════════ -->
+<section class="section" id="install">
+  <div class="section-label">安装与配置</div>
+  <h2>三步接入 Pandadata</h2>
+  <p class="section-sub">从零到真实数据调用，不到 5 分钟</p>
+
+  <div class="install-block">
+    <div class="install-header">
+      <span class="step-num">1</span> 克隆仓库 & 安装依赖（需 Python ≥ 3.10）
+    </div>
+    <div class="install-body">
+      <pre><span class="cm"># 克隆 skill 仓库</span>
+git clone https://github.com/quantskills/skill-pandadata-api.git pandadata
+<span class="kw">cd</span> pandadata
+
+<span class="cm"># 创建虚拟环境 & 安装依赖</span>
+python3.11 -m venv .venv
+.venv/bin/pip install -r requirements.txt</pre>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header">
+      <span class="step-num">2</span> 检索接口（无需凭证，纯离线文档查询）
+    </div>
+    <div class="install-body">
+      <pre><span class="cm"># 列出全部 218 个方法</span>
+.venv/bin/python scripts/search_api_docs.py --list-methods
+
+<span class="cm"># 查看 get_stock_daily 的完整参数/字段/示例</span>
+.venv/bin/python scripts/search_api_docs.py --method get_stock_daily
+
+<span class="cm"># 关键词检索（多个词需命中同一行）</span>
+.venv/bin/python scripts/search_api_docs.py <span class="str">股票 分红</span> --context-lines 4</pre>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header">
+      <span class="step-num">3</span> 配置凭证 & 真实调用（需注册 Pandadata 账户）
+    </div>
+    <div class="install-body">
+      <pre><span class="cm"># 交互式配置凭证（隐藏输入密码）</span>
+.venv/bin/python scripts/setup_runtime.py
+
+<span class="cm"># 真实 API 调用（自动加载凭证）</span>
+.venv/bin/python scripts/call_api.py \
+  --method get_stock_daily \
+  --params <span class="str">'{"symbol":["000001.SZ"],"start_date":"20250101","end_date":"20250131","fields":[]}'</span>
+
+<span class="cm"># Python SDK 直接调用</span>
+<span class="kw">from</span> pandadata_runtime <span class="kw">import</span> init_pandadata
+panda_data = init_pandadata()  <span class="cm"># 自动加载凭证并登录</span>
+df = panda_data.get_stock_daily(symbol=[<span class="str">"000001.SZ"</span>], ...)</pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">认证机制</div>
+    <p>
+      SDK 0.0.12 通过 <code>init_token(username, password, base_url)</code> 完成认证；
+      凭证可保存在 <code>~/.pandadata/pandadata.env</code>（600 权限）或通过环境变量传入：
+      <code>DEFAULT_USERNAME</code> / <code>DEFAULT_PASSWORD</code> / <code>JAVA_SERVICE_BASE_URL</code>。
+      传入明文密码，SDK 内部自行哈希；加密凭证持久化到 <code>user.json</code>，token 仅存内存。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ Key Limitations ═══════════ -->
+<section class="section section-alt" id="limitations">
+  <div class="section-label">注意事项</div>
+  <h2>关键限制与最佳实践</h2>
+  <p class="section-sub">了解边界，才能更好地使用工具</p>
+
+  <table class="data-table">
+    <tr><th>类别</th><th>限制项</th><th>说明</th></tr>
+    <tr><td><span class="tag tag-red">SDK</span></td><td>17 个接口未导出</td><td>优先股数据及部分公司行为接口在 SDK 0.0.12 中不可通过 get_* 调用</td></tr>
+    <tr><td><span class="tag tag-red">SDK</span></td><td>6 个方法名变更</td><td>如 get_stock_competitor → get_stock_competitor_information，call_api.py 自动拒绝旧名</td></tr>
+    <tr><td><span class="tag tag-blue">数据</span></td><td>需要注册账户</td><td>调用真实数据需 pandadata 凭证，非免费开放；技能包代码本身开源 GPL-3.0</td></tr>
+    <tr><td><span class="tag tag-blue">数据</span></td><td>非实时数据</td><td>仅供研究参考，不构成投资建议；无 tick 级别数据</td></tr>
+    <tr><td><span class="tag tag-blue">数据</span></td><td>日期范围限制</td><td>开始与结束日期间不超过 5 年</td></tr>
+    <tr><td><span class="tag tag-green">最佳</span></td><td>先查再答</td><td>API 相关问题先检索文档，不凭 LLM 记忆</td></tr>
+    <tr><td><span class="tag tag-green">最佳</span></td><td>取数与分析分离</td><td>先获取并验证 DataFrame，再做转换/分析</td></tr>
+    <tr><td><span class="tag tag-green">最佳</span></td><td>空数据先自查</td><td>返回空时先核对日期范围、代码格式、必填过滤，再判定服务异常</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="section" id="cta">
+  <div style="text-align:center;max-width:700px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">让量化投研像对话一样简单</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      在 Claude Code 中输入 <code style="background:rgba(201,168,76,0.06);color:var(--gold);padding:2px 8px;border-radius:2px;">$pandadata-api</code> 调用数据技能 ·
+      访问 <a href="https://www.pandaaiquant.com" target="_blank" style="color:var(--gold);">pandaaiquant.com</a> 使用 Qube/Evo/OS 平台 ·
+      配合 WorkBuddy 和 Quantskills 完成完整量化投研工作。
+    </p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://www.pandaaiquant.com" target="_blank" class="cta-link">🌐 PandaAI 平台</a>
+      <a href="https://github.com/quantskills/skill-pandadata-api" target="_blank" class="cta-link">📦 Pandadata GitHub</a>
+      <a href="https://github.com/quantskills" target="_blank" class="cta-link">🏢 QuantSkills 组织</a>
+      <a href="https://pypi.org/project/panda-data/0.0.12/" target="_blank" class="cta-link">📦 PyPI 包</a>
+      <a href="finrobot.html" class="cta-link">🤖 FinRobot 金融 Agent</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer>
+  <p>Pandadata · PandaAI · pandaaiquant.com · QuantSkills · 开源量化数据技能生态</p>
+  <p style="margin-top:4px;">
+    <a href="https://www.pandaaiquant.com" target="_blank">PandaAI 平台</a> ·
+    <a href="../index.html">杨辉 · AI 教练</a> ·
+    <a href="index.html">量化投资</a> ·
+    <a href="https://github.com/kenyanghui" target="_blank">GitHub</a>
+  </p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<!-- ═══════════ Scroll Animation ═══════════ -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08 });
+
+// Observe all animatable elements
+document.querySelectorAll(
+  '.domain-card, .skill-card, .flow-step, .feature-box, .quote-block, .agent-item, .install-block, .data-table'
+).forEach(el => {
+  el.classList.add('fade-up');
+  observer.observe(el);
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>

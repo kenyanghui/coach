@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinRobot · 微软研究院支持的金融 AI Agent | AI4Finance · 7.7K⭐</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --accent-green: #4a7c59; --accent-green-light: #6b9f7a;
+  --accent-blue: #3b6fb6; --accent-blue-light: #5a90d8;
+  --accent-red: #a63a2e;
+  --border-subtle: rgba(201,168,76,0.08);
+  --border-card: rgba(201,168,76,0.10);
+  --border-active: rgba(201,168,76,0.22);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--void); color: var(--text-default);
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  line-height:1.8; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(59,111,182,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(74,124,89,0.03) 0%, transparent 50%);
+}
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--gold); text-decoration:none; transition:color 0.2s; }
+a:hover { color:var(--gold-light); }
+code, pre, .mono { font-family:'JetBrains Mono','SF Mono','Fira Code',monospace; }
+
+/* Nav */
+.top-nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(0,0,0,0.85); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-subtle);
+  padding:10px 24px; display:flex; align-items:center;
+  justify-content:space-between; gap:16px;
+}
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--gold); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--accent-blue-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover, .nav-links a.active { color:var(--gold); border-color:var(--border-active); background:rgba(201,168,76,0.04); }
+
+/* Hero */
+.hero {
+  position:relative; z-index:1; min-height:80vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:120px 40px 80px;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:0.7rem; letter-spacing:0.3em; color:var(--accent-blue-light); opacity:0.8;
+  margin-bottom:24px; border:1px solid rgba(59,111,182,0.25); padding:5px 18px; border-radius:2px;
+}
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.8rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; line-height:1.3; margin-bottom:16px; }
+.hero h1 em { color:var(--accent-blue-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:640px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:32px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-16px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--accent-blue-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:2rem; font-weight:700; color:var(--accent-blue-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .num small { font-size:0.8rem; color:var(--gold-dim); }
+.hero-stat .label { font-size:0.7rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-scroll { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--accent-blue-light); opacity:0.25; font-size:0.6rem; letter-spacing:0.2em; animation:float 2.5s ease-in-out infinite; }
+.hero-scroll::after { content:''; width:1px; height:30px; background:linear-gradient(to bottom,var(--accent-blue-light),transparent); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+/* Sections */
+.section { max-width:1060px; margin:0 auto; padding:60px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--accent-blue-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.5rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.85rem; color:var(--cream-dark); opacity:0.55; margin-bottom:40px; letter-spacing:0.04em; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(59,111,182,0.08),transparent); }
+
+/* Cards */
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-bottom:20px; }
+.card {
+  background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(59,111,182,0.01));
+  border:1px solid var(--border-card); border-radius:4px;
+  padding:20px 18px; position:relative;
+  transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth);
+}
+.card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent-blue-light),transparent); opacity:0.6; }
+.card-icon { font-size:1.8rem; display:block; margin-bottom:6px; opacity:0.5; }
+.card-tag { display:inline-block; font-size:0.58rem; letter-spacing:0.18em; color:var(--accent-blue-light); border:1px solid rgba(59,111,182,0.18); padding:2px 10px; border-radius:2px; margin-bottom:10px; }
+.card-title { font-size:0.9rem; color:var(--cream); margin-bottom:8px; font-weight:600; letter-spacing:0.05em; }
+.card-desc { font-size:0.8rem; color:var(--cream-dark); opacity:0.62; line-height:1.85; margin-bottom:10px; }
+.card-quote { font-size:0.72rem; color:var(--accent-blue-light); opacity:0.4; font-style:italic; padding-left:10px; border-left:1px solid rgba(59,111,182,0.15); line-height:1.6; margin-top:6px; }
+
+/* Feature Box */
+.feature-box {
+  background:linear-gradient(135deg,rgba(59,111,182,0.03),rgba(74,124,89,0.02));
+  border:1px solid rgba(59,111,182,0.12); border-radius:4px;
+  padding:24px 28px; margin:18px 0; position:relative;
+}
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--accent-blue-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(59,111,182,0.06); color:var(--accent-blue-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+/* Flow Steps */
+.flow-steps { display:flex; gap:0; align-items:stretch; margin:22px 0; }
+.flow-step { flex:1; background:rgba(59,111,182,0.015); border:1px solid var(--border-card); padding:22px 18px; text-align:center; position:relative; }
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after { content:'→'; position:absolute; right:-14px; top:50%; transform:translateY(-50%); color:var(--accent-blue-light); opacity:0.3; font-size:1rem; z-index:1; }
+.flow-num { font-size:1.6rem; color:var(--accent-blue-light); opacity:0.2; display:block; margin-bottom:4px; }
+.flow-step:nth-child(2) .flow-num { color:var(--gold); }
+.flow-step:nth-child(3) .flow-num { color:var(--accent-green); }
+.flow-title { font-size:0.82rem; color:var(--cream); letter-spacing:0.06em; margin:2px 0 6px; }
+.flow-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+
+/* Architecture Layers */
+.arch-layers { display:flex; flex-direction:column; gap:8px; margin:22px 0; }
+.arch-layer { display:flex; align-items:center; gap:16px; padding:18px 20px; border:1px solid var(--border-card); border-radius:4px; background:rgba(59,111,182,0.015); position:relative; }
+.arch-layer .al-num { font-size:1.5rem; color:var(--accent-blue-light); opacity:0.2; font-weight:700; width:40px; text-align:center; flex-shrink:0; }
+.arch-layer:nth-child(2) .al-num { color:var(--gold); }
+.arch-layer:nth-child(3) .al-num { color:var(--accent-green); }
+.arch-layer:nth-child(4) .al-num { color:var(--accent-red); }
+.arch-layer .al-content { flex:1; }
+.arch-layer .al-title { font-size:0.82rem; color:var(--cream); font-weight:500; letter-spacing:0.04em; margin-bottom:2px; }
+.arch-layer .al-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.5; }
+
+/* Skill Grid */
+.skill-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-bottom:24px; }
+.skill-card { background:rgba(59,111,182,0.015); border:1px solid var(--border-card); border-radius:4px; padding:16px 14px; transition:all 0.3s var(--ease-smooth); }
+.skill-card:hover { border-color:rgba(59,111,182,0.25); background:rgba(59,111,182,0.025); }
+.skill-card .sc-emoji { font-size:1.3rem; display:block; margin-bottom:4px; }
+.skill-card .sc-name { font-size:0.8rem; color:var(--cream); font-weight:500; letter-spacing:0.04em; margin-bottom:4px; }
+.skill-card .sc-desc { font-size:0.68rem; color:var(--text-muted); line-height:1.6; opacity:0.7; }
+.skill-card .sc-link { display:inline-block; margin-top:8px; font-size:0.62rem; color:var(--accent-blue-light); opacity:0.5; letter-spacing:0.06em; }
+.skill-card .sc-link:hover { opacity:1; }
+
+/* Data Table */
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--accent-blue-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table tr:hover td { background:rgba(59,111,182,0.02); }
+.data-table code { background:rgba(59,111,182,0.05); color:var(--accent-blue-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-blue { color:var(--accent-blue-light); border-color:rgba(59,111,182,0.2); background:rgba(59,111,182,0.05); }
+.tag-green { color:var(--accent-green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+.tag-gold { color:var(--gold); border-color:rgba(201,168,76,0.2); background:rgba(201,168,76,0.05); }
+
+/* CTA */
+.cta-center { text-align:center; margin:28px 0; }
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(59,111,182,0.25); color:var(--accent-blue-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(59,111,182,0.06); border-color:var(--accent-blue-light); }
+
+/* Quote */
+.quote-block { max-width:700px; margin:24px auto; padding:20px 24px; text-align:center; border-top:1px solid rgba(59,111,182,0.08); border-bottom:1px solid rgba(59,111,182,0.08); font-size:0.82rem; color:var(--cream-dark); opacity:0.65; line-height:2; }
+.quote-block .source { display:block; margin-top:10px; font-size:0.7rem; color:var(--accent-blue-light); opacity:0.45; letter-spacing:0.06em; }
+
+/* Install Block */
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); letter-spacing:0.05em; }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(59,111,182,0.12); color:var(--accent-blue-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--accent-blue-light); }
+.install-body pre .str { color:var(--accent-green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+/* Config Panel */
+.config-panel { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; margin:18px 0; }
+.config-item { background:var(--surface-2); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; }
+.config-item .ckey { font-size:0.58rem; color:var(--accent-blue-light); opacity:0.6; letter-spacing:0.1em; display:block; margin-bottom:4px; }
+.config-item .cval { font-size:0.72rem; color:var(--cream); font-family:'JetBrains Mono',monospace; }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--gold); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+/* Responsive */
+@media (max-width:900px) {
+  .flow-steps { flex-direction:column; }
+  .flow-step:not(:last-child)::after { content:'↓'; right:auto; top:auto; bottom:-12px; left:50%; transform:translateX(-50%); }
+  .hero-stats { gap:20px; }
+  .hero-stat:not(:last-child)::after { display:none; }
+}
+@media (max-width:600px) {
+  .hero { padding:100px 20px 60px; min-height:60vh; }
+  .hero h1 { font-size:1.6rem; }
+  .hero-stats { gap:12px; }
+  .hero-stat .num { font-size:1.4rem; }
+  .section { padding:40px 20px; }
+  .top-nav { padding:8px 16px; }
+  .nav-links { display:none; }
+  .skill-grid { grid-template-columns:1fr; }
+  .arch-layers { gap:6px; }
+}
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ═══ Nav ═══ -->
+<nav class="top-nav">
+  <a href="../index.html" class="nav-home">
+    <span class="dot"></span> 杨辉 · AI教练 · FinRobot
+  </a>
+  <div class="nav-links">
+    <a href="#overview">总览</a>
+    <a href="#architecture">架构</a>
+    <a href="#agents">Agent 系统</a>
+    <a href="#research">研报引擎</a>
+    <a href="#install">安装</a>
+    <a href="index.html">◂ 量化首页</a>
+  </div>
+</nav>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero" id="top">
+  <div class="hero-badge">AI4FINANCE · 微软研究院支持 · 开源金融 AI Agent 平台</div>
+  <h1>Fin<em>Robot</em></h1>
+  <div class="subtitle">金融大模型 Agent 平台 · 开源 · 多智能体协作</div>
+  <p class="hero-desc">
+    首个面向金融应用的开源 AI Agent 框架<br>
+    四层架构 · Financial CoT 推理 · 三 Agent 研报流水线 · 多模态支持<br>
+    微软 AutoGen 集成 · 7,770+ GitHub Stars
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">7.7K<small>+</small></span><span class="label">GitHub Stars</span></div>
+    <div class="hero-stat"><span class="num">1.3K<small>+</small></span><span class="label">Forks</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="label">架构层级</span></div>
+    <div class="hero-stat"><span class="num">3</span><span class="label">CoT Agent</span></div>
+    <div class="hero-stat"><span class="num">9<small>+</small></span><span class="label">数据源集成</span></div>
+  </div>
+  <div class="hero-scroll">向下探索</div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Overview ═══ -->
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 FinRobot？</h2>
+  <p class="section-sub">AI4Finance 基金会开源的金融大模型 Agent 框架</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>FinRobot</strong> 是由 <strong>AI4Finance Foundation</strong> 开发的开源金融 AI Agent 平台，
+      受到<strong>微软研究院（Microsoft Research）</strong>和<strong>哥伦比亚大学</strong>等机构的学术支持。
+      它将大语言模型（LLMs）、强化学习与量化分析统一到四层架构中，
+      通过 <strong>Financial Chain-of-Thought（FinCoT）</strong> 推理机制，
+      将复杂的金融问题分解为可执行的逻辑步骤。
+    </p>
+    <p style="margin-top:10px;">
+      首个专门针对<strong>股票研究（Equity Research）</strong>的多 Agent 框架，
+      生成的研报深度可与 JPMorgan、UBS 等顶级券商媲美。
+      集成 <strong>Microsoft AutoGen</strong> 实现多 Agent 对话编排，
+      支持 FinGPT / Llama / ChatGLM / Falcon 等模型即插即用。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>仓库</td><td><a href="https://github.com/AI4Finance-Foundation/FinRobot" target="_blank">github.com/AI4Finance-Foundation/FinRobot</a></td></tr>
+    <tr><td>学术论文</td><td>arXiv:2405.14767 (2024.05) + arXiv:2411.08804 (2024.11)</td></tr>
+    <tr><td>许可证</td><td>Apache-2.0（开源免费）</td></tr>
+    <tr><td>Star 数</td><td>7,770+</td></tr>
+    <tr><td>Fork 数</td><td>1,317</td></tr>
+    <tr><td>语言</td><td>Python · Jupyter Notebook</td></tr>
+    <tr><td>仓库大小</td><td>~9.3 MB（含实验与教程）</td></tr>
+    <tr><td>组织</td><td><a href="https://ai4finance.org" target="_blank">AI4Finance Foundation</a></td></tr>
+    <tr><td>论文地址</td><td><a href="https://arxiv.org/abs/2405.14767" target="_blank">arXiv:2405.14767</a></td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Architecture ═══ -->
+<section class="section section-alt" id="architecture">
+  <div class="section-label">系统架构</div>
+  <h2>四层架构 · 金融 CoT 推理</h2>
+  <p class="section-sub">从模型底座到 Agent 应用层的完整技术栈</p>
+
+  <div class="arch-layers">
+    <div class="arch-layer">
+      <span class="al-num">L4</span>
+      <div class="al-content">
+        <div class="al-title">Financial AI Agents Layer · 金融 AI Agent 层</div>
+        <div class="al-desc">Financial CoT 推理将复杂金融问题分解为逻辑步骤。包含市场预测 Agent、文档分析 Agent、交易策略 Agent，每个 Agent 具备 Perception → Brain（LLM+CoT）→ Action 三层模块</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <span class="al-num">L3</span>
+      <div class="al-content">
+        <div class="al-title">Financial LLMs Algorithms Layer · 金融大模型算法层</div>
+        <div class="al-desc">动态配置模型应用策略：FinGPT（金融情感）、Llama（美股市场）、ChatGLM（中国市场）、Falcon（金融关系分析），以及多模态模型与 FinRL（组合优化）</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <span class="al-num">L2</span>
+      <div class="al-content">
+        <div class="al-title">LLMOps & DataOps Layer · 模型与数据运维层</div>
+        <div class="al-desc">多源集成 + Smart Scheduler 智能调度。根据任务表现动态切换通用/微调 LLM，确保最优模型选择。训练、微调和实时数据处理流水线</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <span class="al-num">L1</span>
+      <div class="al-content">
+        <div class="al-title">Multi-source LLM Foundation Layer · 多源大模型基础层</div>
+        <div class="al-desc">插件式集成 7B~72B 参数的各类型 LLM：FinGPT、Llama、Falcon、ChatGLM 等。形成平台的计算与推理基础</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Brain Architecture -->
+  <h3 style="text-align:center;margin:36px 0 16px;font-size:1rem;color:var(--cream);letter-spacing:0.06em;">Agent 核心循环：Perception → Brain → Action</h3>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">👁️</span>
+      <div class="flow-title">Perception<span class="en">感知层</span></div>
+      <div class="flow-desc">捕获多模态金融数据<br>行情/新闻/经济指标/文件<br>市场信息 → 结构化输入</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">🧠</span>
+      <div class="flow-title">Brain<span class="en">大脑层</span></div>
+      <div class="flow-desc">LLM + Financial CoT<br>逻辑分解 + 推理链<br>生成结构化指令</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">⚡</span>
+      <div class="flow-title">Action<span class="en">执行层</span></div>
+      <div class="flow-desc">交易执行/组合调整<br>报告生成/预警推送<br>反馈循环迭代优化</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Agent System ═══ -->
+<section class="section" id="agents">
+  <div class="section-label">Agent 系统</div>
+  <h2>Smart Scheduler · 多 Agent 协同</h2>
+  <p class="section-sub">智能调度 + 专业化 Agent 分工，实现复杂金融任务自动化</p>
+
+  <h3 style="font-size:0.85rem;color:var(--accent-blue-light);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">Smart Scheduler 四大组件</h3>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🎬</span>
+      <div class="card-tag">Director</div>
+      <div class="card-title">Director Agent<span class="en">导演智能体</span></div>
+      <div class="card-desc">根据 Agent 历史表现编排任务分配，动态调度最优 Agent 组合。</div>
+      <div class="card-quote">「任务总指挥，质量把关者」</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">📋</span>
+      <div class="card-tag">Registry</div>
+      <div class="card-title">Agent Registration<span class="en">Agent 注册中心</span></div>
+      <div class="card-desc">追踪所有可用 Agent 的状态与能力，实时维护 Agent 能力画像。</div>
+      <div class="card-quote">「Agent 能力黄页」</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔌</span>
+      <div class="card-tag">Adaptor</div>
+      <div class="card-title">Agent Adaptor<span class="en">Agent 适配器</span></div>
+      <div class="card-desc">根据具体任务定制 Agent 功能，调整输入输出接口与推理策略。</div>
+      <div class="card-quote">「万能转换头，一键适配」</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">📊</span>
+      <div class="card-tag">Task Manager</div>
+      <div class="card-title">Task Manager<span class="en">任务管理器</span></div>
+      <div class="card-desc">精细管理各 LLM 驱动的 Agent 执行状态，协调并发与优先级。</div>
+      <div class="card-quote">「任务队列的总调度台」</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:0.85rem;color:var(--gold);letter-spacing:0.08em;margin:28px 0 12px;text-align:center;">内置专业 Agent</h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📈</span>
+      <div class="sc-name">Market Forecaster Agent</div>
+      <div class="sc-desc">市场预测 Agent — 基于股票代码/财务/新闻预测股价涨跌方向</div>
+      <span class="sc-link">agent_fingpt_forecaster</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span>
+      <div class="sc-name">Financial Analyst Agent</div>
+      <div class="sc-desc">金融分析师 Agent — 从 10-K 年报生成完整股票研报</div>
+      <span class="sc-link">agent_annual_report</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📉</span>
+      <div class="sc-name">Trade Strategist Agent</div>
+      <div class="sc-desc">交易策略 Agent — 多模态算法交易策略生成与回测</div>
+      <span class="sc-link">agent_trade_strategist</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">💬</span>
+      <div class="sc-name">RAG Q&A Agent</div>
+      <div class="sc-desc">检索增强问答 Agent — 基于财报/电话会/SEC 文件的智能问答</div>
+      <span class="sc-link">agent_rag_qa</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span>
+      <div class="sc-name">MultiModal Chart Agent</div>
+      <div class="sc-desc">多模态图表 Agent — K 线图识别与技术形态分析</div>
+      <span class="sc-link">lmm_agent_mplfinance</span>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔧</span>
+      <div class="sc-name">MultiModal Optimize Agent</div>
+      <div class="sc-desc">多模态优化 Agent — 策略参数可视化与超参优化</div>
+      <span class="sc-link">lmm_agent_opt_smacross</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Equity Research ═══ -->
+<section class="section section-alt" id="research">
+  <div class="section-label">股票研究引擎</div>
+  <h2>三 Agent CoT 研报流水线<span class="en">Published in arXiv:2411.08804 (2024)</span></h2>
+  <p class="section-sub">从数据聚合到投资论点，三个专业 Agent 接力生成专业级股票研报</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num">01</span>
+      <div class="flow-title">Data-CoT Agent<span class="en">数据思维链 Agent</span></div>
+      <div class="flow-desc">聚合多源金融数据<br>SEC 文件 · 电话会记录 · 公司公告<br>结构化摘要与关键指标提取</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">02</span>
+      <div class="flow-title">Concept-CoT Agent<span class="en">概念思维链 Agent</span></div>
+      <div class="flow-desc">模拟分析师推理逻辑<br>收入预测 · EBITDA/利润率趋势<br>ROIC/WACC 计算 · 竞争分析</div>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">03</span>
+      <div class="flow-title">Thesis-CoT Agent<span class="en">论点思维链 Agent</span></div>
+      <div class="flow-desc">合成完整投资论点<br>估值报告 · 风险评估<br>Buy/Hold/Sell 建议 · PDF 输出</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">研报质量评估（专家评审结果）</div>
+    <p>
+      📊 <strong>准确性 Accuracy</strong>：9–10 / 10 ·
+      🧠 <strong>逻辑连贯性 Logical Coherence</strong>：9–10 / 10 ·
+      📝 <strong>叙事质量 Storytelling</strong>：7–10 / 10<br>
+      对标机构：JPMorgan · UBS · CapitalCube · Wright Reports
+    </p>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">finrobot_equity 模块 · 股票研究专用</div>
+    <p>
+      独立的 <code>finrobot_equity</code> 子包专为<strong>股票研究与估值</strong>设计，
+      包含 Web 应用界面（<code>web_app/</code>）、核心引擎（<code>core/src/</code>）、
+      配置管理（<code>core/config/</code>）和测试套件（<code>core/tests/</code>）。
+      通过三 Agent CoT 流水线，自动生成包含内在估值、财务可视化图表和风险评估的 PDF 研报。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Data & Models ═══ -->
+<section class="section" id="data-models">
+  <div class="section-label">数据源与模型生态</div>
+  <h2>9+ 数据源 · 多模型集成</h2>
+  <p class="section-sub">从实时行情到 SEC 文件，从 FinGPT 到 ChatGLM</p>
+
+  <h3 style="font-size:0.85rem;color:var(--accent-blue-light);letter-spacing:0.08em;margin:24px 0 12px;text-align:center;">数据源集成</h3>
+  <div class="config-panel">
+    <div class="config-item"><span class="ckey">API 数据源</span><span class="cval">Finnhub · FMP · SEC-API · Yahoo Finance · OpenBB · Reddit</span></div>
+    <div class="config-item"><span class="ckey">文本数据</span><span class="cval">SEC 10-K/10-Q · Earnings Call Transcripts · News · Filings</span></div>
+    <div class="config-item"><span class="ckey">结构化存储</span><span class="cval">Oceanbase · PostgreSQL · Parquet/DuckDB</span></div>
+    <div class="config-item"><span class="ckey">NLP 工具</span><span class="cval">FinNLP · FinGPT Sentiment · RAG Pipeline</span></div>
+  </div>
+
+  <h3 style="font-size:0.85rem;color:var(--gold);letter-spacing:0.08em;margin:28px 0 12px;text-align:center;">支持的大语言模型</h3>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">💚</span>
+      <div class="card-tag">金融情感</div>
+      <div class="card-title">FinGPT</div>
+      <div class="card-desc">AI4Finance 自研金融 LLM，专注金融情感分析与市场信号提取。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🦙</span>
+      <div class="card-tag">美股市场</div>
+      <div class="card-title">Llama 系列</div>
+      <div class="card-desc">Meta 开源模型，7B–70B 参数，适配美股市场分析与预测。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🇨🇳</span>
+      <div class="card-tag">中国市场</div>
+      <div class="card-title">ChatGLM</div>
+      <div class="card-desc">智谱开源中文大模型，针对 A 股/中国市场金融场景优化。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🦅</span>
+      <div class="card-tag">关系分析</div>
+      <div class="card-title">Falcon</div>
+      <div class="card-desc">TII 开源模型，擅长金融实体关系抽取与复杂推理。</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:0.85rem;color:var(--accent-green-light);letter-spacing:0.08em;margin:28px 0 12px;text-align:center;">功能模块</h3>
+  <div class="skill-grid">
+    <div class="skill-card">
+      <span class="sc-emoji">📊</span><div class="sc-name">analyzer.py</div>
+      <div class="sc-desc">财务数据分析引擎</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📈</span><div class="sc-name">charting.py</div>
+      <div class="sc-desc">金融图表可视化（mplfinance）</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">💻</span><div class="sc-name">coding.py</div>
+      <div class="sc-desc">代码生成与策略实现</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🧮</span><div class="sc-name">quantitative.py</div>
+      <div class="sc-desc">量化分析工具集</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🔍</span><div class="sc-name">rag.py / ragquery.py</div>
+      <div class="sc-desc">RAG 检索增强生成流水线</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📝</span><div class="sc-name">reportlab.py</div>
+      <div class="sc-desc">PDF 研报自动生成</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">📄</span><div class="sc-name">text.py</div>
+      <div class="sc-desc">金融文本处理</div>
+    </div>
+    <div class="skill-card">
+      <span class="sc-emoji">🤖</span><div class="sc-name">agent_library.py</div>
+      <div class="sc-desc">Agent 库与注册管理</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Installation ═══ -->
+<section class="section section-alt" id="install">
+  <div class="section-label">安装与配置</div>
+  <h2>三步部署 FinRobot</h2>
+  <p class="section-sub">从零到第一个金融 Agent 运行</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 环境准备 & 安装</div>
+    <div class="install-body">
+      <pre><span class="cm"># 创建 conda 环境（Python 3.10）</span>
+conda create --name finrobot python=3.10
+conda activate finrobot
+
+<span class="cm"># 克隆仓库</span>
+git clone https://github.com/AI4Finance-Foundation/FinRobot.git
+<span class="kw">cd</span> FinRobot
+
+<span class="cm"># 安装</span>
+pip install -U finrobot
+<span class="cm"># 或开发模式：</span>
+pip install -e .
+
+<span class="cm"># 股票研究模块额外依赖</span>
+pip install -r requirements-equity.txt</pre>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> 配置 API Keys</div>
+    <div class="install-body">
+      <pre><span class="cm"># 编辑 OAI_CONFIG_LIST — 配置 LLM（OpenAI/Azure/本地模型）</span>
+<span class="kw">cat</span> OAI_CONFIG_LIST
+
+<span class="cm"># 编辑 config_api_keys — 配置金融数据源</span>
+<span class="kw">cat</span> config_api_keys
+<span class="cm"># 必填：FINNHUB_API_KEY / FMP_API_KEY / SEC_API_KEY</span></pre>
+    </div>
+  </div>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">3</span> 运行 Demo</div>
+    <div class="install-body">
+      <pre><span class="cm"># 市场预测 Agent — 预测股价涨跌</span>
+jupyter notebook tutorials_beginner/agent_fingpt_forecaster.ipynb
+
+<span class="cm"># 金融分析师 Agent — 从 10-K 生成微软研报</span>
+jupyter notebook tutorials_beginner/agent_annual_report.ipynb
+
+<span class="cm"># RAG 问答 — 基于财报/电话会的智能 Q&A</span>
+jupyter notebook tutorials_beginner/agent_rag_qa.ipynb
+
+<span class="cm"># 多模态图表 — K 线图智能分析</span>
+jupyter notebook tutorials_advanced/lmm_agent_mplfinance.ipynb</pre>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">必需 API 密钥</div>
+    <p>
+      <strong>LLM</strong>：OpenAI API Key（或 Azure / 兼容的本地模型） ·
+      <strong>金融数据</strong>：<code>FINNHUB_API_KEY</code> + <code>FMP_API_KEY</code>（Financial Modeling Prep） ·
+      <strong>SEC 文件</strong>：<code>SEC_API_KEY</code>（sec-api.io） ·
+      <strong>可选</strong>：Yahoo Finance（免费，无需 key）、OpenBB、Reddit
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ Comparison ═══ -->
+<section class="section" id="comparison">
+  <div class="section-label">生态对比</div>
+  <h2>FinRobot vs Pandadata · 互补定位</h2>
+  <p class="section-sub">两大开源金融 AI 工具的差异化分析</p>
+
+  <table class="data-table">
+    <tr><th>维度</th><th>FinRobot</th><th>Pandadata × PandaAI</th></tr>
+    <tr><td><span class="tag tag-blue">定位</span></td><td>金融 AI Agent 研究框架</td><td>量化数据平台 + Agent 技能生态</td></tr>
+    <tr><td><span class="tag tag-blue">核心能力</span></td><td>多 Agent CoT 研报生成、市场预测、策略分析</td><td>218 数据接口、可视化工作流、多 Agent 交易决策</td></tr>
+    <tr><td><span class="tag tag-blue">语言模型</span></td><td>FinGPT / Llama / ChatGLM / Falcon</td><td>Claude / GPT（通过 Agent Skills 调用）</td></tr>
+    <tr><td><span class="tag tag-blue">数据生态</span></td><td>Finnhub / FMP / SEC / Yahoo Finance</td><td>Pandadata 原生（A股/期货/期权/港美股/宏观）</td></tr>
+    <tr><td><span class="tag tag-blue">数据侧重</span></td><td>美股（SEC 文件、电话会）</td><td>A 股 + 期货 + 期权（中文市场全覆盖）</td></tr>
+    <tr><td><span class="tag tag-blue">部署方式</span></td><td>Python 库 + Jupyter</td><td>Python SDK + Claude Code/WorkBuddy/Cursor 等 Agent 运行时</td></tr>
+    <tr><td><span class="tag tag-blue">许可证</span></td><td>Apache-2.0</td><td>GPL-3.0</td></tr>
+    <tr><td><span class="tag tag-blue">组织</span></td><td>AI4Finance Foundation · 微软研究院支持</td><td>QuantSkills · PandaAI 社区</td></tr>
+  </table>
+
+  <div class="feature-box">
+    <div class="feature-box-label">协同使用建议</div>
+    <p>
+      <strong>FinRobot</strong> 擅长美股深度研究（SEC 文件分析 → 三 Agent CoT → 自动研报输出），
+      适合需要<strong>研究叙事和投资论点</strong>的场景。<br>
+      <strong>Pandadata + PandaAI</strong> 擅长中文市场全覆盖（A 股/期货/期权/宏观数据 → 策略回测 → 多 Agent 交易决策），
+      适合需要<strong>精准数据 + 交易执行</strong>的场景。<br>
+      两者互补：FinRobot 做美股研报生成，Pandadata 做中文市场数据与策略，覆盖全球量化投研。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- ═══ CTA ═══ -->
+<section class="section" id="cta">
+  <div style="text-align:center;max-width:700px;margin:0 auto;">
+    <div class="section-label">开始使用</div>
+    <h2 style="margin-bottom:16px;">金融 Agent 研报 · 一键生成</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);line-height:2;margin-bottom:28px;">
+      三 Agent CoT 流水线 · 专业级股票研报 · 微软 AutoGen 多 Agent 编排<br>
+      从 10-K 文件到 Buy/Hold/Sell 建议，全流程自动化
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <a href="https://github.com/AI4Finance-Foundation/FinRobot" target="_blank" class="cta-link">📦 GitHub 仓库</a>
+      <a href="https://arxiv.org/abs/2405.14767" target="_blank" class="cta-link">📄 论文 arXiv</a>
+      <a href="https://ai4finance.org" target="_blank" class="cta-link">🏢 AI4Finance</a>
+      <a href="pandadata.html" class="cta-link">📊 Pandadata 页</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+  <p>FinRobot · AI4Finance Foundation · 微软研究院支持 · 开源金融 AI Agent 平台</p>
+  <p style="margin-top:4px;">
+    <a href="https://github.com/AI4Finance-Foundation/FinRobot" target="_blank">GitHub</a> ·
+    <a href="../index.html">杨辉 · AI 教练</a> ·
+    <a href="index.html">量化投资</a> ·
+    <a href="https://github.com/kenyanghui" target="_blank">GitHub</a>
+  </p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<!-- ═══ Animations ═══ -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.card, .skill-card, .flow-step, .feature-box, .quote-block, .arch-layer, .install-block, .config-item, .data-table').forEach(el => {
+  el.classList.add('fade-up'); observer.observe(el);
+});
+document.querySelectorAll('.top-nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(link.getAttribute('href'))?.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+});
+</script>
+</body>
+</html>

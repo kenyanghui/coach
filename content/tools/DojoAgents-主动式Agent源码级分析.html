@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DojoAgents 主动式Agent 源码级深度分析 | 杨辉 Ken Yang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7c5cfc;
+  --primary-light: #a78bfa;
+  --primary-dark: #5b21b6;
+  --gold: #c9a84c;
+  --jade: #10b981;
+  --rose: #f43f5e;
+  --amber: #f59e0b;
+  --sky: #0ea5e9;
+  --bg: #f8f7fc;
+  --surface: #ffffff;
+  --text: #1e1b2e;
+  --text-secondary: #5c5a6e;
+  --text-muted: #9492a5;
+  --border: #e8e6f0;
+  --border-light: #f0eef6;
+  --code-bg: #f4f2fa;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height:1.9;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width:1040px; margin:0 auto; padding: 20px 20px 60px; }
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, #1e1b2e 0%, #2d2450 40%, #1a1638 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 52px 48px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 20% 30%, rgba(124,92,252,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 85% 70%, rgba(16,185,129,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 30% 40% at 50% 90%, rgba(201,168,76,0.08) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hero > * { position: relative; z-index:1; }
+.hero .badge {
+  display:inline-block; background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.15);
+  padding:5px 14px; border-radius:20px; font-size:12px;
+  letter-spacing:0.08em; margin-bottom:16px;
+}
+.hero h1 { font-size:2em; font-weight:900; letter-spacing:0.02em; line-height:1.35; margin-bottom:8px; }
+.hero .subtitle { font-size:0.95em; color:rgba(255,255,255,0.65); margin-bottom:24px; line-height:1.7; }
+
+.hero-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; }
+.hero-stat {
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--radius); padding:16px 18px; text-align:center;
+}
+.hero-stat .num { font-size:1.8em; font-weight:900; color:var(--primary-light); line-height:1.2; }
+.hero-stat .unit { font-size:0.85em; color:rgba(255,255,255,0.4); font-weight:400; }
+.hero-stat .label { font-size:12px; color:rgba(255,255,255,0.5); margin-top:2px; }
+
+/* ── Section ── */
+.section {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding: 36px 40px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.section h2 {
+  font-size:1.35em; font-weight:800;
+  padding-bottom:10px; margin-bottom:20px;
+  border-bottom:2px solid var(--primary);
+  display:flex; align-items:center; gap:10px;
+}
+.section h2 .icon { font-size:1.2em; }
+.section h3 {
+  font-size:1.1em; font-weight:700; color:#2d2450;
+  margin:24px 0 10px;
+}
+.section h4 { font-size:0.95em; font-weight:600; color:#555; margin:18px 0 8px; }
+.section p { font-size:15px; color:var(--text-secondary); margin-bottom:12px; }
+.section ul, .section ol { padding-left:20px; margin-bottom:12px; }
+.section li { font-size:14px; color:var(--text-secondary); margin-bottom:5px; }
+
+/* ── Code ── */
+pre {
+  background:var(--code-bg); border:1px solid var(--border-light);
+  border-radius:var(--radius); padding:16px 20px;
+  overflow-x:auto; margin:12px 0;
+  font-family:'JetBrains Mono','SF Mono','Cascadia Code',monospace;
+  font-size:13px; line-height:1.65;
+}
+pre code { color:#3d3865; background:none; padding:0; }
+code {
+  background:var(--code-bg); color:var(--primary-dark);
+  padding:2px 7px; border-radius:4px; font-size:0.88em;
+  font-family:'JetBrains Mono','SF Mono',monospace;
+}
+
+/* ── Blockquote ── */
+.section blockquote {
+  background:linear-gradient(135deg,#f5f0ff,#f0f9ff);
+  border-left:4px solid var(--primary);
+  border-radius:var(--radius); padding:14px 18px;
+  margin:14px 0; font-size:14px; color:var(--text-secondary);
+}
+.section blockquote strong { color:var(--primary); }
+
+/* ── Tables ── */
+.table-wrap { overflow-x:auto; margin:14px 0; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th,td { padding:9px 14px; text-align:left; border:1px solid var(--border-light); }
+th { background:var(--code-bg); font-weight:600; color:var(--text); font-size:13px; }
+tr:nth-child(even) { background:#fafafd; }
+
+/* ── Architecture SVG ── */
+.arch-container {
+  background:linear-gradient(180deg,#faf9fd,#f4f2fa);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  padding:24px; margin:16px 0;
+  text-align:center; overflow-x:auto;
+}
+.arch-container svg { max-width:100%; height:auto; }
+
+/* ── Mechanism Cards ── */
+.mechanism-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:16px 0; }
+.mechanism-card {
+  background:linear-gradient(135deg,#faf9fd,#f8f7fc);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius); padding:20px 22px;
+  transition: all 0.2s;
+}
+.mechanism-card:hover {
+  border-color: var(--primary-light);
+  box-shadow: 0 2px 12px rgba(124,92,252,0.06);
+}
+.mechanism-card .mc-icon { font-size:1.6em; margin-bottom:8px; }
+.mechanism-card .mc-title { font-size:1em; font-weight:700; color:var(--text); margin-bottom:6px; }
+.mechanism-card .mc-file { font-size:11px; color:var(--primary); font-family:'JetBrains Mono',monospace; margin-bottom:6px; }
+.mechanism-card .mc-desc { font-size:13px; color:var(--text-secondary); line-height:1.6; }
+
+/* ── Flow Steps ── */
+.flow-steps { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:4px; margin:16px 0; }
+.flow-step {
+  background:var(--surface); border:2px solid var(--primary-light);
+  border-radius:var(--radius); padding:10px 16px;
+  text-align:center; min-width:100px;
+}
+.flow-step .fs-num { font-size:10px; font-weight:700; color:var(--primary); display:block; letter-spacing:0.05em; }
+.flow-step .fs-label { font-size:13px; font-weight:600; color:var(--text); }
+.flow-arrow { font-size:1.2em; color:var(--primary-light); font-weight:700; }
+
+/* ── Highlight Cards ── */
+.highlight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin:16px 0; }
+.highlight-card {
+  background:linear-gradient(135deg,#f5f0ff,#f0f9ff);
+  border:1px solid #e0d8f0;
+  border-radius:var(--radius); padding:18px 20px; text-align:center;
+}
+.highlight-card .hl-num { font-size:1.8em; font-weight:900; color:var(--primary); line-height:1.2; }
+.highlight-card .hl-label { font-size:12px; color:var(--text-muted); }
+
+/* ── Tag ── */
+.tag {
+  display:inline-block; padding:3px 10px; border-radius:4px;
+  font-size:11px; font-weight:600; letter-spacing:0.02em;
+}
+.tag-purple { background:#f0e6f6; color:#7c5cfc; }
+.tag-green { background:#e6f7f0; color:#10b981; }
+.tag-amber { background:#fef3e6; color:#f59e0b; }
+.tag-rose { background:#fde8ec; color:#f43f5e; }
+.tag-sky { background:#e6f3fb; color:#0ea5e9; }
+
+/* ── Compare Table ── */
+.compare-table th:first-child { width:30%; }
+.compare-table td:first-child { font-weight:600; color:var(--text); }
+.check { color:var(--jade); font-weight:700; }
+.cross { color:var(--rose); }
+
+/* ── Footer ── */
+.footer { text-align:center; color:var(--text-muted); font-size:13px; padding:40px 0 10px; }
+.footer a { color:var(--primary); text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+
+/* ── Responsive ── */
+@media (max-width:768px) {
+  .hero { padding:32px 24px; }
+  .hero h1 { font-size:1.4em; }
+  .section { padding:24px 20px; }
+  .mechanism-grid { grid-template-columns:1fr; }
+  .flow-steps { flex-direction:column; }
+  .flow-arrow { transform:rotate(90deg); }
+  pre { font-size:11px; padding:12px 14px; }
+  table { font-size:12px; }
+  th,td { padding:6px 8px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="badge">源码级分析 &middot; 2026-08-12</div>
+  <h1>DojoAgents 主动式 Agent<br>源码级深度分析</h1>
+  <p class="subtitle">
+    深涌智能（Alpha-Dojo）开源的面向个人投资的全市场 AI Agent 框架。<br>
+    完整 Clone 源码，逐文件阅读，<strong style="color:#c9a84c">1523 行核心引擎</strong>逐行分析。
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">1,523<span class="unit">行</span></div>
+      <div class="label">核心 AgentLoop</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">6<span class="unit">层</span></div>
+      <div class="label">主动式机制叠加</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">41<span class="unit">个</span></div>
+      <div class="label">Agent 引擎文件</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">12<span class="unit">分钟</span></div>
+      <div class="label">完成 2 小时投研工作</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">~100<span class="unit">文件</span></div>
+      <div class="label">源码模块</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 一、项目概述 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x1F4E6;</span> 一、项目概览</h2>
+
+  <blockquote>
+    <strong>一句话：</strong>DojoAgents 不是"回答问题"的金融 AI，而是<strong>自主完成全链路投研</strong>的 Agent 引擎——市场扫描、财报拆解、产业链分析、风险测算，Agent 自己判断"下一步该查什么、如何验证"。
+  </blockquote>
+
+  <div class="highlight-grid">
+    <div class="highlight-card">
+      <div class="hl-num">Apache 2.0</div>
+      <div class="hl-label">开源许可</div>
+    </div>
+    <div class="highlight-card">
+      <div class="hl-num">1000+ &#x2B50;</div>
+      <div class="hl-label">一周内 GitHub Stars</div>
+    </div>
+    <div class="highlight-card">
+      <div class="hl-num">Python 3.11+</div>
+      <div class="hl-label">运行环境</div>
+    </div>
+    <div class="highlight-card">
+      <div class="hl-num">LLM 无关</div>
+      <div class="hl-label">OpenAI / Claude / Gemini / DeepSeek / Ollama</div>
+    </div>
+  </div>
+
+  <h3>实际源码目录结构</h3>
+  <pre><code>dojoagents/
+├── agent/                    # ★ 核心 Agent 引擎 (41 个文件)
+│   ├── loop.py               # ★ AgentLoop — 核心编排器 (1523行)
+│   ├── runtime.py            # ★ Runtime — 全局依赖注入组装 (361行)
+│   ├── harness.py            # ★ Harness 基类 — 自动验证框架
+│   ├── harnesses/            # 3 个具体 Harness (portfolio/tool_orchestrated/artifact_synthesis)
+│   ├── hooks/                # Agent 生命周期 Hook 系统
+│   ├── guardrails.py         # 工具调用安全护栏
+│   ├── compressor.py         # LLM 辅助上下文压缩
+│   └── session_manager.py    # 会话持久化 (27KB)
+├── tasks/                    # ★ 任务系统 — YAML 合约 + TASK.md 提示词
+├── planning/                 # ★ 自动规划 — LLM 生成计划 → DAG 执行
+├── multi_agent/              # ★ 多 Agent — 池化管理 + 事件驱动分发
+├── cron/                     # ★ 定时调度 — APScheduler + Gateway 推送
+├── memory/                   # 记忆系统 — Hook 自动同步
+├── skills/                   # 技能系统 — 可复用工作流
+├── plugins/                  # 插件系统 — PluginRegistry (34KB)
+├── tools/                    # 工具系统 (24 个文件)
+├── gateway/                  # 多通道聊天网关
+├── dashboard/                # FastAPI + React 前端
+└── utils/event_bus.py        # ★ 事件总线 (仅23行!) — 主动式 Agent 的神经中枢</code></pre>
+
+  <h3>技术栈</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>组件</th><th>技术选型</th><th>作用</th></tr>
+    <tr><td>Agent 运行时</td><td><code>strands-agents</code> + <code>strands-agents-tools</code></td><td>Agent 生命周期管理、工具注册调度</td></tr>
+    <tr><td>工具协议</td><td><code>mcp>=1.26.0</code></td><td>标准化工具接入（Model Context Protocol）</td></tr>
+    <tr><td>LLM 接口</td><td><code>openai>=1.20.0</code> 兼容协议</td><td>模型无关 — 支持 OpenAI / Claude / Gemini / DeepSeek / GLM / Ollama</td></tr>
+    <tr><td>自主调度</td><td><code>apscheduler>=3.10.0</code></td><td>Cron 定时任务 — 驱动后台自主推送</td></tr>
+    <tr><td>后端</td><td>FastAPI + Uvicorn (SSE 推送)</td><td>实时 Agent 状态流式推送</td></tr>
+    <tr><td>数据处理</td><td>pandas + pyarrow</td><td>多市场数据 ETL</td></tr>
+    <tr><td>前端</td><td>React SPA (Vite)</td><td>机构级仪表盘</td></tr>
+    <tr><td>自研 SDK</td><td><code>dojosdk>=0.1.8</code></td><td>Alpha-Dojo 金融数据接口</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ═══════════ 二、架构全景图 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x1F3D7;</span> 二、七层架构全景图</h2>
+
+  <div class="arch-container">
+    <svg viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" style="max-width:960px;">
+      <defs>
+        <linearGradient id="gTop" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7c5cfc"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+        <linearGradient id="gCore" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+        <linearGradient id="gBottom" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient>
+        <filter id="shadow"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.08"/></filter>
+      </defs>
+
+      <!-- Layer 1: Interaction -->
+      <rect x="20" y="10" width="920" height="70" rx="10" fill="#f5f0ff" stroke="#e0d8f0" stroke-width="1.5"/>
+      <text x="480" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#7c5cfc">交互层 — 多通道入口</text>
+      <rect x="100" y="46" width="160" height="26" rx="13" fill="#fff" stroke="#e0d8f0" stroke-width="1"/>
+      <text x="180" y="64" text-anchor="middle" font-size="12" fill="#555">&#x1F4BB; CLI 终端</text>
+      <rect x="320" y="46" width="160" height="26" rx="13" fill="#fff" stroke="#e0d8f0" stroke-width="1"/>
+      <text x="400" y="64" text-anchor="middle" font-size="12" fill="#555">&#x1F310; Web Dashboard</text>
+      <rect x="540" y="46" width="160" height="26" rx="13" fill="#fff" stroke="#e0d8f0" stroke-width="1"/>
+      <text x="620" y="64" text-anchor="middle" font-size="12" fill="#555">&#x1F4AC; Chat Gateways</text>
+      <!-- Arrow down -->
+      <line x1="480" y1="82" x2="480" y2="100" stroke="#c9a84c" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+      <!-- Layer 2: Agent Loop Engine -->
+      <rect x="80" y="105" width="800" height="130" rx="12" fill="url(#gCore)" opacity="0.08" stroke="#c9a84c" stroke-width="2"/>
+      <text x="480" y="130" text-anchor="middle" font-size="15" font-weight="900" fill="#8b6914">&#x2699; ★ Agent Loop — 核心推理引擎</text>
+      <!-- Sub boxes -->
+      <rect x="110" y="142" width="145" height="40" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="182" y="159" text-anchor="middle" font-size="11" font-weight="600" fill="#555">任务自主拆解</text>
+      <text x="182" y="173" text-anchor="middle" font-size="10" fill="#999">Decompose</text>
+
+      <rect x="270" y="142" width="145" height="40" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="342" y="159" text-anchor="middle" font-size="11" font-weight="600" fill="#555">多轮工具编排</text>
+      <text x="342" y="173" text-anchor="middle" font-size="10" fill="#999">Multi-turn Tools</text>
+
+      <rect x="430" y="142" width="145" height="40" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="502" y="159" text-anchor="middle" font-size="11" font-weight="600" fill="#555">上下文压缩</text>
+      <text x="502" y="173" text-anchor="middle" font-size="10" fill="#999">LLM Compressor</text>
+
+      <rect x="590" y="142" width="145" height="40" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="662" y="159" text-anchor="middle" font-size="11" font-weight="600" fill="#555">安全护栏</text>
+      <text x="662" y="173" text-anchor="middle" font-size="10" fill="#999">Guardrails</text>
+
+      <rect x="110" y="190" width="145" height="36" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="182" y="210" text-anchor="middle" font-size="11" font-weight="600" fill="#555">Harness 验证</text>
+      <text x="182" y="223" text-anchor="middle" font-size="10" fill="#999">Auto Self-Correction</text>
+
+      <rect x="270" y="190" width="145" height="36" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="342" y="210" text-anchor="middle" font-size="11" font-weight="600" fill="#555">Memory 同步</text>
+      <text x="342" y="223" text-anchor="middle" font-size="10" fill="#999">Hook Auto-Sync</text>
+
+      <rect x="430" y="190" width="145" height="36" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="502" y="210" text-anchor="middle" font-size="11" font-weight="600" fill="#555">Plan 引擎</text>
+      <text x="502" y="223" text-anchor="middle" font-size="10" fill="#999">Auto Plan & Execute</text>
+
+      <rect x="590" y="190" width="145" height="36" rx="6" fill="#fff" stroke="#e8d5a3" stroke-width="1"/>
+      <text x="662" y="210" text-anchor="middle" font-size="11" font-weight="600" fill="#555">Multi-Agent</text>
+      <text x="662" y="223" text-anchor="middle" font-size="10" fill="#999">Orchestrator</text>
+
+      <!-- Layer 3: Event Bus -->
+      <rect x="300" y="242" width="360" height="30" rx="15" fill="#fef3e6" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="480" y="262" text-anchor="middle" font-size="12" font-weight="700" fill="#d97706">&#x26A1; EventBus — 事件驱动自动化 (仅23行代码!)</text>
+
+      <!-- Layer 4: Tools -->
+      <rect x="20" y="290" width="920" height="80" rx="10" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1.5"/>
+      <text x="480" y="315" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">工具层 — 24个独立可调用工具</text>
+      <text x="480" y="335" text-anchor="middle" font-size="11" fill="#555">市场扫描 · 新闻检索 · 公司分析 · 产业链映射 · 组合构建 · 风险分析 · 代码执行 · MCP协议 · Web搜索 · 可视化</text>
+      <text x="480" y="355" text-anchor="middle" font-size="10" fill="#999">每个工具原子化、可组合、终端状态明确 — Agent 自主判断调用顺序</text>
+
+      <!-- Layer 5: Data -->
+      <rect x="20" y="385" width="920" height="55" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <text x="480" y="410" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">数据层 — 多市场数据接入</text>
+      <text x="480" y="428" text-anchor="middle" font-size="11" fill="#555">A股 · 美股 · 港股 · K线 · 财报 · 新闻 · 交易所日历 — 全部通过 dojosdk 统一接口</text>
+
+      <!-- Layer 6: Infra -->
+      <rect x="20" y="455" width="920" height="55" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="480" y="480" text-anchor="middle" font-size="13" font-weight="700" fill="#475569">基础设施层 — 本地安全沙箱</text>
+      <text x="480" y="498" text-anchor="middle" font-size="11" fill="#555">Python 执行沙箱 · API 密钥本地加密 · 会话持久化 · 上下文压缩 · 令牌计费追踪</text>
+
+      <!-- Right side annotations -->
+      <rect x="20" y="530" width="920" height="70" rx="8" fill="none" stroke="none"/>
+      <text x="30" y="548" font-size="11" fill="#999">&#x1F539; 每个 Agent 实例是独立的 Strands Agent，拥有独立的上下文和状态</text>
+      <text x="30" y="566" font-size="11" fill="#999">&#x1F539; 工具调用前/后双重 Hook 检查 (Pre-tool + Post-tool Guardrails)</text>
+      <text x="30" y="584" font-size="11" fill="#999">&#x1F539; 最大迭代次数: 100 轮 (Limits.turns=100)，防止无限循环</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════ 三、六大主动机制 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x2699;</span> 三、主动式 Agent 的六大核心机制</h2>
+  <p>DojoAgents 的"主动性"<strong>不是单一特性</strong>，而是由六层机制叠加而成的<strong>系统行为</strong>。</p>
+
+  <div class="mechanism-grid">
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F504;</div>
+      <div class="mc-title">机制 1: Agent Loop — 循环认知引擎</div>
+      <div class="mc-file">agent/loop.py · 1523行</div>
+      <div class="mc-desc">Strands Agent 驱动的多轮推理循环：<strong>推理→行动→观察→再推理</strong>，直到达到目标或达到迭代上限。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x2705;</div>
+      <div class="mc-title">机制 2: Harness 系统 — 自动验证与纠错</div>
+      <div class="mc-file">agent/harness.py · 167行 (+ 3个实现)</div>
+      <div class="mc-desc">Agent 产出后<strong>自动验证</strong>是否满足任务要求，不满足则<strong>自动注入引导提示并继续</strong>，最多恢复8轮。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x26A1;</div>
+      <div class="mc-title">机制 3: 事件驱动自动化</div>
+      <div class="mc-file">utils/event_bus.py · 仅23行!</div>
+      <div class="mc-desc">发布/订阅模式解耦。工具失败→自动修复，大数据量→自动分析，复杂任务→自动规划。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F4CB;</div>
+      <div class="mc-title">机制 4: Auto Plan — 自动规划执行</div>
+      <div class="mc-file">planning/automation.py · 149行</div>
+      <div class="mc-desc">LLM 自动将复杂请求拆解为多步骤计划，<strong>DAG 依赖排序</strong>后逐步执行，并综合所有步骤生成最终回答。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F465;</div>
+      <div class="mc-title">机制 5: Multi-Agent 自动调度</div>
+      <div class="mc-file">multi_agent/ · 9个文件</div>
+      <div class="mc-desc">正则检测用户消息复杂度，<strong>自动激活</strong>多 Agent 模式（analyst / implementer / reviewer）。工具失败自动 spawn Reviewer 修复。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x23F0;</div>
+      <div class="mc-title">机制 6: Cron Scheduler — 定时自主运行</div>
+      <div class="mc-file">cron/ · 2个文件 · 169行</div>
+      <div class="mc-desc">APScheduler 驱动，Agent <strong>在后台按计划自主执行</strong>并推送到 Slack/Telegram/微信/邮件。<em>"在你睡觉时也在工作"</em>。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 四、Agent Loop 深度分析 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x1F50D;</span> 四、Agent Loop — 核心引擎源码追踪</h2>
+  <p><code>dojoagents/agent/loop.py</code> 是整个系统<strong>最核心的文件</strong>，1523 行实现完整的 Agent 编排逻辑。</p>
+
+  <h3>4.1 AgentLoop.run() 执行流程</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><span class="fs-num">STEP 1</span><span class="fs-label">&#x1F4DD; 构建 System Prompt</span></div>
+    <span class="flow-arrow">&#x2192;</span>
+    <div class="flow-step"><span class="fs-num">STEP 2</span><span class="fs-label">&#x2699; Plan 激活检查</span></div>
+    <span class="flow-arrow">&#x2192;</span>
+    <div class="flow-step"><span class="fs-num">STEP 3</span><span class="fs-label">&#x1F310; 建 Model Bridge</span></div>
+    <span class="flow-arrow">&#x2192;</span>
+    <div class="flow-step"><span class="fs-num">STEP 4</span><span class="fs-label">&#x1F527; 收集+桥接工具</span></div>
+    <span class="flow-arrow">&#x2192;</span>
+    <div class="flow-step"><span class="fs-num">STEP 5</span><span class="fs-label">&#x1F6E1; 设置 Hooks 链</span></div>
+    <span class="flow-arrow">&#x2192;</span>
+    <div class="flow-step"><span class="fs-num">STEP 6</span><span class="fs-label">&#x25B6; Strands Agent.invoke()</span></div>
+    <span class="flow-arrow">&#x2192;</span>
+    <div class="flow-step"><span class="fs-num">STEP 7</span><span class="fs-label">&#x1F504; Harness Recovery Loop</span></div>
+  </div>
+
+  <h3>4.2 关键代码：Agent 创建与执行</h3>
+  <pre><code># loop.py:1134-1144 — 创建 Strands Agent 实例
+agent = Agent(
+    model=model,              # DojoStrandsModelBridge (桥接 LLM)
+    messages=agent_messages,  # 历史会话
+    tools=strands_tools,      # 桥接后的工具列表
+    system_prompt=system,     # 动态构建的系统提示
+    hooks=hooks,              # 5 个 Hook Provider
+    plugins=plugins,          # 插件
+    callback_handler=...,     # 流式输出回调
+    agent_id=strands_agent_id,
+    session_manager=strands_session_manager,
+)
+
+# loop.py:1170-1177 — 执行 Agent (多轮 Tool Calling)
+result = await agent.invoke_async(
+    prompt=user_prompt,
+    invocation_state=invocation_state,
+    limits=limits,  # Limits(turns=100) — 防止无限循环
+)</code></pre>
+
+  <h3>4.3 关键代码：Guardrails — 多层工具护栏</h3>
+  <pre><code># loop.py:830-995 — Before Tool Call Hook (简化版)
+async def check_guardrails_before(event: BeforeToolCallEvent) -> None:
+    tool_name = event.tool_use.get("name")
+    args = event.tool_use.get("input") or {}
+
+    # 1. 图片模式 → 阻止代码执行工具
+    if tool_name in IMAGE_TURN_EXCLUDED_TOOLS:
+        event.cancel_tool = blocked_res["content"]
+
+    # 2. 动态创建工具 (延迟绑定 — 支持运行时注册)
+    if not event.selected_tool:
+        event.selected_tool = DojoBridgedTool(...)
+
+    # 3. execute_code 护栏 → LLM 辅助分类判断是否允许
+    if tool_name in EXECUTE_CODE_TOOL_NAMES:
+        classification = await classify_execute_code(code, ...)
+        if blocked: event.cancel_tool = ...
+
+    # 4. write_session_file 护栏 → LLM 判断写入安全性
+    if tool_name == "write_session_file":
+        classification = await classify_write_session_file(...)
+        if blocked: event.cancel_tool = ...
+
+    # 5. 通用护栏 → 规则引擎检测
+    decision = self.guardrails.before_call(tool_name, args)
+    if decision.should_halt:
+        raise GuardrailHaltException(...)  # 彻底终止
+    elif not decision.allows_execution:
+        event.cancel_tool = ...  # 阻止此工具
+
+    # 6. Harness 工具修复 → 任务模式下限制工具使用
+    if active_harness:
+        repaired = active_harness.repair_tool_calls(calls, state)
+        blocked = active_harness.block_tool_call(call, state)</code></pre>
+
+  <h3>4.4 关键代码：After Hook — 事件驱动自动修复</h3>
+  <pre><code># loop.py:1002-1045 — After Tool Call Hook (简化版)
+async def check_guardrails_after(event: AfterToolCallEvent) -> None:
+    # ★ 工具执行失败 → 发布事件，MultiAgentAutoDispatcher 自动修复
+    if is_failed:
+        failure_results = await event_bus.publish(
+            "ToolExecutionFailed",
+            {"tool_name": tool_name, "args": args, "error": raw_result}
+        )
+        if failure_results:
+            event.result["content"] = [{"text": failure_results[0]}]
+            # ↑ Reviewer Agent 的修复结果自动注入!
+
+    # ★ 大数据量 (>5000字符) → 发布事件，Analyst Agent 自动分析
+    if len(raw_result) > 5000:
+        data_results = await event_bus.publish(
+            "DataVolumeLarge",
+            {"data_summary": raw_result[:2000] + "..." + raw_result[-1000:]}
+        )
+        if data_results:
+            event.result["content"] = [{"text": data_results[0]}]
+            # ↑ Analyst Agent 的洞察自动替换原始数据!</code></pre>
+</div>
+
+<!-- ═══════════ 五、Harness 系统 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x2705;</span> 五、Harness 系统 — 自动验证与自我纠错</h2>
+  <p>这是 DojoAgents <strong>最独特的设计</strong>——Agent 不是一次性生成输出就结束，而是通过 Harness 系统<strong>持续自我验证</strong>，不满足条件就自动继续。</p>
+
+  <h3>5.1 Harness 继承体系</h3>
+  <pre><code>TaskHarness (抽象基类)                    # agent/harness.py
+├── matches(request, state) → bool        #   是否匹配当前任务
+├── block_tool_call(call, state) → str    #   阻止不适合的工具调用
+├── repair_tool_calls(calls, state) → []  #   修复/限制工具调用
+├── validate_progress(state) → Decision   #   ★ 验证任务是否完成
+└── build_recovery_prompt(dec, locale)    #   ★ 构建恢复引导
+
+具体实现:
+├── PortfolioTaskHarness        (21KB)    #   验证投资组合任务
+├── ToolOrchestratedHarness              #   引导工具编排步骤
+└── ArtifactSynthesisHarness             #   验证产物 Schema</code></pre>
+
+  <h3>5.2 核心逻辑：Harness Recovery Loop</h3>
+  <pre><code># loop.py:1280-1330 — 自动验证与纠错循环
+harness_recovery_turns = 0
+while True:  # ★ 自动循环直到任务完成或达到上限!
+    decision = active_harness.validate_progress(harness_state)
+    if decision.complete:
+        break  # 任务完成，退出循环
+
+    # 构建恢复提示 (中英文双语)
+    recovery_prompt = active_harness.build_recovery_prompt(decision, locale)
+
+    # 达到上限 → 输出当前状态并停止
+    if harness_recovery_turns >= max_recovery_turns:
+        response_text = recovery_prompt
+        break
+
+    harness_recovery_turns += 1
+    # ★ 自动重新调用 Agent，注入引导提示!
+    result = await agent.invoke_async(
+        prompt=recovery_prompt,
+        invocation_state=invocation_state,
+        limits=limits,
+    )</code></pre>
+
+  <h3>5.3 ToolOrchestratedHarness — 步骤引导示例</h3>
+  <pre><code># harnesses/tool_orchestrated.py:62-96
+def validate_progress(self, state) -> HarnessDecision:
+    # 1. 检查输出 Schema 验证 — 如果合法则完成
+    filename, issues = self._output_write_issues(state)
+    if filename and not issues:
+        return HarnessDecision(complete=True)
+
+    # 2. 引导下一步操作
+    if not state.tool_results:
+        issues.append("Start with get_market_overview.")
+    elif not has_tool(state, "get_sector_movers"):
+        issues.append("Call get_sector_movers before web_search.")
+    elif not has_tool(state, "write_session_file"):
+        issues.append("Finish by writing output with write_session_file.")
+
+    # 3. 返回决策 — 允许继续但指定下一步
+    return HarnessDecision(
+        complete=False,
+        issues=issues,
+        next_steps=issues[:1],
+        allow_extra_steps=True,  # ★ 关键: 允许继续
+    )</code></pre>
+</div>
+
+<!-- ═══════════ 六、事件驱动 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x26A1;</span> 六、事件驱动自动化 — 23行的神经中枢</h2>
+  <p><code>dojoagents/utils/event_bus.py</code> 仅 <strong>23 行代码</strong>，却驱动了整个自主响应体系。</p>
+
+  <h3>6.1 事件总线源码</h3>
+  <pre><code># utils/event_bus.py — 仅 23 行!
+class EventBus:
+    def __init__(self):
+        self._subscribers: dict[str, list[Callable]] = {}
+
+    def subscribe(self, event_type: str, handler: Callable) -> None:
+        self._subscribers.setdefault(event_type, []).append(handler)
+
+    async def publish(self, event_type: str, payload: dict) -> list[Any]:
+        results = []
+        for handler in self._subscribers.get(event_type, []):
+            res = await handler(payload)
+            if res is not None:
+                results.append(res)
+        return results
+
+event_bus = EventBus()  # 全局单例</code></pre>
+
+  <h3>6.2 事件流全景</h3>
+  <div class="arch-container">
+    <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#7c5cfc"/></marker>
+        <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#10b981"/></marker>
+        <marker id="arrowA" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#f59e0b"/></marker>
+      </defs>
+
+      <!-- Sources -->
+      <rect x="20" y="20" width="180" height="50" rx="8" fill="#f5f0ff" stroke="#7c5cfc" stroke-width="1.5"/>
+      <text x="110" y="42" text-anchor="middle" font-size="11" font-weight="700" fill="#7c5cfc">PlanActivationHook</text>
+      <text x="110" y="58" text-anchor="middle" font-size="10" fill="#888">检测复杂度</text>
+
+      <rect x="20" y="100" width="180" height="50" rx="8" fill="#f5f0ff" stroke="#7c5cfc" stroke-width="1.5"/>
+      <text x="110" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#7c5cfc">AgentLoop.after_hook</text>
+      <text x="110" y="138" text-anchor="middle" font-size="10" fill="#888">工具执行后检查</text>
+
+      <rect x="20" y="180" width="180" height="50" rx="8" fill="#f5f0ff" stroke="#7c5cfc" stroke-width="1.5"/>
+      <text x="110" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="#7c5cfc">AgentLoop.after_hook</text>
+      <text x="110" y="218" text-anchor="middle" font-size="10" fill="#888">数据量检查</text>
+
+      <!-- Arrows -->
+      <line x1="200" y1="45" x2="270" y2="45" stroke="#7c5cfc" stroke-width="2" marker-end="url(#arrowR)"/>
+      <line x1="200" y1="125" x2="270" y2="80" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowA)"/>
+      <line x1="200" y1="205" x2="270" y2="130" stroke="#10b981" stroke-width="2" marker-end="url(#arrowG)"/>
+
+      <!-- Events -->
+      <rect x="280" y="25" width="170" height="40" rx="20" fill="#fef3e6" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="365" y="50" text-anchor="middle" font-size="11" font-weight="600" fill="#d97706">TaskComplexityHigh</text>
+
+      <rect x="280" y="70" width="170" height="40" rx="20" fill="#fde8ec" stroke="#f43f5e" stroke-width="1.5"/>
+      <text x="365" y="95" text-anchor="middle" font-size="11" font-weight="600" fill="#e11d48">ToolExecutionFailed</text>
+
+      <rect x="280" y="120" width="170" height="40" rx="20" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+      <text x="365" y="145" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">DataVolumeLarge</text>
+
+      <!-- Arrows to handlers -->
+      <line x1="450" y1="45" x2="520" y2="45" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowA)"/>
+      <line x1="450" y1="90" x2="520" y2="90" stroke="#f43f5e" stroke-width="2" marker-end="url(#arrowA)"/>
+      <line x1="450" y1="140" x2="520" y2="140" stroke="#10b981" stroke-width="2" marker-end="url(#arrowG)"/>
+
+      <!-- Handlers -->
+      <rect x="530" y="20" width="200" height="55" rx="8" fill="#fef3e6" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="630" y="42" text-anchor="middle" font-size="11" font-weight="700" fill="#d97706">AutoPlanManager</text>
+      <text x="630" y="58" text-anchor="middle" font-size="9" fill="#888">generate_plan → execute → synthesize</text>
+
+      <rect x="530" y="85" width="200" height="55" rx="8" fill="#fde8ec" stroke="#f43f5e" stroke-width="1.5"/>
+      <text x="630" y="107" text-anchor="middle" font-size="11" font-weight="700" fill="#e11d48">MultiAgentAutoDispatcher</text>
+      <text x="630" y="123" text-anchor="middle" font-size="9" fill="#888">spawn Reviewer → auto-fix</text>
+
+      <rect x="530" y="150" width="200" height="55" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+      <text x="630" y="172" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">MultiAgentAutoDispatcher</text>
+      <text x="630" y="188" text-anchor="middle" font-size="9" fill="#888">spawn Analyst → auto-analyze</text>
+
+      <!-- Agent pool -->
+      <rect x="760" y="60" width="120" height="160" rx="8" fill="#f8f7fc" stroke="#d1d5db" stroke-width="1" stroke-dasharray="5,3"/>
+      <text x="820" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="#888">AgentPool</text>
+      <text x="820" y="100" text-anchor="middle" font-size="9" fill="#aaa">orchestrator</text>
+      <text x="820" y="118" text-anchor="middle" font-size="9" fill="#aaa">analyst</text>
+      <text x="820" y="136" text-anchor="middle" font-size="9" fill="#aaa">implementer</text>
+      <text x="820" y="154" text-anchor="middle" font-size="9" fill="#aaa">reviewer</text>
+      <text x="820" y="180" text-anchor="middle" font-size="10" fill="#7c5cfc">懒加载创建</text>
+      <text x="820" y="196" text-anchor="middle" font-size="9" fill="#999">工具过滤克隆</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════ 七、数据流追踪 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x1F30A;</span> 七、完整数据流追踪</h2>
+  <p>以下追踪一个典型主动式请求 <code>"分析今天A股半导体板块"</code> 经过的完整路径：</p>
+
+  <div class="arch-container">
+    <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#7c5cfc"/></marker>
+      </defs>
+
+      <!-- Step 1 -->
+      <rect x="10" y="10" width="200" height="44" rx="8" fill="#f5f0ff" stroke="#7c5cfc" stroke-width="1.5"/>
+      <text x="110" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#7c5cfc">1. 用户输入 → ChatRequest</text>
+      <text x="110" y="45" text-anchor="middle" font-size="9" fill="#999">session_id, message, channel</text>
+
+      <!-- Step 2 -->
+      <rect x="240" y="10" width="200" height="44" rx="8" fill="#e6f7f0" stroke="#10b981" stroke-width="1.5"/>
+      <text x="340" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#10b981">2. TaskActivator 关键词激活</text>
+      <text x="340" y="45" text-anchor="middle" font-size="9" fill="#999">匹配 → 注入 TASK.md 上下文</text>
+
+      <!-- Step 3 -->
+      <rect x="470" y="10" width="200" height="44" rx="8" fill="#fef3e6" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="570" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#f59e0b">3. PlanActivationHook 检测</text>
+      <text x="570" y="45" text-anchor="middle" font-size="9" fill="#999">长消息 → 自动计划生成</text>
+
+      <!-- Big box: AgentLoop -->
+      <rect x="10" y="70" width="870" height="290" rx="12" fill="#faf9fd" stroke="#c9a84c" stroke-width="2"/>
+      <text x="440" y="92" text-anchor="middle" font-size="13" font-weight="900" fill="#8b6914">★ AgentLoop.run()</text>
+
+      <!-- Internal steps -->
+      <rect x="30" y="105" width="250" height="40" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+      <text x="155" y="122" text-anchor="middle" font-size="10" font-weight="600" fill="#555">4a. 构建 System Prompt</text>
+      <text x="155" y="137" text-anchor="middle" font-size="9" fill="#aaa">temporal + skills + memory + task</text>
+
+      <rect x="30" y="155" width="250" height="40" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+      <text x="155" y="172" text-anchor="middle" font-size="10" font-weight="600" fill="#555">4b. 上下文压缩检查</text>
+      <text x="155" y="187" text-anchor="middle" font-size="9" fill="#aaa">threshold > 80% → LLM 辅助压缩</text>
+
+      <rect x="30" y="205" width="250" height="40" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+      <text x="155" y="222" text-anchor="middle" font-size="10" font-weight="600" fill="#555">4c. 创建 Strands Agent</text>
+      <text x="155" y="237" text-anchor="middle" font-size="9" fill="#aaa">model + tools + hooks + plugins</text>
+
+      <rect x="30" y="255" width="250" height="40" rx="6" fill="#fff" stroke="#c9a84c" stroke-width="2"/>
+      <text x="155" y="272" text-anchor="middle" font-size="10" font-weight="700" fill="#8b6914">★ agent.invoke_async()</text>
+      <text x="155" y="287" text-anchor="middle" font-size="9" fill="#999">多轮 Tool Calling 循环</text>
+
+      <!-- Right side: detailed loop -->
+      <rect x="310" y="105" width="550" height="245" rx="8" fill="#fff" stroke="#e0d8f0" stroke-width="1"/>
+      <text x="585" y="125" text-anchor="middle" font-size="11" font-weight="700" fill="#7c5cfc">多轮 Tool Calling 详析</text>
+
+      <!-- Turn labels -->
+      <rect x="325" y="138" width="245" height="28" rx="4" fill="#f8f7fc"/>
+      <text x="447" y="156" text-anchor="middle" font-size="10" fill="#555">Turn 1: get_market_overview</text>
+      <text x="577" y="156" font-size="9" fill="#999">→ Pre-hook 检查 → 执行 → Post-hook</text>
+
+      <rect x="325" y="172" width="245" height="28" rx="4" fill="#f8f7fc"/>
+      <text x="447" y="190" text-anchor="middle" font-size="10" fill="#555">Turn 2: get_sector_movers</text>
+      <text x="577" y="190" font-size="9" fill="#999">→ 失败? → EventBus → 自动修复!</text>
+
+      <rect x="325" y="206" width="245" height="28" rx="4" fill="#f8f7fc"/>
+      <text x="447" y="224" text-anchor="middle" font-size="10" fill="#555">Turn 3: web_search("半导体")</text>
+      <text x="577" y="224" font-size="9" fill="#999">→ 大量数据? → Analyst 自动分析</text>
+
+      <rect x="325" y="240" width="245" height="28" rx="4" fill="#f8f7fc"/>
+      <text x="447" y="258" text-anchor="middle" font-size="10" fill="#555">Turn 4: write_session_file</text>
+      <text x="577" y="258" font-size="9" fill="#999">→ Pre-hook LLM 判断安全 → 执行</text>
+
+      <rect x="325" y="278" width="518" height="28" rx="4" fill="#fef3e6" stroke="#f59e0b" stroke-width="1"/>
+      <text x="584" y="296" text-anchor="middle" font-size="10" fill="#d97706">Empty Assistant? → 自动恢复 (empty_recovery)</text>
+
+      <rect x="325" y="312" width="518" height="28" rx="4" fill="#e6f7f0" stroke="#10b981" stroke-width="1"/>
+      <text x="584" y="330" text-anchor="middle" font-size="10" fill="#065f46">Harness Recovery Loop: 自动验证 → 不通过 → 自动重试 → ... → 通过!</text>
+
+      <!-- Step 5 -->
+      <rect x="10" y="375" width="200" height="40" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="110" y="395" text-anchor="middle" font-size="10" font-weight="700" fill="#2563eb">5. Memory Hook 自动同步</text>
+      <text x="110" y="408" text-anchor="middle" font-size="9" fill="#999">sync_turn → providers</text>
+
+      <!-- Step 6 -->
+      <rect x="240" y="375" width="200" height="40" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="340" y="395" text-anchor="middle" font-size="10" font-weight="700" fill="#2563eb">6. Plugin 后处理</text>
+      <text x="340" y="408" text-anchor="middle" font-size="9" fill="#999">post_llm_call → transform</text>
+
+      <!-- Step 7 -->
+      <rect x="470" y="375" width="200" height="40" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="570" y="395" text-anchor="middle" font-size="10" font-weight="700" fill="#475569">7. 返回 AgentResponse</text>
+      <text x="570" y="408" text-anchor="middle" font-size="9" fill="#999">content + metadata → 用户</text>
+
+      <!-- Flow arrows -->
+      <line x1="210" y1="32" x2="235" y2="32" stroke="#7c5cfc" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="440" y1="32" x2="465" y2="32" stroke="#7c5cfc" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="210" y1="375" x2="235" y2="375" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="440" y1="375" x2="465" y2="375" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════ 八、主动式 vs 被动式 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x2696;</span> 八、主动式 vs 被动式 — 技术对比</h2>
+
+  <div class="table-wrap">
+  <table class="compare-table">
+    <tr><th>维度</th><th>传统被动式 Agent</th><th>DojoAgents 主动式</th></tr>
+    <tr><td>执行模式</td><td>单次 <code>LLM推理 → 输出</code></td><td><span class="check">&#x2714;</span> 多轮 <code>推理→工具→观察→再推理</code> 循环</td></tr>
+    <tr><td>完成标准</td><td>模型说"完成了"</td><td><span class="check">&#x2714;</span> Harness 系统<strong>客观验证</strong>（Schema校验、数据检查）</td></tr>
+    <tr><td>纠错能力</td><td>用户手动纠正</td><td><span class="check">&#x2714;</span> 自动检测 + 事件总线触发修复 Agent</td></tr>
+    <tr><td>工具调用</td><td>单次或少量调用</td><td><span class="check">&#x2714;</span> 多步骤编排，每步受 Pre/Post Hook 检查</td></tr>
+    <tr><td>时间维度</td><td>同步即时响应</td><td><span class="check">&#x2714;</span> 同步 + Cron 定时后台自主运行</td></tr>
+    <tr><td>复杂度适应</td><td>固定流程</td><td><span class="check">&#x2714;</span> 自动检测 → LLM 生成计划 → DAG 执行</td></tr>
+    <tr><td>多 Agent</td><td>单 Agent</td><td><span class="check">&#x2714;</span> 正则检测 + 事件触发 = 按需激活</td></tr>
+    <tr><td>记忆</td><td>单次会话</td><td><span class="check">&#x2714;</span> 跨会话 Memory + Skill 蒸馏</td></tr>
+    <tr><td>质量保证</td><td>依赖 Prompt</td><td><span class="check">&#x2714;</span> 护栏 + 验证 + 自动修复 + 恢复循环</td></tr>
+    <tr><td>上下文</td><td>固定窗口</td><td><span class="check">&#x2714;</span> 动态 LLM 压缩 + 溢出自动重试</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ═══════════ 九、关键洞察 ═══════════ -->
+<div class="section">
+  <h2><span class="icon">&#x1F4A1;</span> 九、构建主动式 Agent 的六大洞察</h2>
+
+  <div class="mechanism-grid">
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F504;</div>
+      <div class="mc-title">1. 循环 > 单次</div>
+      <div class="mc-desc">主动式 Agent 的核心不是更聪明的模型，而是让模型进入一个<strong>持续运行的循环</strong>：推理→行动→观察→再推理。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F527;</div>
+      <div class="mc-title">2. 工具粒度 = 自主程度</div>
+      <div class="mc-desc">工具越原子化，Agent 的自由度越高。每个工具应：<strong>原子化、可组合、终端状态明确</strong>。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x23F0;</div>
+      <div class="mc-title">3. 调度器 = 时间维度的主动性</div>
+      <div class="mc-desc">apscheduler 让 Agent 有了<strong>时间感知能力</strong>——不是被提问时才工作，而是按自己的节奏持续运行。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F6E1;</div>
+      <div class="mc-title">4. 护栏 = 自主性的边界</div>
+      <div class="mc-desc">三层防护：<strong>预防层</strong>(幻觉护栏) → <strong>控制层</strong>(中断机制) → <strong>终止层</strong>(循环防护)。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x1F9E0;</div>
+      <div class="mc-title">5. 自进化 = 长期价值</div>
+      <div class="mc-desc">Memory + SKILL 蒸馏让 Agent <strong>能力随使用时间增长</strong>——每次成功分析都变成可复用资产。</div>
+    </div>
+    <div class="mechanism-card">
+      <div class="mc-icon">&#x26A1;</div>
+      <div class="mc-title">6. 事件解耦 = 系统可演化性</div>
+      <div class="mc-desc"><strong>23行</strong>事件总线驱动整个自主响应体系。每个组件独立演化，通过事件松散耦合。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ Footer ═══════════ -->
+<div class="footer">
+  <p>源码分析基于 <a href="https://github.com/Alpha-Dojo/DojoAgents" target="_blank">Alpha-Dojo/DojoAgents</a> · 完整 Clone + 逐文件阅读</p>
+  <p style="margin-top:8px;">分析日期: 2026-08-12 · 作者: 杨辉 Ken Yang · <a href="https://kenyanghui.github.io/coach">返回导航</a></p>
+  <p style="margin-top:16px;font-size:11px;opacity:0.5;">
+    关键依赖: <code>strands-agents</code> · <code>mcp>=1.26.0</code> · <code>openai>=1.20.0</code> · <code>apscheduler>=3.10.0</code> · <code>dojosdk>=0.1.8</code>
+  </p>
+</div>
+
+</div>
+</body>
+</html>

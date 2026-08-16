@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradingAgents-CN · 多智能体中文金融交易框架 | 7-8 Agent 协作决策</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
+  --cream: #f5f0e6; --cream-dark: #d4cfc4;
+  --void: #000000; --surface: #0a0a08; --surface-2: #121110; --surface-3: #1a1814;
+  --text-default: #e8e4dc; --text-muted: #7a7568; --text-dim: #4a4640;
+  --red: #c0392b; --red-light: #e06a5a; --red-dim: #8b2f24;
+  --green: #4a7c59; --green-light: #6b9f7a;
+  --blue: #3b6fb6; --blue-light: #5a90d8;
+  --border-subtle: rgba(192,57,43,0.08);
+  --border-card: rgba(192,57,43,0.12);
+  --border-active: rgba(192,57,43,0.25);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--void); color:var(--text-default); font-family:'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(192,57,43,0.06) 0%, transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 50%); }
+h1,h2,h3,h4 { font-family:'Noto Serif SC','PingFang SC',serif; font-weight:600; line-height:1.4; }
+a { color:var(--red-light); text-decoration:none; transition:color 0.2s; }
+a:hover { color:#f09a8a; }
+code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
+
+.top-nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--red-light); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--red-light); opacity:0.8; }
+.nav-links { display:flex; gap:6px; flex-wrap:wrap; }
+.nav-links a { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a:hover { color:var(--red-light); border-color:var(--border-active); background:rgba(192,57,43,0.04); }
+
+.hero { position:relative; z-index:1; min-height:75vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 40px 70px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.7rem; letter-spacing:0.3em; color:var(--red-light); opacity:0.8; margin-bottom:22px; border:1px solid rgba(192,57,43,0.25); padding:5px 18px; border-radius:2px; }
+.hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
+.hero h1 { font-size:clamp(2rem,5vw,3.6rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; margin-bottom:14px; }
+.hero h1 em { color:var(--red-light); font-style:normal; }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
+.hero-desc { max-width:640px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
+.hero-stats { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+.hero-stat { text-align:center; position:relative; }
+.hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--red-light),transparent); opacity:0.2; }
+.hero-stat .num { font-size:1.8rem; font-weight:700; color:var(--red-light); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
+.hero-stat .label { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+
+.section { max-width:1060px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
+.section-alt { background:var(--surface); border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); }
+.section-label { font-size:0.62rem; letter-spacing:0.3em; color:var(--red-light); opacity:0.5; margin-bottom:16px; text-align:center; }
+.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
+.section-divider { max-width:1060px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
+.section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(192,57,43,0.08),transparent); }
+
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-bottom:20px; }
+.card { background:linear-gradient(135deg,rgba(245,240,230,0.015),rgba(192,57,43,0.01)); border:1px solid var(--border-card); border-radius:4px; padding:20px 18px; position:relative; transition:border-color 0.4s var(--ease-smooth),transform 0.4s var(--ease-smooth); }
+.card:hover { border-color:var(--border-active); transform:translateY(-2px); }
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--red-light),transparent); opacity:0.6; }
+.card-icon { font-size:1.7rem; display:block; margin-bottom:6px; opacity:0.5; }
+.card-tag { display:inline-block; font-size:0.58rem; letter-spacing:0.18em; color:var(--red-light); border:1px solid rgba(192,57,43,0.2); padding:2px 10px; border-radius:2px; margin-bottom:10px; }
+.card-title { font-size:0.9rem; color:var(--cream); margin-bottom:8px; font-weight:600; }
+.card-desc { font-size:0.78rem; color:var(--cream-dark); opacity:0.62; line-height:1.8; }
+
+.feature-box { background:linear-gradient(135deg,rgba(192,57,43,0.03),rgba(74,124,89,0.02)); border:1px solid var(--border-active); border-radius:4px; padding:24px 28px; margin:18px 0; }
+.feature-box-label { font-size:0.6rem; letter-spacing:0.22em; color:var(--red-light); opacity:0.6; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feature-box-label::before { content:'◆'; font-size:0.35rem; }
+.feature-box p { font-size:0.82rem; color:var(--cream-dark); line-height:1.9; opacity:0.72; }
+.feature-box strong { color:var(--gold); font-weight:600; }
+.feature-box code { background:rgba(192,57,43,0.06); color:var(--red-light); padding:1px 6px; border-radius:2px; font-size:0.82em; }
+
+.flow-steps { display:flex; gap:0; align-items:stretch; margin:22px 0; }
+.flow-step { flex:1; background:rgba(192,57,43,0.015); border:1px solid var(--border-card); padding:20px 16px; text-align:center; position:relative; }
+.flow-step:first-child { border-radius:3px 0 0 3px; }
+.flow-step:last-child { border-radius:0 3px 3px 0; }
+.flow-step:not(:last-child)::after { content:'→'; position:absolute; right:-14px; top:50%; transform:translateY(-50%); color:var(--red-light); opacity:0.3; font-size:1rem; z-index:1; }
+.flow-num { font-size:1.4rem; color:var(--red-light); opacity:0.2; display:block; margin-bottom:4px; }
+.flow-title { font-size:0.8rem; color:var(--cream); letter-spacing:0.06em; margin:2px 0 6px; }
+.flow-desc { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+
+.data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.78rem; }
+.data-table th { text-align:left; padding:10px 14px; background:var(--surface-2); color:var(--red-light); font-size:0.66rem; letter-spacing:0.1em; font-weight:500; border-bottom:1px solid var(--border-active); }
+.data-table td { padding:9px 14px; color:var(--cream-dark); border-bottom:1px solid var(--border-subtle); font-size:0.76rem; }
+.data-table code { background:rgba(192,57,43,0.05); color:var(--red-light); padding:1px 6px; border-radius:2px; font-size:0.92em; white-space:nowrap; }
+.tag { display:inline-block; font-size:0.58rem; letter-spacing:0.08em; padding:1px 8px; border-radius:2px; border:1px solid; }
+.tag-red { color:var(--red-light); border-color:rgba(192,57,43,0.2); background:rgba(192,57,43,0.05); }
+.tag-green { color:var(--green-light); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.05); }
+
+.install-block { background:var(--surface-2); border:1px solid var(--border-card); border-radius:6px; overflow:hidden; margin:16px 0; }
+.install-header { display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--surface-3); border-bottom:1px solid var(--border-card); font-size:0.75rem; color:var(--cream); }
+.install-header .step-num { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:4px; background:rgba(192,57,43,0.12); color:var(--red-light); font-size:0.6rem; font-weight:700; }
+.install-body { padding:16px 18px; }
+.install-body pre { background:var(--surface); border:1px solid var(--border-card); border-radius:4px; padding:14px 16px; overflow-x:auto; font-size:0.72rem; line-height:1.6; color:var(--cream-dark); }
+.install-body pre .kw { color:var(--red-light); }
+.install-body pre .str { color:var(--green-light); }
+.install-body pre .cm { color:var(--text-dim); font-style:italic; }
+
+.cta-link { display:inline-flex; align-items:center; gap:6px; padding:10px 24px; border:1px solid rgba(192,57,43,0.25); color:var(--red-light); text-decoration:none; font-size:0.75rem; letter-spacing:0.12em; border-radius:2px; transition:all 0.3s; }
+.cta-link:hover { background:rgba(192,57,43,0.06); border-color:var(--red-light); }
+
+footer { position:relative; z-index:1; text-align:center; padding:32px 40px; border-top:1px solid var(--border-subtle); font-size:0.66rem; color:var(--text-dim); letter-spacing:0.06em; }
+footer a { color:var(--gold); opacity:0.6; }
+footer a:hover { opacity:1; }
+
+@media (max-width:900px) { .flow-steps { flex-direction:column; } .flow-step:not(:last-child)::after { content:'↓'; right:auto; top:auto; bottom:-12px; left:50%; transform:translateX(-50%); } }
+@media (max-width:600px) { .hero { padding:100px 20px 50px; min-height:55vh; } .hero h1 { font-size:1.5rem; } .hero-stats { gap:14px; } .hero-stat .num { font-size:1.4rem; } .section { padding:40px 20px; } .nav-links { display:none; } }
+
+.fade-up { opacity:0; transform:translateY(18px); transition:opacity 0.5s var(--ease-out),transform 0.5s var(--ease-out); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-home"><span class="dot"></span> 量化工具总览 · TradingAgents-CN</a>
+  <div class="nav-links">
+    <a href="#overview">总览</a><a href="#agents">Agent 架构</a><a href="#features">中文增强</a><a href="#install">安装</a><a href="index.html">◂ 总览</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">TRADINGAGENTS · 多智能体 · 中文金融交易框架</div>
+  <h1>TradingAgents<em>-CN</em></h1>
+  <div class="subtitle">多智能体 LLM 中文金融交易决策框架</div>
+  <p class="hero-desc">
+    模拟专业交易机构 · 7-8 个专业角色协作决策<br>
+    并行分析 → 结构化辩论 → 共识形成 → 风险评估
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">7-8</span><span class="label">专业 Agent</span></div>
+    <div class="hero-stat"><span class="num">3</span><span class="label">市场支持</span></div>
+    <div class="hero-stat"><span class="num">68.5%</span><span class="label">研究准确率</span></div>
+    <div class="hero-stat"><span class="num">60+</span><span class="label">LLM 模型</span></div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="overview">
+  <div class="section-label">项目总览</div>
+  <h2>什么是 TradingAgents-CN？</h2>
+  <p class="section-sub">TradingAgents 的中文增强版 · 多智能体交易决策</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">核心定位</div>
+    <p>
+      <strong>TradingAgents-CN</strong> 是基于多智能体大语言模型（LLM）的<strong>中文金融交易框架</strong>，
+      是 Tauric Research 开源 TradingAgents 项目的中文增强版。
+      它通过模拟真实交易公司的团队协作模式，部署多个专业化 AI 智能体协作完成市场分析与交易决策。
+    </p>
+    <p style="margin-top:10px;">
+      据论文（arXiv:2412.20138）研究数据，准确率达 <strong>68.5%</strong>，超过基准线 23.2 个百分点。
+      支持 A 股、港股、美股三大市场，集成国产 LLM 与国内数据源。
+    </p>
+  </div>
+
+  <table class="data-table">
+    <tr><th>属性</th><th>详情</th></tr>
+    <tr><td>仓库</td><td><a href="https://github.com/hsliuping/TradingAgents-CN" target="_blank">github.com/hsliuping/TradingAgents-CN</a></td></tr>
+    <tr><td>官网</td><td><a href="https://www.tradingagents-cn.com/" target="_blank">tradingagents-cn.com</a></td></tr>
+    <tr><td>论文</td><td>arXiv:2412.20138</td></tr>
+    <tr><td>技术栈</td><td>Python 3.10+ · LangChain · MongoDB · Redis · FastAPI · Vue 3</td></tr>
+    <tr><td>市场</td><td>A 股 · 港股 · 美股</td></tr>
+    <tr><td>LLM</td><td>DeepSeek V3 · 阿里百炼 Qwen · Google AI · OpenRouter（60+）· OpenAI</td></tr>
+    <tr><td>数据源</td><td>Tushare · AkShare · BaoStock · FinnHub · Yahoo Finance</td></tr>
+  </table>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="agents">
+  <div class="section-label">多 Agent 架构</div>
+  <h2>模拟专业交易机构 · 7-8 角色协作</h2>
+  <p class="section-sub">分析师团队 → 研究员辩论 → 交易决策 → 风控审批</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🔍</span>
+      <div class="card-tag">分析师团队</div>
+      <div class="card-title">四类分析师</div>
+      <div class="card-desc">基本面分析师 · 情绪分析师 · 新闻分析师 · 技术分析师，从多维度独立分析市场。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">⚔️</span>
+      <div class="card-tag">研究员团队</div>
+      <div class="card-title">多空辩论机制</div>
+      <div class="card-desc">看多研究员 vs 看空研究员，通过辩论机制平衡观点，避免单一视角偏差。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">💼</span>
+      <div class="card-tag">交易智能体</div>
+      <div class="card-title">最优交易决策</div>
+      <div class="card-desc">综合评估各方分析，确定最优交易动作（买入/卖出/持有）。</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">🛡️</span>
+      <div class="card-tag">风控 + 资金</div>
+      <div class="card-title">风险监督与审批</div>
+      <div class="card-desc">风险管理监督市场风险敞口，资金经理最终审批并执行模拟交易。</div>
+    </div>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">协作流程</div>
+    <p>
+      <strong>并行分析 → 结构化辩论 → 共识形成 → 风险评估 → 模拟交易</strong><br>
+      通过多轮辩论与共识机制，模拟真实交易机构「投研分离、集体决策」的专业流程。
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section" id="features">
+  <div class="section-label">中文增强特色</div>
+  <h2>相比原版 TradingAgents 的增强</h2>
+  <p class="section-sub">全面中文化 + 国产模型 + 国内数据源</p>
+
+  <table class="data-table">
+    <tr><th>维度</th><th>增强内容</th></tr>
+    <tr><td><span class="tag tag-red">本地化</span></td><td>界面、提示词、知识库全面中文化</td></tr>
+    <tr><td><span class="tag tag-red">市场</span></td><td>完整支持 A 股 / 港股 / 美股三大市场</td></tr>
+    <tr><td><span class="tag tag-red">模型</span></td><td>阿里百炼（Qwen）、DeepSeek V3 等国产 LLM 集成</td></tr>
+    <tr><td><span class="tag tag-red">数据</span></td><td>Tushare、AkShare、BaoStock 等 A 股数据接口</td></tr>
+    <tr><td><span class="tag tag-red">报告</span></td><td>支持 Markdown / Word / PDF 专业报告导出</td></tr>
+    <tr><td><span class="tag tag-red">部署</span></td><td>Docker 一键部署，约 5 分钟快速启动</td></tr>
+  </table>
+
+  <div class="feature-box">
+    <div class="feature-box-label">版本演进</div>
+    <p>
+      <strong>v1.0.1</strong>（当前推荐）→ <strong>v1.1.0</strong>（已开源）→ <strong>v2.0</strong>（即将开源，Apache 2.0）→
+      <strong>v3.0</strong>（即将发布：AI 工作流设计器、复盘研究、持仓研究、Skill 系统、智能助手）
+    </p>
+  </div>
+
+  <div class="feature-box">
+    <div class="feature-box-label">免责声明</div>
+    <p>定位仅供<strong>研究与教育用途</strong>，<strong>不提供实盘交易指令</strong>，不构成投资建议。非生产级交易引擎，对高频交易、期权等衍生品支持较弱，需要一定 Python 开发和金融基础知识。</p>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<section class="section section-alt" id="install">
+  <div class="section-label">快速部署</div>
+  <h2>Docker 一键启动</h2>
+  <p class="section-sub">约 5 分钟完成部署</p>
+
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">1</span> 克隆仓库</div>
+    <div class="install-body">
+      <pre><span class="cm"># 克隆代码</span>
+git clone https://github.com/hsliuping/TradingAgents-CN.git
+<span class="kw">cd</span> TradingAgents-CN</pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">2</span> Docker 部署</div>
+    <div class="install-body">
+      <pre><span class="cm"># Docker 一键启动（约 5 分钟）</span>
+docker-compose up -d
+<span class="cm"># 浏览器访问 Web 界面</span></pre>
+    </div>
+  </div>
+  <div class="install-block">
+    <div class="install-header"><span class="step-num">3</span> 配置 LLM 与数据源</div>
+    <div class="install-body">
+      <pre><span class="cm"># 配置 LLM（DeepSeek / 阿里百炼 Qwen / OpenAI / Google AI）</span>
+<span class="cm"># 配置数据源（Tushare token / AkShare / FinnHub key）</span></pre>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:28px;">
+    <a href="https://github.com/hsliuping/TradingAgents-CN" target="_blank" class="cta-link">📦 GitHub 仓库</a>
+    <a href="https://www.tradingagents-cn.com/" target="_blank" class="cta-link">🌐 官网</a>
+    <a href="index.html" class="cta-link">◂ 返回总览</a>
+  </div>
+</section>
+
+<footer>
+  <p>TradingAgents-CN · 多智能体中文金融交易框架 · 仅供研究教育</p>
+  <p style="margin-top:4px;"><a href="index.html">量化工具总览</a> · <a href="https://github.com/kenyanghui" target="_blank">GitHub</a></p>
+  <p style="margin-top:8px;opacity:0.4;">本页面内容仅供研究参考，不构成投资建议</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+document.querySelectorAll('.card, .flow-step, .feature-box, .install-block, .data-table').forEach(el => { el.classList.add('fade-up'); observer.observe(el); });
+</script>
+</body>
+</html>
