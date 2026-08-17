@@ -6,6 +6,11 @@
 <meta name="description" content="杨辉 Ken Yang，AI摆渡人、AI量化投资教练，拥有二十年企业咨询与科技创业经验，聚焦AI量化投资工具、系统教育、教练网络与二代教育传承。">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://kenyanghui.github.io/coach/杨辉老师简介.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&amp;family=Long+Cang&amp;family=Ma+Shan+Zheng&amp;family=Noto+Serif+SC:wght@400;600;700&amp;family=ZCOOL+XiaoWei&amp;family=Zhi+Mang+Xing&amp;display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
 <meta property="og:type" content="profile">
 <meta property="og:title" content="杨辉 Ken Yang · AI摆渡人">
 <meta property="og:description" content="AI量化投资工具、系统教育、教练网络与二代教育传承实践者。">
@@ -76,9 +81,83 @@ h1 { margin: 10px 0 14px; font-family: "STKaiti", "KaiTi", serif; font-size: cla
 .contact { text-align: center; }
 .contact p { max-width: 650px; margin: 0 auto 22px; color: var(--muted); }
 footer { padding: 34px 24px 46px; border-top: 1px solid var(--soft-line); color: #756e61; font-size: 12px; text-align: center; }
+
+/* 与首页一致的东方道场字体与质感 */
+:root {
+  --font-body: "LXGW WenKai", "Noto Serif SC", "Songti SC", serif;
+  --font-title: "Long Cang", "Ma Shan Zheng", "STKaiti", serif;
+  --font-dojo: "Ma Shan Zheng", "STKaiti", serif;
+  --font-seal: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+  --font-note: "Zhi Mang Xing", "Liu Jian Mao Cao", cursive;
+  --seal-red: #a83d31;
+}
+body {
+  position: relative;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 13% 0, rgba(104,81,170,0.16), transparent 29%),
+    radial-gradient(circle at 88% 8%, rgba(213,173,82,0.13), transparent 26%),
+    linear-gradient(155deg, #0a0a0d, #121014 48%, #090806);
+  font-family: var(--font-body);
+  letter-spacing: 0.015em;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  opacity: 0.024;
+  background-image:
+    repeating-linear-gradient(8deg, rgba(255,255,255,0.7) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(97deg, rgba(255,255,255,0.35) 0 1px, transparent 1px 7px);
+  mix-blend-mode: soft-light;
+}
+.topbar { position: relative; border-bottom-color: rgba(213,173,82,0.14); box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
+.topbar::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: min(70vw, 700px); height: 1px; background: linear-gradient(90deg, transparent, rgba(213,173,82,0.4), transparent); transform: translateX(-50%); }
+.brand { font-family: var(--font-dojo); font-size: 21px; font-weight: 400; }
+.back { font-family: var(--font-seal); letter-spacing: 0.05em; }
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero::before { content: "人"; position: absolute; z-index: -1; right: -4%; top: 42%; color: rgba(245,240,229,0.022); font-family: var(--font-title); font-size: 24rem; line-height: 0.5; transform: translateY(-50%) rotate(-8deg); }
+.portrait {
+  position: relative;
+  border-color: rgba(213,173,82,0.42);
+  background:
+    radial-gradient(circle at 42% 34%, rgba(213,173,82,0.19), transparent 52%),
+    radial-gradient(circle, #1f190e, #0d0c0a 72%);
+  box-shadow: 0 28px 80px rgba(0,0,0,0.46), inset 0 0 40px rgba(213,173,82,0.06);
+}
+.portrait::before { content: ""; position: absolute; inset: 11px; border: 1px dashed rgba(213,173,82,0.17); border-radius: 50%; }
+.portrait::after { content: "摆渡"; position: absolute; right: -6px; bottom: 8px; width: 43px; height: 43px; display: grid; place-items: center; border: 1px solid rgba(249,213,177,0.4); border-radius: 5px; background: rgba(168,61,49,0.8); color: #f4ddc2; font-family: var(--font-seal); font-size: 12px; transform: rotate(-6deg); }
+.portrait strong { position: relative; z-index: 1; font-family: var(--font-dojo); font-size: 68px; font-weight: 400; letter-spacing: 0.08em; }
+.portrait span { position: relative; z-index: 1; font-family: var(--font-seal); letter-spacing: 0.08em; }
+.eyebrow { font-family: var(--font-seal); font-weight: 400; }
+h1 { font-family: var(--font-title); font-size: clamp(3.8rem, 8vw, 6.2rem); font-weight: 400; letter-spacing: 0.04em; text-shadow: 0 10px 36px rgba(0,0,0,0.46); }
+.lead { color: #c1b9aa; line-height: 2; }
+.button { position: relative; overflow: hidden; font-family: var(--font-seal); font-weight: 400; letter-spacing: 0.04em; }
+.button-primary { background: linear-gradient(135deg, #e0bd66, #b98a37); box-shadow: 0 14px 34px rgba(192,146,56,0.2); }
+.section { position: relative; }
+.section h2 { padding-left: 16px; border-left: 3px solid rgba(168,61,49,0.75); font-family: "Noto Serif SC", "Songti SC", serif; font-weight: 600; letter-spacing: 0.05em; }
+.card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(213,173,82,0.15);
+  background: linear-gradient(145deg, rgba(28,25,20,0.96), rgba(13,13,12,0.97));
+  box-shadow: 0 18px 54px rgba(0,0,0,0.24), inset 0 1px rgba(255,255,255,0.025);
+}
+.card::before { content: ""; position: absolute; left: 0; top: 0; width: 70%; height: 1px; background: linear-gradient(90deg, rgba(213,173,82,0.6), transparent); }
+.card h3 { font-family: "Noto Serif SC", serif; font-weight: 600; letter-spacing: 0.035em; }
+.timeline-item { position: relative; border-left-color: rgba(168,61,49,0.62); background: linear-gradient(90deg, rgba(168,61,49,0.045), rgba(245,240,229,0.014)); }
+.timeline-item strong { font-family: var(--font-seal); font-weight: 400; letter-spacing: 0.04em; }
+.quote { position: relative; overflow: hidden; border-color: rgba(213,173,82,0.24); background: radial-gradient(circle at 78% 0, rgba(213,173,82,0.11), transparent 42%), var(--surface); font-family: var(--font-dojo); font-size: 34px; font-weight: 400; letter-spacing: 0.08em; line-height: 1.7; }
+.quote::after { content: "道"; position: absolute; right: 5%; top: 50%; color: rgba(213,173,82,0.045); font-family: var(--font-title); font-size: 12rem; line-height: 1; transform: translateY(-50%) rotate(-8deg); }
+.contact p { color: #bdb5a6; }
+footer { font-family: var(--font-seal); letter-spacing: 0.06em; }
 @media (max-width: 720px) {
   .hero { grid-template-columns: 1fr; padding-top: 58px; text-align: center; }
   .portrait { width: 180px; margin: 0 auto; }
+  .portrait strong { font-size: 58px; }
+  h1 { font-size: clamp(3.5rem, 17vw, 5rem); }
   .actions { justify-content: center; }
   .grid { grid-template-columns: 1fr; }
   .timeline-item { grid-template-columns: 1fr; gap: 5px; }
