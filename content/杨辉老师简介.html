@@ -153,14 +153,36 @@ h1 { font-family: var(--font-title); font-size: clamp(3.8rem, 8vw, 6.2rem); font
 .quote::after { content: "道"; position: absolute; right: 5%; top: 50%; color: rgba(213,173,82,0.045); font-family: var(--font-title); font-size: 12rem; line-height: 1; transform: translateY(-50%) rotate(-8deg); }
 .contact p { color: #bdb5a6; }
 footer { font-family: var(--font-seal); letter-spacing: 0.06em; }
+
+/* 大字号阅读系统 */
+body { font-size: 18px; }
+.back { font-size: 15px; }
+.portrait span { font-size: 14px; }
+.eyebrow { font-size: 14px; }
+.lead { font-size: 20px; }
+.button { min-height: 52px; padding: 13px 22px; font-size: 17px; }
+.section h2 { font-size: clamp(2.35rem, 5vw, 3.25rem); line-height: 1.3; }
+.card h3 { font-size: 21px; }
+.card p, .card li { font-size: 16px; }
+.timeline-item strong { font-size: 18px; }
+.timeline-item span { font-size: 16px; }
+.quote { font-size: 38px; }
+.contact p { font-size: 18px; }
+footer { font-size: 14px; }
 @media (max-width: 720px) {
+  body { font-size: 17px; }
   .hero { grid-template-columns: 1fr; padding-top: 58px; text-align: center; }
   .portrait { width: 180px; margin: 0 auto; }
   .portrait strong { font-size: 58px; }
   h1 { font-size: clamp(3.5rem, 17vw, 5rem); }
+  .lead { font-size: 18px; line-height: 1.9; }
   .actions { justify-content: center; }
+  .actions .button, .contact .button { width: 100%; }
   .grid { grid-template-columns: 1fr; }
+  .section h2 { font-size: clamp(2.15rem, 10.5vw, 2.8rem); }
+  .card p, .card li, .timeline-item span { font-size: 17px; }
   .timeline-item { grid-template-columns: 1fr; gap: 5px; }
+  .quote { padding: 30px 22px; font-size: 32px; }
 }
 </style>
 </head>
@@ -180,7 +202,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.06em; }
       <h1>杨辉 · AI摆渡人</h1>
       <p class="lead"><strong>AI量化投资教练、二代教育传承教练、企业AI转型实践者。</strong>拥有二十年企业咨询服务与科技创业经验，当前聚焦AI量化投资工具、系统教育和教练网络建设。</p>
       <div class="actions">
-        <a class="button button-primary" href="mailto:kenyanghui@hotmail.com?subject=玄龙堂合作咨询">联系合作 →</a>
+        <a class="button button-primary" href="mailto:yanghuihotmail@hotmail.com?subject=玄龙堂合作咨询">联系合作 →</a>
         <a class="button button-secondary" href="quant/education.html">查看AI量化教育体系</a>
       </div>
     </div>
@@ -189,7 +211,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.06em; }
   <section class="section">
     <h2>当前身份</h2>
     <div class="grid">
-      <article class="card"><h3>AI创新与产业生态</h3><ul><li>混沌学园AI创新领教</li><li>国际人工智能产业联盟首席生态官</li><li>悦洋海外集团首席人工智能官</li></ul></article>
+      <article class="card"><h3>AI创新与产业生态</h3><ul><li>混沌学园AI创新领教</li><li>国际人工智能产业联盟首席生态官</li><li>深圳正行明熙首席运营官</li></ul></article>
       <article class="card"><h3>教育与教练</h3><ul><li>AI量化投资教练</li><li>二代教育传承教练</li><li>组织转型心智教练</li></ul></article>
       <article class="card"><h3>技术与创业经历</h3><p>前微软、惠普、北电工程师，拥有二十年企业咨询服务与科技创业经验，以及长期企业内创业与科技成果转化实践。</p></article>
       <article class="card"><h3>服务能力</h3><p>围绕培训、咨询、教练与投资研究，帮助企业、投资者与下一代建立AI时代的系统能力。</p></article>
@@ -223,7 +245,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.06em; }
   <section class="section contact">
     <h2>合作方向</h2>
     <p>欢迎牛散共创用户、企业家二代家庭、教练伙伴、教育机构、量化技术团队与持牌金融机构交流合作。</p>
-    <a class="button button-primary" href="mailto:kenyanghui@hotmail.com?subject=玄龙堂AI量化合作咨询">kenyanghui@hotmail.com</a>
+    <a class="button button-primary" href="mailto:yanghuihotmail@hotmail.com?subject=玄龙堂AI量化合作咨询">yanghuihotmail@hotmail.com</a>
   </section>
 </main>
 

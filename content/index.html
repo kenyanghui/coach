@@ -26,7 +26,7 @@
       "@type": "Organization",
       "name": "玄龙堂",
       "url": "https://kenyanghui.github.io/coach/",
-      "email": "kenyanghui@hotmail.com",
+      "email": "yanghuihotmail@hotmail.com",
       "description": "面向牛散及其下一代的AI量化投资工具与教育平台"
     },
     {
@@ -34,7 +34,7 @@
       "name": "杨辉",
       "alternateName": "Ken Yang",
       "url": "https://kenyanghui.github.io/coach/杨辉老师简介.html",
-      "email": "kenyanghui@hotmail.com",
+      "email": "yanghuihotmail@hotmail.com",
       "jobTitle": "AI量化投资教练"
     }
   ]
@@ -853,6 +853,57 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease var(--reveal-delay), transform 0.7s cubic-bezier(.2,.8,.2,1) var(--reveal-delay); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
+/* ── 大字号阅读系统：桌面清晰，手机不拥挤 ── */
+body { font-size: 18px; line-height: 1.85; }
+.brand-copy span { font-size: 13px; }
+.nav-links a { font-size: 16px; }
+.eyebrow { font-size: 15px; }
+.hero-subtitle { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+.hero-desc { font-size: 20px; }
+.button { min-height: 54px; padding: 13px 24px; font-size: 17px; }
+.hero-note { font-size: 14px; }
+.orbit-core span { font-size: 14px; }
+.orbit-node strong { font-size: 16px; }
+.orbit-node span { font-size: 13px; }
+.metric strong { font-size: 27px; }
+.metric span { font-size: 15px; }
+.section-kicker { font-size: 14px; }
+.section h2, .coach-banner h2, .founder h2, .contact-panel h2 {
+  font-size: clamp(2.45rem, 4.4vw, 3.7rem);
+  line-height: 1.28;
+}
+.section-intro { font-size: 18px; }
+.card-number { font-size: 14px; }
+.audience-card h3 { font-size: 31px; }
+.audience-card .promise { font-size: 18px; }
+.audience-card li { font-size: 16px; }
+.text-link { font-size: 16px; }
+.system-card h3 { font-size: 22px; }
+.system-card p { font-size: 16px; }
+.system-card .deliverables { font-size: 14px; }
+.journey-step h3 { font-size: 20px; }
+.journey-step p { font-size: 16px; }
+.step-num { font-size: 14px; }
+.coach-banner p { font-size: 17px; }
+.coach-path div { font-size: 16px; }
+.fly-item strong { font-size: 18px; }
+.fly-item span { font-size: 14px; }
+.manifesto-quote .small { font-size: 15px; }
+.principle strong { font-size: 18px; }
+.principle p { font-size: 16px; }
+.resource-card .tag { font-size: 13px; }
+.resource-card h3 { font-size: 22px; }
+.resource-card p { font-size: 16px; }
+.resource-card .arrow { font-size: 16px; }
+.founder-mark span { font-size: 15px; }
+.founder-copy > p { font-size: 17px; }
+.credential-list li { font-size: 16px; }
+.risk-box h2 { font-size: 21px; }
+.risk-box p { font-size: 15px; }
+.contact-panel p { font-size: 17px; }
+.contact-email { font-size: 16px; }
+footer { font-size: 14px; }
+
 @media (max-width: 980px) {
   .nav-links {
     position: absolute;
@@ -870,7 +921,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
     box-shadow: var(--shadow);
   }
   .nav-links.open { display: flex; }
-  .nav-links a { padding: 10px 6px; }
+  .nav-links a { padding: 13px 8px; font-size: 17px; }
   .nav-links .nav-cta { margin-top: 8px; text-align: center; }
   .menu-toggle { display: block; }
   .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 72px; }
@@ -884,12 +935,17 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
 }
 
 @media (max-width: 720px) {
+  body { font-size: 17px; }
   .nav-shell { min-height: 64px; padding: 0 18px; }
   .brand-copy span { display: none; }
   .hero { padding: 58px 20px 52px; gap: 42px; }
-  .hero h1 { font-size: clamp(3.1rem, 13.2vw, 4.2rem); line-height: 1.02; }
-  .hero-desc { font-size: 15px; }
+  .hero h1 { font-size: clamp(3.2rem, 13.6vw, 4.3rem); line-height: 1.02; }
+  .hero-subtitle { font-size: clamp(1.35rem, 6.2vw, 1.7rem); }
+  .hero-desc { font-size: 18px; line-height: 1.9; }
   .brush-note { font-size: 21px; }
+  .button { min-height: 52px; padding: 13px 18px; font-size: 16px; }
+  .hero-actions .button { width: 100%; }
+  .hero-note { font-size: 14px; line-height: 1.7; }
   .hero::before { left: -28%; font-size: 31rem; }
   .orbit-inscription { right: 0; bottom: 7%; font-size: 28px; }
   .system-orbit { transform: scale(0.92); }
@@ -899,6 +955,8 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
   .metric:nth-child(-n+2) { border-bottom: 1px solid var(--line-soft); }
   .section, .section-wide > .section-inner { padding: 72px 20px; }
   .section-heading { margin-bottom: 32px; }
+  .section h2, .coach-banner h2, .founder h2, .contact-panel h2 { font-size: clamp(2.15rem, 10.5vw, 3rem); }
+  .section-intro { font-size: 17px; }
   .audience-grid, .system-grid, .resource-grid { grid-template-columns: 1fr; }
   .audience-card { min-height: auto; padding: 28px 24px; }
   .coach-banner { padding: 34px 24px; }
@@ -1006,7 +1064,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
           <li>服务牛散、二代与青少年财商学习场景</li>
           <li>参与教练认证、联合交付与产品共创</li>
         </ul>
-        <a class="text-link" href="mailto:kenyanghui@hotmail.com?subject=申请参与AI量化投资教练共创">申请参与教练共创 →</a>
+        <a class="text-link" href="mailto:yanghuihotmail@hotmail.com?subject=申请参与AI量化投资教练共创">申请参与教练共创 →</a>
       </article>
     </div>
   </section>
@@ -1067,7 +1125,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
         <h2>培养懂AI、懂量化、也懂人的教练</h2>
         <p>教练不替客户做决定，而是帮助客户建立结构、训练能力、看见偏差并坚持复盘。首期采用共创制，与有教练经验、投资经验、教育经验或技术能力的伙伴共同完善课程与交付标准。</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="mailto:kenyanghui@hotmail.com?subject=申请加入玄龙堂AI量化投资教练共创">申请加入教练共创 →</a>
+          <a class="button button-primary" href="mailto:yanghuihotmail@hotmail.com?subject=申请加入玄龙堂AI量化投资教练共创">申请加入教练共创 →</a>
           <a class="button button-secondary" href="coach/index.html">了解教练方法论</a>
         </div>
       </div>
@@ -1138,7 +1196,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
         <ul class="credential-list">
           <li>混沌学园AI创新领教</li>
           <li>国际人工智能产业联盟首席生态官</li>
-          <li>悦洋海外集团首席人工智能官</li>
+          <li>深圳正行明熙首席运营官</li>
           <li>二代教育传承教练</li>
           <li>科技成果转化与企业内创业顾问</li>
           <li>AI＋心智双轮驱动实践者</li>
@@ -1163,8 +1221,8 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
         <p>欢迎牛散共创用户、企业家二代家庭、教练伙伴、量化技术团队、教育机构及持牌金融机构参与首期产品验证与联合共创。</p>
       </div>
       <div class="contact-actions">
-        <a class="button button-primary" href="mailto:kenyanghui@hotmail.com?subject=玄龙堂AI量化合作咨询">发送合作邮件 →</a>
-        <span class="contact-email">kenyanghui@hotmail.com</span>
+        <a class="button button-primary" href="mailto:yanghuihotmail@hotmail.com?subject=玄龙堂AI量化合作咨询">发送合作邮件 →</a>
+        <span class="contact-email">yanghuihotmail@hotmail.com</span>
       </div>
     </div>
   </section>
@@ -1173,7 +1231,7 @@ footer { font-family: var(--font-seal); letter-spacing: 0.05em; }
 <footer>
   <p>玄龙堂 · AI玄学量化投资修行系统 · AI量化投资工具与教育平台</p>
   <p>AI量化是工具 · 东方智慧是认知框架 · 修行是行为纪律 · 教育是规模化路径</p>
-  <p>© 2026 Ken Yang · <a href="mailto:kenyanghui@hotmail.com">联系合作</a></p>
+  <p>© 2026 Ken Yang · <a href="mailto:yanghuihotmail@hotmail.com">联系合作</a></p>
 </footer>
 
 <script>
