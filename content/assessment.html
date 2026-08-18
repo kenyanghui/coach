@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="3分钟投资决策体检：从决策流程、情绪纪律、风险识别、复盘习惯四个维度，快速看清你现在的投资决策方式，找到需要补强的短板。">
+<meta name="theme-color" content="#090806">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://kenyanghui.github.io/coach/assessment.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&family=Zhi+Mang+Xing&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="assets/site.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="3分钟投资决策体检 | 玄龙堂">
+<meta property="og:description" content="从四个维度看清你现在的投资决策方式，找到需要补强的短板。">
+<title>3分钟投资决策体检 | 玄龙堂</title>
+<style>
+.quiz-card { padding: 44px; border: 1px solid rgba(213,173,82,0.24); border-radius: 26px; background: linear-gradient(155deg, rgba(28,25,20,0.98), rgba(13,13,12,0.98)); box-shadow: var(--shadow); }
+.quiz-progress { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+.quiz-progress .bar { flex: 1; height: 4px; border-radius: 2px; background: var(--line-soft); overflow: hidden; }
+.quiz-progress .bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--gold-deep), var(--gold-light)); transition: width 0.4s ease; }
+.quiz-progress .count { color: var(--gold-light); font-family: var(--font-seal); font-size: 15px; white-space: nowrap; }
+.question { display: none; }
+.question.active { display: block; animation: fadeUp 0.4s ease; }
+.question h3 { font-family: var(--font-serif); font-size: 26px; font-weight: 600; margin-bottom: 26px; line-height: 1.4; }
+.option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(9,8,6,0.4);
+  color: var(--cream-muted);
+  font-family: var(--font-body);
+  font-size: 17px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.option:hover { border-color: rgba(213,173,82,0.5); color: var(--cream); }
+.option .dot { width: 18px; height: 18px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; }
+.option.selected { border-color: rgba(213,173,82,0.6); background: rgba(213,173,82,0.1); color: var(--gold-light); }
+.option.selected .dot { border-color: var(--gold); }
+.option.selected .dot::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); }
+
+.result-panel { display: none; text-align: center; }
+.result-panel.is-visible { display: block; animation: fadeUp 0.6s ease; }
+.result-score { font-family: var(--font-serif); font-size: 72px; font-weight: 600; color: var(--gold-light); line-height: 1; }
+.result-score span { font-size: 24px; color: var(--cream-muted); }
+.dim-list { max-width: 560px; margin: 28px auto; display: grid; gap: 16px; text-align: left; }
+.dim-row { display: grid; grid-template-columns: 90px 1fr 40px; gap: 14px; align-items: center; }
+.dim-row label { color: var(--cream-muted); font-size: 15px; }
+.dim-row .track { height: 8px; border-radius: 4px; background: var(--line-soft); overflow: hidden; }
+.dim-row .track span { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold-deep), var(--gold-light)); width: 0; transition: width 0.8s cubic-bezier(.2,.8,.2,1); }
+.dim-row .val { color: var(--gold-light); font-family: var(--font-seal); font-size: 16px; text-align: right; }
+.result-verdict { margin: 22px 0; color: var(--cream); font-size: 19px; line-height: 1.9; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <nav class="nav-shell" aria-label="主导航">
+    <a class="brand" href="index.html" aria-label="玄龙堂首页">
+      <img class="brand-mark" src="logo.png" alt="玄龙堂">
+      <span class="brand-copy"><strong>玄龙堂</strong><span>AI量化投资决策</span></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="打开导航">☰</button>
+    <div class="nav-links" id="main-menu">
+      <a href="index.html">首页</a>
+      <a href="decision-system.html">决策训练营</a>
+      <a href="cases.html">学员案例</a>
+      <a href="quant/education.html">资源中心</a>
+      <a href="coach-cocreate.html">教练共创</a>
+      <a href="about.html">关于杨辉</a>
+      <a href="apply.html" class="nav-cta">申请首期</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" data-glyph="诊">
+    <div style="max-width:760px;">
+      <div class="eyebrow">3分钟 · 免费 · 无需注册</div>
+      <h1>投资决策体检</h1>
+      <p class="hero-promise">你缺少的可能不是下一只股票，而是一套不被情绪击穿的决策系统。</p>
+      <p class="hero-desc">回答 8 个问题，从<strong>决策流程、情绪纪律、风险识别、复盘习惯</strong>四个维度，看清你现在的投资决策方式。</p>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="quiz-card" id="quiz">
+      <div class="quiz-progress">
+        <span class="count" id="quiz-count">1 / 8</span>
+        <div class="bar"><span id="quiz-bar"></span></div>
+      </div>
+      <div id="questions"></div>
+    </div>
+
+    <div class="result-panel" id="result">
+      <div class="success-mark">✦</div>
+      <div class="section-kicker">你的体检结果</div>
+      <div class="result-score" id="result-total">0<span> / 24</span></div>
+      <p class="result-verdict" id="result-verdict"></p>
+      <div class="dim-list" id="result-dims"></div>
+      <div class="hero-actions" style="justify-content:center;margin-top:30px;">
+        <a class="btn btn-primary" href="apply.html">申请首期共创班 →</a>
+        <a class="btn btn-secondary" href="decision-system.html">了解6周训练营</a>
+      </div>
+      <p style="margin-top:20px;color:#827b6c;font-size:13px;">本体检仅供自我觉察参考，不构成投资建议，不收集你的任何个人信息。</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>玄龙堂 · AI量化投资教育与教练平台</p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="decision-system.html">决策训练营</a>
+    <a href="apply.html">申请首期</a>
+    <a href="compliance.html">服务边界与隐私</a>
+  </div>
+  <p>© 2026 杨辉 · <a href="mailto:kenyanghui@hotmail.com">kenyanghui@hotmail.com</a></p>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  const QUESTIONS = [
+    { t: '你通常如何做出一次买卖决策？', dim: 0, opts: ['凭感觉或消息，说不清逻辑', '有大致逻辑，但常临时改变', '有固定流程，偶尔跳过', '有书面流程并严格记录'] },
+    { t: '你的投资策略多久更换一次？', dim: 0, opts: ['经常换，一周内可能就换', '几个月换一次', '一年内基本稳定', '有固定策略并持续验证'] },
+    { t: '行情大涨时，你会？', dim: 1, opts: ['立刻追进去', '有点冲动，但会犹豫', '按计划操作', '先核对计划再决定'] },
+    { t: '行情大跌时，你会？', dim: 1, opts: ['恐慌卖出', '心里慌但硬扛', '按止损纪律执行', '复盘原因并对照系统'] },
+    { t: '看到一份回测结果很漂亮，你会？', dim: 2, opts: ['直接相信并重仓', '简单看看就上手', '问一句是否过拟合', '检查样本、参数与回撤'] },
+    { t: '你清楚自己策略的最大回撤和失效边界吗？', dim: 2, opts: ['完全不清楚', '有点概念但不精确', '大致清楚', '有明确的量化边界'] },
+    { t: '你有交易复盘的习惯吗？', dim: 3, opts: ['从不复盘', '偶尔想起才看看', '有复盘但不系统', '有固定的复盘记录'] },
+    { t: '亏损后，你通常会？', dim: 3, opts: ['找外部原因', '记住教训但没记录', '会记录并偶尔回顾', '记录并纳入决策系统修正'] }
+  ];
+  const DIM_NAMES = ['决策流程', '情绪纪律', '风险识别', '复盘习惯'];
+
+  const qWrap = document.getElementById('questions');
+  const countEl = document.getElementById('quiz-count');
+  const barEl = document.getElementById('quiz-bar');
+  const answers = new Array(QUESTIONS.length).fill(-1);
+
+  QUESTIONS.forEach(function (q, qi) {
+    const div = document.createElement('div');
+    div.className = 'question' + (qi === 0 ? ' active' : '');
+    div.innerHTML = '<h3>' + (qi + 1) + '. ' + q.t + '</h3>';
+    q.opts.forEach(function (opt, oi) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option';
+      btn.innerHTML = '<span class="dot"></span><span>' + opt + '</span>';
+      btn.addEventListener('click', function () {
+        answers[qi] = oi;
+        div.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+        btn.classList.add('selected');
+        setTimeout(next, 220);
+      });
+      div.appendChild(btn);
+    });
+    qWrap.appendChild(div);
+  });
+
+  function next() {
+    const cur = answers.findIndex(function (a) { return a === -1; });
+    if (cur === -1) { finish(); return; }
+    show(cur);
+  }
+
+  function show(i) {
+    document.querySelectorAll('.question').forEach(function (q, qi) { q.classList.toggle('active', qi === i); });
+    countEl.textContent = (i + 1) + ' / ' + QUESTIONS.length;
+    barEl.style.width = ((i + 1) / QUESTIONS.length * 100) + '%';
+  }
+
+  function finish() {
+    const dims = [0, 0, 0, 0];
+    let total = 0;
+    answers.forEach(function (a, i) { dims[QUESTIONS[i].dim] += a; total += a; });
+
+    document.getElementById('quiz').style.display = 'none';
+    const result = document.getElementById('result');
+    result.classList.add('is-visible');
+    document.getElementById('result-total').innerHTML = total + '<span> / 24</span>';
+
+    let verdict;
+    if (total >= 21) verdict = '你的决策系统已经比较成熟。训练营可以帮你把经验显性化、标准化，并补齐最后一块执行与复盘短板。';
+    else if (total >= 13) verdict = '你已经有基础，但存在明显的决策短板。6周训练营正是为你准备——把短板补上，让系统真正闭环。';
+    else verdict = '你的决策随机性偏高，容易被行情和情绪左右。建议优先建立一套可验证的决策系统，再谈收益。';
+    document.getElementById('result-verdict').textContent = verdict;
+
+    const dimList = document.getElementById('result-dims');
+    dimList.innerHTML = '';
+    DIM_NAMES.forEach(function (name, di) {
+      const pct = Math.round(dims[di] / 6 * 100);
+      const row = document.createElement('div');
+      row.className = 'dim-row';
+      row.innerHTML = '<label>' + name + '</label><div class="track"><span data-w="' + pct + '%"></span></div><div class="val">' + dims[di] + '/6</div>';
+      dimList.appendChild(row);
+    });
+    requestAnimationFrame(function () {
+      setTimeout(function () {
+        dimList.querySelectorAll('.track span').forEach(function (s) { s.style.width = s.getAttribute('data-w'); });
+      }, 80);
+    });
+  }
+})();
+</script>
+</body>
+</html>
