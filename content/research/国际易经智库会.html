@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="国际易经智库会——云清大师任会长，以易经通晓阴阳，以丹道济世利人。">
+<title>国际易经智库会 · 云清大师</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap">
+<style>
+:root {
+  --ink: #090806;
+  --surface: #11100d;
+  --surface-2: #181612;
+  --gold: #d5ad52;
+  --gold-light: #f0d995;
+  --cream: #f5f0e5;
+  --cream-muted: #b9b19f;
+  --line: rgba(213, 173, 82, 0.16);
+  --line-soft: rgba(245, 240, 229, 0.09);
+  --radius: 22px;
+  --max: 1080px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background:
+    radial-gradient(circle at 12% 6%, rgba(143, 114, 255, 0.10), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(213, 173, 82, 0.10), transparent 30%),
+    var(--ink);
+  color: var(--cream);
+  font-family: "Noto Serif SC", "Songti SC", "PingFang SC", serif;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cream-muted);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  margin: 30px 0 0 28px;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--gold-light); }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px 80px; }
+
+/* Hero */
+.hero { text-align: center; padding: 88px 0 60px; }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 22px;
+  color: var(--gold-light);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+}
+.eyebrow::before, .eyebrow::after { content: ""; width: 28px; height: 1px; background: var(--gold); }
+.hero h1 {
+  font-family: "Ma Shan Zheng", "KaiTi", "Songti SC", serif;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+}
+.hero h1 em { color: var(--gold-light); font-style: normal; }
+.hero .subtitle { margin-top: 22px; color: var(--gold); font-size: 1.3rem; letter-spacing: 0.12em; }
+.hero .desc { max-width: 640px; margin: 20px auto 0; color: var(--cream-muted); font-size: 16px; }
+
+/* Section */
+.section { margin-top: 56px; }
+.section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+.section-head .kicker {
+  font-family: "ZCOOL XiaoWei", "KaiTi", serif;
+  color: var(--gold);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+.section-head::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.section h2 { font-family: "Noto Serif SC", "Songti SC", serif; font-weight: 600; font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 14px; }
+.section p { color: var(--cream-muted); font-size: 16px; max-width: 720px; }
+
+/* Roles grid */
+.role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 26px; }
+.role-card {
+  min-height: 150px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.role-card:hover { transform: translateY(-4px); border-color: rgba(213, 173, 82, 0.36); background: var(--surface-2); }
+.role-card .tag { font-family: "ZCOOL XiaoWei", serif; color: var(--gold); font-size: 13px; letter-spacing: 0.12em; }
+.role-card h3 { font-family: "Noto Serif SC", serif; font-weight: 600; font-size: 19px; }
+.role-card p { color: var(--cream-muted); font-size: 14px; }
+.role-card .arrow { margin-top: auto; padding-top: 12px; color: var(--gold-light); font-size: 14px; }
+
+/* Principle */
+.principles { list-style: none; margin-top: 20px; }
+.principles li {
+  padding: 14px 0 14px 22px;
+  border-left: 3px solid var(--line);
+  color: var(--cream);
+  font-size: 16px;
+  letter-spacing: 0.03em;
+}
+.principles li strong { color: var(--gold-light); font-weight: 600; }
+.principles li span { display: block; margin-top: 4px; color: var(--cream-muted); font-size: 14px; }
+
+footer { text-align: center; color: #827b6c; font-size: 13px; padding: 60px 0 40px; letter-spacing: 0.04em; }
+footer a { color: var(--gold); text-decoration: none; }
+
+@media (max-width: 760px) {
+  .role-grid { grid-template-columns: 1fr; }
+  .hero { padding: 60px 0 40px; }
+}
+</style>
+</head>
+<body>
+<a class="back-link" href="../index.html">← 返回玄龙堂</a>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">国际易经智库会</div>
+    <h1>云清大师 <em>· 会长</em></h1>
+    <p class="subtitle">以易经通晓阴阳，以丹道济世利人</p>
+    <p class="desc">云清大师执掌国际易经智库会，并主持广东丹道科学研究院——以东方智慧汇通古今，为当代决策与传承立学。</p>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><span class="kicker">关于智库会</span></div>
+    <h2>以《易经》为根基，观天地之变</h2>
+    <p>国际易经智库会，以《易经》为根基，观阴阳之变、通天地之道，将东方智慧转化为可资当代决策、企业与代际传承的思想资源。</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="kicker">会长</span></div>
+    <h2>云清大师</h2>
+    <p>云清大师任国际易经智库会会长，以道立身、以学济世，执掌多家机构、贯通道学与实践：</p>
+    <div class="role-grid">
+      <a class="role-card" href="https://kenyanghui.github.io/Dao/" target="_blank" rel="noopener">
+        <span class="tag">研究院 · 院长</span>
+        <h3>广东丹道科学研究院</h3>
+        <p>丹道科学实证研究</p>
+        <span class="arrow">访问官网 →</span>
+      </a>
+      <div class="role-card">
+        <span class="tag">咨询品牌 · 创立人</span>
+        <h3>玄龙堂咨询品牌</h3>
+        <p>以东方智慧赋能企业与家族</p>
+      </div>
+      <div class="role-card">
+        <span class="tag">股权投资 · 董事长</span>
+        <h3>南洋股权投资</h3>
+        <p>布局长期价值投资</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="kicker">理念</span></div>
+    <h2>易经之道，贵在观变</h2>
+    <ul class="principles">
+      <li><strong>通晓阴阳</strong><span>万物负阴而抱阳，知变守常，方能应时而动。</span></li>
+      <li><strong>以丹道济世</strong><span>内修性命，外利众生，把修行的功夫落到济世利人上。</span></li>
+      <li><strong>东方智慧 · 当代应用</strong><span>易经不是玄谈，是可用于决策、企业与传承的活学问。</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>国际易经智库会 · 云清大师</p>
+    <p><a href="../index.html">返回玄龙堂首页</a> · <a href="mailto:yanghuihotmail@hotmail.com">联系合作</a></p>
+  </footer>
+</div>
+</body>
+</html>
