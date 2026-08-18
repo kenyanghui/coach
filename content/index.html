@@ -672,7 +672,7 @@ body::before {
   clip-path: polygon(0 38%, 88% 18%, 100% 52%, 72% 65%, 8% 82%);
   filter: blur(0.3px);
 }
-.title-ornament { margin: 8px 0 2px; display: flex; align-items: center; gap: 14px; }
+.title-ornament { margin: 16px 0 4px; display: flex; align-items: center; gap: 18px; }
 .title-seal {
   width: 44px;
   height: 44px;
@@ -687,7 +687,7 @@ body::before {
   line-height: 1;
   transform: rotate(-4deg);
 }
-.brush-note { color: rgba(240, 217, 149, 0.78); font-family: var(--font-note); font-size: 24px; letter-spacing: 0.08em; }
+.brush-note { color: var(--gold-light); font-family: var(--font-note); font-size: clamp(1.9rem, 3.6vw, 3rem); letter-spacing: 0.1em; text-shadow: 0 0 34px rgba(213, 173, 82, 0.38), 0 2px 14px rgba(0, 0, 0, 0.45); }
 .hero-subtitle { font-family: var(--font-seal); font-weight: 400; letter-spacing: 0.08em; }
 .hero-desc { color: #c7bfaf; font-size: 18px; line-height: 1.95; }
 .hero-desc strong { color: #f1e8d8; }
@@ -942,7 +942,7 @@ footer { font-size: 14px; }
   .hero h1 { font-size: clamp(3.2rem, 13.6vw, 4.3rem); line-height: 1.02; }
   .hero-subtitle { font-size: clamp(1.35rem, 6.2vw, 1.7rem); }
   .hero-desc { font-size: 18px; line-height: 1.9; }
-  .brush-note { font-size: 21px; }
+  .brush-note { font-size: clamp(1.55rem, 8.5vw, 2.1rem); letter-spacing: 0.08em; }
   .button { min-height: 52px; padding: 13px 18px; font-size: 16px; }
   .hero-actions .button { width: 100%; }
   .hero-note { font-size: 14px; line-height: 1.7; }
@@ -1003,7 +1003,7 @@ footer { font-size: 14px; }
     <div class="hero-copy">
       <div class="eyebrow">AI QUANT TOOLS · EDUCATION · COACHING</div>
       <h1>AI玄学量化<br><em>投资修行系统</em></h1>
-      <div class="title-ornament" aria-hidden="true"><span class="title-seal">玄龙</span><span class="brush-note">以策入道 · 量化修心</span></div>
+      <div class="title-ornament"><span class="title-seal" aria-hidden="true">玄龙</span><span class="brush-note">以策入道 · 量化修心</span></div>
       <p class="hero-subtitle">AI量化投资工具与教育平台</p>
       <p class="hero-desc">
         面向<strong>牛散、企业家二代与青少年</strong>，用AI工具、量化训练和教练陪伴，
