@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="申请玄龙AI量化投资决策系统训练营首期共创班。申请制，限10席，先完成20分钟适配沟通。不收集持仓明细、账户密码和券商登录信息。">
+<meta name="description" content="申请玄龙AI量化投资决策系统训练营。申请制，限10席，先完成20分钟适配沟通。不收集持仓明细、账户密码和券商登录信息。">
 <meta name="theme-color" content="#090806">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://kenyanghui.github.io/coach/apply.html">
@@ -14,9 +14,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
 <link rel="stylesheet" href="assets/site.css">
 <meta property="og:type" content="website">
-<meta property="og:title" content="申请首期共创班 | 玄龙AI量化投资决策系统训练营">
+<meta property="og:title" content="申请训练营 | 玄龙AI量化投资决策系统训练营">
 <meta property="og:description" content="申请制，限10席。先完成20分钟适配沟通，确认适合后再付款入营。">
-<title>申请首期共创班 | 玄龙堂</title>
+<title>申请训练营 | 玄龙堂</title>
 </head>
 <body>
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -30,12 +30,14 @@
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="打开导航">☰</button>
     <div class="nav-links" id="main-menu">
       <a href="index.html">首页</a>
-      <a href="decision-system.html">决策训练营</a>
+      <a href="decision-system.html">训练营</a>
       <a href="cases.html">学员案例</a>
       <a href="quant/education.html">资源中心</a>
+      <a href="quant/index.html">量化工具</a>
+      <a href="tools/index.html">AI工具</a>
+      <a href="research/index.html">研究</a>
       <a href="coach-cocreate.html">教练共创</a>
-      <a href="about.html">关于杨辉</a>
-      <a href="apply.html" class="nav-cta" aria-current="page">申请首期</a>
+      <a href="apply.html" class="nav-cta" aria-current="page">申请训练营</a>
     </div>
   </nav>
 </header>
@@ -43,7 +45,7 @@
 <main id="main">
   <section class="hero" data-glyph="申">
     <div style="max-width:760px;">
-      <div class="eyebrow">首期共创班 · 限10席 · 申请制</div>
+      <div class="eyebrow">训练营 · 限10席 · 申请制</div>
       <h1>申请入营</h1>
       <p class="hero-promise">先完成一次20分钟适配沟通，确认适合再付款。</p>
       <p class="hero-desc">填写下面的申请表（10项以内），我们会在1个工作日内联系你预约适配沟通。</p>
@@ -173,7 +175,7 @@
   <p>玄龙堂 · AI量化投资教育与教练平台</p>
   <div class="footer-links">
     <a href="index.html">首页</a>
-    <a href="decision-system.html">决策训练营</a>
+    <a href="decision-system.html">训练营</a>
     <a href="compliance.html">服务边界与隐私</a>
   </div>
   <p>© 2026 杨辉 · <a href="mailto:yanghuihotmail@hotmail.com">yanghuihotmail@hotmail.com</a></p>
@@ -191,7 +193,7 @@
   function buildMailto() {
     const get = function (id) { return (document.getElementById(id) || {}).value || ''; };
     const lines = [
-      '首期共创班申请',
+      '训练营申请',
       '',
       '姓名：' + get('name'),
       '城市：' + get('city'),
@@ -205,7 +207,7 @@
       '资产规模区间：' + get('scale'),
       '联系方式：' + get('contact')
     ];
-    return 'mailto:yanghuihotmail@hotmail.com?subject=' + encodeURIComponent('首期共创班申请') +
+    return 'mailto:yanghuihotmail@hotmail.com?subject=' + encodeURIComponent('训练营申请') +
       '&body=' + encodeURIComponent(lines.join('\n'));
   }
 
