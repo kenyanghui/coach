@@ -1,4 +1,4 @@
-/* 玄龙堂 · 子页面共享交互：导航折叠 + 揭示动画 */
+/* 正行明熙 · 子页面共享交互：导航折叠 + 揭示动画 */
 (function () {
   const menuButton = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.nav-links');
