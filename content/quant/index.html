@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>量化 AI 工具总览 · 一站式访问 | 数据 · 研究 · 回测 · 实盘全生态</title>
+<title>27款量化 AI 工具总览与交付课程 | 数据 · 研究 · 回测 · 实盘全生态</title>
+<meta name="description" content="正行明熙27款量化AI工具课程总览，覆盖数据、研究、回测、交易框架、加密、AI量化、实盘终端与QuantDinger全栈操作系统。">
+<link rel="canonical" href="https://kenyanghui.github.io/coach/quant/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
 <style>
 :root {
   --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
@@ -34,12 +37,15 @@
   --border-active: rgba(201,168,76,0.22);
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --font-body:'LXGW WenKai','Noto Serif SC','Songti SC',serif;
+  --font-title:'Long Cang','Ma Shan Zheng','STKaiti',serif;
+  --font-seal:'ZCOOL XiaoWei','Noto Serif SC',serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; font-size:18px; }
 body {
   background: var(--void); color: var(--text-default);
-  font-family: 'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden;
+  font-family:var(--font-body); line-height:1.8; overflow-x:hidden;
 }
 body::before {
   content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -61,10 +67,10 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
   padding:10px 24px; display:flex; align-items:center;
   justify-content:space-between; gap:16px;
 }
-.nav-home { display:flex; align-items:center; gap:10px; color:var(--gold); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--gold); font-family:'Ma Shan Zheng','STKaiti',serif; font-size:1rem; letter-spacing:0.1em; }
 .nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); opacity:0.8; }
 .nav-links { display:flex; gap:6px; flex-wrap:wrap; }
-.nav-links a { font-size:0.82rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a { font-family:var(--font-seal); font-size:0.86rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
 .nav-links a:hover { color:var(--gold); border-color:var(--border-active); background:rgba(201,168,76,0.04); }
 
 /* Hero */
@@ -79,7 +85,7 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
   margin-bottom:22px; border:1px solid rgba(201,168,76,0.2); padding:5px 18px; border-radius:2px;
 }
 .hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
-.hero h1 { font-size:clamp(1.8rem,4.5vw,3.4rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; line-height:1.3; margin-bottom:14px; }
+.hero h1 { font-family:var(--font-title); font-size:clamp(3rem,7vw,5.8rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; line-height:1.15; margin-bottom:14px; }
 .hero h1 em { color:var(--gold); font-style:normal; }
 .hero .subtitle { font-size:clamp(0.95rem,2vw,1.2rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
 .hero-desc { max-width:660px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:36px; }
@@ -88,11 +94,15 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--gold),transparent); opacity:0.2; }
 .hero-stat .num { font-size:1.8rem; font-weight:700; color:var(--gold); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
 .hero-stat .label { font-size:0.78rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:32px; }
+.hero-action { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:11px 22px; border:1px solid var(--gold); border-radius:999px; color:var(--gold); font-size:0.88rem; letter-spacing:0.05em; }
+.hero-action.primary { background:linear-gradient(135deg,#e0bd66,#b98a37); color:#151109; font-weight:700; }
+.hero-action:hover { transform:translateY(-2px); }
 
 /* Section */
 .section { max-width:1160px; margin:0 auto; padding:56px 40px; position:relative; z-index:1; }
 .section-label { font-size:0.72rem; letter-spacing:0.3em; color:var(--gold); opacity:0.5; margin-bottom:16px; text-align:center; }
-.section h2 { font-size:1.4rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section h2 { font-size:2rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
 .section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:36px; }
 .section-divider { max-width:1160px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
 .section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,0.08),transparent); }
@@ -136,7 +146,7 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
   font-size:0.68rem; letter-spacing:0.08em; padding:2px 10px; border-radius:2px;
   border:1px solid; white-space:nowrap;
 }
-.pc-desc { font-size:0.8rem; color:var(--cream-dark); opacity:0.65; line-height:1.8; margin-bottom:14px; }
+.pc-desc { font-size:0.88rem; color:var(--cream-dark); opacity:0.74; line-height:1.85; margin-bottom:14px; }
 .pc-meta { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; font-size:0.8rem; color:var(--text-muted); }
 .pc-meta span { display:flex; align-items:center; gap:4px; }
 .pc-actions { display:flex; gap:10px; flex-wrap:wrap; }
@@ -177,6 +187,7 @@ code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; }
 .pc-alphalens { --pc-accent: var(--sky-light); }
 .pc-bigquant { --pc-accent: var(--emerald-light); }
 .pc-ricequant { --pc-accent: var(--yellow-light); }
+.pc-quantdinger { --pc-accent: var(--teal-light); }
 
 /* Feature box */
 .feature-box {
@@ -195,7 +206,7 @@ footer a:hover { opacity:1; }
 
 @media (max-width:600px) {
   .hero { padding:100px 20px 50px; min-height:55vh; }
-  .hero h1 { font-size:1.5rem; }
+  .hero h1 { font-size:3rem; }
   .hero-stats { gap:14px; }
   .hero-stat .num { font-size:1.4rem; }
   .section { padding:40px 20px; }
@@ -215,8 +226,9 @@ footer a:hover { opacity:1; }
   <a href="../index.html" class="nav-home"><span class="dot"></span> 正行明熙 · AI量化教育 · 量化工具总览</a>
   <div class="nav-links">
     <a href="#all">全部项目</a>
-    <a href="#data">数据平台</a>
-    <a href="#agents">Agent 框架</a>
+    <a href="tools-course.html">27工具课</a>
+    <a href="dojoagents.html">DojoAgents</a>
+    <a href="quantdinger.html">QuantDinger</a>
     <a href="education.html">教育总目录</a>
     <a href="../index.html">◂ 返回</a>
   </div>
@@ -226,16 +238,20 @@ footer a:hover { opacity:1; }
 <section class="hero" id="top">
   <div class="hero-badge">AI 量化投研 · 开源工具生态 · 一站式访问</div>
   <h1>量化 <em>AI 工具总览</em></h1>
-  <div class="subtitle">二十六大金融 AI 项目 · 数据 / 研究 / 回测 / 交易 / 加密 / 实盘全覆盖</div>
+  <div class="subtitle">二十七款金融 AI 工具 · 八大模块 · 从认知到可验收成果</div>
   <p class="hero-desc">
     从数据获取到策略研究，从回测框架到 AI 量化，从交易框架到加密与券商实盘<br>
-    覆盖开源框架与官方平台，构建完整量化投研闭环
+    每款工具配学习目标、实操作业与验收标准，构建完整量化投研闭环
   </p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">26</span><span class="label">核心项目</span></div>
-    <div class="hero-stat"><span class="num">218+</span><span class="label">数据接口</span></div>
-    <div class="hero-stat"><span class="num">20K+</span><span class="label">GitHub Stars</span></div>
-    <div class="hero-stat"><span class="num">4</span><span class="label">Agent 框架</span></div>
+    <div class="hero-stat"><span class="num">27</span><span class="label">核心工具</span></div>
+    <div class="hero-stat"><span class="num">8</span><span class="label">课程模块</span></div>
+    <div class="hero-stat"><span class="num">27</span><span class="label">实操作业</span></div>
+    <div class="hero-stat"><span class="num">3</span><span class="label">结业成果</span></div>
+  </div>
+  <div class="hero-actions">
+    <a class="hero-action primary" href="tools-course.html">进入27工具交付课程 →</a>
+    <a class="hero-action" href="quantdinger.html">QuantDinger 全栈实训</a>
   </div>
 </section>
 
@@ -244,8 +260,8 @@ footer a:hover { opacity:1; }
 <!-- ═══ All Projects ═══ -->
 <section class="section" id="all">
   <div class="section-label">项目总览</div>
-  <h2>二十六大类量化 AI 项目</h2>
-  <p class="section-sub">点击卡片进入详细分析页 · 每个项目独立成页，交叉链接</p>
+  <h2>二十七款量化 AI 工具</h2>
+  <p class="section-sub">点击卡片进入分析或课程页 · 每款工具都有学习目标、作业与验收入口</p>
 
   <div class="project-grid">
 
@@ -445,7 +461,7 @@ footer a:hover { opacity:1; }
         <span>📊 A 股</span><span>🔍 深度分析</span>
       </div>
       <div class="pc-actions">
-        <span style="font-size:0.8rem;color:var(--text-muted);opacity:0.6;letter-spacing:0.08em;">🚧 分析页待建</span>
+        <a href="tools-course.html#daily-stock-analysis" class="pc-link">📖 课程分析与作业 →</a>
       </div>
     </div>
 
@@ -773,7 +789,7 @@ footer a:hover { opacity:1; }
         而非被动问答。支持全市场扫描、产业链传导、持仓诊断。
       </div>
       <div class="pc-meta">
-        <span>⭐ 1.4K+</span><span>🥋 Agent 循环</span><span>📊 四柱仪表盘</span>
+        <span>✅ v0.2.3 本机核验</span><span>🥋 Agent 循环</span><span>📊 四柱仪表盘</span>
       </div>
       <div class="pc-actions">
         <a href="dojoagents.html" class="pc-link">📖 详细分析 →</a>
@@ -988,6 +1004,38 @@ footer a:hover { opacity:1; }
         <a href="https://www.myquant.cn" target="_blank" class="pc-link ghost">🌐 官网</a>
       </div>
     </div>
+
+    <!-- ═══ 全栈量化操作系统 ═══ -->
+    <div class="cat-head" style="--pc-accent: var(--teal-light);">
+      <span class="cat-icon">🧩</span><span class="cat-name">全栈量化操作系统</span><span class="cat-count">1 个工具</span><span class="cat-line"></span>
+    </div>
+
+<!-- QuantDinger -->
+    <div class="project-card pc-quantdinger">
+      <div class="pc-header">
+        <span class="pc-icon">🔔</span>
+        <div class="pc-titles">
+          <div class="pc-name">QuantDinger AI</div>
+          <div class="pc-en">Self-hosted Quantitative Trading Platform</div>
+        </div>
+      </div>
+      <div class="pc-badges">
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(45,212,191,0.25);background:rgba(45,212,191,0.06);">本地私有化</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(45,212,191,0.25);background:rgba(45,212,191,0.06);">Agent Gateway</span>
+        <span class="pc-badge" style="color:var(--teal-light);border-color:rgba(45,212,191,0.25);background:rgba(45,212,191,0.06);">MCP</span>
+      </div>
+      <div class="pc-desc">
+        将 AI 投研、Python Strategy API V2、回测、模拟/实盘与监控统一到一套自托管系统。
+        当前官方代码覆盖 IBKR、Alpaca 与六家主流加密交易所，并可通过 Agent Gateway 和 MCP 接入 Cursor、Claude Code、Codex。
+      </div>
+      <div class="pc-meta">
+        <span>✅ 11 服务本机核验</span><span>🐳 Docker Compose</span><span>🛡️ 默认模拟盘优先</span>
+      </div>
+      <div class="pc-actions">
+        <a href="quantdinger.html" class="pc-link">📖 全栈交付课程 →</a>
+        <a href="https://github.com/OpenByteInc/QuantDinger" target="_blank" rel="noopener" class="pc-link ghost">🐙 GitHub</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -996,11 +1044,11 @@ footer a:hover { opacity:1; }
 <!-- ═══ Summary ═══ -->
 <section class="section" id="summary">
   <div class="section-label">生态图谱</div>
-  <h2>二十六大项目 · 生态图谱</h2>
+  <h2>二十七款工具 · 生态图谱</h2>
   <p class="section-sub">从数据到研究、从分析到交易的完整覆盖</p>
 
   <div class="feature-box">
-    <div class="feature-box-label">七大分类 · 二十六大项目生态图谱</div>
+    <div class="feature-box-label">八大模块 · 二十七款工具生态图谱</div>
     <p>
       <strong>📊 数据平台</strong>：Pandadata（中文市场）· OpenBB（全球市场）· 米筐 RQData（机构数据）<br>
       <strong>🔬 研究平台</strong>：聚宽（在线回测）· SuperMind（问财选股）· FinRobot（美股研报）· Daily Stock（A股复盘）· BigQuant（AI 选股）<br>
@@ -1008,20 +1056,22 @@ footer a:hover { opacity:1; }
       <strong>🏗️ 交易框架</strong>：vnpy（期货 CTA）· WonderTrader（高性能 C++）· Hikyuu（A股组件化）· TradingAgents-CN · DojoAgents<br>
       <strong>🪙 加密交易</strong>：freqtrade（交易机器人）· ccxt（统一 API 库）<br>
       <strong>🧠 AI 量化</strong>：Qlib（微软 AI 因子）· FinRL（强化学习）<br>
-      <strong>⚡ 实盘终端</strong>：PTrade（云端托管）· QMT（本地低延迟）· 掘金（期货 CTA）
+      <strong>⚡ 实盘终端</strong>：PTrade（云端托管）· QMT（本地低延迟）· 掘金（期货 CTA）<br>
+      <strong>🧩 全栈操作系统</strong>：QuantDinger（AI投研 → 策略 → 回测 → 模拟/实盘 → 监控）
     </p>
     <p style="margin-top:14px;border-top:1px solid var(--border-subtle);padding-top:14px;">
       完整链路：<strong>数据 → 研究 → 回测 → 交易 → 实盘</strong>，AI 量化（Qlib/FinRL/BigQuant）与加密交易（freqtrade/ccxt）贯穿全程。
-      二十六大项目覆盖开源框架与官方平台，可组合使用构建完整量化投研体系。
+      二十七款工具覆盖开源框架与官方平台，可按投资者、开发者、教练三条路径组合成可交付课程。
     </p>
   </div>
 </section>
 
 <!-- ═══ Footer ═══ -->
 <footer>
-  <p>量化 AI 工具总览 · 数据 · 研究 · 回测 · 交易 · 加密 · 实盘全生态 · 二十六大项目</p>
+  <p>量化 AI 工具总览 · 数据 · 研究 · 回测 · 交易 · 加密 · 实盘全生态 · 二十七款工具</p>
   <p style="margin-top:4px;">
     <a href="../index.html">正行明熙 · AI量化教育</a> ·
+    <a href="tools-course.html">27工具交付课程</a> ·
     <a href="education.html">教育总目录</a> ·
     <a href="https://github.com/kenyanghui" target="_blank">GitHub</a>
   </p>

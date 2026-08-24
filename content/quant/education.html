@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI量化投资资源中心 | 课程体系 · 工具研究 · 学习路径</title>
+<title>AI量化投资课程与资源中心 | 27工具课 · 实训 · 验收</title>
+<meta name="description" content="正行明熙AI量化投资课程与资源中心，提供27款工具、8大模块、逐项作业、验收标准与DojoAgents、QuantDinger核心实训。">
+<link rel="canonical" href="https://kenyanghui.github.io/coach/quant/education.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
 <style>
 :root {
   --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dim: #8b6914;
@@ -22,12 +25,15 @@
   --border-active: rgba(201,168,76,0.22);
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --font-body:'LXGW WenKai','Noto Serif SC','Songti SC',serif;
+  --font-title:'Long Cang','Ma Shan Zheng','STKaiti',serif;
+  --font-seal:'ZCOOL XiaoWei','Noto Serif SC',serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; font-size:18px; }
 body {
   background: var(--void); color: var(--text-default);
-  font-family: 'Noto Sans SC','PingFang SC',sans-serif; line-height:1.8; overflow-x:hidden;
+  font-family:var(--font-body); line-height:1.8; overflow-x:hidden;
 }
 body::before {
   content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -49,10 +55,10 @@ a:hover { color:var(--gold-light); }
   padding:10px 24px; display:flex; align-items:center;
   justify-content:space-between; gap:16px;
 }
-.nav-home { display:flex; align-items:center; gap:10px; color:var(--gold); font-family:'Noto Serif SC',serif; font-size:0.85rem; letter-spacing:0.1em; }
+.nav-home { display:flex; align-items:center; gap:10px; color:var(--gold); font-family:'Ma Shan Zheng','STKaiti',serif; font-size:1rem; letter-spacing:0.1em; }
 .nav-home .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); opacity:0.8; }
 .nav-links { display:flex; gap:6px; flex-wrap:wrap; }
-.nav-links a { font-size:0.82rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
+.nav-links a { font-family:var(--font-seal); font-size:0.86rem; color:var(--text-muted); letter-spacing:0.06em; padding:4px 12px; border:1px solid transparent; border-radius:2px; transition:all 0.2s; }
 .nav-links a:hover { color:var(--gold); border-color:var(--border-active); background:rgba(201,168,76,0.04); }
 
 /* Hero */
@@ -67,7 +73,7 @@ a:hover { color:var(--gold-light); }
   margin-bottom:22px; border:1px solid rgba(201,168,76,0.2); padding:5px 18px; border-radius:2px;
 }
 .hero-badge::before, .hero-badge::after { content:'◆'; font-size:0.35rem; opacity:0.5; }
-.hero h1 { font-size:clamp(1.8rem,4.5vw,3.2rem); color:var(--cream); font-weight:400; letter-spacing:0.1em; line-height:1.3; margin-bottom:14px; }
+.hero h1 { font-family:var(--font-title); font-size:clamp(3rem,7vw,5.6rem); color:var(--cream); font-weight:400; letter-spacing:0.08em; line-height:1.15; margin-bottom:14px; }
 .hero h1 em { color:var(--gold); font-style:normal; }
 .hero .subtitle { font-size:clamp(0.95rem,2vw,1.15rem); color:var(--gold); opacity:0.75; letter-spacing:0.06em; margin-bottom:12px; }
 .hero-desc { max-width:680px; font-size:0.88rem; color:var(--cream-dark); opacity:0.6; line-height:2; margin-bottom:32px; }
@@ -76,12 +82,15 @@ a:hover { color:var(--gold-light); }
 .hero-stat:not(:last-child)::after { content:''; position:absolute; right:-14px; top:10%; height:80%; width:1px; background:linear-gradient(to bottom,transparent,var(--gold),transparent); opacity:0.2; }
 .hero-stat .num { font-size:1.7rem; font-weight:700; color:var(--gold); font-family:'Noto Serif SC',serif; line-height:1.2; display:block; }
 .hero-stat .label { font-size:0.78rem; color:var(--text-muted); letter-spacing:0.08em; display:block; }
+.hero-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:36px; }
+.hero-action { display:inline-flex; align-items:center; justify-content:center; min-height:50px; padding:12px 24px; border:1px solid var(--gold); border-radius:999px; color:var(--gold); font-size:0.9rem; letter-spacing:0.05em; }
+.hero-action.primary { background:linear-gradient(135deg,#e0bd66,#b98a37); color:#151109; font-weight:700; }
 
 /* Section */
 .section { max-width:1100px; margin:0 auto; padding:52px 40px; position:relative; z-index:1; }
 .section-alt { background:rgba(201,168,76,0.012); border-top:1px solid rgba(201,168,76,0.03); border-bottom:1px solid rgba(201,168,76,0.03); }
 .section-label { font-size:0.72rem; letter-spacing:0.3em; color:var(--gold); opacity:0.5; margin-bottom:16px; text-align:center; }
-.section h2 { font-size:1.35rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
+.section h2 { font-size:2rem; color:var(--cream); font-weight:400; letter-spacing:0.08em; text-align:center; margin-bottom:8px; }
 .section-sub { text-align:center; font-size:0.84rem; color:var(--cream-dark); opacity:0.55; margin-bottom:32px; }
 .section-divider { max-width:1100px; margin:0 auto; padding:0 40px; position:relative; z-index:1; }
 .section-divider hr { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,0.08),transparent); }
@@ -148,7 +157,7 @@ footer a:hover { opacity:1; }
 
 @media (max-width:700px) {
   .hero { padding:100px 20px 50px; min-height:50vh; }
-  .hero h1 { font-size:1.5rem; }
+  .hero h1 { font-size:3rem; }
   .hero-stats { gap:14px; }
   .hero-stat .num { font-size:1.4rem; }
   .section { padding:40px 20px; }
@@ -168,6 +177,7 @@ footer a:hover { opacity:1; }
   <div class="nav-links">
     <a href="#courses">课程体系</a>
     <a href="#tools">工具研究</a>
+    <a href="tools-course.html">27工具课</a>
     <a href="#path">学习路径</a>
     <a href="#research">研究档案</a>
     <a href="../decision-system.html" style="color:var(--gold);">申请6周训练营 →</a>
@@ -176,21 +186,22 @@ footer a:hover { opacity:1; }
 
 <!-- ═══ Hero ═══ -->
 <section class="hero" id="top">
-  <div class="hero-badge">AI量化投资资源中心 · 课前预习 · 学员资料库</div>
-  <h1>AI量化投资 <em>资源中心</em></h1>
-  <div class="subtitle">东方智慧训练心性，数据与回测验证策略</div>
+  <div class="hero-badge">AI量化投资课程中心 · 工具实训 · 成果验收</div>
+  <h1>AI量化投资 <em>课程与资源中心</em></h1>
+  <div class="subtitle">不是只看工具，而是完成可演示、可复盘、可验收的作品</div>
   <p class="hero-desc">
-    通达信 · miniQMT · 量化工具 · 策略研究 · 青少年财商<br>
-    这里是内容资料库，用于 SEO、课前预习与付费学员查阅——不是成交入口
+    通达信 · miniQMT · 27款量化工具 · 策略研究 · 青少年财商<br>
+    面向牛散、企业家二代、青少年与AI量化投资教练，提供从预习到结业的交付内容
   </p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="num">8</span><span class="label">通达信系列</span></div>
-    <div class="hero-stat"><span class="num">26+</span><span class="label">量化工具</span></div>
-    <div class="hero-stat"><span class="num">7</span><span class="label">Agent 工具</span></div>
-    <div class="hero-stat"><span class="num">9</span><span class="label">策略课程</span></div>
+    <div class="hero-stat"><span class="num">27</span><span class="label">量化工具</span></div>
+    <div class="hero-stat"><span class="num">8</span><span class="label">课程模块</span></div>
+    <div class="hero-stat"><span class="num">27</span><span class="label">实操作业</span></div>
+    <div class="hero-stat"><span class="num">3</span><span class="label">结业成果</span></div>
   </div>
-  <div style="margin-top:38px;">
-    <a href="../decision-system.html" style="display:inline-block;background:linear-gradient(135deg,#e0bd66,#b98a37);color:#151109;padding:14px 28px;border-radius:999px;font-weight:600;font-size:0.95rem;letter-spacing:0.05em;text-decoration:none;">想系统学习？申请6周训练营 →</a>
+  <div class="hero-actions">
+    <a class="hero-action primary" href="tools-course.html">进入27工具交付课程 →</a>
+    <a class="hero-action" href="../decision-system.html">申请6周训练营</a>
   </div>
 </section>
 
@@ -201,6 +212,15 @@ footer a:hover { opacity:1; }
   <div class="section-label">一、量化课程体系</div>
   <h2>从入门到策略实战</h2>
   <p class="section-sub">入门 → 进阶 → 策略实战 → 青少年，四段递进</p>
+
+  <div class="feature-box">
+    <div class="feature-box-label">新增核心交付 · 27工具完整课程</div>
+    <p>
+      以<strong>定位 → 安装 → 首次运行 → 证据留存 → 验收</strong>为统一教学法，覆盖投资者、开发者、教练三条学习路径。
+      每款工具都有学习目标、实操作业和验收标准，并以 DojoAgents、QuantDinger 两门本机核验实训收束成作品。
+      <a href="tools-course.html">打开完整课程地图 →</a>
+    </p>
+  </div>
 
   <div class="flow-steps">
     <div class="flow-step">
@@ -308,7 +328,7 @@ footer a:hover { opacity:1; }
 <section class="section section-alt" id="tools">
   <div class="section-label">二、量化工具研究</div>
   <h2>工具全景</h2>
-  <p class="section-sub">国内软件 + 开源 AI 项目 + Agent 工具，三线覆盖</p>
+  <p class="section-sub">27款工具 · 8大模块 · 分析、作业、验收与结业作品完整覆盖</p>
 
   <div class="group-head"><span class="g-icon">🇨🇳</span>国内量化软件<span class="g-line"></span></div>
   <div class="link-grid">
@@ -334,7 +354,11 @@ footer a:hover { opacity:1; }
   <div class="link-grid">
     <div class="link-card lc-oss">
       <div class="lc-title"><a href="index.html">量化工具全景</a></div>
-      <div class="lc-desc">26 工具 · 七类生态入口</div>
+      <div class="lc-desc">27款工具 · 8大模块生态入口</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="tools-course.html">27工具交付课程</a></div>
+      <div class="lc-desc">逐项学习目标 · 作业 · 验收 · 三类结业作品</div>
     </div>
     <div class="link-card lc-oss">
       <div class="lc-title"><a href="pandadata.html">Pandadata × PandaAI</a></div>
@@ -346,7 +370,11 @@ footer a:hover { opacity:1; }
     </div>
     <div class="link-card lc-oss">
       <div class="lc-title"><a href="dojoagents.html">DojoAgents</a></div>
-      <div class="lc-desc">主动式 Agent 循环 · 全市场扫描</div>
+      <div class="lc-desc">本机核验 v0.2.3 · 主动式 Agent 循环实训</div>
+    </div>
+    <div class="link-card lc-oss">
+      <div class="lc-title"><a href="quantdinger.html">QuantDinger AI</a></div>
+      <div class="lc-desc">11服务本机核验 · 自托管全栈量化操作系统</div>
     </div>
     <div class="link-card lc-oss">
       <div class="lc-title"><a href="tradingagents-cn.html">TradingAgents-CN</a></div>
@@ -501,6 +529,7 @@ footer a:hover { opacity:1; }
   <p style="margin-top:4px;">
     <a href="../index.html">返回首页</a> ·
     <a href="../decision-system.html">申请6周训练营</a> ·
+    <a href="tools-course.html">27工具交付课程</a> ·
     <a href="index.html">量化工具总览</a> ·
     <a href="https://github.com/kenyanghui" target="_blank">GitHub</a>
   </p>

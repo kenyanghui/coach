@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="正行明熙27个AI量化工具全课程：覆盖数据、研究、回测、交易框架、Agent、加密、AI模型、实盘终端与QuantDinger全栈操作系统，提供教学目标、实操作业和验收标准。">
+<link rel="canonical" href="https://kenyanghui.github.io/coach/quant/tools-course.html">
+<title>27个AI量化工具全课程 · 可交付课程中心 | 正行明熙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+<style>
+:root {
+  --void:#070809; --surface:#0e1011; --surface-2:#15181a; --cream:#f5f0e6; --muted:#b8b1a5;
+  --gold:#d2ad55; --gold-light:#f0d790; --purple:#9b7fff; --teal:#2dd4bf; --blue:#65a7e8;
+  --red:#d96a5e; --line:rgba(210,173,85,.16); --soft:rgba(245,240,230,.08); --max:1180px;
+  --font-body:'LXGW WenKai','Noto Serif SC','Songti SC',serif; --font-title:'Long Cang','Ma Shan Zheng','STKaiti',serif; --font-seal:'ZCOOL XiaoWei','Noto Serif SC',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:18px}
+body{overflow-x:hidden;background:radial-gradient(circle at 12% 4%,rgba(155,127,255,.11),transparent 28%),radial-gradient(circle at 88% 8%,rgba(45,212,191,.08),transparent 27%),linear-gradient(155deg,#070809,#101012 52%,#080807);color:var(--cream);font-family:var(--font-body);line-height:1.85}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.025;background-image:repeating-linear-gradient(8deg,rgba(255,255,255,.65) 0 1px,transparent 1px 5px)}
+a{color:inherit;text-decoration:none} h1,h2,h3{font-family:'Noto Serif SC','Songti SC',serif;line-height:1.35} code{font-family:'JetBrains Mono',monospace}
+.topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--soft);background:rgba(7,8,9,.88);backdrop-filter:blur(18px)}
+.nav{max-width:var(--max);min-height:68px;margin:auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{color:var(--gold-light);font-family:'Ma Shan Zheng','STKaiti',serif;font-size:1.08rem;font-weight:400;letter-spacing:.08em}.nav-links{display:flex;align-items:center;gap:18px}.nav-links a{color:var(--muted);font-family:var(--font-seal);font-size:.86rem}.nav-links a:hover{color:var(--gold-light)}
+.hero{max-width:var(--max);min-height:76vh;margin:auto;padding:104px 24px 72px;display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center}
+.eyebrow{color:var(--teal);font-family:var(--font-seal);font-size:.82rem;font-weight:700;letter-spacing:.18em}.hero h1{margin:16px 0 20px;font-family:var(--font-title);font-size:clamp(4rem,8vw,7rem);font-weight:400;letter-spacing:.04em}.hero h1 em{color:var(--gold-light);font-style:normal}.lead{max-width:760px;color:#cbc4b7;font-size:1.08rem;line-height:2}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.button{min-height:52px;padding:12px 22px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;font-family:var(--font-seal);font-size:.95rem;font-weight:700}.button-primary{border-color:transparent;background:linear-gradient(135deg,#e3c56d,#b88b38);color:#171209}.button-secondary{background:rgba(255,255,255,.025);color:var(--gold-light)}
+.hero-panel{padding:30px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(23,25,27,.96),rgba(10,11,12,.98));box-shadow:0 26px 80px rgba(0,0,0,.35)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.stat{min-height:128px;padding:22px;border:1px solid var(--soft);border-radius:18px;background:rgba(255,255,255,.018)}.stat strong{display:block;color:var(--gold-light);font-family:'Noto Serif SC',serif;font-size:2.1rem}.stat span{color:var(--muted);font-size:.84rem}.hero-panel p{margin-top:18px;color:var(--muted);font-size:.88rem}
+.section{max-width:var(--max);margin:auto;padding:88px 24px}.section-wide{border-top:1px solid var(--soft);border-bottom:1px solid var(--soft);background:rgba(255,255,255,.012)}.section-head{max-width:820px;margin-bottom:36px}.kicker{color:var(--teal);font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}.section h2{margin-top:10px;font-size:clamp(2rem,4vw,3.35rem)}.section-intro{margin-top:12px;color:var(--muted);font-size:1rem}
+.delivery-grid,.track-grid,.lab-grid,.rubric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.delivery-card,.track-card,.lab-card,.rubric-card{padding:26px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(24,24,22,.96),rgba(12,13,13,.98))}.delivery-card span{color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:.78rem}.delivery-card h3,.track-card h3,.lab-card h3,.rubric-card h3{margin:10px 0 8px;font-size:1.18rem}.delivery-card p,.track-card p,.lab-card p,.rubric-card p{color:var(--muted);font-size:.9rem}.track-card ul,.lab-card ul{margin-top:14px;padding-left:20px;color:var(--muted);font-size:.88rem}.track-card li,.lab-card li{margin:7px 0}
+.method{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.method-step{padding:22px 16px;border:1px solid var(--soft);border-radius:16px;background:rgba(255,255,255,.015);text-align:center}.method-step b{display:block;color:var(--gold-light);font-size:1rem}.method-step span{display:block;margin-top:6px;color:var(--muted);font-size:.8rem}
+.module{margin-top:24px;padding:30px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(20,21,22,.96),rgba(9,10,10,.98))}.module-head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:18px}.module-index{color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:.78rem}.module h3{margin-top:4px;font-size:1.55rem}.module-summary{max-width:520px;color:var(--muted);font-size:.88rem;text-align:right}
+.tool-list{display:grid;gap:10px}.tool-card{padding:18px 20px;border:1px solid var(--soft);border-radius:16px;background:rgba(255,255,255,.014)}.tool-head{display:grid;grid-template-columns:44px minmax(160px,.72fr) 1fr auto;gap:14px;align-items:center}.tool-num{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;color:var(--gold-light);font-family:'JetBrains Mono',monospace;font-size:.75rem}.tool-name strong{display:block;font-family:'Noto Serif SC',serif;font-size:1rem}.tool-name span{color:var(--muted);font-size:.75rem}.tool-goal{color:#cbc4b7;font-size:.86rem}.tool-output{color:var(--muted);font-size:.78rem}.tool-output b{color:var(--teal)}.detail-link{padding:7px 12px;border:1px solid var(--line);border-radius:999px;color:var(--gold-light);font-size:.74rem;white-space:nowrap}.detail-link:hover{border-color:var(--gold)}
+.focus{border-color:rgba(155,127,255,.38);box-shadow:inset 3px 0 var(--purple)}.focus-q{border-color:rgba(45,212,191,.35);box-shadow:inset 3px 0 var(--teal)}
+.lab-grid{grid-template-columns:repeat(2,1fr)}.lab-card{padding:32px}.lab-card.dojo{border-color:rgba(155,127,255,.32)}.lab-card.quantdinger{border-color:rgba(45,212,191,.32)}.lab-tag{display:inline-flex;padding:4px 10px;border:1px solid currentColor;border-radius:999px;color:var(--teal);font-size:.72rem}.lab-card.dojo .lab-tag{color:var(--purple)}.lab-card h3{font-size:1.55rem}.lab-card .meta{color:var(--gold-light);font-size:.84rem}.lab-card .button{margin-top:18px}
+.notice{margin-top:20px;padding:20px 22px;border-left:3px solid var(--red);background:rgba(217,106,94,.07);color:#d8c3bd;font-size:.88rem}.rubric-grid{grid-template-columns:repeat(4,1fr)}.rubric-card strong{display:block;color:var(--gold-light);font-size:1.7rem}.rubric-card span{color:var(--muted);font-size:.82rem}.final-pack{padding:34px;border:1px solid rgba(210,173,85,.28);border-radius:24px;background:radial-gradient(circle at 90% 0,rgba(155,127,255,.13),transparent 36%),linear-gradient(145deg,rgba(26,23,18,.96),rgba(12,12,11,.98))}.final-pack ul{margin:16px 0 0;padding-left:22px;color:var(--muted)}.final-pack li{margin:8px 0}.risk{padding:26px;border:1px solid rgba(217,106,94,.28);border-radius:18px;background:rgba(217,106,94,.055);color:var(--muted);font-size:.88rem}.risk strong{color:#e7a59c}
+footer{padding:38px 24px 50px;border-top:1px solid var(--soft);color:#777168;text-align:center;font-size:.78rem}footer a{color:var(--gold)}
+@media(max-width:900px){.nav-links{display:none}.hero{grid-template-columns:1fr;min-height:auto;padding-top:82px}.hero-panel{max-width:680px}.delivery-grid,.track-grid{grid-template-columns:1fr}.method{grid-template-columns:repeat(2,1fr)}.method-step:last-child{grid-column:1/-1}.tool-head{grid-template-columns:44px 1fr auto}.tool-goal{grid-column:2/-1}.tool-output{grid-column:2/-1}.lab-grid,.rubric-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){html{font-size:17px}.nav{padding:0 18px}.hero{padding:72px 20px 54px;gap:30px}.hero h1{font-size:clamp(2.65rem,14vw,3.8rem)}.lead{font-size:1rem}.actions .button{width:100%}.stats{grid-template-columns:1fr 1fr}.stat{min-height:108px;padding:18px}.stat strong{font-size:1.75rem}.section{padding:68px 20px}.delivery-grid,.track-grid,.lab-grid,.rubric-grid{grid-template-columns:1fr}.module{padding:22px 16px}.module-head{display:block}.module-summary{margin-top:8px;text-align:left}.tool-head{grid-template-columns:40px 1fr}.detail-link{grid-column:2;justify-self:start}.tool-goal,.tool-output{grid-column:1/-1}.method{grid-template-columns:1fr}.method-step:last-child{grid-column:auto}}
+</style>
+</head>
+<body>
+<header class="topbar"><nav class="nav" aria-label="课程导航"><a class="brand" href="../index.html">正行明熙 · AI量化工具课</a><div class="nav-links"><a href="#standard">交付标准</a><a href="#modules">27工具</a><a href="#labs">核心实训</a><a href="#rubric">验收</a><a href="index.html">工具总览</a></div></nav></header>
+
+<main>
+<section class="hero">
+  <div>
+    <div class="eyebrow">DELIVERABLE AI QUANT TOOL CURRICULUM</div>
+    <h1>27个工具，<br><em>一套可交付课程</em></h1>
+    <p class="lead">不是把27个软件逐一演示，而是教会学员完成选型、安装、首个任务、证据留存、风险判断与组合应用。每个工具都有学习目标、课堂产出、课后作业和验收标准。</p>
+    <div class="actions"><a class="button button-primary" href="#modules">进入27个工具课程 →</a><a class="button button-secondary" href="#labs">先看Dojo与QuantDinger实训</a></div>
+  </div>
+  <aside class="hero-panel" aria-label="课程规模"><div class="stats"><div class="stat"><strong>27</strong><span>工具分析与微作业</span></div><div class="stat"><strong>8</strong><span>能力模块</span></div><div class="stat"><strong>2</strong><span>核心全链路实训</span></div><div class="stat"><strong>3</strong><span>结业作品</span></div></div><p>课程原则：先研究、后回测；先模拟、后实盘；所有AI结论必须保留数据源、时间戳和人工复核记录。</p></aside>
+</section>
+
+<section class="section-wide" id="standard"><div class="section">
+  <div class="section-head"><div class="kicker">Delivery Standard</div><h2>统一交付，不再是工具资料堆积</h2><p class="section-intro">每一个工具都按同一套教学协议展开，教练可以讲、学员可以做、结果可以验收。</p></div>
+  <div class="method"><div class="method-step"><b>01 定位</b><span>解决什么问题，不解决什么</span></div><div class="method-step"><b>02 安装</b><span>环境、账号、数据与安全</span></div><div class="method-step"><b>03 首跑</b><span>完成一个最小可用任务</span></div><div class="method-step"><b>04 证据</b><span>保留参数、日志、结果与来源</span></div><div class="method-step"><b>05 验收</b><span>按标准复盘并决定是否采用</span></div></div>
+  <div class="delivery-grid" style="margin-top:24px"><article class="delivery-card"><span>TEACHER</span><h3>教练交付包</h3><p>讲义结构、演示脚本、常见故障、提问清单、风险提醒与课堂复盘问题。</p></article><article class="delivery-card"><span>LEARNER</span><h3>学员任务包</h3><p>安装清单、首跑任务、工具比较表、作业模板、截图与日志留证要求。</p></article><article class="delivery-card"><span>ASSESSMENT</span><h3>验收评价包</h3><p>可复现性、数据可信度、风险边界、表达清晰度与迁移能力五维评分。</p></article></div>
+</div></section>
+
+<section class="section">
+  <div class="section-head"><div class="kicker">Three Learning Tracks</div><h2>同一套工具，三条学习路线</h2></div>
+  <div class="track-grid"><article class="track-card"><h3>投资者路线</h3><p>重点建立AI投研、回测解释与风险复盘能力，不要求掌握全部工程细节。</p><ul><li>必修：OpenBB、Alphalens、Backtrader、DojoAgents</li><li>实盘认知：PTrade、QMT、QuantDinger</li><li>结业：个人工具栈与策略证据包</li></ul></article><article class="track-card"><h3>开发者路线</h3><p>完整学习27个工具的接口、框架、部署与组合方式，能独立构建研究原型。</p><ul><li>必修：数据层、回测层、交易层与Agent层</li><li>重点：CCXT、vn.py、Qlib、QuantDinger MCP</li><li>结业：可运行的研究—回测—模拟闭环</li></ul></article><article class="track-card"><h3>教练路线</h3><p>学习如何诊断学员需求、选择最小工具组合、组织作业和控制金融教育边界。</p><ul><li>必修：27张工具诊断卡</li><li>重点：DojoAgents研究实训与QuantDinger全链路实训</li><li>结业：一节90分钟工具课试讲</li></ul></article></div>
+</section>
+
+<section class="section-wide" id="modules"><div class="section">
+  <div class="section-head"><div class="kicker">Eight Modules · Twenty-Seven Tools</div><h2>27个工具的课程目标、作业与验收</h2><p class="section-intro">“产出”是课堂结束时必须留下的文件或结果；“验收”是教练判断是否真正掌握的最低标准。</p></div>
+
+  <article class="module" id="module-data"><div class="module-head"><div><span class="module-index">MODULE 01 · 3 TOOLS</span><h3>数据与研究底座</h3></div><p class="module-summary">学习数据源、字段口径、时间戳与可追溯性，先解决“数据从哪里来、是否可信”。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">01</span><div class="tool-name"><strong>Pandadata × PandaAI</strong><span>中文市场数据与技能生态</span></div><p class="tool-goal">建立A股/期货/期权数据字典，理解API与Agent技能的分层。</p><p class="tool-output"><b>产出：</b>一份字段字典与三接口取数记录；验收：来源、频率、复权口径齐全。</p><a class="detail-link" href="pandadata.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">02</span><div class="tool-name"><strong>OpenBB</strong><span>全球投资研究平台</span></div><p class="tool-goal">完成多数据源查询、提供商切换与研究笔记编排。</p><p class="tool-output"><b>产出：</b>一个标的的多源研究页；验收：每个结论都有数据源和时间戳。</p><a class="detail-link" href="openbb.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">03</span><div class="tool-name"><strong>米筐 RiceQuant</strong><span>RQData / RQAlpha</span></div><p class="tool-goal">理解高质量数据、事件回测与机构化研究流程。</p><p class="tool-output"><b>产出：</b>基准策略回测；验收：基准、成本、滑点和样本区间明确。</p><a class="detail-link" href="ricequant.html">详细分析</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-research"><div class="module-head"><div><span class="module-index">MODULE 02 · 5 TOOLS</span><h3>研究平台与AI研报</h3></div><p class="module-summary">比较在线研究平台、可视化AI平台与多Agent研报，训练“结论必须可复核”。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">04</span><div class="tool-name"><strong>聚宽 JoinQuant</strong><span>在线研究与回测</span></div><p class="tool-goal">掌握研究环境、策略API、基准和回测参数。</p><p class="tool-output"><b>产出：</b>一个均线基线策略；验收：代码、参数与回测报告可复现。</p><a class="detail-link" href="joinquant.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">05</span><div class="tool-name"><strong>同花顺 SuperMind</strong><span>问财与量化研究</span></div><p class="tool-goal">把自然语言条件改写为可验证的选股与回测规则。</p><p class="tool-output"><b>产出：</b>一条问财条件及反例；验收：条件无歧义并说明未来函数风险。</p><a class="detail-link" href="mindgo.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">06</span><div class="tool-name"><strong>FinRobot</strong><span>金融多Agent研报</span></div><p class="tool-goal">拆解数据、概念和投资论点三层推理链。</p><p class="tool-output"><b>产出：</b>一份证据化研报；验收：事实、推断和观点分栏标注。</p><a class="detail-link" href="finrobot.html">详细分析</a></div></div>
+    <div class="tool-card" id="daily-stock-analysis"><div class="tool-head"><span class="tool-num">07</span><div class="tool-name"><strong>Daily Stock Analysis</strong><span>A股每日复盘中台</span></div><p class="tool-goal">设计收盘后数据汇总、并行分析与风险提示工作流。</p><p class="tool-output"><b>产出：</b>一份标准化日评；验收：指数、宽度、行业、资金和风险五段齐全。</p><a class="detail-link" href="index.html#all">查看总览</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">08</span><div class="tool-name"><strong>BigQuant</strong><span>可视化AI量化平台</span></div><p class="tool-goal">理解因子、特征工程、模型训练和样本外验证。</p><p class="tool-output"><b>产出：</b>一个可视化选股流程；验收：训练集与测试集严格分离。</p><a class="detail-link" href="bigquant.html">详细分析</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-backtest"><div class="module-head"><div><span class="module-index">MODULE 03 · 6 TOOLS</span><h3>回测工程与因子验证</h3></div><p class="module-summary">同一策略用不同框架验证，理解事件驱动、向量化、因子分析与平台迁移的差异。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">09</span><div class="tool-name"><strong>Backtrader</strong><span>事件驱动回测框架</span></div><p class="tool-goal">掌握数据、策略、经纪、订单与分析器对象。</p><p class="tool-output"><b>产出：</b>策略类与交易日志；验收：无偷看未来、成本参数可配置。</p><a class="detail-link" href="backtrader.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">10</span><div class="tool-name"><strong>Vectorbt</strong><span>向量化参数研究</span></div><p class="tool-goal">完成大规模参数扫描并识别过拟合区域。</p><p class="tool-output"><b>产出：</b>参数热力图；验收：不以单一最优点作为最终参数。</p><a class="detail-link" href="vectorbt.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">11</span><div class="tool-name"><strong>SimTradeLab</strong><span>PTrade策略本地验证</span></div><p class="tool-goal">理解PTrade脚本迁移、本地模拟和性能差异。</p><p class="tool-output"><b>产出：</b>一份迁移兼容清单；验收：API差异和替代方案逐项记录。</p><a class="detail-link" href="simtradelab.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">12</span><div class="tool-name"><strong>EasyXT</strong><span>xtquant封装</span></div><p class="tool-goal">学习行情、账户、策略与订单接口的安全封装。</p><p class="tool-output"><b>产出：</b>行情读取与模拟下单脚本；验收：禁止硬编码账户与凭据。</p><a class="detail-link" href="easyxt.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">13</span><div class="tool-name"><strong>Zipline</strong><span>Pipeline研究框架</span></div><p class="tool-goal">理解资产管线、日历、因子和事件回测。</p><p class="tool-output"><b>产出：</b>一个Pipeline筛选器；验收：交易日历与资产生命周期正确。</p><a class="detail-link" href="zipline.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">14</span><div class="tool-name"><strong>Alphalens</strong><span>因子绩效分析</span></div><p class="tool-goal">掌握IC、分层收益、换手率与因子衰减。</p><p class="tool-output"><b>产出：</b>一份因子tear sheet；验收：解释统计显著性与交易可行性。</p><a class="detail-link" href="alphalens.html">详细分析</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-trading"><div class="module-head"><div><span class="module-index">MODULE 04 · 5 TOOLS</span><h3>交易框架与主动式Agent</h3></div><p class="module-summary">从传统事件引擎到多Agent投研，重点学习模块边界、状态管理、风控和人工审批。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">15</span><div class="tool-name"><strong>vn.py</strong><span>Python量化交易框架</span></div><p class="tool-goal">理解事件引擎、网关、应用与CTA策略模块。</p><p class="tool-output"><b>产出：</b>一个仿真CTA策略；验收：行情、订单、成交和持仓状态闭环。</p><a class="detail-link" href="vnpy.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">16</span><div class="tool-name"><strong>WonderTrader</strong><span>高性能交易框架</span></div><p class="tool-goal">理解C++核心、WtPy接口和组合级策略运行。</p><p class="tool-output"><b>产出：</b>运行配置与策略日志；验收：数据、执行与策略进程边界清楚。</p><a class="detail-link" href="wondertrader.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">17</span><div class="tool-name"><strong>Hikyuu</strong><span>A股组件化系统</span></div><p class="tool-goal">用信号、止损、资金管理与组合组件构建系统。</p><p class="tool-output"><b>产出：</b>一个组件化交易系统；验收：每个组件职责单一且可替换。</p><a class="detail-link" href="hikyuu.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">18</span><div class="tool-name"><strong>TradingAgents-CN</strong><span>多角色投资研究</span></div><p class="tool-goal">观察分析师、研究员、交易员和风控角色如何协作。</p><p class="tool-output"><b>产出：</b>一份角色辩论记录；验收：风险结论能追溯到证据和反方意见。</p><a class="detail-link" href="tradingagents-cn.html">详细分析</a></div></div>
+    <div class="tool-card focus"><div class="tool-head"><span class="tool-num">19</span><div class="tool-name"><strong>DojoAgents</strong><span>主动式全市场AI副驾</span></div><p class="tool-goal">掌握Agent Loop、Dashboard、Gateway、会话证据、MCP与技能沉淀。</p><p class="tool-output"><b>产出：</b>完整投研链与会话导出包；验收：每一步调用目的、结果和纠错过程可审计。</p><a class="detail-link" href="dojoagents.html">核心实训</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-crypto"><div class="module-head"><div><span class="module-index">MODULE 05 · 2 TOOLS</span><h3>加密市场工具链</h3></div><p class="module-summary">只做dry-run与接口工程训练，重点理解交易所差异、限频、断线与密钥安全。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">20</span><div class="tool-name"><strong>Freqtrade</strong><span>加密交易机器人</span></div><p class="tool-goal">学习策略、回测、Hyperopt与dry-run工作流。</p><p class="tool-output"><b>产出：</b>一份dry-run记录；验收：未启用真实下单并包含止损与仓位限制。</p><a class="detail-link" href="freqtrade.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">21</span><div class="tool-name"><strong>CCXT</strong><span>统一交易所API</span></div><p class="tool-goal">封装行情、账户与订单接口，处理限频和异常。</p><p class="tool-output"><b>产出：</b>统一行情适配器；验收：重试、限频、时钟和精度处理完整。</p><a class="detail-link" href="ccxt.html">详细分析</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-ai"><div class="module-head"><div><span class="module-index">MODULE 06 · 2 TOOLS</span><h3>AI模型与强化学习</h3></div><p class="module-summary">把模型放回可复现的实验流程，避免把高指标误当成可交易策略。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">22</span><div class="tool-name"><strong>Qlib</strong><span>AI量化研究平台</span></div><p class="tool-goal">掌握数据集、模型、记录器与工作流实验。</p><p class="tool-output"><b>产出：</b>一个可重跑实验；验收：数据版本、模型参数和指标全量记录。</p><a class="detail-link" href="qlib.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">23</span><div class="tool-name"><strong>FinRL</strong><span>金融强化学习</span></div><p class="tool-goal">理解环境、状态、动作、奖励和训练评估。</p><p class="tool-output"><b>产出：</b>一份奖励函数审计；验收：同时评价收益、回撤、换手和稳定性。</p><a class="detail-link" href="finrl.html">详细分析</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-terminal"><div class="module-head"><div><span class="module-index">MODULE 07 · 3 TOOLS</span><h3>券商与实盘终端</h3></div><p class="module-summary">课程只进行模拟或受控环境操作，学习平台差异、权限、状态同步和风控边界。</p></div><div class="tool-list">
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">24</span><div class="tool-name"><strong>恒生 PTrade</strong><span>券商托管量化终端</span></div><p class="tool-goal">理解云端策略、API规范、调度与券商权限。</p><p class="tool-output"><b>产出：</b>模拟策略与运行清单；验收：不存在账户凭据外泄和越权调用。</p><a class="detail-link" href="ptrade.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">25</span><div class="tool-name"><strong>QMT / MiniQMT</strong><span>本地券商量化终端</span></div><p class="tool-goal">掌握xtquant行情、账户、订单与本地运行边界。</p><p class="tool-output"><b>产出：</b>行情订阅与模拟订单日志；验收：断线恢复和订单状态处理明确。</p><a class="detail-link" href="qmt.html">详细分析</a></div></div>
+    <div class="tool-card"><div class="tool-head"><span class="tool-num">26</span><div class="tool-name"><strong>掘金 MyQuant</strong><span>策略研究与仿真平台</span></div><p class="tool-goal">完成策略编写、回测、仿真和报告阅读。</p><p class="tool-output"><b>产出：</b>一个仿真策略；验收：回测与仿真差异有解释记录。</p><a class="detail-link" href="myquant.html">详细分析</a></div></div>
+  </div></article>
+
+  <article class="module" id="module-os"><div class="module-head"><div><span class="module-index">MODULE 08 · 1 TOOL</span><h3>全栈AI量化操作系统</h3></div><p class="module-summary">把前七个模块放进同一个本地、自托管、可审计的研究—策略—回测—模拟—监控闭环。</p></div><div class="tool-list">
+    <div class="tool-card focus-q"><div class="tool-head"><span class="tool-num">27</span><div class="tool-name"><strong>QuantDinger</strong><span>自托管AI原生量化操作系统</span></div><p class="tool-goal">完成Docker部署、Python Strategy API V2、回测、paper trading、Agent Gateway与MCP接入。</p><p class="tool-output"><b>产出：</b>全链路运行证据包；验收：健康检查、策略代码、回测报告、模拟日志和风险配置齐全。</p><a class="detail-link" href="quantdinger.html">核心实训</a></div></div>
+  </div></article>
+</div></section>
+
+<section class="section" id="labs">
+  <div class="section-head"><div class="kicker">Core Delivery Labs</div><h2>两门核心实训，把27个工具串成闭环</h2></div>
+  <div class="lab-grid"><article class="lab-card dojo"><span class="lab-tag">LAB A · RESEARCH AGENT</span><h3>DojoAgents主动式投研实训</h3><p class="meta">本机核验：dojoagents 0.2.3 · dojosdk 0.1.21</p><ul><li>完成模型配置和Dashboard启动</li><li>让Agent主动完成一条跨市场研究链</li><li>检查工具调用、纠错、会话与证据</li><li>导出会话并设计一个可复用SKILL</li></ul><a class="button button-secondary" href="dojoagents.html">进入DojoAgents课程 →</a></article><article class="lab-card quantdinger"><span class="lab-tag">LAB B · FULL-STACK OS</span><h3>QuantDinger全链路实训</h3><p class="meta">本机核验：11个Compose服务 · Web/API/Mobile镜像已安装</p><ul><li>完成本地服务健康检查与安全基线</li><li>开发一个Python策略并运行回测</li><li>在paper模式完成受控模拟执行</li><li>用MCP连接Cursor、Claude Code或Codex</li></ul><a class="button button-secondary" href="quantdinger.html">进入QuantDinger课程 →</a></article></div>
+  <div class="notice"><strong>能力口径校正：</strong>当前QuantDinger官方主仓库确认的传统券商工作流为IBKR和Alpaca，加密市场为Binance、OKX、Bitget、Bybit、Gate、HTX及可扩展适配器。官方当前源码未确认MT5/FT5为原生适配，因此课程将其列为二次开发研究项，不宣传为开箱即用能力。</div>
+</section>
+
+<section class="section-wide" id="rubric"><div class="section">
+  <div class="section-head"><div class="kicker">Assessment</div><h2>不是“看过”，而是“能复现、能解释、能守边界”</h2></div>
+  <div class="rubric-grid"><article class="rubric-card"><strong>25%</strong><h3>可复现</h3><p>环境、版本、参数、数据区间和运行步骤完整。</p></article><article class="rubric-card"><strong>25%</strong><h3>可信证据</h3><p>数据来源、日志、图表与AI推断边界清楚。</p></article><article class="rubric-card"><strong>25%</strong><h3>风险纪律</h3><p>无真实凭据泄露，默认模拟，包含仓位与停止条件。</p></article><article class="rubric-card"><strong>25%</strong><h3>迁移能力</h3><p>能解释为什么选它，以及何时应换用其他工具。</p></article></div>
+  <div class="final-pack" style="margin-top:24px"><h3>结业必须提交的三件作品</h3><ul><li><strong>《个人AI量化工具选型图》：</strong>从27个工具中选出自己的最小可用组合，并写出淘汰理由。</li><li><strong>《策略证据包》：</strong>策略代码、数据口径、回测参数、结果、失败案例和风险边界。</li><li><strong>《研究—回测—模拟闭环演示》：</strong>使用DojoAgents或QuantDinger完成一次20分钟现场答辩。</li></ul></div>
+</div></section>
+
+<section class="section"><div class="risk"><strong>风险与教学边界：</strong>课程用于软件工具研究、量化教育、回测和模拟训练，不构成个性化投资建议，不承诺收益，不代客交易，不接触学员证券账户密码。任何真实交易连接必须由具备权限的成年人在适用法律、交易场所和券商规则下独立决定，并先完成模拟验证与风险审批。</div></section>
+</main>
+
+<footer><p>正行明熙 · 27个AI量化工具全课程 · 研究—回测—模拟—复盘</p><p><a href="index.html">工具总览</a> · <a href="education.html">资源中心</a> · <a href="../index.html">返回首页</a></p></footer>
+</body>
+</html>
