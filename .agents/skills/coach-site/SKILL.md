@@ -35,37 +35,31 @@ description: 正行明熙（coach）网站维护技能 — 站点结构速查、
 
 1. **改前**：`cd /Users/yanghui/OneDrive/website/coach && git status && git pull`
 2. **编辑**：遵循 `CLAUDE.md`（品牌：正行明熙/金色系；邮箱 yanghuihotmail@hotmail.com；内联样式、移动优先；新增页面同步更新 `content/sitemap.xml`）
-3. **链接检查**（只查站内相对链接，忽略 `#`/`http(s)`/`mailto`）：
+3. **站点检查（drift guards，单一事实源 `scripts/check_site.py`）**：
 
 ```bash
-cd /Users/yanghui/OneDrive/website/coach/content && python3 - <<'EOF'
-import os, re
-from urllib.parse import unquote
-root = os.getcwd()
-broken = []
-for dp, _, fns in os.walk(root):
-    for fn in fns:
-        if not fn.endswith('.html'): continue
-        p = os.path.join(dp, fn)
-        html = open(p, encoding='utf-8', errors='ignore').read()
-        for m in re.finditer(r'(?:href|src)="([^"]+)"', html):
-            href = m.group(1)
-            if href.startswith(('#','http://','https://','mailto:','tel:','data:','javascript:')): continue
-            path = href.split('#')[0].split('?')[0]
-            if not path: continue
-            t = os.path.normpath(os.path.join(dp, unquote(path)))
-            if not os.path.exists(t):
-                broken.append((os.path.relpath(p, root), href))
-print(f"broken: {len(broken)}")
-for b in broken: print(' ', b)
-EOF
+cd /Users/yanghui/OneDrive/website/coach
+python3 scripts/check_site.py            # 全部：坏链 + sitemap 对账 + 防泄漏 + 品牌违禁词
+python3 scripts/check_site.py links      # 仅坏链（站内相对链接）
 ```
+
+退出码非 0 即有问题，必须修复后才能提交；CI（`.github/workflows/deploy.yml` 的 check job）会在 push/PR 时跑同一脚本拦截。
 
 4. **提交发布**：`git add -A && git commit -m "<说明>" && git push origin main`，然后访问线上 URL 确认。
 5. **本地预览**：`python3 -m http.server 8080 -d content` 后打开 http://127.0.0.1:8080/
 
+## 发布前清单（checklist）
+
+- [ ] `python3 scripts/check_site.py` 全部通过（0 问题）
+- [ ] 新增页面已收录进 `content/sitemap.xml`（含 lastmod、priority）
+- [ ] `content/` 内无草稿/内部文件（守卫的 leak 检查会拦，但新增顶层目录需同步更新脚本白名单 `LEAK_NAME_WHITELIST`）
+- [ ] 导航改动已同步所有页面（以首页 nav-shell 为基准）
+- [ ] 品牌词干净：无「玄龙堂」；「玄」字仅限典籍合法用字（白名单见脚本 `BRAND_WHITELIST`）
+
 ## 注意事项
 
 - `content/` 会被整体公开，不要放草稿；仓库根的 `CLAUDE.md`、`DSH插件配置指南.md` 不会被发布。
-- 大范围改品牌词时全局搜 `玄龙堂|玄` 确认清干净。
-- 部署由 GitHub Actions 完成，本地无需构建。
+- 检查逻辑只在 `scripts/check_site.py` 一处维护，SKILL.md 与 CI 均引用它，不要复制粘贴脚本代码。
+- 新增顶层内容目录时：更新 `scripts/check_site.py` 的 `LEAK_NAME_WHITELIST`，否则防泄漏检查会误报。
+- 大范围改品牌词时先跑 `python3 scripts/check_site.py brand`。
+- 部署由 GitHub Actions 完成（check → build → deploy），本地无需构建。

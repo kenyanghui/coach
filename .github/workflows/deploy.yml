@@ -14,7 +14,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run site drift guards
+        run: python3 scripts/check_site.py
   build:
+    needs: check
     runs-on: ubuntu-latest
     environment:
       name: github-pages
