@@ -14,8 +14,8 @@ import os
 import re
 import sys
 import json
+import datetime
 import xml.etree.ElementTree as ET
-from datetime import date
 from urllib.parse import unquote
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,7 +76,8 @@ def check_sitemap():
     problems = []
     ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     tree = ET.parse(SITEMAP)
-    today = date.today()
+    # 站点受众在东八区；runner 为 UTC，统一用 UTC+8 的"今天"避免时区误报
+    today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).date()
     listed = set()
     for u in tree.getroot().findall("s:url", ns):
         loc = u.find("s:loc", ns).text
