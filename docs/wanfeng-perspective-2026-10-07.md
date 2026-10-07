@@ -47,3 +47,13 @@
 - 预测/信号不直连用户投资建议；玄学量化的一切产出以「可回测的研究」呈现
 - 数据源低频+缓存+TOS 合规；easy-tdx 仅研究用途
 - 内容站（coach）与产品（万丰）品牌隔离已由 drift guards 保证
+
+---
+
+## 附：2026-10-07 执行实录（本文发布当日）
+
+- **W1** ✅ a-stock-data 部署 Loong + 冒烟（日K/分钟K 真数据）；easy-tdx 已克隆待盘中冒烟
+- **W2** ✅ Kronos-mini POC 实跑（09988 预测 24 根 OHLCV）+ 卦象映射 v0（卦变率 78.4%、标记熵 2.41、预测窗"坎"聚集）+ 三因子首轮数值——详见 docs/quant-survey-2026-10/loong/W2-Kronos-POC报告.md
+- **W3** ✅ 三技能包交付（stock-checkup / daily-brief / sentiment-radar，docs/quant-survey-2026-10/skills/）
+- **W4** ✅ coach 三页上线（kronos / a-stock-data / vibe-research，drift guards 全绿）+ gainlab 立项研究收编（量马产出，SPA 解包级深度）
+- **矩阵实跑教训**：xuan/openclaw 二轮遭遇 opencode 非交互权限墙与服务端 5xx（key 并发），关键任务已由 Loong 亲自接管交付——**矩阵适合清单式任务，旗舰 POC 类由主力机执行**；xuan opencode 权限模型排查列入待办
