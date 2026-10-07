@@ -109,3 +109,23 @@
 - 矩阵派发记录：4 节点 × 5-6 项，deepseek-flash，平均 ~25 分钟/节点；openclaw 节点因补充搜索任务超时（35 分钟无产出被终止），其 4 项由 Loong 亲核补齐——**矩阵分工注意：2C2G 节点别派开放式搜索任务，清单式任务表现良好**
 - 原始调研：`docs/quant-survey-2026-10/{hermes,xuan,wechat}/`（18 份项目报告 + 3 份 INDEX）
 - 上篇报告：`docs/quant-ecosystem-research-2026-09.md`（生态全景与结构性空白）
+
+---
+
+## 八、执行结果补记（2026-10-07 当日矩阵实跑）
+
+| 工作流 | 派发 | 实际 | 结果 |
+|---|---|---|---|
+| W1 数据底座 | Loong 本机 | ✅ 完成 | a-stock-data 冒烟（600519 日K+分钟K）；easy-tdx 已 clone 待盘中冒烟；/data/loong-apps/W1-DATA-README.md |
+| W2 Kronos POC | Xuan 节点 | ❌ 权限墙×2 → **Loong 接管 ✅** | 管线跑通，三因子候选实测（见 quant-survey-2026-10/loong/W2 报告） |
+| W3 三技能 | openclaw 节点 | ❌ 停滞 → **Loong 接管 ✅** | stock-checkup/daily-brief/sentiment-radar 三技能包（SKILL.md 范式，quant-survey-2026-10/skills/） |
+| W4 内容 | 心马节点 | ❌ deepseek 服务端错误 ×2 → Loong 完成 | coach 站三页上线（kronos/a-stock-data/vibe-research，drift guards 全绿）+ 万丰视角意见书 |
+| gainlab 立项 | hermes 节点 | ✅ 完成 | 商业模式研究报告（SPA 解包+API 侦察+合规红线，quant-survey-2026-10/hermes/） |
+
+**矩阵调度经验（重要）**：①opencode 非交互默认权限墙会拒 git/pip 类操作——派发前设
+`permission: {bash: allow}` 或改派清单型任务；②五节点共用一把 DEEPSEEK_API_KEY 有并发
+限制（2C 节点两次撞服务端错误）——后续按节点配独立 key 或错峰派发；③2C2G 节点适合
+清单型任务，开放式探索任务（openclaw 两轮均超时）留给 16C 节点或主力机。
+
+**补充发现**：simonlin1212 生态还有 TradingAgents-astock（3.6k⭐ A股多Agent辩论）与
+vibe-astock（658⭐ 短线复盘看板）——建议纳入 W4 内容页候补。
