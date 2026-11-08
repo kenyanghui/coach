@@ -11,29 +11,31 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run site drift guards
-        run: python3 scripts/check_site.py
   build:
-    needs: check
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/setup-node@v4
         with:
-          path: content
+          node-version: 24
+          cache: npm
+      - name: Build SPA
+        run: |
+          npm ci
+          npm run lint
+          npm run build
+      - name: Assemble site (SPA + legacy archive)
+        run: |
+          mv dist _site
+          cp -r legacy _site/legacy
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        timeout-minutes: 30

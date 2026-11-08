@@ -1,53 +1,44 @@
-# 正行明熙（coach）项目说明
+# 万丰·量AI（coach）项目说明
 
 ## 项目定位
 
-「正行明熙 · AI量化投资决策系统训练营」成交网站，纯静态 HTML 站点，部署于 GitHub Pages：
-https://kenyanghui.github.io/coach/
+「万丰·量AI — AI量化课程阵地」：万丰AI量化课程官网，React 19 + Vite + Tailwind v4 SPA，部署于 GitHub Pages：
+https://coach.aibay.asia/（= https://kenyanghui.github.io/coach/）
+
+八模块（量系列）：量成长(AI量化自评) / 量经典(AI量化书籍) / 量指南(AI量化指南) / 量搭子(AI搭子邀约) / 量工具(AI量化软件) / 量技能(AI量化技能) / 量专家(AI量化思想) / 共拆AI(AI量化悟道+万丰AI入口)。
 
 ## 目录结构
 
-- `content/` — **站点根目录**。GitHub Actions 直接把该目录上传发布，里面的一切都会被公开。
-  - `index.html` 首页（训练营成交页）
-  - `decision-system.html` 训练营详情（6周决策系统）
-  - `cases.html` 学员案例
-  - `apply.html` 申请表单
-  - `assessment.html` 行为诊断
-  - `compliance.html` 合规声明
-  - `about.html`、`杨辉老师简介.html`
-  - `coach-cocreate.html` 教练共创
-  - `quant/` 量化工具与课程（含 `quant/index.html` 工具中心、`quant/education.html` 资源中心）
-  - `research/` 研究内容
-  - `tools/` AI 工具指南
-  - `courses/` `courseware/` `projects/` `skills/` `dao/` `enjoy/` 其他内容
-- `index.html` — 站点跳转页（meta refresh 到 `content/index.html`），不参与导航
-- `.github/workflows/deploy.yml` — push main 自动发布
-- `.mcp.json` — MCP 服务器配置（当前：mxai 图像生成，密钥走环境变量 `MXAI_API_KEY`）
-- `.agents/skills/coach-site/` — 本项目维护技能
+- `src/` — 源码
+  - `src/pages/` — 十页：Home + 八模块 + About
+  - `src/data/` — 页面数据（site.js 站点常量：导航/模块/合规红线）
+  - `src/components/` — Navbar / Footer
+- `public/` — favicon.svg / robots.txt / sitemap.xml
+- `legacy/` — 旧版「正行明熙」静态站全量归档（随部署发布到 /legacy/，43MB，内含 67 页 quant 工具详解）
+- `index.html` — Vite 入口
+- `.github/workflows/deploy.yml` — push main 自动发布（lint + build + SPA 与 legacy 组装同部署）
 
 ## 品牌规则（重要）
 
-- 品牌名：**正行明熙**。不要使用旧名「玄龙堂」「玄」字标；字标已改为「正」。
-- 主视觉：深色底 + 金色（CSS 变量 `--gold: #d5ad52` 系），字体见首页 `<style>` 顶部。
-- 联系邮箱：`yanghuihotmail@hotmail.com`（不要改回其他邮箱）。
-- 学员案例按真实首批案例口径写（正仁量化创始团队为「首批案例 + 技术支持」表述），不要虚构占位案例。
+- 品牌名：**万丰·量AI**（课程全称：万丰AI量化课程）。不要出现「小蛮腰」「拆AI」「chai」等旧品牌字样。
+- 主视觉：浅色底 + 万丰橙（`#ff5a1f`，深橙 `#e14e15`）+ 辅青 `#0f9d8f`，Apple 风设计系统（apple-card / btn-primary / eyebrow / headline 类已全局定义）。
+- 联系邮箱：`yanghuihotmail@hotmail.com`。
+- 课程基石口径：**1 个自研基座（万丰系统）+ 27 个开源基石**，共 28 系统；工具名称与星级以 `src/data/tools.js` 为准。
+- 合规红线：凡涉策略/收益/实盘的页面脚注必须带 `COMPLIANCE`（site.js 导出）；禁「保证收益」「稳赚」等违规词。
 
 ## 编辑规范
 
-- 纯静态 HTML，样式内联在各自页面的 `<style>`，**无构建步骤**。
-- 移动优先，沿用现有设计语言与 CSS 变量，不要另起一套风格。
-- 改导航时保持所有页面一致（首页 `nav-shell` 为基准）。
-- **新增页面必须同步更新 `content/sitemap.xml`**（含 lastmod、priority）。
-- 不要往 `content/` 放草稿、非发布文件——整个目录会被公开。
-- 页面间用相对链接，目标文件不存在即为坏链，改完跑链接检查（见技能）。
+- React 19 + Vite 8 + Tailwind v4（`@theme` token 在 `src/index.css`），无 UI 库，framer-motion 做入场动画。
+- 代码零注释；数据文件（src/data/*.js）零 import、`export default`。
+- 移动优先；改导航时同步 `src/data/site.js` 的 navLinks（所有页面与页脚共用）。
+- 新页面三同步：App.jsx 路由 + site.js navLinks/modules + public/sitemap.xml。
 
 ## 常用命令
 
 ```bash
-cd /Users/yanghui/OneDrive/website/coach
-# 本地预览
-python3 -m http.server 8080 -d content
-# 链接检查（脚本见 .agents/skills/coach-site/SKILL.md）
+npm ci
+npm run lint
+npm run build        # vite build + 404.html
+npm run preview      # 本地预览 dist
 # 发布：提交并推送 main，GitHub Actions 自动部署
-git add -A && git commit -m "..." && git push origin main
 ```
