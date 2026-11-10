@@ -2,115 +2,185 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { modules, SITE, COMPLIANCE } from '../data/site'
 
-const fade = (i) => ({
-  initial: { opacity: 0, y: 14 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.45, delay: i * 0.08 },
-  viewport: { once: true },
-})
-
 const pains = [
-  { q: '政策太厚看不懂', a: '各系列评审条件动辄几十页，学历、年限、业绩、成果要求相互交织，自己抠条款常常抠错方向。' },
-  { q: '材料不会写、反复被退', a: '工作总结写成流水账、业绩报告堆不出亮点，形式审查退回一次就耽误一整年。' },
-  { q: '第一次申报没人带', a: '选系列、排材料、约答辩，每个环节都要自己摸索，错一步几乎就是重头再来。' },
-  { q: '辅导老师带不动量', a: '一位辅导老师面对几十名学员，诊断、补强、跟进全靠手工，顾此失彼。' },
+  { q: '看了一堆量化课程，还是搭不起自己的系统', a: '课里教的是别人的策略。这里从你的账户、你的数据、你的纪律出发，逆向工程一套属于你的投资系统。' },
+  { q: 'Python 也学了，回测也跑了，实盘就翻车', a: '因为缺的不是代码，是「数据→研究→回测→风控→实盘」的完整链路。课程按链路走，每环都有工具。' },
+  { q: 'AI 工具收藏了一排，一个都没进投资流程', a: '工具不在多，在拆。万丰系统 + 27 个开源系统，挑对你有用的，拆开、接上、跑起来。' },
+  { q: '一个人练不下去，缺反馈也缺同伴', a: '量搭子机制：AI 搭子 24 小时在，人搭子小组共拆，每期互验收。' },
 ]
 
 const cornerstones = [
-  { k: '三端协同', d: '申报人、辅导老师、审核老师在同一条流程上工作，进度与问题互相可见，不再各自为战。', tag: '申报人端 / 辅导端 / 审核端' },
-  { k: '政策条件结构化', d: '27 个系列的申报条件拆成可逐项对照的自检清单，正常晋升与破格路径一目了然。', tag: '政策库' },
-  { k: 'AI 辅助留痕可查', d: '材料逐份成稿、逐份留痕，AI 只做辅助，内容责任始终在人。', tag: '材料工坊' },
+  { k: '万丰系统', d: '主动式 Agent 工作台 + 量化研究平台：行为诊断、策略压力测试、组合预检、审计留痕——课程的家用主基地。', tag: '自研基座' },
+  { k: '27 个开源系统', d: 'vnpy、Qlib、FinRL、Backtrader、freqtrade、OpenBB、TradingAgents……每个都站在巨人肩上，逆向工程它们是最好的教材。', tag: '开源基石' },
+  { k: 'WorkBuddy 证券版', d: '从实践出发的第一站：已有优秀开源项目入手，AI 搭子随身带，把研究、复盘、纪律执行装进日常。', tag: '实践入口' },
+]
+
+const takes = [
+  ['测得清', 'AI量化自评量表先定位：3 级 9 维，你在哪一层、缺哪一环，课程表跟着你的缺口走。'],
+  ['搭得起', '从数据源到实盘网关，六个环节各带一个能跑的工具。结课时你的系统骨架已经通电。'],
+  ['进化得动', '逆向工程的终点是自进化：策略会迭代，纪律会加固，AI 搭子陪你复盘每一笔交易。'],
 ]
 
 export default function Home() {
   return (
-    <>
+    <div>
+      {/* ==================== Hero ==================== */}
       <section className="hero-wash pt-32 pb-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ff5a1f]/[.08] text-[#e14e15] text-[12.5px] font-semibold mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff5a1f] animate-pulse" />
-              全流程 AI 工作台 · 三端协同
+              万丰AI量化课程 · 官方阵地
             </div>
             <h1 className="headline text-[40px] md:text-[56px] mb-6">
-              职称评审，<br className="md:hidden" />
-              <span className="gradient-text">从申报到过审</span>全程陪跑
+              量的是市场，<br />立的是<span className="gradient-text">自己的投资系统</span>
             </h1>
-            <p className="text-[17px] text-[#6e6e73] leading-relaxed mb-9 max-w-xl">
-              {SITE.tagline}。申报人按五步走完全流程，辅导老师批量带学员，审核老师用清单把好形式关。
+            <p className="text-[#6e6e73] text-[17px] leading-relaxed mb-8 max-w-2xl">
+              {SITE.desc}从 WorkBuddy 证券版与优秀开源项目入手，先做投资业务工具，用 Loong 拆解，发布到公众号——每一步都当堂做出来。
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link to="/applicant" className="btn-primary">开始五步申报</Link>
-              <Link to="/policies" className="btn-secondary">政策条件速查</Link>
+              <Link to="/growth" className="btn-primary">先做 AI 量化自评 →</Link>
+              <Link to="/tools" className="btn-secondary">看 28 系统基石图谱</Link>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ==================== 痛点 ==================== */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <p className="text-[12.5px] font-semibold text-[#e14e15] tracking-widest mb-3">为什么需要职评AI</p>
-          <h2 className="headline text-[30px] md:text-[38px] mb-4">评审路上的四道坎</h2>
-          <div className="grid md:grid-cols-2 gap-5 mt-10">
+          <div className="eyebrow mb-3">先说痛点</div>
+          <h2 className="headline text-[30px] md:text-[38px] mb-12">这些弯路，我们都替你走过</h2>
+          <div className="grid md:grid-cols-2 gap-4">
             {pains.map((p, i) => (
-              <motion.div key={p.q} {...fade(i)} className="apple-card p-7">
-                <h3 className="text-[18px] font-bold mb-2">{p.q}</h3>
-                <p className="text-[14.5px] text-[#6e6e73] leading-relaxed">{p.a}</p>
+              <motion.div
+                key={p.q}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.08 }}
+                className="apple-card p-7"
+              >
+                <div className="text-[16.5px] font-bold text-[#1d1d1f] mb-3">「{p.q}」</div>
+                <div className="text-[13.5px] leading-relaxed text-[#6e6e73]">{p.a}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-[#f5f5f7]/70">
+      {/* ==================== 八大模块 ==================== */}
+      <section className="py-24 px-4 bg-[#f5f5f7] border-y border-black/[.05]">
         <div className="max-w-6xl mx-auto">
-          <p className="text-[12.5px] font-semibold text-[#e14e15] tracking-widest mb-3">工作台总览</p>
-          <h2 className="headline text-[30px] md:text-[38px] mb-4">三端 + 三大公共模块</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
-            {modules.map((m, i) => (
-              <motion.div key={m.path} {...fade(i)} className="h-full">
-                <Link to={m.path} className="apple-card block p-7 h-full">
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="text-[28px]">{m.emoji}</span>
-                    <span className={`inline-flex px-2.5 py-1 rounded-full bg-gradient-to-r ${m.num} text-white text-[12px] font-semibold`}>{m.stat}</span>
-                  </div>
-                  <h3 className="text-[19px] font-bold mb-1">{m.name}</h3>
-                  <p className="text-[13.5px] font-semibold text-[#0f9d8f] mb-2">{m.statLabel}</p>
-                  <p className="text-[14px] text-[#6e6e73] leading-relaxed">{m.tile}</p>
-                </Link>
-              </motion.div>
-            ))}
+          <div className="eyebrow mb-3 text-center">站点全景 · 一图看懂</div>
+          <h2 className="headline text-[30px] md:text-[40px] text-center mb-4">
+            八个模块，一条<span className="gradient-text">「量」的进阶线</span>
+          </h2>
+          <p className="text-center text-[#6e6e73] text-[15px] mb-14 max-w-2xl mx-auto">
+            从自评定层，到读书补根、按路线搭系统、找搭子共练、拆开真工具、长出技能、吸收大师思想——最后悟自己的道。每一站都有真实资产在跑，不摆概念。
+          </p>
+          <div className="relative">
+            <div className="hidden lg:block absolute top-[46px] left-[12%] right-[12%] h-[2px] rounded-full bg-gradient-to-r from-indigo-400/50 via-orange-400/50 to-emerald-400/50" />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {modules.map((m, i) => (
+                <motion.div
+                  key={m.k}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.09 }}
+                >
+                  <Link to={m.href} className="group block h-full apple-card p-5 !shadow-sm">
+                    <div className="flex lg:justify-center mb-4">
+                      <div className={`relative w-12 h-12 rounded-2xl ${m.tile} flex items-center justify-center text-2xl`}>
+                        {m.emoji}
+                        <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white border border-black/10 text-[9px] font-bold text-[#86868b] flex items-center justify-center shadow-sm">{i + 1}</span>
+                      </div>
+                    </div>
+                    <div className="text-[17px] font-black text-[#1d1d1f] mb-1 lg:text-center">{m.k}</div>
+                    <div className="text-[11.5px] leading-snug text-[#6e6e73] mb-4 lg:text-center">{m.d}</div>
+                    <div className="lg:text-center">
+                      <div className={`text-[22px] font-black leading-none ${m.num}`}>{m.stat}</div>
+                      <div className="text-[10px] text-[#86868b] mt-1.5 tracking-wide">{m.statLabel}</div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-10 text-center">
+            <Link to="/coai" className="text-[13px] font-semibold text-[#e14e15] hover:text-[#1d1d1f] transition-colors">
+              投资的道 × AI 的道 → 看共拆AI 悟道专页
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* ==================== 基石 ==================== */}
       <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-[12.5px] font-semibold text-[#e14e15] tracking-widest mb-3">设计基石</p>
-          <h2 className="headline text-[30px] md:text-[38px] mb-4">三件事决定能否过审</h2>
-          <div className="grid md:grid-cols-3 gap-4 mt-10">
+        <div className="max-w-5xl mx-auto">
+          <div className="eyebrow mb-3">培训基石</div>
+          <h2 className="headline text-[30px] md:text-[38px] mb-4">不从零造轮子：站在万丰与 27 个开源系统上</h2>
+          <p className="text-[#6e6e73] text-[15px] leading-relaxed mb-10 max-w-3xl">
+            GitHub 上的 coach 课程体系，把万丰系统和 27 个优秀开源量化系统作为培训基石。从实践出发的工作坊思路：从 WorkBuddy 证券版入手，从已有的优秀开源项目入手，逆向工程——目标是自进化的个人投资系统。
+          </p>
+          <div className="grid md:grid-cols-3 gap-4">
             {cornerstones.map((c, i) => (
-              <motion.div key={c.k} {...fade(i)} className="apple-card p-6">
-                <h3 className="text-[17px] font-bold mb-2">{c.k}</h3>
-                <p className="text-[14px] text-[#6e6e73] leading-relaxed mb-4">{c.d}</p>
-                <span className="text-[12.5px] font-semibold text-[#86868b]">{c.tag}</span>
+              <motion.div
+                key={c.k}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.1 }}
+                className="apple-card p-7"
+              >
+                <div className="inline-flex px-2.5 py-0.5 rounded-full bg-[#ff5a1f]/10 text-[#e14e15] text-[11.5px] font-semibold mb-3">{c.tag}</div>
+                <div className="text-[18px] font-bold text-[#1d1d1f] mb-2.5">{c.k}</div>
+                <div className="text-[13.5px] leading-relaxed text-[#6e6e73]">{c.d}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="headline text-[30px] md:text-[38px] mb-4">现在就开始</h2>
-          <p className="text-[16px] text-[#6e6e73] leading-relaxed mb-8">从五分钟的条件自检起步，看看你离过审还差哪几步。</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/applicant" className="btn-primary">进入申报人端</Link>
-            <Link to="/workshops" className="btn-secondary">看评审训练营</Link>
+      {/* ==================== 三个带走 ==================== */}
+      <section className="py-20 px-4 bg-white border-t border-black/[.05]">
+        <div className="max-w-5xl mx-auto">
+          <div className="eyebrow mb-3 text-center">验收标准</div>
+          <h2 className="headline text-[30px] md:text-[38px] text-center mb-12">每期只认一个标准：你的系统长出了什么</h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            {takes.map(([t, d], i) => (
+              <motion.div
+                key={t}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.1 }}
+                className="text-center px-4"
+              >
+                <div className="text-[34px] font-bold gradient-text mb-3">0{i + 1}</div>
+                <div className="text-[18px] font-bold text-[#1d1d1f] mb-2">{t}</div>
+                <div className="text-[13.5px] leading-relaxed text-[#6e6e73]">{d}</div>
+              </motion.div>
+            ))}
           </div>
-          <p className="mt-12 pt-8 border-t border-[#e8e8ed] text-[12.5px] text-[#86868b] leading-relaxed">{COMPLIANCE}</p>
         </div>
       </section>
-    </>
+
+      {/* ==================== CTA ==================== */}
+      <section className="py-20 px-4 bg-[#f5f5f7] border-t border-black/[.05]">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="headline text-[28px] md:text-[36px] mb-4">先测一测：你的量化系统在第几层？</h2>
+          <p className="text-[#6e6e73] text-[15px] leading-relaxed mb-8">
+            三级九维 AI 量化自评，五分钟出结果。测完你会拿到一张自己的缺口图，和对应的课程路线。
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link to="/growth" className="btn-primary">开始自评 →</Link>
+            <Link to="/guide" className="btn-secondary">先看六条路线图</Link>
+          </div>
+          <p className="text-[12px] text-[#86868b] mt-10">{COMPLIANCE}</p>
+        </div>
+      </section>
+    </div>
   )
 }

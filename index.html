@@ -4,25 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>职评AI — 职称评审全流程AI工作台 | 从申报到过审，全程AI陪跑</title>
-    <meta name="description" content="申报人、辅导老师、审核老师三端协同的职称评审AI工作台：政策条件自检、申报材料工坊、全流程AI陪伴与形式预审，一站完成。" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-    <script>
-      (function () {
-        try {
-          var s = sessionStorage.getItem('redirect');
-          if (s && s !== location.pathname) {
-            sessionStorage.removeItem('redirect');
-            history.replaceState(null, '', s);
-          }
-        } catch (e) {}
-      })();
-    </script>
+    <title>万丰·量AI — AI量化课程阵地 | 量的是市场，立的是系统</title>
+    <meta name="description" content="万丰AI量化课程：以万丰系统与27个优秀开源量化系统为基石，从实践出发，逆向工程一套自进化的个人投资系统。量成长·量经典·量指南·量搭子·量工具·量技能·量专家·共拆AI，八大模块把 AI 量化拆为己用。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // SPA redirect for GitHub Pages (handled via 404.html)
+      (function() {
+        var redirect = sessionStorage.redirect
+        delete sessionStorage.redirect
+        if (redirect && redirect !== window.location.pathname) {
+          history.replaceState(null, null, redirect)
+        }
+      })()
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
