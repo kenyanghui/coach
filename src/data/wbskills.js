@@ -1,0 +1,76 @@
+export default [
+  {
+    id: 'c1',
+    unit: '单元 1',
+    name: '数据底座',
+    goal: '把行情、事件、数据质量变成可依赖的研究地基',
+    tools: ['agent_markets_build_overview', 'agent_markets_investigate_event', 'agent_markets_get_capabilities'],
+    produce: '当堂产出：一份市场全景快照 + 一次事件调查记录',
+  },
+  {
+    id: 'c2',
+    unit: '单元 2',
+    name: '研究生产',
+    goal: '从数据到观点：个股与行业的结构化研究',
+    tools: ['agent_equities_research', 'agent_sectors_research', 'search_research_library'],
+    produce: '当堂产出：一份个股研究卡 + 一份行业研究卡',
+  },
+  {
+    id: 'c3',
+    unit: '单元 3',
+    name: '组合决策',
+    goal: '把观点变成组合动作：风险、再平衡与下单预检',
+    tools: ['agent_folio_build_risk_report', 'agent_folio_create_rebalance_draft', 'portfolio_order_preflight'],
+    produce: '当堂产出：一份组合风险报告 + 一版调仓草案',
+  },
+  {
+    id: 'c4',
+    unit: '单元 4',
+    name: '执行纪律',
+    goal: '让流程可沉淀、可复用、可审计',
+    tools: ['skill_manage', 'skills_list', 'skill_view', 'write_session_file'],
+    produce: '当堂产出：把当堂研究流程沉淀为一条可复用技能',
+  },
+  {
+    id: 'c5',
+    unit: '单元 5',
+    name: '数据连接器',
+    goal: '把外部数据源接进研究流水线：事件、行情、检索三链路',
+    tools: ['search_external_event_evidence', 'web_search', 'web_extract', 'futu', 'eastmoney', 'sina', 'pytdx'],
+    produce: '当堂产出：一份多源连通检查清单 + 一次外部事件证据检索',
+    note: '外部事件 provider 实测 5 个：tushare / eia / fred / official_discovery / industry_discovery',
+    connectorGroups: [
+      {
+        name: '外部事件连接器',
+        desc: 'agent_external_event_sources 实测 5 个 provider',
+        items: [
+          { name: 'tushare', role: 'A股行情与基本面数据只读客户端' },
+          { name: 'eia', role: '美国能源信息署数据只读客户端' },
+          { name: 'fred', role: '美联储经济数据观测只读客户端' },
+          { name: 'official_discovery', role: '官方公告发现' },
+          { name: 'industry_discovery', role: '行业动态发现' },
+        ],
+      },
+      {
+        name: '市场数据桥',
+        desc: 'A 股实时行情链路实测',
+        items: [
+          { name: 'futu', role: '港股/美股实时数据源（引擎内最高频引用）' },
+          { name: 'eastmoney', role: '东财行情与资讯' },
+          { name: 'sina', role: '新浪行情备用源' },
+          { name: 'pytdx/tdx', role: '通达信协议数据接入' },
+        ],
+      },
+      {
+        name: '研究检索连接器',
+        desc: 'Agent 通用工具链实测',
+        items: [
+          { name: 'web_search', role: '联网检索（Tavily 等搜索 provider）' },
+          { name: 'web_extract', role: '网页正文抽取' },
+          { name: 'search_external_event_evidence', role: '外部事件证据检索（带证据链与 limitations 回执）' },
+          { name: 'search_research_library', role: '私有研究库检索' },
+        ],
+      },
+    ],
+  },
+]

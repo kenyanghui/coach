@@ -1,0 +1,108 @@
+export default {
+  header: {
+    eyebrow: '量系列 · 万丰实证',
+    headline: '万丰APP 进化之路',
+    sub: '从玄龙底座到主动式 Agent 投资终端——课程背后是一套真实在跑的系统。',
+  },
+  eras: [
+    {
+      tag: '1.0',
+      title: '玄龙底座 Base',
+      period: '过去',
+      intro: '七个底座把「代码-知识-管理-组织」搬上云。',
+      bases: [
+        { name: '工作 WB', code: 'LBuddy', desc: '云上 Openclaw/Hermes + 本地 WorkBuddy/DSH 起步，跑各种 skill 和接口服务' },
+        { name: '开发 DB', code: 'Lcode', desc: 'zcode/opencode 双开 web 服务，操作各软件的唯一入口' },
+        { name: '代码 CB', code: '—', desc: 'Gitea 代码管理，工单对接禅道、Gitfox 只读管理' },
+        { name: '进度 MB', code: 'LDao', desc: '研发管理思想的呈现' },
+        { name: '知识 KB', code: 'LKnow', desc: '客户私有知识库/共享知识库，分级知识服务' },
+        { name: '组织 OB', code: 'LOrg', desc: 'Obsidian 本地操作，决策产出后的组织级执行' },
+      ],
+    },
+    {
+      tag: '2.0',
+      title: '万丰APP',
+      period: '现状',
+      intro: 'UI 网关 +（行情-知识库-会议）三件套。',
+      architecture: {
+        root: '手机 H5 / App apk 网关（编排 + 入口 + 租户/KB 路由）',
+        blocks: [
+          { name: 'DSA', role: '信息中台', desc: '行情/K线/新闻/分析，DIKW 四类功能，只被网关单向调用' },
+          { name: 'MemoBot + worker 舰队', role: '会议执行面', desc: '反向秒级轮询领任务，纪要生成' },
+          { name: 'WeKnora', role: '知识库', desc: '一租户一 KB' },
+        ],
+        external: '（外部 SaaS：Recall.ai / COMEIN 补充会议渠道）',
+      },
+      capabilityIntro: '万丰APP 四大能力面（面向高净值投资者的人性层层驱动主动式 Agent）',
+      capabilities: [
+        { name: '首界面-私人 CIO', conn: '接 DSA' },
+        { name: '看我持仓', conn: '接 DSA' },
+        { name: '帮我参会', conn: '接 MemoBot' },
+        { name: '我的策略', conn: '接 DSA（下一步量化模块接 Quantdinger）' },
+      ],
+      extras: [
+        'Demo 讨论版（独立入口，演示账户）',
+        '安卓 apk 自动检查更新',
+        '客户管理后台（APP 用户=知识库用户，行情和会议信息直通知识库）',
+        '舆情后台「舆情智察」（cn-financial-scraper 技能：2334 家机构/43 大类/60+ 财经媒体源/79 MCP 工具）补充 DSA 信息',
+      ],
+      boundary: '会议域代码改 MemoBot 仓，数据源改 DSA 仓，知识库本体改 WeKnora 仓，编排/入口/租户归网关仓。',
+    },
+    {
+      tag: '3.0',
+      title: 'RSI APP',
+      period: 'Todo',
+      routes: [
+        { name: 'AI 量化平台 Quantdinger', desc: '向专业深度挖掘，全流程量化技术架构，先运营再优化，支持安卓访问；同步建对比系统' },
+        { name: '会议模块升级', desc: '运行资源优化重构，增加 Recall 等更多会议接口；接入慧博/萝卜投研（聚合研报会议）、Wind/Choice/iFind（路演日历回放）' },
+        { name: 'AI Agent 公司 paperclip', desc: '全 AI 运营公司，交给 AI 自己做量化（目标 1 百万赚 1 个亿），接模拟交易系统和更多数据源' },
+        { name: 'AI Agent 公司 multica', desc: 'AI 跟人共管公司' },
+        { name: '玄龙基座 Lcode', desc: 'iMac 操作机 + opencode 主开发工具，关联整合所有底座，AI 编程工具定制' },
+        { name: '新版终端 LBody', desc: '大模型选型优化（对标业界最强模型质量）；思路向 RSI 主动式 Agent 的 WorkBuddy 演进（参考 Octop/Codex/DeepSeek Harness/muse 等开源）' },
+        { name: '群消息协同（参考方圆宝）', desc: 'Agent 群工作消息——飞书三体云接云端节点，面向量化修行：微信自动化技能（群内/私信信息自动获取）、ima 知识库自动更新、行业信息跟踪、公众号/视频号/小红书自动化流水线（Agent+Skills）' },
+      ],
+      tips: '纯中文识别上，国产开源模型（FunASR/Paraformer、SenseVoice）准确率明显优于 Whisper 且 CPU 占用更低；Whisper 优势在多语言和抗噪。',
+    },
+  ],
+  experiences: {
+    title: '玄龙底座经验',
+    note: '实战教训，课程素材',
+    items: [
+      '一定要切块，否则 AI 效率很低——1 个前端分别接 5 个后端',
+      '前期不要引入安全管理，会消耗很多精力去绕',
+      '会议测试要遍历所有会议状态，要严谨',
+      '知识库要做 RAG 检出率专项测试',
+      '优先用 CLI（腾讯会议 CLI、飞书 CLI）',
+    ],
+  },
+  rsiLineage: {
+    title: 'RSI 工作流族谱',
+    note: '实习生培养线',
+    items: [
+      { name: '入门做流程 RSI 系统', desc: '小程序 AI 邀约 3.0（结合腾讯会议代理，RSI 思想指导下自动完成线上会议全流程）' },
+      { name: 'rsi-coach-web', desc: '量化网站 Coach——从量化培训到万丰工具，开源项目拆解融合，应用 Skill/MCP/API/Data' },
+      { name: 'rsi-wechat-pub', desc: '万丰微信公众号云自动工作流（内容方向：GitHub 最新量化项目和技术进展推介）' },
+      { name: 'rsi-feishu', desc: '万丰 RSI 培训课件自动工作流（ima 公开库+协作库 → obsidian 本地加工 → workbuddy 云端人工交互 → feishu 云端协作）' },
+      { name: '其他族谱线', desc: 'rsi-n8n / rsi-dao-web / rsi-wechat-sv / rsi-wechat-ops' },
+      { name: 'Agent/Harness 研究', desc: 'Hermes Studio、Penguin Harness、multica、myagents、Pi Agent、CocoLoop' },
+      { name: '智能硬件', desc: '万丰眼/耳/指等（承载 LBody 特点，参考 AI 录音笔功能）' },
+    ],
+  },
+  coachTopics: {
+    title: 'coach 站课题安排',
+    note: '万丰 coach 数据与接入·实习生进阶金融 RSI 系统',
+    flagship: {
+      name: 'Kronos × 玄学量化',
+      badge: '旗舰课题',
+      meta: '清华 AAAI 2026 · 40k⭐ MIT',
+      desc: '分词器把 K 线量化成分层离散标记，与「卦=市场状态压缩编码」方法论同构。Kronos 标记 ≈ 可学习的卦象：标记序列→卦象序列→变爻概率→可回测因子。全市场没人做过。',
+    },
+    internPlan: '实习生切分（4 人 × 2 周）：W1 数据底座组（a-stock-data+easy-tdx 部署）→ W2 因子研究组（Kronos POC+卦象因子）→ W3 Agent 应用组（万丰舆情智察写 3 个技能）→ W4 内容测评组（coach 站内容+Kronos 热度选题）',
+    others: [
+      { name: 'czsc 缠论', desc: '中文散户流量入口+结构语言同源' },
+      { name: 'FinanceMCP', desc: 'A 股 MCP 化浪潮占位' },
+      { name: 'PyPortfolioOpt', desc: '卦象因子出来后的组合风控层' },
+    ],
+    lbodySkill: 'LBody 量化投资 Skill 技能和 MCP 封装：探索第三方证券专业技能，通达信 tdxclaw+tdx 系列延伸到其他证券工具接口',
+  },
+}
