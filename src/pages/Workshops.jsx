@@ -46,13 +46,13 @@ export default function Workshops() {
         ))}
       </div>
       <motion.div {...fade(0)} className="mt-12 apple-card p-7">
-        <h2 className="text-[20px] font-bold mb-2">训练营之前先做什么</h2>
+        <h2 className="text-[20px] font-bold mb-2">上课之前先做什么</h2>
         <p className="text-[14.5px] text-[#6e6e73] leading-relaxed mb-5">
-          上课之前先完成条件自检，带着自己的差距清单来，每一场的收获都会翻倍。
+          先把量成长的三级九维自评跑一遍，带着自己的位置和差距清单来，每一场的收获都会翻倍。
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link to="/applicant" className="btn-primary">先做条件自检</Link>
-          <Link to="/policies" className="btn-secondary">查政策条件</Link>
+          <Link to="/growth" className="btn-primary">先做量成长自评</Link>
+          <Link to="/tools" className="btn-secondary">看量工具图谱</Link>
         </div>
       </motion.div>
       <p className="mt-10 pt-6 border-t border-[#e8e8ed] text-[12.5px] text-[#86868b] leading-relaxed">{COMPLIANCE}</p>
